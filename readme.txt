@@ -41,3 +41,4 @@ nodejs-koa/
 +- static-files.js <-- middleware, 处理静态文件, 处理以/static/开头的URL
 |
 +- templating.js <-- middleware, 渲染模板
+

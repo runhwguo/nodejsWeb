@@ -8,8 +8,10 @@
     "test": "mocha --require hook"
   },
   "keywords": [
-    "koa",
-    "orm"
+    "koa, nodejs framework",
+    "orm",
+    "mocha, test framework",
+    "web frameword"
   ],
   "author": "Runhwguo",
   "dependencies": {
