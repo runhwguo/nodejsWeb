@@ -1,12 +1,12 @@
 const nunjucks = require('nunjucks');
 
 function createEnv(path, opts) {
-    var autoescape = opts.autoescape && true,
+    let autoescape = opts.autoescape && true,
         noCache = opts.noCache || false,
         watch = opts.watch || false,
         throwOnUndefined = opts.throwOnUndefined || false,
         env = new nunjucks.Environment(
-            new nunjucks.FileSystemLoader(path || 'view', {
+            new nunjucks.FileSystemLoader(path || 'views', {
                 noCache: noCache,
                 watch: watch,
             }), {
@@ -14,7 +14,7 @@ function createEnv(path, opts) {
                 throwOnUndefined: throwOnUndefined
             });
     if (opts.filters) {
-        for (var f in opts.filters) {
+        for (let f in opts.filters) {
             env.addFilter(f, opts.filters[f]);
         }
     }
@@ -23,7 +23,7 @@ function createEnv(path, opts) {
 
 function templating(path, opts) {
     // 创建Nunjucks的env对象:
-    var env = createEnv(path, opts);
+    let env = createEnv(path, opts);
     return async(ctx, next) => {
         // 给ctx绑定render函数:
         ctx.render = function (view, model) {

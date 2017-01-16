@@ -1,5 +1,3 @@
-require('babel-core/register')({
-    presets: ['stage-3']
-});
+require('./hook.js');
 
 require('./app.js');

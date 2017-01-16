@@ -2,12 +2,11 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const controller = require('./controller');
 const templating = require('./templating');
-
+const config = require('./config');
 
 const app = new Koa();
-const NODE_ENV = 'development';
-// const NODE_ENV = 'production';
-const isProduction = NODE_ENV === 'production';
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 app.use(async(ctx, next) => {
     // log request URL
@@ -30,7 +29,7 @@ if (!isProduction) {
 // 解析POST请求
 app.use(bodyParser());
 // 给ctx加上render()来使用Nunjucks
-app.use(templating('view', {
+app.use(templating('views', {
     noCache: !isProduction,
     watch: !isProduction
 }));
