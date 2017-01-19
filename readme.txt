@@ -54,3 +54,4 @@ nodejs-koa/
 |
 +- templating.js <-- middleware, 渲染模板 MVC结构
 
+supervisor,如果需要 自动检测到变化然后重启，请安装这个库
