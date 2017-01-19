@@ -1,12 +1,26 @@
-const fs = require('fs');
+const fs = require('fs'),
+    path = require('path'),
+    fileList = [];
+
+// mvc rest
+function walk(dir) {
+    let dirList = fs.readdirSync(dir);
+    dirList.forEach(item => {
+        if (fs.statSync(path.join(dir, item)).isDirectory()) {
+            walk(path.join(dir, item));
+        } else {
+            fileList.push(path.join(dir, item));
+        }
+    });
+}
 
 function addControllers(router, dir) {
-    fs.readdirSync(__dirname + '/' + dir).filter((f) => {
-        return f.endsWith('.js');
-    }).forEach((f) => {
-        console.log(`process controller: ${f}...`);
-        let mapping = require(__dirname + '/' + dir + '/' + f);
-        addMapping(router, mapping);
+
+    walk(path.join(__dirname, dir));
+
+    fileList.filter(f => f.endsWith('.js')).forEach(f => {
+        console.log(`process controller: ${f.replace(path.join(__dirname, dir), '')}`);
+        addMapping(router, require(f));
     });
 }
 
@@ -34,7 +48,7 @@ function addMapping(router, mapping) {
     }
 }
 
-module.exports = function (dir) {
+module.exports = dir => {
     let controllers_dir = dir || 'controllers',
         router = require('koa-router')();
     addControllers(router, controllers_dir);

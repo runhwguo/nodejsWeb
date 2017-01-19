@@ -4,7 +4,7 @@
   "description": "learn how to use koa",
   "main": "start.js",
   "scripts": {
-    "start": "node --use_strict start.js",
+    "start": "supervisor node --use_strict start.js",
     "test": "mocha --require hook"
   },
   "keywords": [
@@ -36,11 +36,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/runhwguo/nodejs_koa.git"
+    "url": "git+https://github.com/runhwguo/nodejsWeb.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/runhwguo/nodejs_koa/issues"
+    "url": "https://github.com/runhwguo/nodejsWeb/issues"
   },
   "homepage": "https://github.com/runhwguo/nodejs_koa#readme"
 }

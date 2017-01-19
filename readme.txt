@@ -1,6 +1,10 @@
 nodejs-koa/
 |
 +- controllers/ <-- 控制层逻辑，URL处理
+｜ ｜
+|  +- mvc <-- mvc层的控制器
+｜ ｜
+|  +- rest <-- rest格式的接口交互
 |
 +- models/ <-- 模型层逻辑，对应数据库中的表
 |
@@ -11,12 +15,18 @@ nodejs-koa/
 |  +- await-test.js <-- 异步测试
 |
 +- views/ <-- Nunjucks模板引擎，HTML模板文件
+｜ ｜
+|  +- mvc <-- mvc 的网页
+｜ ｜
+|  +- rest <-- rest mvc
 |
 +- app.js <-- 使用koa的入口js
 |
 +- asyncHello.js, hello.js <-- 待测试的js
 |
 +- package.json <-- 项目描述文件
+|
++- products.js <-- rest demo 临时数据库
 |
 +- node_modules/ <-- npm安装的所有依赖包
 |
@@ -36,9 +46,11 @@ nodejs-koa/
 |
 +- model.js <-- 如何导入Model
 |
++- rest.js <-- 统一处理rest风格的接口
+|
 +- start.js <-- 启动入口js
 |
 +- static-files.js <-- middleware, 处理静态文件, 处理以/static/开头的URL
 |
-+- templating.js <-- middleware, 渲染模板
++- templating.js <-- middleware, 渲染模板 MVC结构
 

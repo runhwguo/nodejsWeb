@@ -2,6 +2,7 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const controller = require('./controller');
 const templating = require('./templating');
+const rest = require('./rest');
 const config = require('./config');
 
 const app = new Koa();
@@ -33,6 +34,10 @@ app.use(templating('views', {
     noCache: !isProduction,
     watch: !isProduction
 }));
+
+// bind .rest() for ctx:
+app.use(rest.restify());
+
 // 处理URL路由
 app.use(controller());
 app.listen(3000);

@@ -1,10 +1,16 @@
-let fn_index = async(ctx, next) => {
-    ctx.render('index.html', {
+let mvc_index = async ctx => {
+    ctx.render('mvc/index.html', {
+        title: 'mvc Welcome'
+    });
+};
+
+let rest_index = async ctx => {
+    ctx.render('rest/index.html', {
         title: 'Welcome'
     });
 };
 
-let fn_signin = async(ctx, next) => {
+let mvc_signin = async ctx => {
     let name = ctx.request.body.name || '',
         password = ctx.request.body.password || '';
     console.log(`signin with name: ${name}, password: ${password}`);
@@ -12,11 +18,12 @@ let fn_signin = async(ctx, next) => {
         ctx.response.body = `<h1>Welcome, ${name}!</h1>`;
     } else {
         ctx.response.body = `<h1>Login failed!</h1>
-        <p><a href="/">Try again</a></p>`;
+        <p><a href="/mvc">Try again</a></p>`;
     }
 };
 
 module.exports = {
-    'GET /': fn_index,
-    'POST /signin': fn_signin
+    'GET /mvc': mvc_index,
+    'GET /api': rest_index,
+    'POST /mvc/signin': mvc_signin
 };

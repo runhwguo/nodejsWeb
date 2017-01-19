@@ -1,4 +1,4 @@
-let fn_hello = async(ctx, next) => {
+let fn_hello = async ctx => {
     let name = ctx.params.name;
     ctx.response.body = `<h1>Hello, ${name}!</h1>`;
 };
