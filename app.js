@@ -35,6 +35,32 @@ app.use(templating('views', {
     watch: !isProduction
 }));
 
+//404页面, 根据文档https://github.com/koajs/examples/blob/master/404/app.js
+app.use(function *pageNotFound(next) {
+    yield next;
+
+    if (404 != this.status) return;
+
+    // we need to explicitly set 404 here
+    // so that koa doesn't assign 200 on body=
+    this.status = 404;
+
+    switch (this.accepts('html', 'json')) {
+        case 'html':
+            this.type = 'html';
+            this.body = '<p>页面不存在</p>';
+            break;
+        case 'json':
+            this.body = {
+                message: '页面不存在'
+            };
+            break;
+        default:
+            this.type = 'text';
+            this.body = '页面不存在';
+    }
+});
+
 // bind .rest() for ctx:
 app.use(rest.restify());
 
