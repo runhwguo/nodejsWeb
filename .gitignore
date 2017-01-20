@@ -1,3 +1,13 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+# npm install
 node_modules/*
+
+# ide/os config file
 .idea/*
+*.DS_Store
+
+# Logs
+logs
+*.log
+npm-debug.log*
