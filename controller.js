@@ -1,6 +1,6 @@
-const fs = require('fs'),
-    path = require('path'),
-    fileList = [];
+import fs from "fs";
+import path from "path";
+const fileList = [];
 
 // mvc rest
 function walk(dir) {

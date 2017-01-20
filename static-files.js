@@ -1,6 +1,6 @@
-const path = require('path');
-const mime = require('mime');
-const fs = require('mz/fs');// 与nodejs的fs功能相同,封装成Promise
+import path from 'path';
+import mime from 'mime';
+import fs from 'mz/fs';// 与nodejs的fs功能相同,封装成Promise
 
 function staticFiles(url, dir) {
     return async(ctx, next) => {

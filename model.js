@@ -1,6 +1,6 @@
 // scan all models defined in models:
-const fs = require('fs');
-const db = require('./db');
+import fs from 'fs';
+import db from './db';
 
 let files = fs.readdirSync(__dirname + '/models');
 

@@ -1,4 +1,4 @@
-const nunjucks = require('nunjucks');
+import nunjucks from 'nunjucks';
 
 function createEnv(path, opts) {
     let autoescape = opts.autoescape && true,

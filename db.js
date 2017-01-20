@@ -1,9 +1,9 @@
 // 统一Model的定义
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const uuid = require('node-uuid');
+import uuid from 'node-uuid';
 
-const config = require('./config');
+import config from './config';
 
 console.log('init sequelize...');
 

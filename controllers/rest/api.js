@@ -1,5 +1,5 @@
 const APIError = require('../../rest').APIError;
-const products = require('../../products');
+import products from '../../products';
 
 module.exports = {
     'GET /api/products': async ctx => {

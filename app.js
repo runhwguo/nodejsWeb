@@ -1,9 +1,8 @@
-const Koa = require('koa');
-const bodyParser = require('koa-bodyparser');
-const controller = require('./controller');
-const templating = require('./templating');
-const rest = require('./rest');
-const config = require('./config');
+import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
+import controller from './controller';
+import templating from './templating';
+import rest from './rest';
 
 const app = new Koa();
 
