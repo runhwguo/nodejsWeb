@@ -1,0 +1,71 @@
+{% extends "./mybase.html" %}
+
+
+
+{% block main %}
+
+<div class="row">
+   <div class="col-xs-4">
+       <ul>
+          <li>
+                 <span class="glyphicon glyphicon-earphone" aria-hidden="true">
+                 </span>
+                 <span class="block">代课</span>
+                 </li>
+          <li>
+                 <span class="glyphicon glyphicon-plane" aria-hidden="true">
+                 </span>
+                 <span class="block">顺风车</span>
+                 </li>
+       </ul>
+   </div>
+
+   <div class="col-xs-4">
+       <ul>
+           <li>
+               <span class="glyphicon glyphicon-send"></span>
+               <span class="block">代取</span>
+           </li>
+           <li>
+               <span class="glyphicon glyphicon-user"></span>
+               <span class="block">会员共享</span>
+           </li>
+           </ul>
+   </div>
+
+   <div class="col-xs-4">
+       <ul>
+           <li>
+               <span class="glyphicon glyphicon-flash"></span>
+               <span class="block">借东西</span>
+           </li>
+           <li>
+               <span class="glyphicon glyphicon-flash"></span>
+               <span class="block">代做</span>
+           </li>
+       </ul>
+   </div>
+
+</div>
+
+<div id="searchDiv">
+    <input id="search" type="text" class="form-control" placeholder="搜索">
+</div>
+<style>
+   .block{
+      display: block;
+   }
+    ul{
+        list-style-type: none;
+    }
+    #search{
+        width: 80%;
+        margin-left:10%;
+    }
+    #searchDiv{
+        background-color: #656f65;
+    }
+
+</style>
+
+{% endblock %}

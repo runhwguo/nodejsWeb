@@ -10,6 +10,12 @@ let rest_index = async ctx => {
     });
 };
 
+let home = async ctx => {
+    ctx.render('mvc/home.html', {
+        title: '校园资源共享'
+    })
+}
+
 let mvc_signin = async ctx => {
     let name = ctx.request.body.name || '',
         password = ctx.request.body.password || '';
@@ -25,5 +31,6 @@ let mvc_signin = async ctx => {
 module.exports = {
     'GET /mvc': mvc_index,
     'GET /api': rest_index,
-    'POST /mvc/signin': mvc_signin
+    'POST /mvc/signin': mvc_signin,
+    'GET /home': home
 };
