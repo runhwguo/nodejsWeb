@@ -91,7 +91,19 @@
     <input id="search" type="text" class="form-control" placeholder="搜索">
 </div>
 
-<div class="bottomNav">
+<ul class="list-group">
+    <li class="list-group-item">
+        <input type="button" class="btn btn-default" value="接单" />
+    </li>
+    <li class="list-group-item">
+        <input type="button" class="btn btn-default" value="接单" />
+    </li>
+    <li class="list-group-item">
+        <input type="button" class="btn btn-default" value="接单" />
+    </li>
+</ul>
+
+<div class="bottomNav blue">
    <div class="col-xs-4">
        <ul>
            <li>
@@ -146,6 +158,21 @@
     }
     .col-xs-4 ul{
         padding-left: 0px;
+    }
+    .list-group{
+        margin-top: 10px;
+    }
+    .list-group .list-group-item{
+        height: 60px;
+    }
+   .list-group .list-group-item input{
+       position: absolute;
+       right: 10px;
+       width: 80px;
+       border-radius: 9px;
+   }
+    .blue{
+        color: #4fafff;
     }
 </style>
 
