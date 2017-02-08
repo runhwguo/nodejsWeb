@@ -90,6 +90,35 @@
 <div id="searchDiv">
     <input id="search" type="text" class="form-control" placeholder="搜索">
 </div>
+
+<div class="bottomNav">
+   <div class="col-xs-4">
+       <ul>
+           <li>
+               <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+               <span class="block">首页</span>
+           </li>
+       </ul>
+   </div>
+
+    <div class="col-xs-4">
+        <ul>
+            <li>
+            <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+                <span class="block">发布</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-xs-4">
+        <ul>
+            <li>
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <span class="block">我</span>
+            </li>
+        </ul>
+    </div>
+</div>
 <style>
    .block{
       display: block;
@@ -104,7 +133,12 @@
    #searchDiv{
        background-color: #656f65;
    }
-
+   .bottomNav{
+       position: fixed;
+       width: 100%;
+       height: 50px;
+       bottom: 30px;
+   }
 </style>
 
 {% endblock %}
