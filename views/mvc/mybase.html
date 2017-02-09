@@ -21,6 +21,41 @@
 
 {% endblock %}
 
+<div class="bottomNav blue">
+    <div class="col-xs-4">
+        <ul>
+            <li>
+                <a href="/home">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                    <span class="block">首页</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-xs-4">
+        <ul>
+            <li>
+                <a href="#">
+                    <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+                    <span class="block">发布</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-xs-4">
+        <ul>
+            <li>
+                <a href="/myinfo">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    <span class="block">我</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
 <style>
     .navbar{
         margin-bottom: 0px;
@@ -28,6 +63,26 @@
     .navbar-brand{
         width: 100%;
         text-align: center;
+    }
+    ul{
+        list-style-type: none;
+    }
+    ul li{
+        text-align: center;
+    }
+    .col-xs-4 ul{
+        padding-left: 0px;
+    }
+    .block{
+        display: block;
+    }
+    .blue{
+        color: #4fafff;
+    }
+    .bottomNav{
+        position: fixed;
+        width: 100%;
+        bottom: 0px;
     }
 </style>
 </html>
