@@ -1,7 +1,5 @@
 {% extends "./mybase.html" %}
 
-
-
 {% block main %}
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -92,15 +90,15 @@
 </div>
 
 <ul class="list-group">
-    <li class="list-group-item">
-        <input type="button" class="btn btn-default" value="接单" />
-    </li>
-    <li class="list-group-item">
-        <input type="button" class="btn btn-default" value="接单" />
-    </li>
-    <li class="list-group-item">
-        <input type="button" class="btn btn-default" value="接单" />
-    </li>
+    {% for item in data %}
+        <li class="list-group-item">
+            <span class="task-info">[{{item.type}}]  {{item.location}}</span>
+            <span class="task-reward">[悬赏]{{item.reward}}</span>
+            <span>{{item.date}}</span>
+            <input type="button" class="btn btn-primary btn-xs take-task" value="接单" />
+            <input type="button" class="btn btn-default btn-xs top-task" value="置顶" />
+        </li>
+    {% endfor %}
 </ul>
 
 <div class="bottomNav blue">
@@ -132,6 +130,22 @@
     </div>
 </div>
 <style>
+    .take-task{
+       top: 5px;
+    }
+    .top-task{
+       top: 30px;
+    }
+   .task-reward{
+       position: absolute;
+       left: 30px;
+       top: 30px;
+   }
+   .task-info{
+       position: absolute;
+       left: 30px;
+       top: 5px;
+   }
    .block{
       display: block;
    }
@@ -153,27 +167,27 @@
        width: 100%;
        bottom: 0px;
    }
-    ul li{
-        text-align: center;
-    }
-    .col-xs-4 ul{
-        padding-left: 0px;
-    }
-    .list-group{
-        margin-top: 10px;
-    }
-    .list-group .list-group-item{
-        height: 60px;
-    }
+   ul li{
+       text-align: center;
+   }
+   .col-xs-4 ul{
+       padding-left: 0px;
+   }
+   .list-group{
+       margin-top: 10px;
+   }
+   .list-group .list-group-item{
+       height: 60px;
+   }
    .list-group .list-group-item input{
        position: absolute;
        right: 10px;
        width: 80px;
        border-radius: 9px;
    }
-    .blue{
+   .blue{
         color: #4fafff;
-    }
+   }
 </style>
 
 {% endblock %}
