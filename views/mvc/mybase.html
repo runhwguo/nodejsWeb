@@ -13,7 +13,7 @@
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
-        <p class="navbar-brand">{% block page_title %}{% endblock %}</p>
+        <span class="navbar-brand">{% block page_title %}{% endblock %}</span>
     </div>
 </nav>
 
@@ -25,9 +25,9 @@
     .navbar{
         margin-bottom: 0px;
     }
-    .navbar-header{
-        width: 20%;
-        margin-left: 40%;
+    .navbar-brand{
+        width: 100%;
+        text-align: center;
     }
 </style>
 </html>
