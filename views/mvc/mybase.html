@@ -11,8 +11,23 @@
     <script src="/static/js/bootstrap.js"></script>
 </head>
 
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <p class="navbar-brand">{% block page_title %}{% endblock %}</p>
+    </div>
+</nav>
+
 {% block main %}
 
 {% endblock %}
 
+<style>
+    .navbar{
+        margin-bottom: 0px;
+    }
+    .navbar-header{
+        width: 20%;
+        margin-left: 40%;
+    }
+</style>
 </html>
