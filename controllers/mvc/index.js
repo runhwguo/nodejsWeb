@@ -40,6 +40,14 @@ let myinfo = async ctx => {
     })
 };
 
+
+let createTask = async ctx => {
+
+    ctx.render('mvc/create-task.html', {
+        title: '校园资源共享'
+    })
+};
+
 let mvc_signin = async ctx => {
     let name = ctx.request.body.name || '',
         password = ctx.request.body.password || '';
@@ -57,5 +65,6 @@ module.exports = {
     'GET /api': rest_index,
     'POST /mvc/signin': mvc_signin,
     'GET /home': home,
-    'GET /myinfo': myinfo
+    'GET /myinfo': myinfo,
+    'GET /create-task': createTask
 };
