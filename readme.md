@@ -1,6 +1,53 @@
+[![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/nodejsWeb/Lobby)
+
 # nodejs-koa
 
 ## 项目结构
+
+```
+.
+├── app.js
+├── asyncHello.js
+├── config-default.js
+├── config-test.js
+├── config.js
+├── controller.js
+├── controllers
+│   ├── mvc
+│   └── rest
+├── crawler.js
+├── data.txt
+├── db.js
+├── hello.js
+├── hook.js
+├── initDb.js
+├── initSql.txt
+├── model.js
+├── models
+│   ├── Pet.js
+│   └── User.js
+├── my-config.js
+├── package.json
+├── products.js
+├── readme.md
+├── rest.js
+├── start.js
+├── static
+│   ├── css
+│   ├── fonts
+│   ├── images
+│   └── js
+├── static-files.js
+├── templating.js
+├── test
+│   ├── asyncTest.js
+│   └── helloTest.js
+└── views
+    ├── mvc
+    └── rest
+```
+
+<!---
 - controllers  控制层逻辑，URL处理
   - mvc  mvc层的控制器
   - rest  rest格式的接口交互
@@ -29,3 +76,4 @@
 - static-files.js  middleware, 处理静态文件, 处理以/static/开头的URL
 - templating.js  middleware, 渲染模板 MVC结构
 supervisor,如果需要 自动检测到变化然后重启，请安装这个库
+--->
