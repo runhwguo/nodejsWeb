@@ -1,7 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 
 # npm install
-node_modules/*
+node_modules
 
 # ide/os config file
 .idea/*
@@ -10,6 +10,6 @@ node_modules/*
 # Logs
 logs
 *.log
-npm-debug.log*
 .idea/
-node_modules/
+
+my-config.js
