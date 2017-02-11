@@ -38,7 +38,7 @@ module.exports = {
         if (response.ok) {
             console.log('验证码图片获取成功');
             cookie = response.header['set-cookie'][0].split(';')[0];
-            await fs.writeFile(verificationCodePicture, response.body, 'binary');
+            fs.writeFileSync(verificationCodePicture, response.body, 'binary');
 
             response = await superagent
                 .post(JINA_OCR_INDEX_URL)
@@ -169,9 +169,8 @@ module.exports = {
             throw new APIError('login:access_verification_code_fail', 'access verification code fail.');
         }
 
-
         ctx.rest({
             name: name
         });
-    },
+    }
 };

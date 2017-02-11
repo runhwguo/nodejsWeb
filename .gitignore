@@ -4,12 +4,12 @@
 node_modules
 
 # ide/os config file
-.idea/*
+.idea
 *.DS_Store
 
 # Logs
+log
 logs
 *.log
-.idea/
 
 my-config.js

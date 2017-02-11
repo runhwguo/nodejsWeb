@@ -42,8 +42,10 @@ superagent
                 .attach('picture', verificationCodePicture)
                 .end((err, response) => {
                     if (!err && response.ok) {
+                        console.log(response.text);
                         let $ = cheerio.load(response.text);
                         let downloadUrl = 'http://www.jinapdf.com' + $('#downloadfile').find('.download-file').attr('href').split('..')[1];
+                        console.log(downloadUrl);
                         readRemoteFile(downloadUrl, (error, buffer) => {
                             if (error) {
                                 console.log('jina 取识别结果失败');
