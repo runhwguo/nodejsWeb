@@ -42,6 +42,10 @@ function addMapping(router, mapping) {
             let path = url.substring(7);
             router.del(path, mapping[url]);
             console.log(`register URL mapping: DELETE ${path}`);
+        } else if (url.startsWith('ALL ')) {
+            let path = url.substring(4);
+            router.all(path, mapping[url]);
+            console.log(`register URL mapping: ALL ${path}`);
         } else {
             console.log('invalid URL: ${url}');
         }

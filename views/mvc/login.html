@@ -1,0 +1,31 @@
+{% extends "./mybase.html" %}
+
+{% block page_title %}教务处身份验证{% endblock %}
+
+{% block main %}
+
+<form id="stdInfo">
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="学号"/>
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" placeholder="密码"/>
+    </div>
+    <input id="login" type="submit" class="btn btn-primary" value="确定"/>
+</form>
+
+
+<style>
+    .form-control{
+        width: 50%;
+        margin-left: 25%;
+    }
+    #stdInfo{
+        margin-top: 20%;
+    }
+    #login{
+        width: 20%;
+        margin-left: 40%;
+    }
+</style>
+{% endblock %}
