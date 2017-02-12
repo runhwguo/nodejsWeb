@@ -1,10 +1,10 @@
 {
-  "name": "schcool-resouce-share",
+  "name": "school-resource-share",
   "version": "1.0.0",
   "description": "learn how to use koa",
   "main": "start.js",
   "scripts": {
-    "start": "node --use_strict start.js",
+    "start": "supervisor node --use_strict start.js",
     "test": "mocha --require hook"
   },
   "keywords": [
