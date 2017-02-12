@@ -11,7 +11,7 @@ function generateId() {
     return uuid.v4();
 }
 
-let sequelize = new Sequelize(config.database, config.username, config.password, {
+let sequelize = new Sequelize(config.db.database, config.db.username, config.db.password, {
     host: config.db.host,
     dialect: config.db.dialect,
     pool: {

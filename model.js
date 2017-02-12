@@ -1,12 +1,10 @@
 // scan all models defined in models:
-import fs from 'fs';
-import db from './db';
+import fs from "fs";
+import db from "./db";
 
 let files = fs.readdirSync(__dirname + '/models');
 
-let js_files = files.filter((f)=>{
-    return f.endsWith('.js');
-}, files);
+let js_files = files.filter(f => f.endsWith('.js'), files);
 
 module.exports = {};
 

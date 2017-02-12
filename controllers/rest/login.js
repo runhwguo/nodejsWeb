@@ -1,6 +1,8 @@
 const APIError = require('../../rest').APIError;
+const sha1 = require('sha1');
+import model from "../../model";
 
-const COOKIE_NAME = 'school-resource-share-login-state';
+let User = model.User;
 
 module.exports = {
     'POST /api/login': async ctx => {
@@ -41,7 +43,7 @@ module.exports = {
         let response = await superagent.get(captchaGenerateUrl);
         if (response.ok) {
             console.log('验证码图片获取成功');
-            cookie = response.header['set-cookieName'][0].split(';')[0];
+            cookie = response.header['set-cookie'][0].split(';')[0];
             fs.writeFileSync(verificationCodePicture, response.body, 'binary');
 
             response = await superagent
@@ -81,7 +83,7 @@ module.exports = {
 
                 if (response.ok) {
                     console.log('baidu识别图片成功');
-                    BAIDUIDCookie = response.header['set-cookieName'][0];
+                    BAIDUIDCookie = response.header['set-cookie'][0];
                     let $ = cheerio.load(response.body);
                     let im = 'C:\\fakepath\\' + verificationCodePicture;
                     response = await
@@ -129,7 +131,7 @@ module.exports = {
                         .set('Cookie', cookie)
                         .charset(CHAR_SET);
                 if (response.ok) {
-                    let iPlanetDirectoryProCookie = response.header['set-cookieName'];
+                    let iPlanetDirectoryProCookie = response.header['set-cookie'];
                     if (iPlanetDirectoryProCookie) {
                         iPlanetDirectoryProCookie = iPlanetDirectoryProCookie[0].split(';')[0];
                         response = await superagent
@@ -139,43 +141,52 @@ module.exports = {
                             let $ = cheerio.load(response.text);
                             name = $('#topMenu').find('div:not(id)').text().split(',')[0];
                             console.log(name);
-                        } else {
-                            return false;
+                            return true;
                         }
-                    } else { // 用户名，密码或验证码错误
-                        return false;
                     }
                 }
-                return true;
             }
         } else {
             throw new APIError('login:access_verification_code_fail', 'access verification code fail.');
         }
 
-        function cookie2user(cookie) {
+        async function cookie2user(cookie) {
             if (cookie) {
                 let cookieElements = cookie.split('-');
                 if (cookieElements.length !== 3) {
                     // auth maxAge
                     let id = cookieElements[0],
                         expires = cookieElements[1],
-                        sha1 = cookieElements[2];
-                    if (expires - new Date.getTime() / 1000 < config.session.max()) {
-
+                        sha1Str = cookieElements[2];
+                    if (expires > new Date.getTime() / 1000) {
+                        let user = await User.findAll({
+                            where: {
+                                id: id
+                            }
+                        });
+                        if (user) {
+                            if (sha1Str === sha1(`${user.id}-${user.password}-${expires}-${config.session.cookieName}`)) {
+                                return user;
+                            }
+                        }
                     }
                 }
             }
         }
 
-        //build cookieName string by: id-maxAge-sha1
+        //build cookieName string by: id-expires-sha1
         function user2cookie(user) {
-            let sha1 = require('sha1');
             let expires = new Date().getTime() / 1000 + config.session.maxAge;
             return `${user.id}-${expires}-` + sha1(`${user.id}-${user.password}-${expires}-${config.session.cookieName}`);
         }
 
-        if (!name) {
-            ctx.cookies.set(config.session.cookieName);
+        if (name) {
+            let user = await User.create({
+                id: username,
+                name: name,
+                password: password
+            });
+            ctx.cookies.set(config.session.cookieName, user2cookie(user));
         }
         ctx.rest({
             name: name

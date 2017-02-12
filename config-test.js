@@ -7,6 +7,11 @@ let config = {
         password: 'www',
         host: 'localhost',
         port: 3306
+    },
+    session: {
+        cookieName: 'school-resource-share',
+        cookieKey: 'fuckQ',
+        expires: 86400//一天
     }
 };
 
