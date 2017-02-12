@@ -12,8 +12,8 @@ function generateId() {
 }
 
 let sequelize = new Sequelize(config.database, config.username, config.password, {
-    host: config.host,
-    dialect: config.dialect,
+    host: config.db.host,
+    dialect: config.db.dialect,
     pool: {
         max: 5,
         min: 0,

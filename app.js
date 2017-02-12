@@ -25,10 +25,10 @@ app.use(async (ctx, next) => {
     if (!(reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api'))) {
         // console.log('验证用户是否登录');
         if (loginStateCookie) {
-            // console.log('用户有login state cookie');
+            // console.log('用户有login state cookieName');
             await next();
         } else {
-            // console.log('用户没有login state cookie');
+            // console.log('用户没有login state cookieName');
             ctx.response.redirect('/login');
         }
     } else {
