@@ -1,17 +1,17 @@
-//应用测试环境的配置
+// 存储默认的配置
 let config = {
     db: {
         dialect: 'mysql',
         database: 'test',
-        username: 'www',
-        password: 'www',
+        username: 'root',
+        password: 'root',
         host: 'localhost',
         port: 3306
     },
     session: {
-        cookieName: 'school-resource-share',
+        cookieName: 'schoolResourceShare',
         cookieKey: 'fuckQ',
-        expires: 86400//一天
+        maxAge: 86400//一天
     }
 };
 

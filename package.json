@@ -1,5 +1,5 @@
 {
-  "name": "school-resource-share",
+  "name": "schoolResourceShare",
   "version": "1.0.0",
   "description": "learn how to use koa",
   "main": "start.js",

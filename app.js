@@ -1,13 +1,14 @@
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
-import controller from "./controller";
-import templating from "./templating";
-import rest from "./rest";
+import controller from "./src/tools/controller";
+import templating from "./src/tools/templating";
+import rest from "./src/tools/rest";
+import cookie from "./src/tools/cookie";
+import config from "./src/tools/config";
 
 const app = new Koa();
 
 const isProduction = process.env.NODE_ENV === 'production';
-const COOKIE_NAME = 'school-resource-share-login-state';
 // 打印url和请求时间 middleware
 app.use(async (ctx, next) => {
     // log request URL
@@ -19,12 +20,12 @@ app.use(async (ctx, next) => {
 });
 
 app.use(async (ctx, next) => {
-    // console.log('先验证用户是否登录过');
-    let loginStateCookie = ctx.cookies.get(COOKIE_NAME);
     let reqPath = ctx.request.path;
     if (!(reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api'))) {
         // console.log('验证用户是否登录');
-        if (loginStateCookie) {
+        let loginCookie = ctx.cookies.get(config.session.cookieName);
+        let user = await cookie.cookie2user(loginCookie);
+        if (user) {
             // console.log('用户有login state cookieName');
             await next();
         } else {
@@ -43,7 +44,7 @@ app.use(async (ctx, next) => {
 // 否则，就必须手动配置一个反向代理服务器，
 // 这样会导致开发环境非常复杂
 if (!isProduction) {
-    let staticFiles = require('./static-files');
+    let staticFiles = require('./src/tools/static-files');
     // middleware
     app.use(staticFiles('/static/', __dirname + '/static'));
 }

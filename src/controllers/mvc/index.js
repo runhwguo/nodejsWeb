@@ -24,25 +24,34 @@ let home = async ctx => {
 let myinfo = async ctx => {
 
     ctx.render('mvc/myinfo.html', {
-        title: '校园资源共享'
+        title: '我的信息'
     })
 };
 
 let createTask = async ctx => {
 
-    ctx.render('mvc/create-task.html', {
-        title: '校园资源共享'
+    ctx.render('mvc/createTask.html', {
+        title: '发布任务'
     })
 };
 
 let login = async ctx => {
-    ctx.render('mvc/login.html', {title: '教务处身份验证'})
+    ctx.render('mvc/login.html', {
+        title: '教务处身份验证'
+    })
+};
+
+let contactInfo = async ctx => {
+    ctx.render('mvc/contactInfo.html', {
+        title: '填写联系方式'
+    })
 };
 
 
 module.exports = {
     'GET /': home,
     'GET /myinfo': myinfo,
-    'GET /create-task': createTask,
-    'GET /login': login
+    'GET /createTask': createTask,
+    'GET /login': login,
+    'GET /contactInfo': contactInfo
 };
