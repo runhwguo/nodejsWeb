@@ -4,7 +4,11 @@
 <script>
     $(() => {
         let myInfo = $('#myInfo');
+        let back = $('#back');
         myInfo.attr('href', 'javascript:void(0)');
+        back.click(() => {
+            window.history.back();
+        });
     });
 </script>
 <style>

@@ -1,17 +1,17 @@
-import db from '../tools/db';
+import itdb from "../tools/db";
 
 module.exports = db.defineModel('users', {
     password: db.STRING(100),
     name: db.STRING(100),
-    gender: {
+    gender: {//从教务处爬
         type: db.BOOLEAN,
         allowNull: true
     },
-    tel: {
+    tel: {//从教务处爬
         type: db.STRING(11),
         allowNull: true
     },
-    qq: {
+    qq: {//ujs爬
         type: db.STRING(15),
         allowNull: true
     },
