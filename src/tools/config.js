@@ -3,7 +3,7 @@ const defaultConfig = './../config/config-default.js';
 const overrideConfig = './config/config-override.js';
 const testConfig = './config/config-test.js';
 
-const fs = require('fs');
+import fs from "fs";
 
 let config = null;
 
