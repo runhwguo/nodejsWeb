@@ -1,6 +1,6 @@
-import sha1 from "sha1";
-import model from "./model";
-import config from "./config";
+import sha1 from 'sha1';
+import model from './model';
+import config from './config';
 
 let User = model.User;
 

@@ -1,6 +1,6 @@
 // scan all models defined in models:
-import fs from "fs";
-import db from "./db";
+import fs from 'fs';
+import db from './db';
 
 let files = fs.readdirSync(__dirname + '/../models');
 

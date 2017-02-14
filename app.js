@@ -1,10 +1,10 @@
-import Koa from "koa";
-import bodyParser from "koa-bodyparser";
-import controller from "./src/tools/controller";
-import templating from "./src/tools/templating";
-import rest from "./src/tools/rest";
-import cookie from "./src/tools/cookie";
-import config from "./src/tools/config";
+import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
+import controller from './src/tools/controller';
+import templating from './src/tools/templating';
+import rest from './src/tools/rest';
+import cookie from './src/tools/cookie';
+import config from './src/tools/config';
 
 const app = new Koa();
 
