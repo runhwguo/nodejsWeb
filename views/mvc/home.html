@@ -3,6 +3,12 @@
 {% block page_title %}首页{% endblock %}
 
 {% block main %}
+<script>
+    $(() => {
+        let home = $('#home');
+        home.attr('href', 'javascript:void(0)');
+    });
+</script>
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">

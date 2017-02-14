@@ -1,6 +1,12 @@
 {% extends "./mybase.html" %}
 
 {% block main %}
+<script>
+    $(() => {
+        let myInfo = $('#myInfo');
+        myInfo.attr('href', 'javascript:void(0)');
+    });
+</script>
 <style>
     .form-control {
         width: 50%;

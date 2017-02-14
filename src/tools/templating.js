@@ -1,4 +1,4 @@
-import nunjucks from "nunjucks";
+import nunjucks from 'nunjucks';
 
 function createEnv(path = 'views', opts) {
     let autoescape = opts.autoescape && true,

@@ -1,8 +1,6 @@
 // 统一Model的定义
 import Sequelize from 'sequelize';
-
 import uuid from 'uuid';
-
 import config from './config';
 
 console.log('init sequelize...');

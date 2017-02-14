@@ -5,6 +5,7 @@
     $(() => {
         let form = $("#publishInfo");
         let back = $('#back');
+        let createTask = $('#createTask');
         form.submit(e => {
             $.ajax({
                 type: form.attr('method'),
@@ -26,6 +27,7 @@
         back.click(() => {
             window.history.back();
         });
+        createTask.attr('href', 'javascript:void(0)');
     });
 </script>
 <style>
