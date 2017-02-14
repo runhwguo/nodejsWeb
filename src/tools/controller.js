@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 
 const fileList = [];
@@ -54,8 +54,8 @@ function addMapping(router, mapping) {
     }
 }
 
-module.exports = dir => {
-    let controllers_dir = dir || '../controllers',
+module.exports = (dir = '../controllers') => {
+    let controllers_dir = dir,
         router = require('koa-router')();
     addControllers(router, controllers_dir);
     return router.routes();

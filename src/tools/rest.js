@@ -2,15 +2,13 @@ module.exports = {
     // 错误码定义
     // code:大类型错误,小类型错误,采用string，清晰明确
     // message:错误的具体描述
-    APIError: function (code, message) {
-        this.code = code || 'internal:unknown_error';
-        this.message = message || '';
+    APIError: function (code = 'internal:unknown_error', message = '') {
+        this.code = code;
+        this.message = message;
     },
     //rest 风格的接口都是以api开头的
-    restify: pathPrefix => {
-        pathPrefix = pathPrefix || '/api/';
-
-        return async(ctx, next) => {
+    restify: (pathPrefix = '/api/') => {
+        return async (ctx, next) => {
             if (ctx.request.path.startsWith(pathPrefix)) {
                 console.log(`Process API ${ctx.request.method} ${ctx.request.url}`);
                 ctx.rest = data => {
