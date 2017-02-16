@@ -1,11 +1,11 @@
-import {APIError as APIError} from "../../tools/rest";
-import model from "../../tools/model";
-import fs from "fs";
-import config from "../../tools/config";
-import superagent from "superagent";
-import charset from "superagent-charset";
-import cheerio from "cheerio";
-import cookie from "../../tools/cookie";
+import {APIError as APIError} from '../../tools/rest';
+import model from '../../tools/model';
+import fs from 'fs';
+import config from '../../tools/config';
+import superagent from 'superagent';
+import charset from 'superagent-charset';
+import cheerio from 'cheerio';
+import cookie from '../../tools/cookie';
 
 charset(superagent);
 
@@ -27,10 +27,12 @@ module.exports = {
             const captchaGenerateUrl = UJS_MAIN_URL + 'captchaGenerate.portal';
             const loginSuccessUrl = UJS_MAIN_URL + 'loginSuccess.portal';
             const loginFailureUrl = UJS_MAIN_URL + 'loginFailure.portal';
-            const UJS_INDEX_URL = UJS_MAIN_URL + 'index.portal';
+            //http://stu.ujs.edu.cn/Mobile/rsbulid/r_3_3_st_jbxg.aspx
+
+            const UJS_STU_MAIN_URL = 'http://stu.ujs.edu.cn/';
+            const STU_INFO = UJS_STU_MAIN_URL + 'mobile/rsbulid/r_3_3_st_jbxg.aspx';
 // baidu ocr
             const BAIDU_OCR_INDEX_URL = 'http://apistore.baidu.com/idlapi/';
-            const BAIDU_OCR_RESULT_URL = 'http://apistore.baidu.com/idlapi/';
             const verificationCodePicture = 'out.png'; // 注意路径
 
 // jinapdf ocr
@@ -68,31 +70,29 @@ module.exports = {
 
                 async function baiduGetVerificationCode() {
                     let BAIDUIDCookie;
-                    response = await
-                        superagent
-                            .get(BAIDU_OCR_INDEX_URL)
-                            .query({
-                                r: 'demo/ocr',
-                                type: 'LocateRecognize',
-                                tag: true,
-                                apiserviceid: 969
-                            });
+                    response = await superagent
+                        .get(BAIDU_OCR_INDEX_URL)
+                        .query({
+                            r: 'demo/ocr',
+                            type: 'LocateRecognize',
+                            tag: true,
+                            apiserviceid: 969
+                        });
 
                     if (response.ok) {
                         console.log('baidu识别图片成功');
                         BAIDUIDCookie = response.header['set-cookie'][0];
                         let $ = cheerio.load(response.body);
                         let im = 'C:\\fakepath\\' + verificationCodePicture;
-                        response = await
-                            superagent
-                                .post(BAIDU_OCR_RESULT_URL)
-                                .query({
-                                    r: 'demo/ocrret',
-                                    type: 'LocateRecognize',
-                                    im: im
-                                })
-                                .attach('image', verificationCodePicture)
-                                .set('Cookie', BAIDUIDCookie);
+                        response = await superagent
+                            .post(BAIDU_OCR_INDEX_URL)
+                            .query({
+                                r: 'demo/ocrret',
+                                type: 'LocateRecognize',
+                                im: im
+                            })
+                            .attach('image', verificationCodePicture)
+                            .set('Cookie', BAIDUIDCookie);
                         if (response.ok) {
                             $ = cheerio.load(response.text);
                             verificationCode = $('table.table_list tr:nth-last-child(1) td:nth-child(2)').text().replace(/\s+/g, '').replace(/[>?]/g, '7');
@@ -117,29 +117,31 @@ module.exports = {
                  * @param callback
                  */
                 async function getUserInfo() {
-                    response = await
-                        superagent
-                            .post(userPasswordValidateUrl)
-                            .send('Login.Token1=' + username)
-                            .send('Login.Token2=' + password)
-                            .send('captchaField=' + verificationCode)
-                            .send('goto=' + loginSuccessUrl)
-                            .send('gotoOnFail=' + loginFailureUrl)
-                            .set('Cookie', cookie)
-                            .charset(CHAR_SET);
+                    response = await superagent
+                        .post(userPasswordValidateUrl)
+                        .send('Login.Token1=' + username)
+                        .send('Login.Token2=' + password)
+                        .send('captchaField=' + verificationCode)
+                        .send('goto=' + loginSuccessUrl)
+                        .send('gotoOnFail=' + loginFailureUrl)
+                        .set('Cookie', cookie)
+                        .charset(CHAR_SET);
                     if (response.ok) {
                         let iPlanetDirectoryProCookie = response.header['set-cookie'];
                         if (iPlanetDirectoryProCookie) {
                             iPlanetDirectoryProCookie = iPlanetDirectoryProCookie[0].split(';')[0];
+                            console.log(iPlanetDirectoryProCookie);
+
                             response = await superagent
-                                .get(UJS_INDEX_URL)
-                                .set('Cookie', cookie + '; ' + iPlanetDirectoryProCookie);
-                            if (response.ok) {
-                                let $ = cheerio.load(response.text);
-                                name = $('#topMenu').find('div:not(id)').text().split(',')[0];
-                                console.log(name);
-                                return true;
-                            }
+                                .get(UJS_STU_MAIN_URL)
+                                .redirects(0);
+
+                            const ASP_NET_SessionId = response.header['set-cookie'][0].split(';')[0];
+                            console.log(ASP_NET_SessionId);
+                            response = await superagent
+                                .get(STU_INFO)
+                                .set('Cookie', ASP_NET_SessionId + '; ' + iPlanetDirectoryProCookie);
+                            console.log(response);
                         }
                     }
                 }

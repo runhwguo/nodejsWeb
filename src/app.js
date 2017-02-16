@@ -1,10 +1,10 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
-import controller from './src/tools/controller';
-import templating from './src/tools/templating';
-import rest from './src/tools/rest';
-import cookie from './src/tools/cookie';
-import config from './src/tools/config';
+import controller from './tools/controller';
+import templating from './tools/templating';
+import rest from './tools/rest';
+import cookie from './tools/cookie';
+import config from './tools/config';
 
 const app = new Koa();
 
@@ -44,9 +44,9 @@ app.use(async (ctx, next) => {
 // 否则，就必须手动配置一个反向代理服务器，
 // 这样会导致开发环境非常复杂
 if (!isProduction) {
-    let staticFiles = require('./src/tools/static-files');
+    let staticFiles = require('./tools/static-files');
     // middleware
-    app.use(staticFiles('/static/', __dirname + '/static'));
+    app.use(staticFiles('/static/', __dirname + '/../static'));
 }
 // 解析原始request请求，nodejs的request和koa的request都不解析request
 app.use(bodyParser());

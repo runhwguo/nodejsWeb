@@ -8,7 +8,7 @@ module.exports = {
     },
     //rest 风格的接口都是以api开头的
     restify: (pathPrefix = '/api/') => {
-        return async (ctx, next) => {
+        return async(ctx, next) => {
             if (ctx.request.path.startsWith(pathPrefix)) {
                 console.log(`Process API ${ctx.request.method} ${ctx.request.url}`);
                 ctx.rest = data => {
@@ -19,7 +19,7 @@ module.exports = {
                 try {
                     await next();
                 } catch (e) {
-                    console.log('Process API error');
+                    console.trace("Here I am!");
                     ctx.response.status = 400;// 400 error, 200 ok
                     ctx.response.type = 'application/json';
                     ctx.response.body = {

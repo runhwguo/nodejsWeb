@@ -1,4 +1,4 @@
-import itdb from "../tools/db";
+import db from "../tools/db";
 
 module.exports = db.defineModel('users', {
     password: db.STRING(100),
