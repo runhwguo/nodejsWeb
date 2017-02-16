@@ -6,9 +6,10 @@ import superagent from 'superagent';
 import charset from 'superagent-charset';
 import cheerio from 'cheerio';
 import cookie from '../../tools/cookie';
+import logger from 'tracer';
 
 charset(superagent);
-
+let log = logger.colorConsole();
 let User = model.User;
 
 module.exports = {
@@ -29,8 +30,7 @@ module.exports = {
             const loginFailureUrl = UJS_MAIN_URL + 'loginFailure.portal';
             //http://stu.ujs.edu.cn/Mobile/rsbulid/r_3_3_st_jbxg.aspx
 
-            const UJS_STU_MAIN_URL = 'http://stu.ujs.edu.cn/';
-            const STU_INFO = UJS_STU_MAIN_URL + 'mobile/rsbulid/r_3_3_st_jbxg.aspx';
+            const STU_INFO = 'http://stu.ujs.edu.cn/mobile/rsbulid/r_3_3_st_jbxg.aspx';
 // baidu ocr
             const BAIDU_OCR_INDEX_URL = 'http://apistore.baidu.com/idlapi/';
             const verificationCodePicture = 'out.png'; // 注意路径
@@ -48,6 +48,7 @@ module.exports = {
                 response = await superagent
                     .post(JINA_OCR_INDEX_URL)
                     .attach('picture', verificationCodePicture);
+
                 if (response.ok) {
                     let $ = cheerio.load(response.text);
                     let downloadUrl = 'http://www.jinapdf.com' + $('#downloadfile').find('.download-file').attr('href').split('..')[1];
@@ -112,10 +113,6 @@ module.exports = {
                     }
                 }
 
-                /**
-                 * jina平台识别出格式正确的验证码，如果识别错误让百度尝试，通过回调实现
-                 * @param callback
-                 */
                 async function getUserInfo() {
                     response = await superagent
                         .post(userPasswordValidateUrl)
@@ -129,21 +126,33 @@ module.exports = {
                     if (response.ok) {
                         let iPlanetDirectoryProCookie = response.header['set-cookie'];
                         if (iPlanetDirectoryProCookie) {
-                            iPlanetDirectoryProCookie = iPlanetDirectoryProCookie[0].split(';')[0];
-                            console.log(iPlanetDirectoryProCookie);
-
-                            response = await superagent
-                                .get(UJS_STU_MAIN_URL)
-                                .redirects(0);
-
-                            const ASP_NET_SessionId = response.header['set-cookie'][0].split(';')[0];
-                            console.log(ASP_NET_SessionId);
+                            iPlanetDirectoryProCookie = response.header['set-cookie'][0].split(';')[0];
                             response = await superagent
                                 .get(STU_INFO)
-                                .set('Cookie', ASP_NET_SessionId + '; ' + iPlanetDirectoryProCookie);
-                            console.log(response);
+                                .set('Host', 'stu.ujs.edu.cn')
+                                .set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8')
+                                .set('Accept-Language', 'zh-CN,zh;q=0.8,en;q=0.6')
+                                .set('Accept-Encoding', 'gzip, deflate, sdch')
+                                .set('Cache-Control', 'no-cache')
+                                .set('Connection', 'keep-alive')
+                                .set('Pragma', 'no-cache')
+                                .set('Upgrade-Insecure-Requests', 1)
+                                .set('User-Agent', 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1')
+                                .set('Cookie', iPlanetDirectoryProCookie);
+
+                            // const ASP_NET_SessionId = response.header['set-cookie'][0].split(';')[0];
+                            const ASP_NET_SessionId = response.header['set-cookie'][0].split(';')[0];
+                            console.log(response.header['set-cookie'][0]);
+                            response = await superagent
+                                .get(STU_INFO)
+                                .set('Cookie', ASP_NET_SessionId);
+                            // console.log(response.text);
+                            console.log(iPlanetDirectoryProCookie);
+                            console.log(ASP_NET_SessionId);
+                            return true;
                         }
                     }
+                    return false;
                 }
             } else {
                 throw new APIError('login:access_verification_code_fail', 'access verification code fail.');

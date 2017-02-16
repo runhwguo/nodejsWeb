@@ -1,3 +1,7 @@
+import logger from 'tracer';
+
+let log = logger.colorConsole();
+
 module.exports = {
     // 错误码定义
     // code:大类型错误,小类型错误,采用string，清晰明确
@@ -19,7 +23,7 @@ module.exports = {
                 try {
                     await next();
                 } catch (e) {
-                    console.trace("Here I am!");
+                    log.error(e);
                     ctx.response.status = 400;// 400 error, 200 ok
                     ctx.response.type = 'application/json';
                     ctx.response.body = {
