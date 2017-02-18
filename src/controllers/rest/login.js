@@ -30,6 +30,7 @@ module.exports = {
             const loginFailureUrl = UJS_MAIN_URL + 'loginFailure.portal';
             //http://stu.ujs.edu.cn/Mobile/rsbulid/r_3_3_st_jbxg.aspx
 
+            const STU_INFO_LOGIN = 'http://stu.ujs.edu.cn/mobile/login.aspx';
             const STU_INFO = 'http://stu.ujs.edu.cn/mobile/rsbulid/r_3_3_st_jbxg.aspx';
 // baidu ocr
             const BAIDU_OCR_INDEX_URL = 'http://apistore.baidu.com/idlapi/';
@@ -59,7 +60,8 @@ module.exports = {
                     console.log('jinapdf识别出来的验证码是：' + verificationCode + ', len = ' + verificationCode.length);
                     let isSuccessful = false;
                     if (verificationCodeReg.test(verificationCode)) { // 如果jinapdf识别的不是四位数，再让baidu去识别
-                        isSuccessful = await getUserInfo();
+                        let iPlanetDirectoryProCookie = await login();
+                        isSuccessful = await getUserInfo(iPlanetDirectoryProCookie);
                     }
                     if (!isSuccessful) {
                         console.log('jinapdf识别出来有误, 让baidu识别');
@@ -100,7 +102,8 @@ module.exports = {
                             console.log('baidu识别出来的验证码是：' + verificationCode + ', len = ' + verificationCode.length);
                             let isSuccessful = false;
                             if (verificationCodeReg.test(verificationCode)) {
-                                isSuccessful = await getUserInfo();
+                                let iPlanetDirectoryProCookie = await login();
+                                isSuccessful = await getUserInfo(iPlanetDirectoryProCookie);
                             }
                             if (!isSuccessful) {
                                 throw new APIError('login:both_engine_recognise_fail', 'should request once more.');
@@ -113,7 +116,34 @@ module.exports = {
                     }
                 }
 
-                async function getUserInfo() {
+                async function getUserInfo(iPlanetDirectoryProCookie) {
+                    if (iPlanetDirectoryProCookie) {
+                        iPlanetDirectoryProCookie = response.header['set-cookie'][0].split(';')[0];
+                        response = await superagent
+                            .get(STU_INFO)
+                            .set('Cookie', iPlanetDirectoryProCookie);
+                        const ASP_NET_SessionId = response.header['set-cookie'][0].split(';')[0];
+                        console.log(response.header['set-cookie'][0]);
+
+                        await superagent
+                            .get(STU_INFO_LOGIN)
+                            .set('Cookie', iPlanetDirectoryProCookie + '; ' + ASP_NET_SessionId);
+
+                        response = await superagent
+                            .get(STU_INFO)
+                            .set('Cookie', ASP_NET_SessionId);
+                        let $ = cheerio.load(response.text);
+                        console.log('姓名', $('#y_xm').text());
+                        console.log('性别', $('#y_xbdm').text());
+                        console.log('QQ', $('#y_qq').text());
+                        console.log('电话', $('#y_cell').text());
+
+                        return true;
+                    }
+                    return false;
+                }
+
+                async function login() {
                     response = await superagent
                         .post(userPasswordValidateUrl)
                         .send('Login.Token1=' + username)
@@ -125,34 +155,9 @@ module.exports = {
                         .charset(CHAR_SET);
                     if (response.ok) {
                         let iPlanetDirectoryProCookie = response.header['set-cookie'];
-                        if (iPlanetDirectoryProCookie) {
-                            iPlanetDirectoryProCookie = response.header['set-cookie'][0].split(';')[0];
-                            response = await superagent
-                                .get(STU_INFO)
-                                .set('Host', 'stu.ujs.edu.cn')
-                                .set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8')
-                                .set('Accept-Language', 'zh-CN,zh;q=0.8,en;q=0.6')
-                                .set('Accept-Encoding', 'gzip, deflate, sdch')
-                                .set('Cache-Control', 'no-cache')
-                                .set('Connection', 'keep-alive')
-                                .set('Pragma', 'no-cache')
-                                .set('Upgrade-Insecure-Requests', 1)
-                                .set('User-Agent', 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1')
-                                .set('Cookie', iPlanetDirectoryProCookie);
-
-                            // const ASP_NET_SessionId = response.header['set-cookie'][0].split(';')[0];
-                            const ASP_NET_SessionId = response.header['set-cookie'][0].split(';')[0];
-                            console.log(response.header['set-cookie'][0]);
-                            response = await superagent
-                                .get(STU_INFO)
-                                .set('Cookie', ASP_NET_SessionId);
-                            // console.log(response.text);
-                            console.log(iPlanetDirectoryProCookie);
-                            console.log(ASP_NET_SessionId);
-                            return true;
-                        }
+                        return iPlanetDirectoryProCookie;
                     }
-                    return false;
+                    return '';
                 }
             } else {
                 throw new APIError('login:access_verification_code_fail', 'access verification code fail.');
