@@ -24,7 +24,6 @@ let login = async ctx => {
         const captchaGenerateUrl = UJS_MAIN_URL + 'captchaGenerate.portal';
         const loginSuccessUrl = UJS_MAIN_URL + 'loginSuccess.portal';
         const loginFailureUrl = UJS_MAIN_URL + 'loginFailure.portal';
-        //http://stu.ujs.edu.cn/Mobile/rsbulid/r_3_3_st_jbxg.aspx
 
         const STU_INFO_LOGIN = 'http://stu.ujs.edu.cn/mobile/login.aspx';
         const STU_INFO = 'http://stu.ujs.edu.cn/mobile/rsbulid/r_3_3_st_jbxg.aspx';
@@ -172,7 +171,6 @@ let login = async ctx => {
     } else {
         user = await cookie.cookie2user(schoolResourceShareCookie);
     }
-
     ctx.rest({
         user: user.dataValues
     });

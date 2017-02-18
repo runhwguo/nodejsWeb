@@ -1,8 +1,6 @@
 import sha1 from 'sha1';
-import model from './model';
+import {User as User} from './model';
 import config from './config';
-
-let User = model.User;
 
 async function cookie2user(cookie) {
     if (cookie) {
