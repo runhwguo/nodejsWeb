@@ -1,9 +1,12 @@
-{% extends "./mybase.html" %}
+{% extends './mybase.html' %}
 
 {% block main %}
 <script>
     $(() => {
-
+        let back = $('#back');
+        back.click(() => {
+            window.history.back();
+        });
     });
 </script>
 
@@ -27,23 +30,20 @@
         margin-top: 2%;
     }
 </style>
-<input id="back" type="button" class="btn btn-link" value="< 返回"/>
-<form id="contactInfo" action="/api/login" method="post">
-    <div class="form-group">
-        <input type="text" class="form-control" id="name" name="name" placeholder="名字"/>
+<input id='back' type='button' class='btn btn-link' value='< 返回'/>
+<form id='contactInfo' action='/api/publish' method='post'>
+    <div class='form-group'>
+        <input type='text' class='form-control' id='name' name='name' placeholder='姓名' value="{{user.name}}"/>
     </div>
-    <div class="form-group">
-        <input type="tel" class="form-control" id="tel" name="tel" placeholder="联系电话"/>
+    <div class='form-group'>
+        <input type='tel' class='form-control' id='tel' name='tel' placeholder='电话' value="{{user.tel}}"/>
     </div>
-    <div class="form-group">
-        <input type="tel" class="form-control" id="tel" name="tel" placeholder="联系电话"/>
+    <div class='form-group'>
+        <input type='tel' class='form-control' id='qq' name='qq' placeholder='QQ号' value="{{user.qq}}"/>
     </div>
-    <div class="form-group">
-        <input type="tel" class="form-control" id="qq" name="qq" placeholder="QQ号"/>
+    <div class='form-group'>
+        <input type='text' class='form-control' id='wx' name='wx' placeholder='微信号'/>
     </div>
-    <div class="form-group">
-        <input type="text" class="form-control" id="wx" name="wx" placeholder="微信号"/>
-    </div>
-    <input id="login" type="submit" class="btn btn-primary" value="提交"/>
+    <input id='login' type='submit' class='btn btn-primary' value='提交'/>
 </form>
 {% endblock %}

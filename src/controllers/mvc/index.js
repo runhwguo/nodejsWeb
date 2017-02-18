@@ -1,3 +1,6 @@
+import {cookie2user as cookie2user} from '../../tools/cookie';
+import {session as session} from '../../tools/config';
+
 let home = async ctx => {
     // simulate data
     let data = [
@@ -42,8 +45,11 @@ let login = async ctx => {
 };
 
 let contactInfo = async ctx => {
+    let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
+    let user = await cookie2user(schoolResourceShareCookie);
     ctx.render('mvc/contactInfo.html', {
-        title: '填写联系方式'
+        title: '填写联系方式',
+        user: user
     })
 };
 

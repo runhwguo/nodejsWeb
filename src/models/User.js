@@ -4,7 +4,7 @@ module.exports = db.defineModel('users', {
     password: db.STRING(100),
     name: db.STRING(100),
     gender: {//从教务处爬
-        type: db.BOOLEAN,
+        type: db.STRING(5),
         allowNull: true
     },
     tel: {//从教务处爬
