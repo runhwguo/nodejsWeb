@@ -5,7 +5,7 @@
 {% block main %}
 <script>
     $(() => {
-        let home = $('#home');
+        let home = $('#homeTab');
         home.attr('href', 'javascript:void(0)');
     });
 </script>
@@ -52,102 +52,112 @@
 </div>
 
 <div class="row">
-   <div class="col-xs-4">
-       <ul>
-          <li>
-                 <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-                 <span class="block">代课</span>
-          </li>
-          <li>
-                 <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>
-                 <span class="block">顺风车</span>
-          </li>
-       </ul>
-   </div>
+    <div class="col-xs-4">
+        <ul>
+            <li>
+                <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+                <span class="block">代课</span>
+            </li>
+            <li>
+                <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>
+                <span class="block">顺风车</span>
+            </li>
+        </ul>
+    </div>
 
-   <div class="col-xs-4">
-       <ul>
-           <li>
-               <span class="glyphicon glyphicon-send"></span>
-               <span class="block">代取</span>
-           </li>
-           <li>
-               <span class="glyphicon glyphicon-user"></span>
-               <span class="block">会员共享</span>
-           </li>
-           </ul>
-   </div>
+    <div class="col-xs-4">
+        <ul>
+            <li>
+                <span class="glyphicon glyphicon-send"></span>
+                <span class="block">代取</span>
+            </li>
+            <li>
+                <span class="glyphicon glyphicon-user"></span>
+                <span class="block">会员共享</span>
+            </li>
+        </ul>
+    </div>
 
-   <div class="col-xs-4">
-       <ul>
-           <li>
-               <span class="glyphicon glyphicon-flash"></span>
-               <span class="block">借东西</span>
-           </li>
-           <li>
-               <span class="glyphicon glyphicon-flash"></span>
-               <span class="block">代做</span>
-           </li>
-       </ul>
-   </div>
+    <div class="col-xs-4">
+        <ul>
+            <li>
+                <span class="glyphicon glyphicon-flash"></span>
+                <span class="block">借东西</span>
+            </li>
+            <li>
+                <span class="glyphicon glyphicon-flash"></span>
+                <span class="block">代做</span>
+            </li>
+        </ul>
+    </div>
 
 </div>
 
-<div id="searchDiv">
-    <input id="search" type="text" class="form-control" placeholder="搜索" />
+<div class="input-group">
+    <input type="text" class="form-control" placeholder="搜索任务：请输入关键字">
+    <span class="input-group-btn">
+						<button class="btn btn-default" type="button">
+							确定
+						</button>
+					</span>
 </div>
 
 <ul class="list-group">
     {% for item in data %}
-        <li class="list-group-item">
-            <span class="task-info">[{{item.type}}]  {{item.location}}</span>
-            <span class="task-reward">[悬赏]{{item.reward}}</span>
-            <span>{{item.date}}</span>
-            <input type="button" class="btn btn-primary btn-xs take-task" value="接单" />
-            <input type="button" class="btn btn-default btn-xs top-task" value="置顶" />
-        </li>
+    <li class="list-group-item">
+        <span class="task-info">[{{item.type}}]  {{item.location}}</span>
+        <span class="task-reward">[悬赏]{{item.reward}}</span>
+        <span>{{item.date}}</span>
+        <input type="button" class="btn btn-primary btn-xs take-task" value="接单"/>
+        <input type="button" class="btn btn-default btn-xs top-task" value="置顶"/>
+    </li>
     {% endfor %}
 </ul>
 
 <style>
-    .take-task{
-       top: 5px;
+    .take-task {
+        top: 5px;
     }
-    .top-task{
-       top: 30px;
+
+    .top-task {
+        top: 30px;
     }
-   .task-reward{
-       position: absolute;
-       left: 10px;
-       top: 30px;
-   }
-   .task-info{
-       position: absolute;
-       left: 10px;
-       top: 5px;
-   }
-   #search{
-       width: 90%;
-       margin-left:5%;
-   }
-   #searchDiv{
-       background-color: #656f65;
-   }
-   #myCarousel{
-       height: 201px
-   }
-   .list-group{
-       margin-top: 10px;
-   }
-   .list-group .list-group-item{
-       height: 60px;
-   }
-   .list-group .list-group-item input{
-       position: absolute;
-       right: 10px;
-       width: 80px;
-       border-radius: 9px;
-   }
+
+    .task-reward {
+        position: absolute;
+        left: 10px;
+        top: 30px;
+    }
+
+    .task-info {
+        position: absolute;
+        left: 10px;
+        top: 5px;
+    }
+
+    #search {
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    #myCarousel {
+        height: 201px
+    }
+
+    .list-group {
+        margin-top: 10px;
+    }
+
+    .list-group .list-group-item {
+        height: 60px;
+    }
+
+    .list-group .list-group-item input {
+        position: absolute;
+        right: 10px;
+        width: 80px;
+        border-radius: 9px;
+    }
 </style>
 
 {% endblock %}

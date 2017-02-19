@@ -1,0 +1,43 @@
+{% extends "./mybase.html" %}
+
+{% block main %}
+<script>
+    $(() => {
+        let myInfoTab = $('#myInfoTab');
+        let back = $('#back');
+        let unfinishedTasks = $('#unfinishedTasks');
+        let completedTasks = $('#completedTasks');
+        let sentTasks = $('#sentTasks');
+        let myInfo = $('#myInfo');
+        myInfoTab.attr('href', 'javascript:void(0)');
+        back.click(() => window.history.back());
+        unfinishedTasks.click(() => {
+            window.location.href = '/unfinishedTasks';
+        });
+        completedTasks.click(() => {
+            window.location.href = '/completedTasks';
+        });
+        sentTasks.click(() => {
+            window.location.href = '/sentTasks';
+        });
+        myInfo.click(() => {
+            window.location.href = '/myInfo';
+        });
+    });
+</script>
+<style>
+
+    #back {
+        margin-left: 3%;
+        margin-top: 2%;
+    }
+</style>
+<input id="back" type="button" class="btn btn-link" value="< 返回"/>
+
+<div class="btn-group-vertical" style="display:block">
+    <button type="button" class="btn btn-default" id="unfinishedTasks">未完成任务</button>
+    <button type="button" class="btn btn-default" id="completedTasks">已完成任务</button>
+    <button type="button" class="btn btn-default" id="sentTasks">发布的任务</button>
+    <button type="button" class="btn btn-default" id="myInfo">我的信息</button>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "./myBase.html" %}
+
+{% block main %}
+<script>
+    $(() => {
+
+    });
+</script>
+{% for item in data %}
+<ul class="list-group">
+    <li class="list-group-item">
+        <span>[{{item.type}}]</span>
+        <span>{{item.location}}</span>
+        <span>{{item.reward}}元</span>
+        <span class="glyphicon glyphicon-chevron-right text-left">
+    </li>
+</ul>
+{% endfor %}
+
+
+{% endblock %}

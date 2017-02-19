@@ -4,8 +4,27 @@
 <script>
     $(() => {
         let back = $('#back');
+        let form = $("#userInfo");
         back.click(() => {
             window.history.back();
+        });
+        form.submit(e => {
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(), // serializes the form's elements.
+                success: data => {
+                    if (data.user.name) {
+                        console.log(data.user.name);
+                        window.location.href = '/';
+                    }
+                },
+                error: data => {
+                    alert('error -> ' + data);
+                }
+            });
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
         });
     });
 </script>
@@ -16,11 +35,11 @@
         margin-left: 25%;
     }
 
-    #contactInfo {
+    #userInfo {
         margin-top: 3%;
     }
 
-    #login {
+    #submit {
         width: 40%;
         margin-left: 30%;
     }
@@ -31,7 +50,7 @@
     }
 </style>
 <input id='back' type='button' class='btn btn-link' value='< 返回'/>
-<form id='contactInfo' action='/api/publish' method='post'>
+<form id='userInfo' action='/api/save' method='post'>
     <div class='form-group'>
         <input type='text' class='form-control' id='name' name='name' placeholder='姓名' value="{{user.name}}"/>
     </div>
@@ -44,6 +63,6 @@
     <div class='form-group'>
         <input type='text' class='form-control' id='wx' name='wx' placeholder='微信号'/>
     </div>
-    <input id='login' type='submit' class='btn btn-primary' value='提交'/>
+    <input id='submit' type='submit' class='btn btn-primary' value='提交'/>
 </form>
 {% endblock %}

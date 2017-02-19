@@ -5,7 +5,7 @@
     $(() => {
         let form = $("#publishInfo");
         let back = $('#back');
-        let createTask = $('#createTask');
+        let createTask = $('#createTaskTab');
         form.submit(e => {
             $.ajax({
                 type: form.attr('method'),
@@ -14,7 +14,7 @@
                 success: data => {
                     if (data.user.name) {
                         console.log(data.user.name);
-                        window.location.href = '/contactInfo';
+                        window.location.href = '/userInfo';
                     }
                 },
                 error: data => {

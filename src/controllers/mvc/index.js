@@ -24,9 +24,9 @@ let home = async ctx => {
     })
 };
 
-let myinfo = async ctx => {
+let myInfo = async ctx => {
 
-    ctx.render('mvc/myinfo.html', {
+    ctx.render('mvc/myInfo.html', {
         title: '我的信息'
     })
 };
@@ -44,11 +44,11 @@ let login = async ctx => {
     })
 };
 
-let contactInfo = async ctx => {
+let userInfo = async ctx => {
     let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
     let user = await cookie2user(schoolResourceShareCookie);
-    ctx.render('mvc/contactInfo.html', {
-        title: '填写联系方式',
+    ctx.render('mvc/userInfo.html', {
+        title: '完善用户信息',
         user: user
     })
 };
@@ -56,8 +56,8 @@ let contactInfo = async ctx => {
 
 module.exports = {
     'GET /': home,
-    'GET /myinfo': myinfo,
+    'GET /myInfo': myInfo,
     'GET /createTask': createTask,
     'GET /login': login,
-    'GET /contactInfo': contactInfo
+    "GET /userInfo": userInfo
 };
