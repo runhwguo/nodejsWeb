@@ -51,7 +51,7 @@
     </a>
 </div>
 
-<div class="row">
+<div id="main">
     <div class="col-xs-4">
         <ul>
             <li>
@@ -91,28 +91,29 @@
         </ul>
     </div>
 
-</div>
 
-<div class="input-group">
-    <input type="text" class="form-control" placeholder="搜索任务：请输入关键字">
-    <span class="input-group-btn">
-						<button class="btn btn-default" type="button">
-							确定
-						</button>
-					</span>
-</div>
+    <div class="input-group">
+                                <input type="text" class="form-control" placeholder="搜索任务：请输入关键字">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                确定
+                                </button>
+                                </span>
+                                </div>
 
-<ul class="list-group">
-    {% for item in data %}
-    <li class="list-group-item">
-        <span class="task-info">[{{item.type}}]  {{item.location}}</span>
-        <span class="task-reward">[悬赏]{{item.reward}}</span>
-        <span>{{item.date}}</span>
-        <input type="button" class="btn btn-primary btn-xs take-task" value="接单"/>
-        <input type="button" class="btn btn-default btn-xs top-task" value="置顶"/>
-    </li>
-    {% endfor %}
-</ul>
+    <ul class="list-group">
+                              {% for item in data %}
+                              <li class="list-group-item">
+                              <span class="task-info">[{{item.type}}]  {{item.location}}</span>
+                              <span class="task-reward">[悬赏]{{item.reward}}</span>
+                              <span>{{item.date}}</span>
+                              <input type="button" class="btn btn-primary btn-xs take-task" value="接单"/>
+                              <input type="button" class="btn btn-default btn-xs top-task" value="置顶"/>
+                              </li>
+                              {% endfor %}
+                              </ul>
+
+</div>
 
 <style>
     .take-task {
@@ -149,7 +150,8 @@
     }
 
     .list-group .list-group-item {
-        height: 60px;
+        height: 70px;
+        margin-top: 10px;
     }
 
     .list-group .list-group-item input {
@@ -157,6 +159,10 @@
         right: 10px;
         width: 80px;
         border-radius: 9px;
+    }
+    #main{
+        margin-left: 20px;
+        margin-right: 20px;
     }
 </style>
 
