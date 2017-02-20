@@ -31,13 +31,40 @@
         margin-left: 3%;
         margin-top: 2%;
     }
+    li{
+        margin-top: 10px;
+        height: 50px;
+    }
+    .task{
+        float: left;
+        margin-left: 40px;
+    }
 </style>
 <input id="back" type="button" class="btn btn-link" value="< 返回"/>
 
-<div class="btn-group-vertical" style="display:block">
-    <button type="button" class="btn btn-default" id="unfinishedTasks">未完成任务</button>
-    <button type="button" class="btn btn-default" id="completedTasks">已完成任务</button>
-    <button type="button" class="btn btn-default" id="sentTasks">发布的任务</button>
-    <button type="button" class="btn btn-default" id="myInfo">我的信息</button>
+<div>
+    <ul class="list-group">
+        <li id="unfinishedTasks" class="list-group-item">
+            <span class="pull-left glyphicon glyphicon-asterisk"></span>
+            <span class="task">未完成任务</span>
+            <span class="pull-right glyphicon glyphicon-chevron-right"></span>
+        </li>
+        <li id="completedTasks" class="list-group-item">
+            <span class="pull-left glyphicon glyphicon-ok"></span>
+            <span class="task">已完成任务</span>
+            <span class="pull-right glyphicon glyphicon-chevron-right"></span>
+        </li>
+        <li id="sentTasks" class="list-group-item">
+            <span class="pull-left glyphicon glyphicon-send"></span>
+            <span class="task">发布的任务</span>
+            <span class="pull-right glyphicon glyphicon-chevron-right"></span>
+        </li>
+        <li id="myInfo" class="list-group-item">
+            <span class="pull-left glyphicon glyphicon-user"></span>
+            <span class="task">我的信息</span>
+            <span class="pull-right glyphicon glyphicon-chevron-right"></span>
+        </li>
+    </ul>
 </div>
+
 {% endblock %}
