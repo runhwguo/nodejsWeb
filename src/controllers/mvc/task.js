@@ -4,27 +4,18 @@ let unfinishedTasks = async ctx => {
         {
             "type": "代课",
             "location": "三江楼马克思",
-            "reward": "10"
-        },{
+        },
+        {
             "type": "代课",
             "location": "三江楼马克思",
-            "reward": "10"
-        },{
+        },
+        {
             "type": "代课",
             "location": "三江楼马克思",
-            "reward": "10"
-        },{
-            "type": "代课",
-            "location": "三江楼马克思",
-            "reward": "10"
-        },{
-            "type": "代课",
-            "location": "三江楼马克思",
-            "reward": "10"
         }
     ];
 
-    ctx.render('rest/completedTasks.html', {
+    ctx.render('mvc/unfinishedTasks.html', {
         title: '已完成的任务',
         data: data
     })
@@ -36,19 +27,19 @@ let completedTasks = async ctx => {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
-        },{
+        }, {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
-        },{
+        }, {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
-        },{
+        }, {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
-        },{
+        }, {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
@@ -67,19 +58,19 @@ let sentTasks = async ctx => {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
-        },{
+        }, {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
-        },{
+        }, {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
-        },{
+        }, {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
-        },{
+        }, {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
@@ -98,19 +89,19 @@ let myInfo = async ctx => {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
-        },{
+        }, {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
-        },{
+        }, {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
-        },{
+        }, {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
-        },{
+        }, {
             "type": "代课",
             "location": "三江楼马克思",
             "reward": "10"
