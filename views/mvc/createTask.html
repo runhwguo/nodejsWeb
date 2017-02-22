@@ -1,6 +1,10 @@
 {% extends "./mybase.html" %}
 
 {% block main %}
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/datetimepicker/latest/DateTimePicker.min.css" />
+<script type="text/javascript" src="//cdn.jsdelivr.net/datetimepicker/latest/DateTimePicker.min.js"></script>
+
+
 <script>
     $(() => {
         let form = $("#publishInfo");
@@ -28,6 +32,12 @@
             window.history.back();
         });
         createTask.attr('href', 'javascript:void(0)');
+    });
+    $(document).ready(function()
+    {
+
+        $("#dtBox").DateTimePicker();
+
     });
 </script>
 <style>
@@ -57,10 +67,12 @@
         margin-top: 2%;
     }
 </style>
+
+
 <input id="back" type="button" class="btn btn-link" value="< 返回"/>
 <form id="publishInfo" action="/api/publish" method="post">
     <div class="form-group">
-        <select class="form-control selectpicker">
+        <select class="form-control selectpicker" name="taskType">
             <option>请选择任务类型</option>
             <option>代课</option>
             <option>代取</option>
@@ -79,15 +91,16 @@
     </div>
 
     <div class="form-group">
-        <input type="text" class="form-control" name="name" placeholder="截止时间"/>
+        <input type="text" data-field="datetime" class="form-control" placeholder="截止时间" name="endTime" readonly>
+        <div id="dtBox"></div>
     </div>
 
     <div class="form-group">
-        <input type="text" class="form-control" name="name" placeholder="任务详情"/>
+        <input type="text" class="form-control" name="taskInfo" placeholder="任务详情"/>
     </div>
 
     <div class="form-group">
-        <input type="text" class="form-control" name="name" placeholder="图片补充"/>
+        <input type="file" class="form-control" name="picture" placeholder="图片补充"/>
     </div>
 
     <div class="form-group">
