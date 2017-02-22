@@ -3,13 +3,13 @@
 {% block main %}
 <script>
     $(() => {
-        let myInfoTab = $('#myInfoTab');
+        let me = $('#me');
         let back = $('#back');
         let unfinishedTasks = $('#unfinishedTasks');
         let completedTasks = $('#completedTasks');
         let sentTasks = $('#sentTasks');
         let myInfo = $('#myInfo');
-        myInfoTab.attr('href', 'javascript:void(0)');
+        me.attr('href', 'javascript:void(0)');
         back.click(() => window.history.back());
         unfinishedTasks.click(() => {
             window.location.href = '/unfinishedTasks';
@@ -21,7 +21,7 @@
             window.location.href = '/sentTasks';
         });
         myInfo.click(() => {
-            window.location.href = '/myInfo';
+            window.location.href = '/userInfo';
         });
     });
 </script>

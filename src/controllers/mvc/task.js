@@ -16,7 +16,7 @@ let unfinishedTasks = async ctx => {
     ];
 
     ctx.render('mvc/unfinishedTasks.html', {
-        title: '已完成的任务',
+        title: '未完成任务',
         data: data
     })
 };
@@ -78,7 +78,7 @@ let sentTasks = async ctx => {
     ];
 
     ctx.render('rest/completedTasks.html', {
-        title: '已完成的任务',
+        title: '发布的任务',
         data: data
     })
 };

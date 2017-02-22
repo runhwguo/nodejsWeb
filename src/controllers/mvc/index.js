@@ -24,17 +24,18 @@ let home = async ctx => {
     })
 };
 
-let myInfo = async ctx => {
-
+let me = async ctx => {
     ctx.render('mvc/myInfo.html', {
         title: '我的信息'
     })
 };
 
 let createTask = async ctx => {
-
+    let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
+    let user = await cookie2user(schoolResourceShareCookie);
     ctx.render('mvc/createTask.html', {
-        title: '发布任务'
+        title: '发布任务',
+        user: user
     })
 };
 
@@ -56,7 +57,7 @@ let userInfo = async ctx => {
 
 module.exports = {
     'GET /': home,
-    'GET /myInfo': myInfo,
+    'GET /me': me,
     'GET /createTask': createTask,
     'GET /login': login,
     "GET /userInfo": userInfo

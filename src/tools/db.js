@@ -52,27 +52,27 @@ function defineModel(name, attributes) {
         allowNull: false
     };
     console.log('model defined for table: ' + name + '\n' + JSON.stringify(attrs, function (k, v) {
-        if (k === 'type') {
-            for (let key in Sequelize) {
-                if (key === 'ABSTRACT' || key === 'NUMBER') {
-                    continue;
-                }
-                let dbType = Sequelize[key];
-                if (typeof dbType === 'function') {
-                    if (v instanceof dbType) {
-                        if (v._length) {
-                            return `${dbType.key}(${v._length})`;
-                        }
-                        return dbType.key;
+            if (k === 'type') {
+                for (let key in Sequelize) {
+                    if (key === 'ABSTRACT' || key === 'NUMBER') {
+                        continue;
                     }
-                    if (v === dbType) {
-                        return dbType.key;
+                    let dbType = Sequelize[key];
+                    if (typeof dbType === 'function') {
+                        if (v instanceof dbType) {
+                            if (v._length) {
+                                return `${dbType.key}(${v._length})`;
+                            }
+                            return dbType.key;
+                        }
+                        if (v === dbType) {
+                            return dbType.key;
+                        }
                     }
                 }
             }
-        }
-        return v;
-    }, '  '));
+            return v;
+        }, '  '));
     return sequelize.define(name, attrs, {
         tableName: name,
         timestamps: false,
@@ -97,14 +97,14 @@ function defineModel(name, attributes) {
     });
 }
 
-const TYPES = ['STRING', 'INTEGER', 'BIGINT', 'TEXT', 'DOUBLE', 'DATEONLY', 'BOOLEAN'];
+const TYPES = ['STRING', 'INTEGER', 'BIGINT', 'TEXT', 'DOUBLE', 'DATEONLY', 'BOOLEAN', 'BLOB', 'TEXT'];
 
 let exp = {
     defineModel: defineModel,
     sync: () => {
         // only allow create ddl in non-production environment:
         if (process.env.NODE_ENV !== 'production') {
-            return sequelize.sync({ force: true });
+            return sequelize.sync({force: true});
         } else {
             throw new Error('Cannot sync() when NODE_ENV is set to \'production\'.');
         }

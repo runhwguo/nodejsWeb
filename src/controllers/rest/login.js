@@ -12,7 +12,10 @@ charset(superagent);
 let login = async ctx => {
     let schoolResourceShareCookie = ctx.cookies.get(config.session.cookieName);
     let user = null;
-    if (!schoolResourceShareCookie) {
+    if (schoolResourceShareCookie) {
+        user = await cookie.cookie2user(schoolResourceShareCookie);
+    }
+    if (!user) {
         const UJS_MAIN_URL = 'http://my.ujs.edu.cn/';
         const CHAR_SET = 'utf-8';
         let username = ctx.request.body.id;
@@ -34,32 +37,38 @@ let login = async ctx => {
 // jinapdf ocr
         const JINA_OCR_INDEX_URL = 'http://www.jinapdf.com/cn/image-to-text-file.php';
         // const downloadUrl = 'http://www.jinapdf.com/download.php?file=/home/clients/client0/web13/web/uploads/17704707721770470772/converted_1770470772.txt';
-        let response = await superagent.get(captchaGenerateUrl);
+        let response = await
+            superagent.get(captchaGenerateUrl);
         if (response.ok) {
             console.log('验证码图片获取成功');
             let cookie = response.header['set-cookie'][0].split(';')[0];
             fs.writeFileSync(verificationCodePicture, response.body, 'binary');
 
-            response = await superagent
-                .post(JINA_OCR_INDEX_URL)
-                .attach('picture', verificationCodePicture);
+            response = await
+                superagent
+                    .post(JINA_OCR_INDEX_URL)
+                    .attach('picture', verificationCodePicture);
 
             if (response.ok) {
                 let $ = cheerio.load(response.text);
                 let downloadUrl = 'http://www.jinapdf.com' + $('#downloadfile').find('.download-file').attr('href').split('..')[1];
 
-                response = await superagent.get(downloadUrl).buffer();
+                response = await
+                    superagent.get(downloadUrl).buffer();
                 verificationCode = response.body.toString();
                 verificationCode = verificationCode.replace(/\s+/g, '').replace(/[>?]/g, '7');
                 console.log('jinapdf识别出来的验证码是：' + verificationCode + ', len = ' + verificationCode.length);
                 let isSuccessful = false;
                 if (verificationCodeReg.test(verificationCode)) { // 如果jinapdf识别的不是四位数，再让baidu去识别
-                    let iPlanetDirectoryProCookie = await login();
-                    isSuccessful = await getUserInfo(iPlanetDirectoryProCookie);
+                    let iPlanetDirectoryProCookie = await
+                        login();
+                    isSuccessful = await
+                        getUserInfo(iPlanetDirectoryProCookie);
                 }
                 if (!isSuccessful) {
                     console.log('jinapdf识别出来有误, 让baidu识别');
-                    await baiduGetVerificationCode();
+                    await
+                        baiduGetVerificationCode();
                 }
             } else {
                 console.log('往jinapdf上传图片失败');
@@ -168,8 +177,6 @@ let login = async ctx => {
         if (user) {
             ctx.cookies.set(config.session.cookieName, cookie.user2cookie(username, password));
         }
-    } else {
-        user = await cookie.cookie2user(schoolResourceShareCookie);
     }
     ctx.rest({
         user: user.dataValues
