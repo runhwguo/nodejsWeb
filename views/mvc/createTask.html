@@ -3,7 +3,7 @@
 {% block main %}
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/datetimepicker/latest/DateTimePicker.min.css" />
 <script type="text/javascript" src="//cdn.jsdelivr.net/datetimepicker/latest/DateTimePicker.min.js"></script>
-
+<script type="text/javascript" src="/static/js/DatetimePicker-i18n-zh-CN.js"></script>
 
 <script>
     $(() => {
@@ -36,7 +36,7 @@
     $(document).ready(function()
     {
 
-        $("#dtBox").DateTimePicker();
+        $("#dtBox").DateTimePicker({"language": "zh-CN"});
 
     });
 </script>
