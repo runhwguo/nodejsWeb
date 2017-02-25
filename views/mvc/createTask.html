@@ -1,9 +1,6 @@
 {% extends "./mybase.html" %}
 
 {% block main %}
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/datetimepicker/latest/DateTimePicker.min.css"/>
-<script type="text/javascript" src="//cdn.jsdelivr.net/datetimepicker/latest/DateTimePicker.min.js"></script>
-<script type="text/javascript" src="/static/js/DatetimePicker-i18n-zh-CN.js"></script>
 <script src="/static/js/vue.js"></script>
 
 <script>
@@ -14,10 +11,14 @@
         form.submit(e => {
             e.preventDefault();
             if (submitCheck()) {
+                let formData = new FormData(form[0]);
                 $.ajax({
                     type: form.attr('method'),
                     url: form.attr('action'),
-                    data: form.serialize(),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
                     success: data => {
                         window.location.href = '/userInfo';
                     },
@@ -32,7 +33,6 @@
             window.history.back();
         });
         createTask.attr('href', 'javascript:void(0)');
-        $("#dtBox").DateTimePicker({"language": "zh-CN"});
 
         function submitCheck() {
             let taskType = $('#taskType');
@@ -70,14 +70,15 @@
         margin-left: 3%;
         margin-top: 2%;
     }
-    #datetime{
+
+    #datetime {
         margin-bottom: 15px;
     }
 </style>
 
 
 <input id="back" type="button" class="btn btn-link" value="< 返回"/>
-<form id="publishInfo" action="/api/publish" method="post">
+<form id="publishInfo" action="/api/publish" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <select class="form-control selectpicker" id="taskType" name="taskType">
             <option disabled selected>请选择任务类型</option>
@@ -107,7 +108,7 @@
     </div>
 
     <div class="form-group">
-        <input type="file" class="form-control" id="picture" name="picture" placeholder="图片补充"/>
+        <input type="file" class="form-control" id="file" name="file" placeholder="图片补充"/>
     </div>
 
     <div class="form-group">
@@ -123,8 +124,8 @@
 <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
 <script>
 
-Vue.component('datetime-picker',{
-    template: `
+    Vue.component('datetime-picker', {
+        template: `
         <div class="block">
             <el-date-picker
             v-model="selectDatetime"
@@ -133,20 +134,20 @@ Vue.component('datetime-picker',{
             </el-date-picker>
         </div>
         `,
-    data(){
-        return {
-            selectDatetime: "",
+        data(){
+            return {
+                selectDatetime: "",
+            }
         }
-    }
-})
+    })
 
-let vm = new Vue({
-    //delimiters: ["${","}"],
-    el: "#datetime"
-})
+    let vm = new Vue({
+        //delimiters: ["${","}"],
+        el: "#datetime"
+    })
 </script>
 <style>
-    .el-date-editor.el-input{
+    .el-date-editor.el-input {
         width: 100%
     }
 </style>

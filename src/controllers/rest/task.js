@@ -1,7 +1,10 @@
 import tracer from 'tracer';
+import appRootDir from 'app-root-dir';
+import path from 'path';
 import {Task as Task}  from '../../tools/model';
-import {cookie2user as cookie2user} from '../../tools/cookie';
+import {cookie2user} from '../../tools/cookie';
 import {session as session} from '../../tools/config';
+import {uploadFile} from '../../tools/upload';
 
 let logger = tracer.console();
 
@@ -19,8 +22,22 @@ let publish = async ctx => {
     let tel = ctx.request.body.tel;
     let deadline = ctx.request.body.deadline;
     let detail = ctx.request.body.detail;
-    let picture = ctx.request.body.picture;
     let reward = ctx.request.body.reward;
+
+    let serverFilePath = path.join(appRootDir.get(), 'upload_files');
+
+    // 上传文件事件
+    let getRandomInt = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    };
+    let firstDir = getRandomInt(0, 9);
+    let secondDir = getRandomInt(0, 9);
+    let result = await uploadFile(ctx, {
+        fileType: 'album/' + firstDir + '/' + secondDir,
+        path: serverFilePath
+    });
+    let picture = result.filename;
+
     logger.info(userId);
     logger.info(type);
     logger.info(name);

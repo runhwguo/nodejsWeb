@@ -1,5 +1,6 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
+import logger from 'koa-logger';
 import controller from './tools/controller';
 import templating from './tools/templating';
 import rest from './tools/rest';
@@ -10,14 +11,7 @@ const app = new Koa();
 
 const isProduction = process.env.NODE_ENV === 'production';
 // 打印url和请求时间 middleware
-app.use(async (ctx, next) => {
-    // log request URL
-    // console.log(`${ctx.request.method} ${ctx.url}`);
-    let start = new Date().getTime();
-    await next(); // 调用下一个middleware
-    const ms = new Date().getTime() - start; // 耗费时间
-    // console.log(`${ms}ms`);
-});
+app.use(logger());
 
 app.use(async (ctx, next) => {
     let reqPath = ctx.request.path;
@@ -61,5 +55,5 @@ app.use(rest.restify());
 
 // 处理URL路由
 app.use(controller());
-app.listen(3000);
-console.log('app started at port 3000...');
+app.listen(8080);
+console.log('app started at port 8080...');
