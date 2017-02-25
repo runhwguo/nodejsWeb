@@ -127,7 +127,7 @@ Vue.component('datetime-picker',{
     template: `
         <div class="block">
             <el-date-picker
-            v-model="value1"
+            v-model="selectDatetime"
             type="datetime"
             placeholder="选择日期时间">
             </el-date-picker>
@@ -135,17 +135,19 @@ Vue.component('datetime-picker',{
         `,
     data(){
         return {
-            value1: "",
+            selectDatetime: "",
         }
     }
 })
 
 let vm = new Vue({
     //delimiters: ["${","}"],
-    el: "#datetime",
-    data: {
-        value1: ""
-    }
+    el: "#datetime"
 })
 </script>
+<style>
+    .el-date-editor.el-input{
+        width: 100%
+    }
+</style>
 {% endblock %}
