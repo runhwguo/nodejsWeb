@@ -163,17 +163,22 @@ let submit = new Vue({
     el: "#submit",
     methods: {
         submitTask: function(){
-            let data = [uname, utel, ureward, udetail, udatetime, utasks];
-            $.post( "/api/publish", function(data) {
-                $(".result").html(data);
-            })
-            .done(function(){
-                console.log(data)
-                console.log("success")
-            })
-            .fail(function(){
-                console.log(data)
-                console.log("error")
+            //let data = [uname, utel, ureward, udetail, udatetime, utasks];
+            let data = {"name":"lol"}
+            $.ajax({
+                url: "/api/publish", 
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(){
+                    console.log(data)
+                    console.log("success")
+                },
+                error: function(){
+                    console.log(data)
+                    console.log("error")
+                }
             })
         }
     }
