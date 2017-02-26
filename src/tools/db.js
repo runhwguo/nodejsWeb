@@ -16,6 +16,9 @@ let sequelize = new Sequelize(config.db.database, config.db.username, config.db.
         max: 5,
         min: 0,
         idle: 10000
+    },
+    dialectOptions: {
+        charset: 'utf8'
     }
 });
 

@@ -3,7 +3,7 @@
 # npm install
 node_modules
 
-# ide/os config file
+# ide/os's config files
 .idea
 *.DS_Store
 
@@ -11,7 +11,7 @@ node_modules
 log
 logs
 *.log
-
+# some test/produce files
 my-config.js
 upload_files
 out.png
