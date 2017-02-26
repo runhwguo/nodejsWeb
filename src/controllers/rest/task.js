@@ -10,6 +10,7 @@ let completedTasks = async ctx => {
 };
 
 let publish = async ctx => {
+    logger.info(ctx.request.body);
     let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
     let user = await cookie2user(schoolResourceShareCookie);
 

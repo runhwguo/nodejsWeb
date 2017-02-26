@@ -6,46 +6,7 @@
 <script type="text/javascript" src="/static/js/DatetimePicker-i18n-zh-CN.js"></script>
 <script src="/static/js/vue.js"></script>
 
-<script>
-    $(() => {
-        let form = $("#publishInfo"),
-            back = $('#back'),
-            createTask = $('#createTaskTab');
-        form.submit(e => {
-            e.preventDefault();
-            if (submitCheck()) {
-                $.ajax({
-                    type: form.attr('method'),
-                    url: form.attr('action'),
-                    data: form.serialize(),
-                    success: data => {
-                        window.location.href = '/userInfo';
-                    },
-                    error: data => {
-                        alert('error -> ' + data);
-                    }
-                });
-
-            }
-        });
-        back.click(() => {
-            window.history.back();
-        });
-        createTask.attr('href', 'javascript:void(0)');
-        $("#dtBox").DateTimePicker({"language": "zh-CN"});
-
-        function submitCheck() {
-            let taskType = $('#taskType');
-            if (!taskType.val()) {
-                alert('请选择任务类型');
-                return false;
-            }
-            return true;
-        }
-    });
-</script>
 <style>
-
     label {
         float: left;
         margin-top: 8px;
@@ -125,7 +86,7 @@
     </div>
 
     <div id="submit">
-        <el-button type="primary">发布</el-button>
+        <el-button type="primary" v-on:click="submitTask">发布</el-button>
     </div>
 </form>
 
@@ -199,7 +160,23 @@ let userReward = new Vue({
 })
 
 let submit = new Vue({
-    el: "#submit"
+    el: "#submit",
+    methods: {
+        submitTask: function(){
+            let data = [uname, utel, ureward, udetail, udatetime, utasks];
+            $.post( "/api/publish", function(data) {
+                $(".result").html(data);
+            })
+            .done(function(){
+                console.log(data)
+                console.log("success")
+            })
+            .fail(function(){
+                console.log(data)
+                console.log("error")
+            })
+        }
+    }
 })
 
 </script>
