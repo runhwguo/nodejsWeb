@@ -78,76 +78,132 @@
 
 <input id="back" type="button" class="btn btn-link" value="< 返回"/>
 <form id="publishInfo" action="/api/publish" method="post">
-    <div class="form-group">
-        <select class="form-control selectpicker" id="taskType" name="taskType">
-            <option disabled selected>请选择任务类型</option>
-            <option value="substituteClass">代课</option>
-            <option value="substituteFetch">代取</option>
-            <option value="freeRide">顺风车</option>
-            <option value="borrowSomething">借东西</option>
-        </select>
+
+    <div id="userTask">
+        <el-select v-model="value" placeholder="请选择" class="input">
+            <el-option
+            v-for="item in options"
+            :label="item.label"
+            :value="item.value">
+            </el-option>
+        </el-select>
     </div>
 
-    <div class="form-group">
-        <input type="text" class="form-control" name="name" id="name" value="{{user.name}}" placeholder="姓名" required>
+    <div id="userName">
+        <el-input v-model="name" placeholder="请输入用户名" class="input"></el-input>
     </div>
 
-
-    <div class="form-group">
-        <input type="text" class="form-control" id="tel" name="tel" value="{{user.tel}}" placeholder="电话号码" required>
+    <div id="userTel">
+        <el-input v-model="tel" placeholder="输入手机号码" class="input"></el-input>
     </div>
 
     <div id="datetime">
-        <datetime-picker></datetime-picker>
+        <el-date-picker v-model="deadline" type="datetime" placeholder="选择日期时间"></el-date-picker>
     </div>
 
-    <div class="form-group">
-        <textarea class="form-control" rows="5" id="detail" cols="10" name="detail"
-                  placeholder="请详细说明任务详情，比如地点时间，不然接任务人就一脸懵逼了~" required></textarea>
+    <div id="userDetail">
+        <el-input v-model="detail" type="textarea" :rows="5" class="input"
+            placeholder="请详细说明任务详情，比如地点时间，不然接任务人就一脸懵逼了~">
+        </el-input>
     </div>
 
     <div class="form-group">
         <input type="file" class="form-control" id="picture" name="picture" placeholder="图片补充"/>
     </div>
 
-    <div class="form-group">
-        <input type="text" class="form-control" id="reward" name="reward" placeholder="报酬(元)" required/>
+    <!--div id="userPic">
+        <el-upload
+            class="input"
+            action="//jsonplaceholder.typicode.com/posts/">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>
+    </div-->
+
+    <div id="userReward">
+        <el-input v-model="reward" placeholder="报酬(元)" class="input"></el-input>
     </div>
 
     <input id="login" type="submit" class="btn btn-primary" value="发布"/>
 </form>
-<datetime-picker></datetime-picker>
 
 
 <script src="https://unpkg.com/element-ui@1.2.1/lib/index.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
 <script>
 
-Vue.component('datetime-picker',{
-    template: `
-        <div class="block">
-            <el-date-picker
-            v-model="selectDatetime"
-            type="datetime"
-            placeholder="选择日期时间">
-            </el-date-picker>
-        </div>
-        `,
+let uname = {name: "{{user.name}}"},
+    utel = {tel: "{{user.tel}}"},
+    ureward = {reward: ""},
+    udetail = {detail: ""},
+    udatetime = {deadline: ""}
+    utasks = {options: [
+        {value: "substituteClass", label: "代课"},
+        {value: "substituteFetch", label: "代取"},
+        {value: "freeRide", label: "顺风车"},
+        {value: "borrowSomething", label: "借东西"}
+    ], value: ""}
+
+let dt = new Vue({
+    //delimiters: ["${","}"],
+    el: "#datetime",
     data(){
-        return {
-            selectDatetime: "",
-        }
+        return udatetime
     }
 })
 
-let vm = new Vue({
-    //delimiters: ["${","}"],
-    el: "#datetime"
+let userTask = new Vue({
+    el: "#userTask",
+    options: ["value"],
+    data(){
+        return utasks
+    }
 })
+
+let userName = new Vue({
+    el: "#userName",
+    data(){
+        return uname
+    }
+})
+
+let userTel = new Vue({
+    el: "#userTel",
+    data(){
+        return utel
+    }
+})
+
+let userDetail = new Vue({
+    el: "#userDetail",
+    data(){
+        return udetail
+    }
+})
+
+let userPic = new Vue({
+    el: "#userPic",
+    data(){
+        return {}
+    }
+})
+
+let userReward = new Vue({
+    el: "#userReward",
+    data(){
+        return ureward
+    }
+})
+
 </script>
 <style>
     .el-date-editor.el-input{
         width: 100%
+    }
+    .input{
+        width: 70%;
+        margin-left: 15%;
+        margin-bottom: 20px;
     }
 </style>
 {% endblock %}
