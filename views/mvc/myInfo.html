@@ -3,26 +3,10 @@
 {% block main %}
 <script>
     $(() => {
-        let me = $('#me');
-        let back = $('#back');
-        let unfinishedTasks = $('#unfinishedTasks');
-        let completedTasks = $('#completedTasks');
-        let sentTasks = $('#sentTasks');
-        let myInfo = $('#myInfo');
+        let me = $('#me'),
+            back = $('#back');
         me.attr('href', 'javascript:void(0)');
         back.click(() => window.history.back());
-        unfinishedTasks.click(() => {
-            window.location.href = '/unfinishedTasks';
-        });
-        completedTasks.click(() => {
-            window.location.href = '/completedTasks';
-        });
-        sentTasks.click(() => {
-            window.location.href = '/sentTasks';
-        });
-        myInfo.click(() => {
-            window.location.href = '/userInfo';
-        });
     });
 </script>
 <style>
@@ -36,22 +20,12 @@
         margin-top: 2%;
     }
 
-    li {
-        margin-top: 10px;
-        height: 50px;
-    }
-
     .task {
-        float: left;
         margin-left: 40px;
     }
 
     #userImg {
         text-align: center;
-    }
-
-    .bottomNav ul {
-        margin-bottom: 0px;
     }
 </style>
 <input id="back" type="button" class="btn btn-link" value="< 返回"/>
@@ -61,29 +35,27 @@
     <p>小明</p>
 </div>
 
-<div id="main">
-    <ul class="list-group">
-        <li id="unfinishedTasks" class="list-group-item" style="text-align:center;">
-            <span class="pull-left glyphicon glyphicon-asterisk"></span>
-            <span class="task">未完成任务</span>
-            <span class="pull-right glyphicon glyphicon-chevron-right"></span>
-        </li>
-        <li id="completedTasks" class="list-group-item">
-            <span class="pull-left glyphicon glyphicon-ok"></span>
-            <span class="task">已完成任务</span>
-            <span class="pull-right glyphicon glyphicon-chevron-right"></span>
-        </li>
-        <li id="sentTasks" class="list-group-item">
-            <span class="pull-left glyphicon glyphicon-send"></span>
-            <span class="task">发布的任务</span>
-            <span class="pull-right glyphicon glyphicon-chevron-right"></span>
-        </li>
-        <li id="myInfo" class="list-group-item">
-            <span class="pull-left glyphicon glyphicon-user"></span>
-            <span class="task">我的信息</span>
-            <span class="pull-right glyphicon glyphicon-chevron-right"></span>
-        </li>
-    </ul>
+<div id="main" class="list-group">
+    <a id="unfinishedTasks" class="list-group-item" href="/unfinishedTasks">
+        <span class="pull-left glyphicon glyphicon-asterisk"></span>
+        <span class="task">未完成任务<span class="badge">3</span></span>
+        <span class="pull-right glyphicon glyphicon-chevron-right"></span>
+    </a>
+    <a id="completedTasks" class="list-group-item" href="/completedTasks">
+        <span class="pull-left glyphicon glyphicon-ok"></span>
+        <span class="task">已完成任务</span>
+        <span class="pull-right glyphicon glyphicon-chevron-right"></span>
+    </a>
+    <a id="sentTasks" class="list-group-item" href="/sentTasks">
+        <span class="pull-left glyphicon glyphicon-send"></span>
+        <span class="task">发布的任务</span>
+        <span class="pull-right glyphicon glyphicon-chevron-right"></span>
+    </a>
+    <a id="myInfo" class="list-group-item" href="/myInfo">
+        <span class="pull-left glyphicon glyphicon-user"></span>
+        <span class="task">我的信息</span>
+        <span class="pull-right glyphicon glyphicon-chevron-right"></span>
+    </a>
 </div>
 
 {% endblock %}

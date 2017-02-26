@@ -1,4 +1,4 @@
-{% extends "./mybase.html" %}
+{% extends "./myBase.html" %}
 
 {% block main %}
 <script src="/static/js/vue.js"></script>
@@ -26,7 +26,7 @@
                         reward: $('#reward').val()
                     },
                     dataType: "json",
-                    success: function (data) {
+                    success: (data) => {
                         console.log(data);
                     }
                 });
@@ -34,11 +34,6 @@
             return false;
         });
 
-        form.ajaxForm({
-            beforeSubmit: ShowRequest,
-            success: SubmitSuccesful,
-            error: AjaxError
-        });
         back.click(() => {
             window.history.back();
         });
@@ -47,14 +42,10 @@
         function submitCheck() {
             let taskType = $('#taskType');
             if (!taskType.val()) {
-                alert('请选择任务类型');
+                alert('请选择任务类型');// 这里可以用可关闭的警示框 TODO
                 return false;
             }
             return true;
-        }
-
-        function submit() {
-
         }
     });
 </script>

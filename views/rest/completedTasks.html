@@ -19,35 +19,28 @@
         margin-left: 20px;
         margin-right: 20px;
     }
-
-    li {
-        margin-top: 10px;
-        height: 50px;
-    }
 </style>
 <input id="back" type="button" class="btn btn-link" value="< 返回"/>
-<div class="list">
-    {% for item in data %}
-    <ul class="list-group">
-        <li class="list-group-item">
-            <span>[{{item.type}}]</span>
-            <span>{{item.location}}</span>
-            <span>{{item.reward}}元</span>
-            <span class="pull-right glyphicon glyphicon-chevron-right"></span>
-        </li>
-    </ul>
-    {% endfor %}
-    <center>
-        <ul class="pagination">
-            <li><a href="#">&laquo;</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&raquo;</a></li>
-        </ul>
-    </center>
+{% for item in data %}
+<div class="list-group list">
+    <a class="list-group-item">
+        <span>[{{item.type}}]</span>
+        <span>{{item.location}}</span>
+        <span>{{item.reward}}元</span>
+        <span class="pull-right glyphicon glyphicon-chevron-right"></span>
+    </a>
 </div>
+{% endfor %}
+<center>
+    <ul class="pagination">
+        <li><a href="#">&laquo;</a></li>
+        <li class="active"><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">&raquo;</a></li>
+    </ul>
+</center>
 
 {% endblock %}

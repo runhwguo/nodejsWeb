@@ -1,10 +1,10 @@
-{% extends './mybase.html' %}
+{% extends './myBase.html' %}
 
 {% block main %}
 <script>
     $(() => {
-        let back = $('#back');
-        let form = $("#userInfo");
+        let back = $('#back'),
+            form = $("#userInfo");
         back.click(() => {
             window.history.back();
         });
@@ -14,10 +14,7 @@
                 url: form.attr('action'),
                 data: form.serialize(), // serializes the form's elements.
                 success: data => {
-                    if (data.user.name) {
-                        console.log(data.user.name);
-                        window.location.href = '/';
-                    }
+                    window.location.href = '/';
                 },
                 error: data => {
                     alert('error -> ' + data);
