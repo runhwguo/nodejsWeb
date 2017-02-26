@@ -124,7 +124,9 @@
         <el-input v-model="reward" placeholder="报酬(元)" class="input"></el-input>
     </div>
 
-    <input id="login" type="submit" class="btn btn-primary" value="发布"/>
+    <div id="submit">
+        <el-button type="primary">发布</el-button>
+    </div>
 </form>
 
 
@@ -136,7 +138,7 @@ let uname = {name: "{{user.name}}"},
     utel = {tel: "{{user.tel}}"},
     ureward = {reward: ""},
     udetail = {detail: ""},
-    udatetime = {deadline: ""}
+    udatetime = {deadline: ""},
     utasks = {options: [
         {value: "substituteClass", label: "代课"},
         {value: "substituteFetch", label: "代取"},
@@ -154,7 +156,6 @@ let dt = new Vue({
 
 let userTask = new Vue({
     el: "#userTask",
-    options: ["value"],
     data(){
         return utasks
     }
@@ -181,18 +182,24 @@ let userDetail = new Vue({
     }
 })
 
+/*
 let userPic = new Vue({
     el: "#userPic",
     data(){
         return {}
     }
 })
+*/
 
 let userReward = new Vue({
     el: "#userReward",
     data(){
         return ureward
     }
+})
+
+let submit = new Vue({
+    el: "#submit"
 })
 
 </script>
@@ -204,6 +211,9 @@ let userReward = new Vue({
         width: 70%;
         margin-left: 15%;
         margin-bottom: 20px;
+    }
+    #submit{
+        text-align: center
     }
 </style>
 {% endblock %}
