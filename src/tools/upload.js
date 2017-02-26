@@ -1,19 +1,18 @@
-const inspect = require('util').inspect
-const path = require('path')
-const os = require('os')
-const fs = require('fs')
-const Busboy = require('busboy')
+import path from 'path';
+import fs from'fs';
+import Busboy from 'busboy';
+import {inspect} from 'util';
 
 /**
  * 同步创建文件目录
  * @param  {string} dirname 目录绝对地址
  * @return {boolean}        创建目录结果
  */
-let mkdirsSync = dirname => {
+let mkDirsSync = dirname => {
     if (fs.existsSync(dirname)) {
         return true;
     } else {
-        if (mkdirsSync(path.dirname(dirname))) {
+        if (mkDirsSync(path.dirname(dirname))) {
             fs.mkdirSync(dirname);
             return true;
         }
@@ -36,25 +35,28 @@ let getSuffixName = fileName => {
  * @param  {object} options 文件上传参数 fileType文件类型， path文件存放路径
  * @return {Promise}
  */
-let uploadFile = async (ctx, options) => {
+let uploadFile = async(ctx, options) => {
     let req = ctx.req;
     let busboy = new Busboy({headers: req.headers});
 
     // 获取类型
     let fileType = options.fileType || 'common';
     let filePath = path.join(options.path, fileType);
-    if (!mkdirsSync(filePath)) {
+    if (!mkDirsSync(filePath)) {
         console.log('创建文件目录失败');
     }
 
+
     return new Promise((resolve, reject) => {
         console.log('文件上传中...');
+        console.dir(req.headers['content-type']);
         let result = {
             success: false
         };
 
         // 解析请求文件事件
         busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+                console.log('file...');
                 let fileName = Date.now().toString(16) + '.' + getSuffixName(filename);
                 let _uploadFilePath = path.join(filePath, fileName);
                 let saveTo = path.join(_uploadFilePath);
@@ -64,8 +66,6 @@ let uploadFile = async (ctx, options) => {
 
                 // 文件写入事件结束
                 file.on('end', () => {
-                    result.success = true;
-                    result.message = '文件上传成功';
                     result.filename = filePath + '/' + fileName;
 
                     console.log('文件上传成功！');
@@ -73,6 +73,10 @@ let uploadFile = async (ctx, options) => {
                 })
             }
         );
+
+        busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+            result[fieldname] = val;
+        });
 
         // 解析结束事件
         busboy.on('finish', () => {

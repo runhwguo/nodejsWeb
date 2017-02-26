@@ -17,15 +17,8 @@ let publish = async ctx => {
     let user = await cookie2user(schoolResourceShareCookie);
 
     let userId = user.id;
-    let type = ctx.request.body.taskType;
-    let name = ctx.request.body.name;
-    let tel = ctx.request.body.tel;
-    let deadline = ctx.request.body.deadline;
-    let detail = ctx.request.body.detail;
-    let reward = ctx.request.body.reward;
 
     let serverFilePath = path.join(appRootDir.get(), 'upload_files');
-
     // 上传文件事件
     let getRandomInt = (min, max) => {
         return Math.floor(Math.random() * (max - min + 1) + min);
@@ -36,27 +29,11 @@ let publish = async ctx => {
         fileType: 'album/' + firstDir + '/' + secondDir,
         path: serverFilePath
     });
-    let picture = result.filename;
+    result['userId'] = userId;
+    result['deadline'] = new Date(result['deadline']).getTime();
+    console.info(result);
 
-    logger.info(userId);
-    logger.info(type);
-    logger.info(name);
-    logger.info(tel);
-    logger.info(deadline);
-    logger.info(detail);
-    logger.info(picture);
-    logger.info(reward);
-
-    await Task.create({
-        userId: userId,
-        type: type,
-        name: name,
-        tel: tel,
-        deadline: deadline,
-        detail: detail,
-        picture: picture,
-        reward: reward
-    });
+    await Task.create(result);
 };
 
 

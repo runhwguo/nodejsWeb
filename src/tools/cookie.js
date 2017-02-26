@@ -14,7 +14,7 @@ async function cookie2user(cookie) {
                 let user = await User.findById(id);
                 if (user) {
                     if (sha1Str === sha1(`${user.id}-${user.password}-${expires}-${config.session.cookieName}`)) {
-                        return user;
+                        return user.dataValues;
                     }
                 }
             }
