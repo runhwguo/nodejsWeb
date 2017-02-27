@@ -66,6 +66,7 @@ let uploadFile = async(ctx, options) => {
 
                 // 文件写入事件结束
                 file.on('end', () => {
+                    result.success = true;
                     result.filename = filePath + '/' + fileName;
 
                     console.log('文件上传成功！');

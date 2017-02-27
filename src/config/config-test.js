@@ -10,6 +10,7 @@ let config = {
     },
     session: {
         cookieName: 'schoolResourceShare',
+        ujsCookieName: 'JSESSIONID',
         cookieKey: 'fuckQ',
         maxAge: 86400//一天
     }
