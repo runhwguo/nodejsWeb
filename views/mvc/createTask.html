@@ -84,7 +84,7 @@
 
 <input id="back" type="button" class="btn btn-link" value="< 返回"/>
 <form id="publishInfo" action="/api/publish" method="post" enctype="multipart/form-data">
-    <div class="form-group">
+    <!--div class="form-group">
         <select class="form-control selectpicker" id="taskType" name="taskType">
             <option disabled selected>请选择任务类型</option>
             <option value="substituteClass">代课</option>
@@ -92,7 +92,17 @@
             <option value="freeRide">顺风车</option>
             <option value="borrowSomething">借东西</option>
         </select>
-    </div>
+    </div-->
+
+  <div id="pickTask">
+        <el-select id="taskType" v-model="value" name="taskType" placeholder="请选择">
+            <el-option
+            v-for="task in tasks"
+            :label="task.label"
+            :value="task.value">
+            </el-option>
+        </el-select>
+  </div>
 
     <div class="form-group">
         <input type="text" class="form-control" name="name" id="name" value="{{user.name}}" placeholder="姓名" required>
@@ -111,7 +121,7 @@
             v-model="pickerValue"
             @confirm="handleChange">
         </mt-datetime-picker>
-        <input type="hidden" name="deadline" :value="pickerValue | formatDate" />
+        <input id="deadline" type="hidden" name="deadline" :value="pickerValue | formatDate" />
     </div>
 
     <div class="form-group">
@@ -134,37 +144,48 @@
 
 <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script>
-
-
-
-    let vm = new Vue({
-        //delimiters: ["${","}"],
-        el: "#datetime",
-        data: {
-            pickerValue: new Date()
+let dt = new Vue({
+    //delimiters: ["${","}"],
+    el: "#datetime",
+    data: {
+        pickerValue: new Date()
+    },
+    methods: {
+        open(picker) {
+            this.$refs[picker].open();
         },
-        methods: {
-            open(picker) {
-                this.$refs[picker].open();
-            },
-            handleChange(value) {
-                this.now = value
-                console.log(value)
-            }
-        },
-        filters: {
-            formatDate: function(date){
-                date = new Date(date)
-                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
-            }
-        },
-        computed: {
+        handleChange(value) {
+            this.now = value
+            console.log(value)
         }
-    });
+    },
+    filters: {
+        formatDate: function(date){
+            date = new Date(date)
+            return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
+        }
+    },
+    computed: {
+    }
+});
 
-    $("#datetime input").attr("name", "deadline");
-    $("#datetime input").attr("id", "deadline");
+let pt = new Vue({
+    el: "#pickTask",
+    data(){
+        return{
+            tasks: [
+                {value: "substituteClass", label: "代课"},
+                {value: "substituteFetch", label: "代取"},
+                {value: "freeRide", label: "顺风车"},
+                {value: "borrowSomething", label: "借东西"}
+            ],
+            value: ''
+        }
+    }
+})
 </script>
 <style>
     .el-date-editor.el-input {
@@ -173,6 +194,14 @@
     .border{
         border: 1px solid #ccc;
         border-radius: 4px;
+    }
+    #pickTask{
+        width: 70%;
+        margin-left: 15%;
+        margin-bottom: 15px;
+    }
+    #taskType{
+        display: inline
     }
 </style>
 {% endblock %}
