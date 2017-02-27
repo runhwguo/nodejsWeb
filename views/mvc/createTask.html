@@ -103,8 +103,15 @@
         <input type="text" class="form-control" id="tel" name="tel" value="{{user.tel}}" placeholder="电话号码" required>
     </div>
 
-    <div id="datetime">
-        <datetime-picker></datetime-picker>
+    <div id="datetime" class="border">
+        <mt-field  @click.native="open('picker')" placeholder="截止时间" :value="pickerValue | formatDate"></mt-field>
+        <mt-datetime-picker
+            ref="picker"
+            type="datetime"
+            v-model="pickerValue"
+            @confirm="handleChange">
+        </mt-datetime-picker>
+        <input type="hidden" name="deadline" :value="pickerValue | formatDate" />
     </div>
 
     <div class="form-group">
@@ -124,30 +131,36 @@
 </form>
 
 
-<script src="https://unpkg.com/element-ui@1.2.1/lib/index.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+
+<script src="https://unpkg.com/mint-ui/lib/index.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
 <script>
 
-    Vue.component('datetime-picker', {
-        template: `
-        <div class="block">
-            <el-date-picker
-            v-model="selectDatetime"
-            type="datetime"
-            placeholder="选择日期时间">
-            </el-date-picker>
-        </div>
-        `,
-        data(){
-            return {
-                selectDatetime: "",
-            }
-        }
-    });
+
 
     let vm = new Vue({
         //delimiters: ["${","}"],
-        el: "#datetime"
+        el: "#datetime",
+        data: {
+            pickerValue: new Date()
+        },
+        methods: {
+            open(picker) {
+                this.$refs[picker].open();
+            },
+            handleChange(value) {
+                this.now = value
+                console.log(value)
+            }
+        },
+        filters: {
+            formatDate: function(date){
+                date = new Date(date)
+                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
+            }
+        },
+        computed: {
+        }
     });
 
     $("#datetime input").attr("name", "deadline");
@@ -156,6 +169,10 @@
 <style>
     .el-date-editor.el-input {
         width: 100%
+    }
+    .border{
+        border: 1px solid #ccc;
+        border-radius: 4px;
     }
 </style>
 {% endblock %}
