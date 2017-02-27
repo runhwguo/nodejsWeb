@@ -1,9 +1,9 @@
 import tracer from 'tracer';
 import appRootDir from 'app-root-dir';
 import path from 'path';
-import {Task as Task}  from '../../tools/model';
+import {Task}  from '../../tools/model';
 import {cookie2user} from '../../tools/cookie';
-import {session as session} from '../../tools/config';
+import {session} from '../../tools/config';
 import {uploadFile} from '../../tools/upload';
 
 let logger = tracer.console();
@@ -33,9 +33,9 @@ let publish = async ctx => {
     result['deadline'] = new Date(result['deadline']).getTime();
     console.info(result);
 
-    await Task.create(result);
+    let createResult = await Task.create(result);
+    console.log(createResult);
 };
-
 
 module.exports = {
     'POST /api/completedTasks': completedTasks,
