@@ -54,7 +54,7 @@ function defineModel(name, attributes) {
         type: Sequelize.BIGINT,
         allowNull: false
     };
-    console.log('model defined for table: ' + name + '\n' + JSON.stringify(attrs, function (k, v) {
+    console.log('model defined for table: ' + name + '\n' + JSON.stringify(attrs, (k, v) => {
             if (k === 'type') {
                 for (let key in Sequelize) {
                     if (key === 'ABSTRACT' || key === 'NUMBER') {
@@ -79,8 +79,10 @@ function defineModel(name, attributes) {
     return sequelize.define(name, attrs, {
         tableName: name,
         timestamps: false,
+        charset: 'utf8',
+        collate: 'utf8_general_ci',
         hooks: {
-            beforeValidate: function (obj) {
+            beforeValidate: obj => {
                 let now = Date.now();
                 if (obj.isNewRecord) {
                     console.log('will create entity...' + obj);
