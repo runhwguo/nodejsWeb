@@ -20,7 +20,7 @@
 ├── db.js
 ├── hello.js
 ├── hook.js
-├── initDb.js
+├── init_db.js
 ├── initSql.txt
 ├── model.js
 ├── models
@@ -37,7 +37,7 @@
 │   ├── fonts
 │   ├── images
 │   └── js
-├── static-files.js
+├── static_files.js
 ├── templating.js
 ├── test
 │   ├── asyncTest.js
@@ -68,12 +68,12 @@
 - data.txt  异步测试的数据文件
 - db.js  统一Model的定义
 - hook.js  babel引入
-- initDb.js  自动创建数据库, 首次使用sync()也可以自动创建出表结构，避免了手动运行SQL的问题
+- init_db.js  自动创建数据库, 首次使用sync()也可以自动创建出表结构，避免了手动运行SQL的问题
 - initSql.txt  数据库sql的文本
 - model.js  如何导入Model
 - rest.js  统一处理rest风格的接口
 - start.js  启动入口js
-- static-files.js  middleware, 处理静态文件, 处理以/static/开头的URL
+- static_files.js  middleware, 处理静态文件, 处理以/static/开头的URL
 - templating.js  middleware, 渲染模板 MVC结构
 supervisor,如果需要 自动检测到变化然后重启，请安装这个库
 --->

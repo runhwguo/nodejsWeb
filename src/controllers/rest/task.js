@@ -13,31 +13,31 @@ let completedTasks = async ctx => {
 };
 
 let publish = async ctx => {
-    let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
-    let user = await cookie2user(schoolResourceShareCookie);
+  let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
+  let user = await cookie2user(schoolResourceShareCookie);
 
-    let userId = user.id;
+  let userId = user.id;
 
-    let serverFilePath = path.join(appRootDir.get(), 'upload_files');
-    // 上传文件事件
-    let getRandomInt = (min, max) => {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    };
-    let firstDir = getRandomInt(0, 9);
-    let secondDir = getRandomInt(0, 9);
-    let result = await uploadFile(ctx, {
-        fileType: 'album/' + firstDir + '/' + secondDir,
-        path: serverFilePath
-    });
-    result['userId'] = userId;
-    result['deadline'] = new Date(result['deadline']).getTime();
-    console.info(result);
+  let serverFilePath = path.join(appRootDir.get(), 'upload_files');
+  // 上传文件事件
+  let getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  };
+  let firstDir = getRandomInt(0, 9);
+  let secondDir = getRandomInt(0, 9);
+  let result = await uploadFile(ctx, {
+    fileType: 'album/' + firstDir + '/' + secondDir,
+    path: serverFilePath
+  });
+  result['userId'] = userId;
+  result['deadline'] = new Date(result['deadline']).getTime();
+  console.info(result);
 
-    let createResult = await Task.create(result);
-    console.log(createResult);
+  let createResult = await Task.create(result);
+  console.log(createResult);
 };
 
 module.exports = {
-    'POST /api/completedTasks': completedTasks,
-    'POST /api/publish': publish
+  'POST /api/completedTasks': completedTasks,
+  'POST /api/publish': publish
 };

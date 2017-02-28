@@ -8,92 +8,92 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/1.2.1/bootstrap-filestyle.min.js"></script>
 
 <script>
-    $(() => {
-        let form = $("#publishInfo"),
-            back = $('#back'),
-            createTask = $('#createTaskTab');
+  $(() => {
+    let form = $("#publishInfo"),
+      back = $('#back'),
+      createTask = $('#createTaskTab');
 
-        form.bootstrapValidator({
-            message: 'The form is not valid',
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                name: {
-                    message: 'The name is not valid',
-                    validators: {
-                        notEmpty: {
-                            message: '姓名不能为空'
-                        }
-                    }
-                },
-                tel: {
-                    message: 'The tel is not valid',
-                    validators: {
-                        notEmpty: {
-                            message: '电话号码不能为空'
-                        },
-                        regexp: {
-                            regexp: /^(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}$/,
-                            message: "请输入11位有效号码"
-                        }
-                    }
-                },
-                detail: {
-                    message: 'The username is not valid',
-                    validators: {
-                        notEmpty: {
-                            message: '请输入任务详情'
-                        },
-                        stringLength: {
-                            min: 20,
-                            message: '请描述更详细点'
-                        }
-                    }
-                },
-                reward: {
-                    message: 'The reward is not valid',
-                    validators: {
-                        notEmpty: {
-                            message: '请填入相应报酬'
-                        },
-                        regexp: {
-                            regexp: /^[1-9]\d*$/,
-                            message: "请输入正整数的钱数"
-                        }
-                    }
-                }
+    form.bootstrapValidator({
+      message: 'The form is not valid',
+      feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+        name: {
+          message: 'The name is not valid',
+          validators: {
+            notEmpty: {
+              message: '姓名不能为空'
             }
-        }).on('success.form.bv', e => {
-            e.preventDefault();
+          }
+        },
+        tel: {
+          message: 'The tel is not valid',
+          validators: {
+            notEmpty: {
+              message: '电话号码不能为空'
+            },
+            regexp: {
+              regexp: /^(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}$/,
+              message: "请输入11位有效号码"
+            }
+          }
+        },
+        detail: {
+          message: 'The username is not valid',
+          validators: {
+            notEmpty: {
+              message: '请输入任务详情'
+            },
+            stringLength: {
+              min: 20,
+              message: '请描述更详细点'
+            }
+          }
+        },
+        reward: {
+          message: 'The reward is not valid',
+          validators: {
+            notEmpty: {
+              message: '请填入相应报酬'
+            },
+            regexp: {
+              regexp: /^[1-9]\d*$/,
+              message: "请输入正整数的钱数"
+            }
+          }
+        }
+      }
+    }).on('success.form.bv', e => {
+      e.preventDefault();
 
-            $.ajaxFileUpload({
-                type: form.attr('method'),
-                url: form.attr('action'),//后台接收url
-                secureuri: false,
-                fileElementId: 'file',//file标签的id，name
-                data: {
-                    type: $('#taskType').val(),
-                    name: $('#name').val(),
-                    tel: $('#tel').val(),
-                    deadline: $('#deadline').val(),
-                    detail: $('#detail').val(),
-                    reward: $('#reward').val()
-                },
-                dataType: "json",
-                success: (data) => {
-                    console.log(data);
-                }
-            });
-        });
-
-        back.click(() => {
-            window.history.back();
-        });
-        createTask.attr('href', 'javascript:void(0)');
+      $.ajaxFileUpload({
+        type: form.attr('method'),
+        url: form.attr('action'),//后台接收url
+        secureuri: false,
+        fileElementId: 'file',//file标签的id，name
+        data: {
+          type: $('#taskType').val(),
+          name: $('#name').val(),
+          tel: $('#tel').val(),
+          deadline: $('#deadline').val(),
+          detail: $('#detail').val(),
+          reward: $('#reward').val()
+        },
+        dataType: "json",
+        success: (data) => {
+          console.log(data);
+        }
+      });
     });
+
+    back.click(() => {
+      window.history.back();
+    });
+    createTask.attr('href', 'javascript:void(0)');
+  });
 </script>
 <style>
 
@@ -180,44 +180,44 @@
 <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script>
-    let dt = new Vue({
-        //delimiters: ["${","}"],
-        el: "#datetime",
-        data: {
-            pickerValue: new Date()
-        },
-        methods: {
-            open(picker) {
-                this.$refs[picker].open();
-            },
-            handleChange(value) {
-                this.now = value
-                console.log(value)
-            }
-        },
-        filters: {
-            formatDate: function (date) {
-                date = new Date(date)
-                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
-            }
-        },
-        computed: {}
-    });
+  let dt = new Vue({
+    //delimiters: ["${","}"],
+    el: "#datetime",
+    data: {
+      pickerValue: new Date()
+    },
+    methods: {
+      open(picker) {
+        this.$refs[picker].open();
+      },
+      handleChange(value) {
+        this.now = value
+        console.log(value)
+      }
+    },
+    filters: {
+      formatDate: function (date) {
+        date = new Date(date)
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
+      }
+    },
+    computed: {}
+  });
 
-    let pt = new Vue({
-        el: "#pickTask",
-        data(){
-            return {
-                tasks: [
-                    {value: "substituteClass", label: "代课"},
-                    {value: "substituteFetch", label: "代取"},
-                    {value: "freeRide", label: "顺风车"},
-                    {value: "borrowSomething", label: "借东西"}
-                ],
-                value: ''
-            }
-        }
-    })
+  let pt = new Vue({
+    el: "#pickTask",
+    data(){
+      return {
+        tasks: [
+          {value: "substituteClass", label: "代课"},
+          {value: "substituteFetch", label: "代取"},
+          {value: "freeRide", label: "顺风车"},
+          {value: "borrowSomething", label: "借东西"}
+        ],
+        value: ''
+      }
+    }
+  })
 </script>
 <style>
     .el-date-editor.el-input {

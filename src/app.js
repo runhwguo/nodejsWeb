@@ -13,22 +13,22 @@ const isProduction = process.env.NODE_ENV === 'production';
 // 打印url和请求时间 middleware
 app.use(logger());
 
-app.use(async (ctx, next) => {
-    let reqPath = ctx.request.path;
-    if (!(reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api'))) {
-        // console.log('验证用户是否登录');
-        let loginCookie = ctx.cookies.get(config.session.cookieName);
-        let user = await cookie.cookie2user(loginCookie);
-        if (user) {
-            // console.log('用户有login state cookieName');
-            await next();
-        } else {
-            // console.log('用户没有login state cookieName');
-            ctx.response.redirect('/login');
-        }
+app.use(async(ctx, next) => {
+  let reqPath = ctx.request.path;
+  if (!(reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api'))) {
+    // console.log('验证用户是否登录');
+    let loginCookie = ctx.cookies.get(config.session.cookieName);
+    let user = await cookie.cookie2user(loginCookie);
+    if (user) {
+      // console.log('用户有login state cookieName');
+      await next();
     } else {
-        await next();
+      // console.log('用户没有login state cookieName');
+      ctx.response.redirect('/login');
     }
+  } else {
+    await next();
+  }
 });
 
 //在生产环境下，
@@ -38,16 +38,16 @@ app.use(async (ctx, next) => {
 // 否则，就必须手动配置一个反向代理服务器，
 // 这样会导致开发环境非常复杂
 if (!isProduction) {
-    let staticFiles = require('./tools/static-files');
-    // middleware
-    app.use(staticFiles('/static/', __dirname + '/../static'));
+  let staticFiles = require('./tools/static_files');
+  // middleware
+  app.use(staticFiles('/static/', __dirname + '/../static'));
 }
 // 解析原始request请求，nodejs的request和koa的request都不解析request
 app.use(bodyParser());
 // 给ctx加上render()来使用Nunjucks middleware
 app.use(templating('views', {
-    noCache: !isProduction,
-    watch: !isProduction
+  noCache: !isProduction,
+  watch: !isProduction
 }));
 
 // bind .rest() for ctx:
