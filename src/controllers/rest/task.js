@@ -18,7 +18,7 @@ let publish = async ctx => {
 
   let userId = user.id;
 
-  let serverFilePath = path.join(appRootDir.get(), 'upload_files');
+  let serverFilePath = path.join(appRootDir.get(), 'static/tmp');
   // 上传文件事件
   let getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -26,7 +26,7 @@ let publish = async ctx => {
   let firstDir = getRandomInt(0, 9);
   let secondDir = getRandomInt(0, 9);
   let result = await uploadFile(ctx, {
-    fileType: 'album/' + firstDir + '/' + secondDir,
+    fileType: 'taskImage/' + firstDir + '/' + secondDir,
     path: serverFilePath
   });
   result['userId'] = userId;

@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from'fs';
 import Busboy from 'busboy';
+import uuid from 'uuid';
 import {inspect} from 'util';
 
 /**
@@ -57,7 +58,7 @@ let uploadFile = async(ctx, options) => {
     // 解析请求文件事件
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
         console.log('file...');
-        let fileName = Date.now().toString(16) + '.' + getSuffixName(filename);
+        let fileName = uuid.v4() + '.' + getSuffixName(filename);
         let _uploadFilePath = path.join(filePath, fileName);
         let saveTo = path.join(_uploadFilePath);
 
@@ -96,5 +97,5 @@ let uploadFile = async(ctx, options) => {
 
 
 module.exports = {
-  uploadFile
+  uploadFile,mkDirsSync
 };

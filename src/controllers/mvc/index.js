@@ -1,7 +1,9 @@
 import {cookie2user as cookie2user} from '../../tools/cookie';
 import {session as session} from '../../tools/config';
+import {mkDirsSync} from '../../tools/upload';
 import fs from 'fs';
 import uuid from 'uuid';
+import path from 'path';
 import appRootDir from 'app-root-dir';
 import superagent from 'superagent';
 import charset from 'superagent-charset';
@@ -49,9 +51,14 @@ let createTask = async ctx => {
 let login = async ctx => {
   const UJS_MAIN_URL = 'http://my.ujs.edu.cn/';
   const captchaGenerateUrl = UJS_MAIN_URL + 'captchaGenerate.portal';
-  const id = uuid.v4();
-  const verificationCodePicture = appRootDir.get() + '/static/tmp/' + id + '.png';
-  let verificationCodePictureUrl = 'http://localhost:8080/static/tmp/' + id + '.png';
+  const idPng = uuid.v4() + '.png';
+  const codeDir = 'static/tmp/verificationCode';
+  const codeRealDir = path.join(appRootDir.get(), codeDir);
+  if (!mkDirsSync(codeRealDir)) {
+    console.error('create ' + codeRealDir + ' dir fail!');
+  }
+  const verificationCodePicture = path.join(codeRealDir, idPng);
+  let verificationCodePictureUrl = path.join(codeDir, idPng);
 
   let response = await superagent.get(captchaGenerateUrl);
   if (response.ok) {
