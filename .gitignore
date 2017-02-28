@@ -15,3 +15,4 @@ logs
 my-config.js
 upload_files
 out.png
+static/tmp
