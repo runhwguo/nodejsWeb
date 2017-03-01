@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
+import Tab from '@/components/Tab'
 import Test from '@/components/Test'
 import CreateTask from '@/components/CreateTask'
+import Home from '@/components/Home'
+import Me from '@/components/Me'
 
 Vue.use(Router)
 
@@ -10,8 +12,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'CreateTask',
+      name: 'Home',
+      component: Home
+    },
+    {
+      path: '/createTask',
+      name: 'createTask',
       component: CreateTask
+    },
+    {
+      path: '/me',
+      name: 'me',
+      component: Me
     }
   ]
 })

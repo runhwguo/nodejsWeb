@@ -2,10 +2,17 @@
   <div id="app">
     <router-link to="/foo"></router-link>
     <router-view></router-view>
+
+    <tab></tab>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import Tab from '@/components/Tab'
+
+Vue.component("tab", Tab)
+
 export default {
   name: 'app'
 }
