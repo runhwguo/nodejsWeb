@@ -40,7 +40,7 @@ app.use(async(ctx, next) => {
 if (!isProduction) {
   let staticFiles = require('./tools/static_files');
   // middleware
-  app.use(staticFiles('/static/', __dirname + '/../static'));
+  app.use(staticFiles('/static/', `${__dirname}/../static`));
 }
 // 解析原始request请求，nodejs的request和koa的request都不解析request
 app.use(bodyParser());

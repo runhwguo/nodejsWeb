@@ -50,7 +50,7 @@ let createTask = async ctx => {
 
 let login = async ctx => {
   const UJS_MAIN_URL = 'http://my.ujs.edu.cn/';
-  const captchaGenerateUrl = UJS_MAIN_URL + 'captchaGenerate.portal';
+  const captchaGenerateUrl = `${UJS_MAIN_URL}captchaGenerate.portal`;
   const idPng = uuid.v4() + '.png';
   const codeDir = 'static/tmp/verificationCode';
   const codeRealDir = path.join(appRootDir.get(), codeDir);
@@ -64,7 +64,7 @@ let login = async ctx => {
   if (response.ok) {
     console.log('验证码图片获取成功');
     let cookie = response.header['set-cookie'][0].split(';')[0];
-    console.log('ujs cookie = ' + cookie)
+    console.log('ujs cookie = ' + cookie);
     ctx.cookies.set(session.ujsCookieName, cookie);
     fs.writeFileSync(verificationCodePicture, response.body, 'binary');
     ctx.render('mvc/login.html', {

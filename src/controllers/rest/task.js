@@ -26,15 +26,15 @@ let publish = async ctx => {
   let firstDir = getRandomInt(0, 9);
   let secondDir = getRandomInt(0, 9);
   let result = await uploadFile(ctx, {
-    fileType: 'taskImage/' + firstDir + '/' + secondDir,
+    fileType: `taskImage/${firstDir}/${secondDir}`,
     path: serverFilePath
   });
   result['userId'] = userId;
   result['deadline'] = new Date(result['deadline']).getTime();
-  console.info(result);
+  logger.info(result);
 
   let createResult = await Task.create(result);
-  console.log(createResult);
+  logger.log(createResult);
 };
 
 module.exports = {

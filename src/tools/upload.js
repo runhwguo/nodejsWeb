@@ -97,5 +97,5 @@ let uploadFile = async(ctx, options) => {
 
 
 module.exports = {
-  uploadFile,mkDirsSync
+  uploadFile, mkDirsSync
 };
