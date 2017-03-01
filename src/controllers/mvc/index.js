@@ -1,5 +1,5 @@
-import {cookie2user as cookie2user} from '../../tools/cookie';
-import {session as session} from '../../tools/config';
+import {cookie2user} from '../../tools/cookie';
+import {session} from '../../tools/config';
 import {mkDirsSync} from '../../tools/upload';
 import fs from 'fs';
 import uuid from 'uuid';

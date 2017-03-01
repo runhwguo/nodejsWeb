@@ -1,5 +1,5 @@
 // 存储默认的配置
-let config = {
+const config = {
   db: {
     dialect: 'mysql',
     database: 'test',

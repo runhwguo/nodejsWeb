@@ -1,12 +1,8 @@
-import {APIError as APIError} from '../../tools/rest';
-import {User as User}  from '../../tools/model';
-import fs from 'fs';
+import {User}  from '../../tools/model';
 import config from '../../tools/config';
 import superagent from 'superagent';
 import charset from 'superagent-charset';
 import cheerio from 'cheerio';
-import uuid from 'uuid';
-import appRootDir from 'app-root-dir';
 import cookie from '../../tools/cookie';
 
 charset(superagent);
