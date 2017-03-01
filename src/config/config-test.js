@@ -3,8 +3,8 @@ const config = {
   db: {
     dialect: 'mysql',
     database: 'test',
-    username: 'www',
-    password: 'www',
+    username: 'root',
+    password: 'root',
     host: 'localhost',
     port: 3306
   },

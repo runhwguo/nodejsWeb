@@ -24,7 +24,7 @@ let save = async ctx => {
     }
   });
   ctx.rest({
-    user: user.dataValues
+    user: user
   });
 };
 

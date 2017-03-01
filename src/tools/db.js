@@ -1,7 +1,7 @@
 // 统一Model的定义
 import Sequelize from 'sequelize';
 import uuid from 'uuid';
-import config from './config';
+import {db} from './config';
 
 console.log('init sequelize...');
 
@@ -9,9 +9,9 @@ function generateId() {
   return uuid.v4();
 }
 
-let sequelize = new Sequelize(config.db.database, config.db.username, config.db.password, {
-  host: config.db.host,
-  dialect: config.db.dialect,
+let sequelize = new Sequelize(db.database, db.username, db.password, {
+  host: db.host,
+  dialect: db.dialect,
   pool: {
     max: 5,
     min: 0,
