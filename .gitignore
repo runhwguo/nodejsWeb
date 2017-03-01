@@ -12,5 +12,4 @@ log
 logs
 *.log
 # some test/produce files
-upload_files
 static/tmp

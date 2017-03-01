@@ -1,6 +1,6 @@
-import {User as User}  from '../../tools/model';
-import {cookie2user as cookie2user} from '../../tools/cookie';
-import {session as session} from '../../tools/config';
+import {User}  from '../../tools/model';
+import {cookie2user} from '../../tools/cookie';
+import {session} from '../../tools/config';
 import tracer from 'tracer';
 
 let logger = tracer.console();
@@ -24,7 +24,7 @@ let save = async ctx => {
     }
   });
   ctx.rest({
-    user: user.dataValues
+    user: user
   });
 };
 

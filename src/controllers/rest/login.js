@@ -1,12 +1,8 @@
-import {APIError as APIError} from '../../tools/rest';
-import {User as User}  from '../../tools/model';
-import fs from 'fs';
+import {User}  from '../../tools/model';
 import config from '../../tools/config';
 import superagent from 'superagent';
 import charset from 'superagent-charset';
 import cheerio from 'cheerio';
-import uuid from 'uuid';
-import appRootDir from 'app-root-dir';
 import cookie from '../../tools/cookie';
 
 charset(superagent);
@@ -26,15 +22,15 @@ let login = async ctx => {
     let verificationCode = ctx.request.body.verificationCode;
     const verificationCodeReg = /^[0-9a-zA-Z]{4}$/;
 
-    const userPasswordValidateUrl = UJS_MAIN_URL + 'userPasswordValidate.portal';
-    const loginSuccessUrl = UJS_MAIN_URL + 'loginSuccess.portal';
-    const loginFailureUrl = UJS_MAIN_URL + 'loginFailure.portal';
+    const userPasswordValidateUrl = `${UJS_MAIN_URL}userPasswordValidate.portal`;
+    const loginSuccessUrl = `${UJS_MAIN_URL}loginSuccess.portal`;
+    const loginFailureUrl = `${UJS_MAIN_URL}loginFailure.portal`;
 
     const STU_INFO_LOGIN = 'http://stu.ujs.edu.cn/mobile/login.aspx';
     const STU_INFO = 'http://stu.ujs.edu.cn/mobile/rsbulid/r_3_3_st_jbxg.aspx';
 
     let isSuccessful = false;
-    if (verificationCodeReg.test(verificationCode)) { // 如果jinapdf识别的不是四位数，再让baidu去识别
+    if (verificationCodeReg.test(verificationCode)) {
       let iPlanetDirectoryProCookie = await login();
       isSuccessful = await getUserInfo(iPlanetDirectoryProCookie);
     }
@@ -91,7 +87,7 @@ let login = async ctx => {
     }
 
 
-    if (user) {
+    if (user && isSuccessful) {
       ctx.cookies.set(config.session.cookieName, cookie.user2cookie(username, password));
     }
   }

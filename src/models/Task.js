@@ -1,4 +1,4 @@
-import db from "../tools/db";
+import db from '../tools/db';
 
 module.exports = db.defineModel('tasks', {
   userId: db.STRING(50),

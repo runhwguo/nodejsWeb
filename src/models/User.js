@@ -1,4 +1,4 @@
-import db from "../tools/db";
+import db from '../tools/db';
 
 module.exports = db.defineModel('users', {
   password: db.STRING(100),
@@ -6,5 +6,8 @@ module.exports = db.defineModel('users', {
   gender: db.STRING(5),
   tel: db.STRING(11),
   qq: db.STRING(15),
-  wx: db.STRING(30)
+  wx: {
+    type: db.STRING(30),
+    allowNull: true
+  }
 });
