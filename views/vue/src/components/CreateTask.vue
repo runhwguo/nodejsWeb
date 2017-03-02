@@ -1,5 +1,6 @@
 <template>
     <div id="main">
+        <router-link to="selectTask"><mt-cell title="选择任务"></mt-cell></router-link>
         <mt-field label="姓名" placeholder="Input username" 
                 :state="nameState" v-model="name"></mt-field>
         <mt-field label="手机号" placeholder="Input tel" 

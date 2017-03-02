@@ -5,6 +5,7 @@ import Test from '@/components/Test'
 import CreateTask from '@/components/CreateTask'
 import Home from '@/components/Home'
 import Me from '@/components/Me'
+import SelectTask from '@/components/SelectTask'
 
 Vue.use(Router)
 
@@ -24,6 +25,11 @@ export default new Router({
       path: '/me',
       name: 'me',
       component: Me
+    },
+    {
+      path: '/selectTask',
+      name: 'selectTask',
+      component: SelectTask
     }
   ]
 })
