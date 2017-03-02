@@ -13,6 +13,9 @@ const config = {
     ujsCookieName: 'JSESSIONID',
     cookieKey: 'fuckQ',
     maxAge: 86400//一天
+  },
+  project: {
+    port: 8080
   }
 };
 

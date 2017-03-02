@@ -2,7 +2,6 @@ import path from 'path';
 import fs from'fs';
 import Busboy from 'busboy';
 import uuid from 'uuid';
-import {inspect} from 'util';
 
 /**
  * 同步创建文件目录

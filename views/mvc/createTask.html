@@ -1,100 +1,8 @@
 {% extends "./myBase.html" %}
 
 {% block main %}
-<script src="/static/js/vue.js"></script>
-<script src="/static/js/ajaxFileUpload.js"></script>
 <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
-<script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/1.2.1/bootstrap-filestyle.min.js"></script>
 
-<script>
-  $(() => {
-    let form = $("#publishInfo"),
-      back = $('#back'),
-      createTask = $('#createTaskTab');
-
-    form.bootstrapValidator({
-      message: 'The form is not valid',
-      feedbackIcons: {
-        valid: 'glyphicon glyphicon-ok',
-        invalid: 'glyphicon glyphicon-remove',
-        validating: 'glyphicon glyphicon-refresh'
-      },
-      fields: {
-        name: {
-          message: 'The name is not valid',
-          validators: {
-            notEmpty: {
-              message: '姓名不能为空'
-            }
-          }
-        },
-        tel: {
-          message: 'The tel is not valid',
-          validators: {
-            notEmpty: {
-              message: '电话号码不能为空'
-            },
-            regexp: {
-              regexp: /^(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}$/,
-              message: "请输入11位有效号码"
-            }
-          }
-        },
-        detail: {
-          message: 'The username is not valid',
-          validators: {
-            notEmpty: {
-              message: '请输入任务详情'
-            },
-            stringLength: {
-              min: 20,
-              message: '请描述更详细点'
-            }
-          }
-        },
-        reward: {
-          message: 'The reward is not valid',
-          validators: {
-            notEmpty: {
-              message: '请填入相应报酬'
-            },
-            regexp: {
-              regexp: /^[1-9]\d*$/,
-              message: "请输入正整数的钱数"
-            }
-          }
-        }
-      }
-    }).on('success.form.bv', e => {
-      e.preventDefault();
-
-      $.ajaxFileUpload({
-        type: form.attr('method'),
-        url: form.attr('action'),//后台接收url
-        secureuri: false,
-        fileElementId: 'file',//file标签的id，name
-        data: {
-          type: $('#taskType').val(),
-          name: $('#name').val(),
-          tel: $('#tel').val(),
-          deadline: $('#deadline').val(),
-          detail: $('#detail').val(),
-          reward: $('#reward').val()
-        },
-        dataType: "json",
-        success: (data) => {
-          console.log(data);
-        }
-      });
-    });
-
-    back.click(() => {
-      window.history.back();
-    });
-    createTask.attr('href', 'javascript:void(0)');
-  });
-</script>
 <style>
 
     label {
@@ -162,10 +70,11 @@
 
     <div class="form-group">
         <textarea class="form-control" rows="5" id="detail" cols="10" name="detail"
-                  placeholder="请详细说明任务详情，比如地点时间，不然接任务人就一脸懵逼了~">三江楼405 马克思 3/4节</textarea>
+                  placeholder="请详细说明任务详情，比如地点时间，不然接任务人就一脸懵逼了~">三江楼405 马克思 3/4节 ffffffffffff</textarea>
     </div>
     <div class="form-group">
-        <input type="file" id="file" name="file" class="filestyle" data-input="false" data-buttonText="图片补充(可选)">
+        <input type="file" id="file" name="file" class="filestyle" data-input="false" data-buttonName="btn-primary"
+               data-buttonText="图片补充(可选)">
     </div>
     <div class="form-group">
         <input type="text" class="form-control" id="reward" name="reward" value="21" placeholder="报酬(元)"/>
@@ -174,13 +83,14 @@
     <input id="login" type="submit" class="btn btn-primary" value="发布"/>
 </form>
 
-
-<script src="https://unpkg.com/mint-ui/lib/index.js"></script>
+<script src="/static/js/vue.js"></script>
+<script src="//unpkg.com/mint-ui/lib/index.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
 <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="//unpkg.com/element-ui/lib/index.js"></script>
+
 <script>
-  let dt = new Vue({
+  new Vue({
     //delimiters: ["${","}"],
     el: "#datetime",
     data: {
@@ -196,7 +106,7 @@
       }
     },
     filters: {
-      formatDate: function (date) {
+      formatDate: date => {
         date = new Date(date)
         return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
       }
@@ -204,7 +114,7 @@
     computed: {}
   });
 
-  let pt = new Vue({
+  new Vue({
     el: "#pickTask",
     data(){
       return {
@@ -220,9 +130,6 @@
   })
 </script>
 <style>
-    .el-date-editor.el-input {
-        width: 100%
-    }
 
     .border {
         border: 1px solid #ccc;
@@ -239,4 +146,89 @@
         display: inline
     }
 </style>
+
+<script src="/static/js/ajaxFileUpload.js"></script>
+<script>
+  $(() => {
+    let form = $("#publishInfo"),
+      back = $('#back'),
+      createTask = $('#createTaskTab');
+
+    form.bootstrapValidator({
+      message: 'The form is not valid',
+      feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+        name: {
+          message: 'The name is not valid',
+          validators: {
+            notEmpty: {
+              message: '姓名不能为空'
+            }
+          }
+        },
+        tel: {
+          message: 'The tel is not valid',
+          validators: {
+            notEmpty: {
+              message: '电话号码不能为空'
+            },
+            regexp: {
+              regexp: /^(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}$/,
+              message: "请输入11位有效号码"
+            }
+          }
+        },
+        detail: {
+          message: 'The username is not valid',
+          validators: {
+            notEmpty: {
+              message: '请输入任务详情'
+            },
+            stringLength: {
+              min: 20,
+              message: '请描述更详细点'
+            }
+          }
+        },
+        reward: {
+          message: 'The reward is not valid',
+          validators: {
+            notEmpty: {
+              message: '请填入相应报酬'
+            },
+            regexp: {
+              regexp: /^[1-9]\d*$/,
+              message: "请输入正整数的钱数"
+            }
+          }
+        }
+      }
+    }).on('success.form.bv', e => {
+      e.preventDefault();
+
+      $.ajaxFileUpload({
+        type: form.attr('method'),
+        url: form.attr('action'),
+        secureuri: false,
+        fileElementId: 'file',
+        data: JSON.parse('{"' + decodeURIComponent(form.serialize()).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}'),
+        dataType: 'json',
+        success: data => {
+          console.log(data);
+        }
+      });
+    });
+
+    back.click(() => {
+      window.history.back();
+    });
+    createTask.attr('href', 'javascript:void(0)');
+  });
+</script>
+<script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-filestyle/1.2.1/bootstrap-filestyle.min.js"></script>
 {% endblock %}

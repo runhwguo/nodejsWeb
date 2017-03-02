@@ -1,11 +1,13 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import logger from 'koa-logger';
+import opn from 'opn';
 import controller from './tools/controller';
 import templating from './tools/templating';
 import rest from './tools/rest';
 import cookie from './tools/cookie';
 import config from './tools/config';
+import {project} from './tools/config';
 
 const app = new Koa();
 
@@ -55,5 +57,10 @@ app.use(rest.restify());
 
 // 处理URL路由
 app.use(controller());
-app.listen(8080);
-console.log('app started at port 8080...');
+app.listen(project.port);
+const uri = `http://avlab.tencent.com:${project.port}`;
+console.log(`app started at port ${uri}...`);
+if (process.env.NODE_ENV === 'test') {
+  opn(uri);
+}
+console.log(`node is running in ${process.env.NODE_ENV}`);
