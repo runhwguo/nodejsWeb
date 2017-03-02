@@ -1,5 +1,6 @@
 <template>
     <div>
+        <back></back>
         <mt-radio title="选择任务" v-model="value1" :options="options"
         @click.native="confirmTask">
         </mt-radio>
@@ -13,6 +14,7 @@ import Vue from 'vue'
 import { Raido } from 'mint-ui'
 import { bus } from '../share.js'
 import router from '../router/index'
+import back from './Back'
 
 Vue.component("mt-radio", Raido)
 
