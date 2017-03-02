@@ -1,9 +1,8 @@
 <template>
     <div>
-        <mt-radio title="选择任务" v-model="task" :options="['代课','代取', '顺风车', '借东西']">
+        <mt-radio title="选择任务" v-model="value1" :options="options"
+        @click.native="confirmTask">
         </mt-radio>
-        <mt-button @click.native="confirmTask" type="primary"
-                    style="margin-top:20px">确认</mt-button>
     </div>
 </template>
 
@@ -12,20 +11,31 @@
 
 import Vue from 'vue'
 import { Raido } from 'mint-ui'
+import { bus } from '../share.js'
+import router from '../router/index'
 
 Vue.component("mt-radio", Raido)
 
 export default {
     name: "selectTask",
-    data () {
-        return { 
-            task: "" 
+    data() {
+        return {
+            value1: ""
         }
-    
+    },
+    created() {
+        this.options = [
+            {label: '代课', value: 'dk'},
+            {label: '代取', value: 'dk'},
+            {label: '顺风车', value: 'dk'},
+            {label: '借东西', value: 'dk'}
+        ]
     },
     methods: {
-        confirmTask: function(){
-
+        confirmTask: function(event){
+            console.log("send..." + this.value1);
+            bus.$emit('hello', this.value1)
+            router.push('createTask')
         }
     }
 } 

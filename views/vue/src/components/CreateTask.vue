@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-        <router-link to="selectTask"><mt-cell title="选择任务"></mt-cell></router-link>
+        <router-link to="selectTask"><mt-cell :title="task"></mt-cell></router-link>
         <mt-field label="姓名" placeholder="Input username" 
                 :state="nameState" v-model="name"></mt-field>
         <mt-field label="手机号" placeholder="Input tel" 
@@ -24,14 +24,23 @@
 import Vue from 'vue'
 import { alert, bsInput } from 'vue-strap'
 import { Toast, mtButton, Field, DatetimePicker } from 'mint-ui'
+import { bus } from '../share.js'
+
 Vue.component('mt-button', mtButton)
 Vue.component('mt-field', Field)
 Vue.component('mt-datetime-picker', DatetimePicker)
+
+var task = "选择任务"
+
+bus.$on("hello", function(id){
+    task = id
+})
 
 export default{
     name: "createTask",
     data () {
         return {
+            task: task,
             name: "",
             phone: "",
             detail: "",
@@ -43,6 +52,8 @@ export default{
             textarea: "",
             rewardState: ""
         }
+    },
+    created: function() {
     },
     methods: {
         open(picker) {
