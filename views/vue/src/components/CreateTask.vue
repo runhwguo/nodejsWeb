@@ -20,61 +20,60 @@
 
 
 <script>
+import Vue from 'vue'
+import { alert, bsInput } from 'vue-strap'
+import { Toast, mtButton, Field, DatetimePicker } from 'mint-ui'
+Vue.component('mt-button', mtButton)
+Vue.component('mt-field', Field)
+Vue.component('mt-datetime-picker', DatetimePicker)
 
-    import Vue from 'vue'
-    import { alert, bsInput } from 'vue-strap'
-    import { Toast, mtButton, Field, DatetimePicker } from 'mint-ui'
-    Vue.component('mt-button', mtButton)
-    Vue.component('mt-field', Field)
-    Vue.component('mt-datetime-picker', DatetimePicker)
-
-    export default{
-        name: "createTask",
-        data () {
-            return {
-                name: "",
-                phone: "",
-                detail: "",
-                reward: "",
-                pickerValue: new Date(),
-                nameState: "",
-                phoneState: "",
-                detailState: "",
-                textarea: "",
-                rewardState: ""
-            }
-        },
-        methods: {
-            open(picker) {
-                this.$refs[picker].open();
-            },
-            handleChange(value) {
-                this.now = value
-                console.log(value)
-            },
-            openToast() {
-                Toast("正在发布..")
-            }
-        },
-        watch: {
-            name: function(val) {
-                Boolean(val)?this.nameState="success":this.nameState="warning"
-            },
-            phone: function(val) {
-                Boolean(val)?this.phoneState="success":this.phoneState="warning"
-            },
-            detail: function(val) {
-                Boolean(val)?this.detailState="success":this.detailState="warning"
-            },
-            reward: function(val) {
-                Boolean(val)?this.rewardState="success":this.rewardState="warning"
-            }
-        },
-        filters: {
-            formatDate: function (date) {
-                date = new Date(date)
-                return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
-            }
+export default{
+    name: "createTask",
+    data () {
+        return {
+            name: "",
+            phone: "",
+            detail: "",
+            reward: "",
+            pickerValue: new Date(),
+            nameState: "",
+            phoneState: "",
+            detailState: "",
+            textarea: "",
+            rewardState: ""
+        }
     },
-    }
+    methods: {
+        open(picker) {
+            this.$refs[picker].open();
+        },
+        handleChange(value) {
+            this.now = value
+            console.log(value)
+        },
+        openToast() {
+            Toast("正在发布..")
+        }
+    },
+    watch: {
+        name: function(val) {
+            Boolean(val)?this.nameState="success":this.nameState="warning"
+        },
+        phone: function(val) {
+            Boolean(val)?this.phoneState="success":this.phoneState="warning"
+        },
+        detail: function(val) {
+            Boolean(val)?this.detailState="success":this.detailState="warning"
+        },
+        reward: function(val) {
+            Boolean(val)?this.rewardState="success":this.rewardState="warning"
+        }
+    },
+    filters: {
+        formatDate: function (date) {
+            date = new Date(date)
+            return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
+        }
+},
+}
 </script>
