@@ -1,8 +1,8 @@
 <template>
   <swipe class="my-swipe">
-  <swipe-item class="slide1"></swipe-item>
-  <swipe-item class="slide2"></swipe-item>
-  <swipe-item class="slide3"></swipe-item>
+  <swipe-item class="slide1"><img src="../assets/logo.png" alt=""></swipe-item>
+  <swipe-item class="slide2"><img src="../assets/logo.png" alt=""></swipe-item>
+  <swipe-item class="slide3"><img src="../assets/logo.png" alt=""></swipe-item>
 </swipe>
 </template>
 
