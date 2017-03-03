@@ -3,6 +3,8 @@ import {Task}  from '../../tools/model';
 import {TASK_STATE}  from '../../models/Task';
 import {session} from '../../tools/config';
 import {uploadFile} from '../../tools/upload';
+import taskDao from '../../dao/task_dao';
+import db from '../../tools/db';
 
 let logger = tracer.console();
 
@@ -13,7 +15,7 @@ let completedTasks = async ctx => {
 let getTasks = async ctx => {
   let offset = Number.parseInt(ctx.request.query.offset);
   let limit = Number.parseInt(ctx.request.query.limit);
-  let result = await Task.findAll({
+  let tasks = await taskDao.findAll({
     attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
     where: {
       state: TASK_STATE.RELEASED_NOT_CLAIMED
@@ -21,21 +23,15 @@ let getTasks = async ctx => {
     offset: offset,
     limit: limit
   });
-  let tasks = [];
-  for (let item of result) {
-    tasks.push(item.dataValues);
-  }
   ctx.rest({
     result: tasks
   });
 };
 
 let order = async ctx => {
-  let user = ctx.state.user;
   let taskId = ctx.request.body.taskId;
-  let result = await Task.update({
-    receiveTaskUserId: user.id,
-    state: TASK_STATE.COMPLETING
+  let result = await taskDao.update({
+    priority: db.literal('priority+1')
   }, {
     where: {
       id: taskId
@@ -64,10 +60,7 @@ let publish = async ctx => {
   result['publishUserId'] = userId;
   result['deadline'] = new Date(result['deadline']).getTime();
 
-  let isOK = false;
-  if (await Task.create(result)) {
-    isOK = true;
-  }
+  let isOK = await taskDao.create(result);
   ctx.rest({
     result: isOK
   });

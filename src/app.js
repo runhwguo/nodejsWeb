@@ -14,19 +14,19 @@ const isProduction = process.env.NODE_ENV === 'production';
 // 打印url和请求时间 middleware
 app.use(logger());
 
-app.use(async(ctx, next) => {
-  let loginCookie = ctx.cookies.get(session.cookieName);
-  let user = await cookie.cookie2user(loginCookie);
-  if (user) {
-    ctx.state.user = user;
-  }
-  let reqPath = ctx.request.path;
-  if (user || reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api')) {
-    await next();
-  } else {
-    ctx.response.redirect('/login');
-  }
-});
+// app.use(async(ctx, next) => {
+//   let loginCookie = ctx.cookies.get(session.cookieName);
+//   let user = await cookie.cookie2user(loginCookie);
+//   if (user) {
+//     ctx.state.user = user;
+//   }
+//   let reqPath = ctx.request.path;
+//   if (user || reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api')) {
+//     await next();
+//   } else {
+//     ctx.response.redirect('/login');
+//   }
+// });
 
 //在生产环境下，
 // 静态文件是由部署在最前面的反向代理服务器（如Nginx）处理的，

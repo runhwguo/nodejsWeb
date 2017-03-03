@@ -1,82 +1,42 @@
+import taskDao from '../../dao/task_dao';
+import userDao from '../../dao/user_dao';
+import {TASK_STATE}  from '../../models/Task';
+
 const DIR = 'mvc/';
 let unfinishedTasks = async ctx => {
-  // simulate data
-  let data = [
-    {
-      "type": "代课",
-      "location": "三江楼马克思",
-    },
-    {
-      "type": "代课",
-      "location": "三江楼马克思",
-    },
-    {
-      "type": "代课",
-      "location": "三江楼马克思",
+  let data = await taskDao.findAll({
+    attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
+    where: {
+      state: TASK_STATE.COMPLETING
     }
-  ];
+  });
 
-  ctx.render(`${DIR}mvc/unfinishedTasks`, {
+  ctx.render(`${DIR}unfinishedTasks`, {
     title: '未完成任务',
     data: data
   })
 };
 let completedTasks = async ctx => {
-  // simulate data
-  let data = [
-    {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
-    }, {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
-    }, {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
-    }, {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
-    }, {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
+  let data = await taskDao.findAll({
+    attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
+    where: {
+      state: TASK_STATE.COMPLETED,
+      receiveTaskUserId: ctx.state.user.id
     }
-  ];
+  });
 
   ctx.render(`${DIR}completedTasks`, {
     title: '已完成的任务',
     data: data
   })
 };
-let sentTasks = async ctx => {
-  // simulate data
-  let data = [
-    {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
-    }, {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
-    }, {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
-    }, {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
-    }, {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
+let publishedTasks = async ctx => {
+  let data = await taskDao.findAll({
+    attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
+    where: {
+      publishUserId: ctx.state.user.id
     }
-  ];
+  });
 
   ctx.render(`${DIR}completedTasks`, {
     title: '发布的任务',
@@ -84,40 +44,17 @@ let sentTasks = async ctx => {
   })
 };
 let myInfo = async ctx => {
-  // simulate data
-  let data = [
-    {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
-    }, {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
-    }, {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
-    }, {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
-    }, {
-      "type": "代课",
-      "location": "三江楼马克思",
-      "reward": "10"
-    }
-  ];
+  let user = await userDao.findById(ctx.state.user.id);
 
   ctx.render(`${DIR}completedTasks`, {
     title: '已完成的任务',
-    data: data
+    data: user
   })
 };
 
 module.exports = {
   'GET /unfinishedTasks': unfinishedTasks,
   'GET /completedTasks': completedTasks,
-  'GET /sentTasks': sentTasks,
+  'GET /publishedTasks': publishedTasks,
   'GET /myInfo': myInfo
 };

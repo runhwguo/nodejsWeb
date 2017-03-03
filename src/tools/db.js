@@ -113,7 +113,8 @@ let exp = {
     } else {
       throw new Error('Cannot sync() when NODE_ENV is set to \'production\'.');
     }
-  }
+  },
+  literal: sequelize.literal
 };
 
 for (let type of TYPES) {
