@@ -1,4 +1,12 @@
 jQuery.extend({
+  handleError: (s, xhr, status, e) => {
+    // If a local callback was specified, fire it
+    if (s.error) {
+      s.error(xhr, status, e);
+    } else if (xhr.responseText) {// If we have some XML response text (e.g. from an AJAX call) then log it in the console
+      console.log(xhr.responseText);
+    }
+  },
   createUploadIframe: (id, uri) => {
     //create frame
     let frameId = 'jUploadFrame' + id,
@@ -50,7 +58,7 @@ jQuery.extend({
   },
 
   ajaxFileUpload: s => {
-    // introduce global settings, allowing the client to modify them for all requests, not only timeout
+    // TODO introduce global settings, allowing the client to modify them for all requests, not only timeout
     s = jQuery.extend({}, jQuery.ajaxSettings, s);
     let id = Date.now(),
       form = jQuery.createUploadForm(id, s.fileElementId, s.data);
@@ -177,6 +185,14 @@ jQuery.extend({
     }
     // Get the JavaScript object, if JSON is used.
     if (type == "json") {
+      data = r.responseText;
+      let start = data.indexOf(">");
+      if (start != -1) {
+        let end = data.indexOf("<", start + 1);
+        if (end != -1) {
+          data = data.substring(start + 1, end);
+        }
+      }
       eval("data = " + data);
     }
     // evaluate scripts within html

@@ -15,15 +15,20 @@ const isProduction = process.env.NODE_ENV === 'production';
 app.use(logger());
 
 app.use(async(ctx, next) => {
-  // console.log('验证用户是否登录');
-  let loginCookie = ctx.cookies.get(session.cookieName);
-  let user = await cookie.cookie2user(loginCookie);
-  if (user) {
-    ctx.state.user = user;
-    await next();
+
+  let reqPath = ctx.request.path;
+  if (!(reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api'))) {
+    let loginCookie = ctx.cookies.get(session.cookieName);
+    let user = await cookie.cookie2user(loginCookie);
+    if (user) {
+      ctx.state.user = user;
+      await next();
+    } else {
+      // console.log('用户没有login state cookieName');
+      ctx.response.redirect('/login');
+    }
   } else {
-    // console.log('用户没有login state cookieName');
-    ctx.response.redirect('/login');
+    await next();
   }
 });
 
