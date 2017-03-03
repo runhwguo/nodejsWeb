@@ -10,8 +10,10 @@ import charset from 'superagent-charset';
 
 charset(superagent);
 
+const DIR = 'mvc/';
+
 let home = async ctx => {
-  // simulate data
+  // query form database TODO
   let data = [
     {
       "type": "代取",
@@ -27,14 +29,14 @@ let home = async ctx => {
     }
   ];
 
-  ctx.render('mvc/home.html', {
+  ctx.render(`${DIR}home`, {
     title: '校园资源共享',
     data: data
   });
 };
 
 let me = async ctx => {
-  ctx.render('mvc/myInfo.html', {
+  ctx.render(`${DIR}myInfo`, {
     title: '我的信息'
   });
 };
@@ -42,7 +44,7 @@ let me = async ctx => {
 let createTask = async ctx => {
   let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
   let user = await cookie2user(schoolResourceShareCookie);
-  ctx.render('mvc/createTask.html', {
+  ctx.render(`${DIR}createTask`, {
     title: '发布任务',
     user: user
   });
@@ -67,7 +69,7 @@ let login = async ctx => {
     console.log('ujs cookie = ' + cookie);
     ctx.cookies.set(session.ujsCookieName, cookie);
     fs.writeFileSync(verificationCodePicture, response.body, 'binary');
-    ctx.render('mvc/login.html', {
+    ctx.render('mvc/login', {
       title: '教务处身份验证',
       verificationCodePictureUrl: verificationCodePictureUrl
     });
@@ -77,7 +79,7 @@ let login = async ctx => {
 let userInfo = async ctx => {
   let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
   let user = await cookie2user(schoolResourceShareCookie);
-  ctx.render('mvc/userInfo.html', {
+  ctx.render(`${DIR}userInfo`, {
     title: '完善用户信息',
     user: user
   });

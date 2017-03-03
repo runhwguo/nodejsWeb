@@ -1,3 +1,4 @@
+const DIR = 'mvc/';
 let unfinishedTasks = async ctx => {
   // simulate data
   let data = [
@@ -15,7 +16,7 @@ let unfinishedTasks = async ctx => {
     }
   ];
 
-  ctx.render('mvc/unfinishedTasks.html', {
+  ctx.render(`${DIR}mvc/unfinishedTasks`, {
     title: '未完成任务',
     data: data
   })
@@ -46,7 +47,7 @@ let completedTasks = async ctx => {
     }
   ];
 
-  ctx.render('rest/completedTasks.html', {
+  ctx.render(`${DIR}completedTasks`, {
     title: '已完成的任务',
     data: data
   })
@@ -77,7 +78,7 @@ let sentTasks = async ctx => {
     }
   ];
 
-  ctx.render('rest/completedTasks.html', {
+  ctx.render(`${DIR}completedTasks`, {
     title: '发布的任务',
     data: data
   })
@@ -108,7 +109,7 @@ let myInfo = async ctx => {
     }
   ];
 
-  ctx.render('rest/completedTasks.html', {
+  ctx.render(`${DIR}completedTasks`, {
     title: '已完成的任务',
     data: data
   })
