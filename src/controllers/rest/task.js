@@ -27,7 +27,7 @@ let getTasks = async ctx => {
     result: tasks
   });
 };
-
+// postman中x-www-form-urlencoded下才能获取数据
 let order = async ctx => {
   let taskId = ctx.request.body.taskId;
   let result = await taskDao.update({
@@ -70,5 +70,5 @@ module.exports = {
   'POST /api/completedTasks': completedTasks,
   'POST /api/publish': publish,
   'GET /api/getTasks': getTasks,
-  'POST /api/order': order
+  'PUT /api/order': order
 };
