@@ -24,17 +24,13 @@
 import Vue from 'vue'
 import { alert, bsInput } from 'vue-strap'
 import { Toast, mtButton, Field, DatetimePicker } from 'mint-ui'
-import { bus } from '../share.js'
+import bus from './bus'
 
 Vue.component('mt-button', mtButton)
 Vue.component('mt-field', Field)
 Vue.component('mt-datetime-picker', DatetimePicker)
 
 var task = "选择任务"
-
-bus.$on("hello", function(id){
-    task = id
-})
 
 export default{
     name: "createTask",
@@ -54,6 +50,9 @@ export default{
         }
     },
     created: function() {
+        bus.$on('emitTask', function (val) {
+            task = val
+        })
     },
     methods: {
         open(picker) {
@@ -61,7 +60,6 @@ export default{
         },
         handleChange(value) {
             this.now = value
-            console.log(value)
         },
         openToast() {
             Toast("正在发布..")

@@ -1,8 +1,7 @@
 <template>
     <div>
         <back></back>
-        <mt-radio title="选择任务" v-model="value1" :options="options"
-        @click.native="confirmTask">
+        <mt-radio title="选择任务" v-model="value" :options="options">
         </mt-radio>
     </div>
 </template>
@@ -12,7 +11,7 @@
 
 import Vue from 'vue'
 import { Raido } from 'mint-ui'
-import { bus } from '../share.js'
+import bus from './bus'
 import router from '../router/index'
 import back from './Back'
 
@@ -22,21 +21,13 @@ export default {
     name: "selectTask",
     data() {
         return {
-            value1: ""
+            value: "",
+            options: ['代课', '代取', '顺风车','借东西']
         }
     },
-    created() {
-        this.options = [
-            {label: '代课', value: 'dk'},
-            {label: '代取', value: 'dk'},
-            {label: '顺风车', value: 'dk'},
-            {label: '借东西', value: 'dk'}
-        ]
-    },
-    methods: {
-        confirmTask: function(event){
-            console.log("send..." + this.value1);
-            bus.$emit('hello', this.value1)
+    watch: {
+        value(val){
+            bus.$emit('emitTask', val)
             router.push('createTask')
         }
     }
