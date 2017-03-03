@@ -9,5 +9,9 @@ module.exports = db.defineModel('users', {
   wx: {
     type: db.STRING(30),
     allowNull: true
+  },
+  credit: {
+    type: db.INTEGER,
+    defaultValue: 0
   }
 });

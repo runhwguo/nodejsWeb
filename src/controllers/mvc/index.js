@@ -1,6 +1,8 @@
 import {cookie2user} from '../../tools/cookie';
 import {session} from '../../tools/config';
 import {mkDirsSync} from '../../tools/upload';
+import {Task}  from '../../tools/model';
+import {TASK_STATE}  from '../../models/Task';
 import fs from 'fs';
 import uuid from 'uuid';
 import path from 'path';
@@ -13,7 +15,6 @@ charset(superagent);
 const DIR = 'mvc/';
 
 let home = async ctx => {
-  // query form database TODO
   let data = [
     {
       "type": "代取",

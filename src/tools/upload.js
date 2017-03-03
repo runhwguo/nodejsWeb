@@ -1,4 +1,5 @@
 import path from 'path';
+import appRootDir from 'app-root-dir';
 import fs from'fs';
 import Busboy from 'busboy';
 import uuid from 'uuid';
@@ -59,7 +60,7 @@ let uploadFile = async(ctx, options) => {
         console.log('file...');
         let fileName = uuid.v4() + '.' + getSuffixName(filename);
         let _uploadFilePath = path.join(filePath, fileName);
-        let saveTo = path.join(_uploadFilePath);
+        let saveTo = path.join(appRootDir.get(), _uploadFilePath);
 
         // 文件保存到制定路径
         file.pipe(fs.createWriteStream(saveTo));
@@ -67,7 +68,7 @@ let uploadFile = async(ctx, options) => {
         // 文件写入事件结束
         file.on('end', () => {
           result.success = true;
-          result.filename = filePath + '/' + fileName;
+          result.filename = `${path.sep}${path.join(filePath, fileName)}`;
 
           console.log('文件上传成功！');
           resolve(result);

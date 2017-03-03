@@ -39,7 +39,7 @@
 <input id="back" type="button" class="btn btn-link" value="< 返回"/>
 <form id="publishInfo" action="/api/publish" method="post" enctype="multipart/form-data">
     <div id="pickTask">
-        <el-select id="taskType" v-model="value" name="taskType" placeholder="请选择">
+        <el-select id="type" v-model="value" name="type" placeholder="请选择">
             <el-option
                     v-for="task in tasks"
                     :label="task.label"
@@ -142,12 +142,11 @@
         margin-bottom: 15px;
     }
 
-    #taskType {
+    #type {
         display: inline
     }
 </style>
 
-<script src="/static/js/ajaxFileUpload.js"></script>
 <script>
   $(() => {
     let form = $("#publishInfo"),
@@ -231,4 +230,5 @@
 </script>
 <script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
 <script src="//cdn.bootcss.com/bootstrap-filestyle/1.2.1/bootstrap-filestyle.min.js"></script>
+<script src="/static/js/ajax_file_upload.js"></script>
 {% endblock %}
