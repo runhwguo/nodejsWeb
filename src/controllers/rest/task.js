@@ -1,7 +1,6 @@
 import tracer from 'tracer';
 import {Task}  from '../../tools/model';
 import {TASK_STATE}  from '../../models/Task';
-import {cookie2user} from '../../tools/cookie';
 import {session} from '../../tools/config';
 import {uploadFile} from '../../tools/upload';
 
@@ -15,7 +14,7 @@ let getTasks = async ctx => {
   let offset = Number.parseInt(ctx.request.query.offset);
   let limit = Number.parseInt(ctx.request.query.limit);
   let result = await Task.findAll({
-    attributes: ['type', 'deadline', 'detail', 'filename', 'reward'],
+    attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
     where: {
       state: TASK_STATE.RELEASED_NOT_CLAIMED
     },
@@ -31,10 +30,24 @@ let getTasks = async ctx => {
   });
 };
 
-let publish = async ctx => {
-  let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
-  let user = await cookie2user(schoolResourceShareCookie);
+let order = async ctx => {
+  let user = ctx.state.user;
+  let taskId = ctx.request.body.taskId;
+  let result = await Task.update({
+    receiveTaskUserId: user.id,
+    state: TASK_STATE.COMPLETING
+  }, {
+    where: {
+      id: taskId
+    }
+  });
+  ctx.rest({
+    result: result
+  });
+};
 
+let publish = async ctx => {
+  let user = ctx.state.user;
   let userId = user.id;
 
   let serverFilePath = 'static/tmp';
@@ -48,7 +61,7 @@ let publish = async ctx => {
     fileType: `taskImage/${firstDir}/${secondDir}`,
     path: serverFilePath
   });
-  result['userId'] = userId;
+  result['publishUserId'] = userId;
   result['deadline'] = new Date(result['deadline']).getTime();
   logger.info(result);
 
@@ -59,5 +72,6 @@ let publish = async ctx => {
 module.exports = {
   'POST /api/completedTasks': completedTasks,
   'POST /api/publish': publish,
-  'GET /api/getTasks': getTasks
+  'GET /api/getTasks': getTasks,
+  'POST /api/order': order
 };
