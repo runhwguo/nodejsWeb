@@ -1,7 +1,7 @@
 // config files:
-const defaultConfig = './../config/config-default.js';
-const overrideConfig = './config/config-override.js';
-const testConfig = './config/config-test.js';
+const defaultConfig = './../config/config_default.js';
+const overrideConfig = './config/config_override.js';
+const testConfig = './../config/config_test.js';
 
 import fs from 'fs';
 

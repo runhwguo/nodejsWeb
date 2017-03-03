@@ -29,6 +29,7 @@ module.exports = (path, opts) => {
     // 给ctx绑定render函数:
     ctx.render = (view, model) => {
       // 把render后的内容赋值给response.body: 为了扩展 将多个对象的属性复制到一个对象中
+      view = `${view}.html`;
       ctx.response.body = env.render(view, Object.assign({}, ctx.state || {}, model || {}));
       // 设置Content-Type:
       ctx.response.type = 'text/html';

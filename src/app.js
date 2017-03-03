@@ -1,11 +1,12 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import logger from 'koa-logger';
+import opn from 'opn';
 import controller from './tools/controller';
 import templating from './tools/templating';
 import rest from './tools/rest';
 import cookie from './tools/cookie';
-import config from './tools/config';
+import {project, session} from './tools/config';
 
 const app = new Koa();
 
@@ -14,20 +15,15 @@ const isProduction = process.env.NODE_ENV === 'production';
 app.use(logger());
 
 app.use(async(ctx, next) => {
-  let reqPath = ctx.request.path;
-  if (!(reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api'))) {
-    // console.log('验证用户是否登录');
-    let loginCookie = ctx.cookies.get(config.session.cookieName);
-    let user = await cookie.cookie2user(loginCookie);
-    if (user) {
-      // console.log('用户有login state cookieName');
-      await next();
-    } else {
-      // console.log('用户没有login state cookieName');
-      ctx.response.redirect('/login');
-    }
-  } else {
+  // console.log('验证用户是否登录');
+  let loginCookie = ctx.cookies.get(session.cookieName);
+  let user = await cookie.cookie2user(loginCookie);
+  if (user) {
+    ctx.state.user = user;
     await next();
+  } else {
+    // console.log('用户没有login state cookieName');
+    ctx.response.redirect('/login');
   }
 });
 
@@ -55,5 +51,10 @@ app.use(rest.restify());
 
 // 处理URL路由
 app.use(controller());
-app.listen(8080);
-console.log('app started at port 8080...');
+app.listen(project.port);
+const uri = `http://localhost:${project.port}`;
+console.log(`app started at port ${uri}...`);
+if (process.env.NODE_ENV === 'test') {
+  opn(uri);
+}
+console.log(`node is running in ${process.env.NODE_ENV}`);
