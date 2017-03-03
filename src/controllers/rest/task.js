@@ -63,10 +63,14 @@ let publish = async ctx => {
   });
   result['publishUserId'] = userId;
   result['deadline'] = new Date(result['deadline']).getTime();
-  logger.info(result);
 
-  let createResult = await Task.create(result);
-  logger.log(createResult);
+  let isOK = false;
+  if (await Task.create(result)) {
+    isOK = true;
+  }
+  ctx.rest({
+    result: isOK
+  });
 };
 
 module.exports = {
