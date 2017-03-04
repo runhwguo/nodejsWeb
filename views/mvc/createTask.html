@@ -2,16 +2,12 @@
 
 {% block main %}
 <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
-
+<link rel="stylesheet" href="/static/libs/bootstrap-select-1.12.2.min.css">
+<link href="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
 <style>
 
-    label {
-        float: left;
-        margin-top: 8px;
-        margin-left: 20px;
-    }
-
-    .form-control, #datetime {
+    .form-control {
         width: 70%;
         margin-left: 15%;
     }
@@ -20,7 +16,7 @@
         margin-top: 3%;
     }
 
-    #login {
+    #submit {
         width: 40%;
         margin-left: 30%;
     }
@@ -29,50 +25,36 @@
         margin-left: 3%;
         margin-top: 2%;
     }
-
-    #datetime {
-        margin-bottom: 15px;
-    }
 </style>
-
 
 <input id="back" type="button" class="btn btn-link" value="< 返回"/>
 <form id="publishInfo" action="/api/publish" method="post" enctype="multipart/form-data">
-    <div id="pickTask">
-        <el-select id="type" v-model="value" name="type" placeholder="请选择">
-            <el-option
-                    v-for="task in tasks"
-                    :label="task.label"
-                    :value="task.value">
-            </el-option>
-        </el-select>
+    <div class="form-group text-center">
+        <select class="selectpicker col-form-select form-control" id="type" name="type" title="请选择发布类型">
+            <option value="substituteClass">代课</option>
+            <option value="substituteFetch">代取</option>
+            <option value="freeRide">顺风车</option>
+            <option value="borrowSomething">东西</option>
+        </select>
     </div>
 
     <div class="form-group">
         <input type="text" class="form-control" name="name" id="name" value="{{user.name}}" placeholder="姓名">
     </div>
 
-
     <div class="form-group">
         <input type="text" class="form-control" id="tel" name="tel" value="{{user.tel}}" placeholder="电话号码">
     </div>
 
-    <div id="datetime" class="border">
-        <mt-field @click.native="open('picker')" placeholder="截止时间" :value="pickerValue | formatDate"></mt-field>
-        <mt-datetime-picker
-                ref="picker"
-                type="datetime"
-                v-model="pickerValue"
-                @confirm="handleChange">
-        </mt-datetime-picker>
-        <input id="deadline" type="hidden" name="deadline" :value="pickerValue | formatDate"/>
+    <div class="form-group">
+        <input type="text" id="deadline" name="deadline" class="form-control" placeholder="请选择截止时间(包含)" readonly>
     </div>
 
     <div class="form-group">
         <textarea class="form-control" rows="5" id="detail" cols="10" name="detail"
                   placeholder="请详细说明任务详情，比如地点时间，不然接任务人就一脸懵逼了~">三江楼405 马克思 3/4节 ffffffffffff</textarea>
     </div>
-    <div class="form-group">
+    <div class="form-group" style="margin-left: 15%">
         <input type="file" id="file" name="file" class="filestyle" data-input="false" data-buttonName="btn-primary"
                data-buttonText="图片补充(可选)">
     </div>
@@ -80,78 +62,22 @@
         <input type="text" class="form-control" id="reward" name="reward" value="21" placeholder="报酬(元)"/>
     </div>
 
-    <input id="login" type="submit" class="btn btn-primary" value="发布"/>
+    <!--<input id="login" type="submit" class="btn btn-primary" value="发布"/>-->
+    <a id="submit" class="btn btn-primary ladda-button" data-style="expand-right"><span
+            class="ladda-label"
+            id="submitBtnWord">发布</span></a>
 </form>
 
-<script src="/static/js/vue.js"></script>
-<script src="//unpkg.com/mint-ui/lib/index.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
-<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
-<script src="//unpkg.com/element-ui/lib/index.js"></script>
-
-<script>
-  new Vue({
-    //delimiters: ["${","}"],
-    el: "#datetime",
-    data: {
-      pickerValue: new Date()
-    },
-    methods: {
-      open(picker) {
-        this.$refs[picker].open();
-      },
-      handleChange(value) {
-        this.now = value
-        console.log(value)
-      }
-    },
-    filters: {
-      formatDate: date => {
-        date = new Date(date)
-        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
-      }
-    },
-    computed: {}
-  });
-
-  new Vue({
-    el: "#pickTask",
-    data(){
-      return {
-        tasks: [
-          {value: "substituteClass", label: "代课"},
-          {value: "substituteFetch", label: "代取"},
-          {value: "freeRide", label: "顺风车"},
-          {value: "borrowSomething", label: "借东西"}
-        ],
-        value: ''
-      }
-    }
-  })
-</script>
-<style>
-
-    .border {
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-
-    #pickTask {
-        width: 70%;
-        margin-left: 15%;
-        margin-bottom: 15px;
-    }
-
-    #type {
-        display: inline
-    }
-</style>
-
+<script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js"></script>
+<script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js"></script>
 <script>
   $(() => {
     let form = $("#publishInfo"),
       back = $('#back'),
+      submit = $('#submit'),
+      submitBtnWord = $('#submitBtnWord'),
       createTask = $('#createTaskTab');
+    $('#deadline').datepicker();
 
     form.bootstrapValidator({
       message: 'The form is not valid',
@@ -204,11 +130,29 @@
               message: "请输入正整数的钱数"
             }
           }
+        },
+        type: {
+          message: 'The type is not valid',
+          validators: {
+            notEmpty: {
+              message: '请选择任务类型'
+            }
+          }
+        },
+        deadline: {
+          message: 'The deadline is not valid',
+          validators: {
+            notEmpty: {
+              message: '请选择结束日期'
+            }
+          }
         }
       }
-    }).on('success.form.bv', e => {
+    });
+    submit.click(e => {
       e.preventDefault();
-
+      let loading = Ladda.create(submit.get(0));
+      loading.start();
       $.ajaxFileUpload({
         type: form.attr('method'),
         url: form.attr('action'),
@@ -216,8 +160,24 @@
         fileElementId: 'file',
         data: JSON.parse('{"' + decodeURIComponent(form.serialize()).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}'),
         dataType: 'json',
-        success: data => {
-          console.log(data);
+        success: (data, status) => {
+          console.log(data, status);
+          submitBtnWord.text('成功');
+          setTimeout(() => {
+            submitBtnWord.text('发布');
+            loading.stop();
+            $('#detail').val('');
+            $('.selectpicker').selectpicker('val', []);
+            $('#reward').val('');
+            $(".badge").remove();
+          }, 500);
+        },
+        error: (xhr, status, e) => {
+          submitBtnWord.text('失败');
+          setTimeout(() => {
+            submitBtnWord.text('发布');
+            loading.stop();
+          }, 500);
         }
       });
     });
@@ -231,4 +191,6 @@
 <script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
 <script src="//cdn.bootcss.com/bootstrap-filestyle/1.2.1/bootstrap-filestyle.min.js"></script>
 <script src="/static/js/ajax_file_upload.js"></script>
+<script src="/static/libs/bootstrap-select-1.12.2.min.js"></script>
+<script src="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
 {% endblock %}
