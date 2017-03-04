@@ -1,9 +1,11 @@
 import crypto from  'crypto';
 
 const TOKEN = "FuckQ";
-const APP_ID = "AppSecret";
-const APP_SECRET = "811ab6450256efbd880e241aad7c570c";
+const APP_ID = "wx4e4e65e636691304";
+const APP_SECRET = "267497e487074a081b2bf0d609169bb7";
 const ENCODING_AES_KEY = "MdnDaEKiUmUOPK8YGYuvimwMbpp0rd8lZZ7lwai7vmN";
+const GET_ACCESS_TOKEN = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET';//get
+const GET_WX_IP = 'https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=ACCESS_TOKEN';
 
 const check = async ctx => {
   let signature = ctx.query.signature;
