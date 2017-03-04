@@ -1,6 +1,9 @@
 import crypto from  'crypto';
 
-const token = "FuckQ";
+const TOKEN = "FuckQ";
+const APP_ID = "AppSecret";
+const APP_SECRET = "811ab6450256efbd880e241aad7c570c";
+const ENCODING_AES_KEY = "MdnDaEKiUmUOPK8YGYuvimwMbpp0rd8lZZ7lwai7vmN";
 
 const check = async ctx => {
   let signature = ctx.query.signature;
@@ -10,7 +13,7 @@ const check = async ctx => {
 
   /*  加密/校验流程如下： */
   //1. 将token、timestamp、nonce三个参数进行字典序排序
-  let array = [token, timestamp, nonce];
+  let array = [TOKEN, timestamp, nonce];
   array.sort();
   var str = array.toString().replace(/,/g, "");
 
@@ -22,10 +25,10 @@ const check = async ctx => {
   if (code === signature) {
     ctx.rest(echostr);
   } else {
-    ctx.rest(echostr);
+    ctx.rest('error');
   }
 };
 
 module.exports = {
-  'GET /api/wechat/check': check
-}
+  'GET /api/wechat/': check
+};
