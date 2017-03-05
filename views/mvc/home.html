@@ -98,9 +98,8 @@
     <ul class="list-group">
         {% for item in data %}
         <li class="list-group-item">
-            <span class="task-info">[{{item.type}}]  {{item.location}}</span>
-            <span class="task-reward">[悬赏]{{item.reward}}</span>
-            <span>{{item.date}}</span>
+            <span class="task-info">[{{item.type}}]&nbsp;{{item.location}}</span>
+            <span class="task-reward">[悬赏]&nbsp;{{item.reward}}</span>
             <input type="button" class="btn btn-primary btn-xs take-task" value="接单"/>
             <input type="button" class="btn btn-default btn-xs top-task" value="置顶"/>
         </li>
