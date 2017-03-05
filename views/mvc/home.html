@@ -5,6 +5,10 @@
   $(() => {
     let home = $('#homeTab');
     home.attr('href', 'javascript:void(0)');
+
+    if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+      console.log("滚动条已经到达底部为" + $(document).scrollTop());
+    }
   });
 </script>
 
@@ -96,14 +100,12 @@
     </div>
 
     <ul class="list-group">
-        {% for item in data %}
-        <li class="list-group-item">
-            <span class="task-info">[{{item.type}}]&nbsp;{{item.location}}</span>
-            <span class="task-reward">[悬赏]&nbsp;{{item.reward}}</span>
+        <li v-for="task in tasks" class="list-group-item">
+            <span class="task-info">[${task.type}]&nbsp;${task.detail}</span>
+            <span class="task-reward">[悬赏]&nbsp;${task.reward}</span>
             <input type="button" class="btn btn-primary btn-xs take-task" value="接单"/>
             <input type="button" class="btn btn-default btn-xs top-task" value="置顶"/>
         </li>
-        {% endfor %}
     </ul>
 
 </div>
@@ -154,5 +156,20 @@
         margin-right: 20px;
     }
 </style>
-
+<script src="/static/libs/vue.js"></script>
+<script>
+  var main = new Vue({
+    delimiters: ['${', '}'],
+    el: '#main',
+    data: {
+      tasks: [
+        {
+          type: '1',
+          detail: '123',
+          reward: 123
+        }
+      ]
+    }
+  })
+</script>
 {% endblock %}
