@@ -96,6 +96,6 @@ let uploadFile = async(ctx, options) => {
 };
 
 
-module.exports = {
+export {
   uploadFile, mkDirsSync
 };

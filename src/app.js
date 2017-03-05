@@ -5,7 +5,7 @@ import opn from 'opn';
 import controller from './tools/controller';
 import templating from './tools/templating';
 import rest from './tools/rest';
-import cookie from './tools/cookie';
+import {cookie2user} from './tools/cookie';
 import {project, session} from './tools/config';
 
 const app = new Koa();
@@ -16,7 +16,7 @@ app.use(logger());
 
 app.use(async(ctx, next) => {
   let loginCookie = ctx.cookies.get(session.cookieName);
-  let user = await cookie.cookie2user(loginCookie);
+  let user = await cookie2user(loginCookie);
   if (user) {
     ctx.state.user = user;
   }

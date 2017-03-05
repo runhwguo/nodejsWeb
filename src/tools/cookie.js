@@ -28,6 +28,6 @@ function user2cookie(id, password) {
 }
 
 
-module.exports = {
+export {
   cookie2user, user2cookie
 };

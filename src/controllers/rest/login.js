@@ -3,7 +3,7 @@ import config from '../../tools/config';
 import superagent from 'superagent';
 import charset from 'superagent-charset';
 import cheerio from 'cheerio';
-import cookie from '../../tools/cookie';
+import * as cookie from '../../tools/cookie';
 
 charset(superagent);
 
