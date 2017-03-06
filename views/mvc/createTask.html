@@ -63,9 +63,9 @@
     </div>
 
     <!--<input id="login" type="submit" class="btn btn-primary" value="发布"/>-->
-    <a id="submit" class="btn btn-primary ladda-button" data-style="expand-right"><span
+    <button id="submit" type="submit" class="btn btn-primary ladda-button" data-style="expand-right"><span
             class="ladda-label"
-            id="submitBtnWord">发布</span></a>
+            id="submitBtnWord">发布</span></button>
 </form>
 
 <script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js"></script>
@@ -74,10 +74,9 @@
   $(() => {
     let form = $("#publishInfo"),
       back = $('#back'),
-      submit = $('#submit'),
       submitBtnWord = $('#submitBtnWord'),
       createTask = $('#createTaskTab');
-    $('#deadline').datepicker();
+    $('#deadline').datepicker({minDate: 0});
 
     form.bootstrapValidator({
       message: 'The form is not valid',
@@ -148,10 +147,9 @@
           }
         }
       }
-    });
-    submit.click(e => {
+    }).on('success.form.bv', e => {
       e.preventDefault();
-      let loading = Ladda.create(submit.get(0));
+      let loading = Ladda.create($('#submit').get(0));
       loading.start();
       $.ajaxFileUpload({
         type: form.attr('method'),
@@ -180,7 +178,7 @@
           }, 500);
         }
       });
-    });
+    };
 
     back.click(() => {
       window.history.back();

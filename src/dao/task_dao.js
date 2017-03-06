@@ -23,7 +23,6 @@ const create = async(option = {}) => {
   return isOk;
 };
 
-
-module.exports = {
+export {
   findAll, update, create
 };
