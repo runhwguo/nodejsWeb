@@ -20,8 +20,8 @@ const create = async(model, option = {}) => {
   return isOk;
 };
 
-const count = async(model) => {
-  return await model.count();
+const count = async(model, opt = {}) => {
+  return await model.count(opt);
 };
 
 const remove = async(model, option = {}) => {

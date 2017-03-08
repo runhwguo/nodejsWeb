@@ -12,15 +12,15 @@ let completedTasks = async ctx => {
 
 };
 
-let getTasks = async ctx => {
-  let offset = Number.parseInt(ctx.request.query.offset);
-  let limit = Number.parseInt(ctx.request.query.limit);
+let get = async ctx => {
+  let page = Number.parseInt(ctx.params.page);
+  let limit = Number.parseInt(ctx.params.limit);
   let tasks = await Dao.findAll(Task, {
     attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
     where: {
       state: TASK_STATE.RELEASED_NOT_CLAIMED
     },
-    offset: offset,
+    offset: (page - 1) * limit,
     limit: limit
   });
   ctx.rest({
@@ -66,9 +66,21 @@ let publish = async ctx => {
   });
 };
 
+const count = async ctx => {
+  let count = await Dao.count(Task, {
+    where: {
+      state: TASK_STATE.RELEASED_NOT_CLAIMED
+    }
+  });
+  ctx.rest({
+    result: count
+  });
+};
+
 module.exports = {
   'POST /api/completedTasks': completedTasks,
   'POST /api/publish': publish,
-  'GET /api/getTasks': getTasks,
+  'GET /api/task/get/page/:page/limit/:limit': get,
+  'GET /api/task/get/count': count,
   'PUT /api/order': order
 };

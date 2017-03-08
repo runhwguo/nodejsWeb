@@ -1,17 +1,7 @@
 {% extends "./myBase.html" %}
 
 {% block main %}
-<script>
-  $(() => {
-    let home = $('#homeTab');
-    home.attr('href', 'javascript:void(0)');
-
-    if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
-      console.log("滚动条已经到达底部为" + $(document).scrollTop());
-    }
-  });
-</script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -98,15 +88,16 @@
         <input type="text" class="form-control" placeholder="搜索任务：请输入关键字">
         <span class="input-group-btn"><button class="btn btn-default" type="button">确定</button></span>
     </div>
-    <div id="vm">
+    <div id="vm" class="pre-scrollable">
         <p v-if="loading">Loading...</p>
-        <ul class="list-group">
-            <li v-for="task in tasks" class="list-group-item">
-                <span class="task-info">[${task.type}]&nbsp;${task.detail}</span>
-                <span class="task-reward">[悬赏]&nbsp;${task.reward}</span>
+        <ul class="list-group text-center">
+            <li v-for="item in items" class="list-group-item">
+                <span class="task-info">[${item.type}]&nbsp;${item.detail}</span>
+                <span class="task-reward">[悬赏]&nbsp;${item.reward}</span>
                 <input type="button" class="btn btn-primary btn-xs take-task" value="接单"/>
                 <input type="button" class="btn btn-default btn-xs top-task" value="置顶"/>
             </li>
+            <i id="loading" class="fa fa-spinner fa-spin" style="font-size:24px"></i>
         </ul>
     </div>
 
@@ -161,24 +152,39 @@
 <script src="/static/libs/vue.js"></script>
 <script src="/static/libs/vue-resource.js"></script>
 <script>
-  function showError(resp) {
-    resp.json().then(result => console.log('Error: ' + result.message));
-  }
+  $(() => {
+    let loading = $('#loading');
+    $('#indexTab').attr('href', 'javascript:void(0)');
+    let vmDiv = $('#vm');
+    vmDiv.scroll(() => {
+      let divHeight = vmDiv.height();
+      let scrollHeight = vmDiv[0].scrollHeight;
+      let scrollTop = vmDiv[0].scrollTop;
+      if (scrollTop + divHeight >= scrollHeight) {
+        console.log("滚动条到底部了");
+        if (vm.currentPage * vm.limit < vm.count) {
+          loading.show();
+          vm.get();
+        } else {
+          loading.hide();
+        }
+      }
+    });
+  });
+
   let vm = new Vue({
     delimiters: ['${', '}'],
     el: '#vm',
     data: {
-      tasks: [
-        {
-          type: '1',
-          detail: '123',
-          reward: 123
-        }
-      ]
+      items: [],
+      currentPage: 0,
+      loading: false,
+      count: -1,
+      limit: 5
     },
     created: function () { // VM初始化成功后的回调函数
       this
-        .$resource('/api/admin/get/pages')
+        .$resource('/api/task/get/count')
         .get()
         .then(resp => {
           resp
@@ -190,40 +196,24 @@
         });
     },
     methods: {
+      _showError: resp => {
+        resp.json().then(result => console.log('Error: ' + result.message));
+      },
       get: () => {
         vm.loading = true;
-        vm.$resource('/api/admin/get/page/' + vm.page).get()
+        vm.$resource(`/api/task/get/page/${vm.currentPage + 1}/limit/${vm.limit}?where=index`).get()
           .then(resp => {
             vm.loading = false;
-            resp.json().then(result => vm.items = result.result);
+            resp.json().then(result => {
+              vm.items = vm.items.concat(result.result);
+              vm.currentPage++;
+            });
           }, resp => {
             vm.loading = false;
-            showError(resp);
+            vm._showError(resp);
           });
-      },
-      remove: item => {
-        vm.$resource('/api/admin/remove/type/' + item.type + '/id/' + item.id).delete()
-          .then(resp => {
-            resp.json().then(result => {
-              if (result.result) {
-                let index = -1;
-                for (let i = 0; i < vm.items.length; i++) {
-                  if (vm.items[i].id === item.id) {
-                    index = i;
-                    break;
-                  }
-                }
-                if (index != -1) {
-                  vm.items.splice(index, 1);
-                  vm.count--;
-                }
-              } else {
-                showError(resp);
-              }
-            });
-          }, showError);
       }
     }
-  })
+  });
 </script>
 {% endblock %}

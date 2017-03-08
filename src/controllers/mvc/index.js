@@ -14,7 +14,7 @@ charset(superagent);
 
 const DIR = 'mvc/';
 
-let home = async ctx => {
+let index = async ctx => {
   let data = [
     {
       "type": "代取",
@@ -30,7 +30,7 @@ let home = async ctx => {
     }
   ];
 
-  ctx.render(`${DIR}home`, {
+  ctx.render(`${DIR}index`, {
     title: '校园资源共享',
     data: data
   });
@@ -88,7 +88,7 @@ let userInfo = async ctx => {
 
 
 module.exports = {
-  'GET /': home,
+  'GET /': index,
   'GET /me': me,
   'GET /createTask': createTask,
   'GET /login': login,
