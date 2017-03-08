@@ -34,17 +34,21 @@ app.use(async(ctx, next) => {
 // 而在开发环境下，我们希望koa能顺带处理静态文件，
 // 否则，就必须手动配置一个反向代理服务器，
 // 这样会导致开发环境非常复杂
-if (!isProduction) {
-  let staticFiles = require('./tools/static_files');
-  // middleware
-  app.use(staticFiles('/static/', `${__dirname}/../static`));
-}
+// TODO
+// if (!isProduction) {
+let staticFiles = require('./tools/static_files');
+// middleware
+app.use(staticFiles('/static/', `${__dirname}/../static`));
+// }
 // 解析原始request请求，nodejs的request和koa的request都不解析request
 app.use(bodyParser());
 // 给ctx加上render()来使用Nunjucks middleware
 app.use(templating('views', {
-  noCache: !isProduction,
-  watch: !isProduction
+  // TODO
+  // noCache: !isProduction,
+  // watch: !isProduction
+  noCache: true,
+  watch: true
 }));
 
 // bind .rest() for ctx:

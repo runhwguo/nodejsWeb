@@ -92,7 +92,7 @@ let login = async ctx => {
     }
   }
   ctx.rest({
-    user: user.dataValues
+    result: !!user
   });
 };
 

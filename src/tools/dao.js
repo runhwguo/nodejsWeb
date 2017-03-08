@@ -8,16 +8,6 @@ const findAll = async(model, option = {}) => {
   return tasks;
 };
 
-const findById = async(model, id = '') => {
-  let data = await model.findById(id);
-  let user = null;
-  if (data) {
-    user = data.dataValues;
-  }
-
-  return user;
-};
-
 const update = async(model, values, options) => {
   return await model.update(values, options);
 };
@@ -30,6 +20,15 @@ const create = async(model, option = {}) => {
   return isOk;
 };
 
+const count = async(model) => {
+  return await model.count();
+};
+
+const remove = async(model, option = {}) => {
+  let opt = Object.assign(option, {force: true});
+  return await model.destroy(opt);
+};
+
 export {
-  findAll, findById, update, create
+  findAll, update, create, count, remove
 };

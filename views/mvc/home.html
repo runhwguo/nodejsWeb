@@ -98,15 +98,17 @@
         <input type="text" class="form-control" placeholder="搜索任务：请输入关键字">
         <span class="input-group-btn"><button class="btn btn-default" type="button">确定</button></span>
     </div>
-
-    <ul class="list-group">
-        <li v-for="task in tasks" class="list-group-item">
-            <span class="task-info">[${task.type}]&nbsp;${task.detail}</span>
-            <span class="task-reward">[悬赏]&nbsp;${task.reward}</span>
-            <input type="button" class="btn btn-primary btn-xs take-task" value="接单"/>
-            <input type="button" class="btn btn-default btn-xs top-task" value="置顶"/>
-        </li>
-    </ul>
+    <div id="vm">
+        <p v-if="loading">Loading...</p>
+        <ul class="list-group">
+            <li v-for="task in tasks" class="list-group-item">
+                <span class="task-info">[${task.type}]&nbsp;${task.detail}</span>
+                <span class="task-reward">[悬赏]&nbsp;${task.reward}</span>
+                <input type="button" class="btn btn-primary btn-xs take-task" value="接单"/>
+                <input type="button" class="btn btn-default btn-xs top-task" value="置顶"/>
+            </li>
+        </ul>
+    </div>
 
 </div>
 
@@ -157,10 +159,14 @@
     }
 </style>
 <script src="/static/libs/vue.js"></script>
+<script src="/static/libs/vue-resource.js"></script>
 <script>
-  let main = new Vue({
+  function showError(resp) {
+    resp.json().then(result => console.log('Error: ' + result.message));
+  }
+  let vm = new Vue({
     delimiters: ['${', '}'],
-    el: '#main',
+    el: '#vm',
     data: {
       tasks: [
         {
@@ -169,6 +175,54 @@
           reward: 123
         }
       ]
+    },
+    created: function () { // VM初始化成功后的回调函数
+      this
+        .$resource('/api/admin/get/pages')
+        .get()
+        .then(resp => {
+          resp
+            .json()
+            .then(result => {
+              vm.count = result.result;
+              vm.get();
+            });
+        });
+    },
+    methods: {
+      get: () => {
+        vm.loading = true;
+        vm.$resource('/api/admin/get/page/' + vm.page).get()
+          .then(resp => {
+            vm.loading = false;
+            resp.json().then(result => vm.items = result.result);
+          }, resp => {
+            vm.loading = false;
+            showError(resp);
+          });
+      },
+      remove: item => {
+        vm.$resource('/api/admin/remove/type/' + item.type + '/id/' + item.id).delete()
+          .then(resp => {
+            resp.json().then(result => {
+              if (result.result) {
+                let index = -1;
+                for (let i = 0; i < vm.items.length; i++) {
+                  if (vm.items[i].id === item.id) {
+                    index = i;
+                    break;
+                  }
+                }
+                if (index != -1) {
+                  vm.items.splice(index, 1);
+                  vm.count--;
+                }
+              } else {
+                showError(resp);
+              }
+            });
+          }, showError);
+      }
     }
   })
 </script>

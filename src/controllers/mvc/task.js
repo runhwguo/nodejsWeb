@@ -1,10 +1,10 @@
-import taskDao from '../../dao/task_dao';
-import userDao from '../../dao/user_dao';
+import {Task,User} from '../../tools/model';
+import * as Dao from '../../tools/dao';
 import {TASK_STATE}  from '../../models/Task';
 
 const DIR = 'mvc/';
 let unfinishedTasks = async ctx => {
-  let data = await taskDao.findAll({
+  let data = await Dao.findAll(Task,{
     attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
     where: {
       state: TASK_STATE.COMPLETING
@@ -17,7 +17,7 @@ let unfinishedTasks = async ctx => {
   })
 };
 let completedTasks = async ctx => {
-  let data = await taskDao.findAll({
+  let data = await Dao.findAll(Task,{
     attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
     where: {
       state: TASK_STATE.COMPLETED,
@@ -31,7 +31,7 @@ let completedTasks = async ctx => {
   })
 };
 let publishedTasks = async ctx => {
-  let data = await taskDao.findAll({
+  let data = await Dao.findAll(Task,{
     attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
     where: {
       publishUserId: ctx.state.user.id
@@ -44,7 +44,7 @@ let publishedTasks = async ctx => {
   })
 };
 let myInfo = async ctx => {
-  let user = await userDao.findById(ctx.state.user.id);
+  let user = await User.findById(ctx.state.user.id);
 
   ctx.render(`${DIR}completedTasks`, {
     title: '已完成的任务',

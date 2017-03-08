@@ -68,15 +68,23 @@
             id="submitBtnWord">发布</span></button>
 </form>
 
-<script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js"></script>
-<script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js"></script>
+<script src="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script>
   $(() => {
     let form = $("#publishInfo"),
       back = $('#back'),
       submitBtnWord = $('#submitBtnWord'),
+      deadline = $('#deadline'),
       createTask = $('#createTaskTab');
-    $('#deadline').datepicker({minDate: 0});
+    deadline.datepicker({
+      minDate: 0,
+      autoclose: true,
+      onSelect: () => {
+        form.data('bootstrapValidator')
+          .updateStatus('deadline', 'NOT_VALIDATED',null)
+          .validateField('deadline');
+      }
+    });
 
     form.bootstrapValidator({
       message: 'The form is not valid',
@@ -178,7 +186,7 @@
           }, 500);
         }
       });
-    };
+    });
 
     back.click(() => {
       window.history.back();
@@ -190,5 +198,6 @@
 <script src="//cdn.bootcss.com/bootstrap-filestyle/1.2.1/bootstrap-filestyle.min.js" async></script>
 <script src="/static/js/ajax_file_upload.js" defer></script>
 <script src="/static/libs/bootstrap-select-1.12.2.min.js" defer></script>
-<script src="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
+<script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
 {% endblock %}

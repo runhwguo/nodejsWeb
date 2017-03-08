@@ -3,7 +3,7 @@ import {Task}  from '../../tools/model';
 import {TASK_STATE}  from '../../models/Task';
 import {session} from '../../tools/config';
 import {uploadFile} from '../../tools/upload';
-import taskDao from '../../dao/task_dao';
+import * as Dao from '../../tools/dao';
 import db from '../../tools/db';
 
 let logger = tracer.console();
@@ -15,7 +15,7 @@ let completedTasks = async ctx => {
 let getTasks = async ctx => {
   let offset = Number.parseInt(ctx.request.query.offset);
   let limit = Number.parseInt(ctx.request.query.limit);
-  let tasks = await taskDao.findAll({
+  let tasks = await Dao.findAll(Task, {
     attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
     where: {
       state: TASK_STATE.RELEASED_NOT_CLAIMED
@@ -30,7 +30,7 @@ let getTasks = async ctx => {
 // postman中x-www-form-urlencoded下才能获取数据
 let order = async ctx => {
   let taskId = ctx.request.body.taskId;
-  let result = await taskDao.update({
+  let result = await Dao.update(Task, {
     priority: db.literal('priority+1')
   }, {
     where: {
@@ -60,7 +60,7 @@ let publish = async ctx => {
   result['publishUserId'] = userId;
   result['deadline'] = new Date(result['deadline']).getTime();
 
-  let isOK = await taskDao.create(result);
+  let isOK = await Dao.create(Task, result);
   ctx.rest({
     result: isOK
   });

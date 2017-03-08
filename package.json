@@ -7,7 +7,7 @@
     "prestart": "npm install",
     "pretest": "npm install",
     "test": "NODE_ENV=test supervisor node --use_strict start.js",
-    "start": "NODE_ENV=production node --use_strict start.js"
+    "start": "NODE_ENV=production supervisor node --use_strict start.js"
   },
   "keywords": [
     "koa, nodejs framework",
