@@ -13,19 +13,19 @@ charset(superagent);
 
 const DIR = 'mvc/';
 
-let index = async ctx => {
+const index = async ctx => {
   ctx.render(`${DIR}index`, {
     title: '校园资源共享'
   });
 };
 
-let me = async ctx => {
+const me = async ctx => {
   ctx.render(`${DIR}myInfo`, {
     title: '我的信息'
   });
 };
 
-let createTask = async ctx => {
+const createTask = async ctx => {
   let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
   let user = await cookie2user(schoolResourceShareCookie);
   ctx.render(`${DIR}createTask`, {
@@ -34,7 +34,7 @@ let createTask = async ctx => {
   });
 };
 
-let login = async ctx => {
+const login = async ctx => {
   const UJS_MAIN_URL = 'http://my.ujs.edu.cn/';
   const captchaGenerateUrl = `${UJS_MAIN_URL}captchaGenerate.portal`;
   const idPng = uuid.v4() + '.png';
@@ -60,7 +60,7 @@ let login = async ctx => {
   }
 };
 
-let userInfo = async ctx => {
+const userInfo = async ctx => {
   let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
   let user = await cookie2user(schoolResourceShareCookie);
   ctx.render(`${DIR}userInfo`, {

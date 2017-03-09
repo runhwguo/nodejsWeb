@@ -3,7 +3,7 @@ import * as Dao from '../../tools/dao';
 import {TASK_STATE}  from '../../models/Task';
 
 const DIR = 'mvc/';
-let unfinishedTasks = async ctx => {
+const unfinishedTasks = async ctx => {
   let data = await Dao.findAll(Task, {
     attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
     where: {
@@ -16,7 +16,7 @@ let unfinishedTasks = async ctx => {
     data: data
   })
 };
-let completedTasks = async ctx => {
+const completedTasks = async ctx => {
   let data = await Dao.findAll(Task, {
     attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
     where: {
@@ -30,7 +30,7 @@ let completedTasks = async ctx => {
     data: data
   })
 };
-let publishedTasks = async ctx => {
+const publishedTasks = async ctx => {
   let data = await Dao.findAll(Task, {
     attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
     where: {
