@@ -1,6 +1,6 @@
 import tracer from 'tracer';
 import {Task}  from '../../tools/model';
-import {TASK_STATE}  from '../../models/Task';
+import {TASK_STATE, TASK_TYPE}  from '../../models/Task';
 import {session} from '../../tools/config';
 import {uploadFile} from '../../tools/upload';
 import * as Dao from '../../tools/dao';
@@ -16,20 +16,23 @@ let get = async ctx => {
   let page = Number.parseInt(ctx.params.page);
   let limit = Number.parseInt(ctx.params.limit);
   let tasks = await Dao.findAll(Task, {
-    attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
+    attributes: ['id', 'type', 'detail', 'reward'],
     where: {
       state: TASK_STATE.RELEASED_NOT_CLAIMED
     },
     offset: (page - 1) * limit,
     limit: limit
   });
+  tasks.forEach(item => {
+    item.type = TASK_TYPE[item.type];
+  });
   ctx.rest({
     result: tasks
   });
 };
 // postman中x-www-form-urlencoded下才能获取数据
-let order = async ctx => {
-  let taskId = ctx.request.body.taskId;
+let stick = async ctx => {
+  let taskId = ctx.params.id;
   let result = await Dao.update(Task, {
     priority: db.literal('priority+1')
   }, {
@@ -82,5 +85,5 @@ module.exports = {
   'POST /api/publish': publish,
   'GET /api/task/get/page/:page/limit/:limit': get,
   'GET /api/task/get/count': count,
-  'PUT /api/order': order
+  'PUT /api/task/stick/:id': stick
 };

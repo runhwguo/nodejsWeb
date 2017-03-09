@@ -1,7 +1,9 @@
 {% extends "./myBase.html" %}
 
 {% block main %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
+<link rel="stylesheet" href="cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -93,9 +95,11 @@
         <ul class="list-group text-center">
             <li v-for="item in items" class="list-group-item">
                 <span class="task-info">[${item.type}]&nbsp;${item.detail}</span>
-                <span class="task-reward">[悬赏]&nbsp;${item.reward}</span>
-                <input type="button" class="btn btn-primary btn-xs take-task" value="接单"/>
-                <input type="button" class="btn btn-default btn-xs top-task" value="置顶"/>
+                <span class="task-reward">[悬赏]&nbsp;${item.reward}(元)</span>
+                <button type="button" class="btn btn-primary btn-sm take-task">接单</button>
+                <button type="button" class="btn btn-default btn-sm top-task ladda-button" data-style="slide-right"
+                        v-on:click="stick(item)">置顶
+                </button>
             </li>
             <i id="loading" class="fa fa-spinner fa-spin" style="font-size:24px"></i>
         </ul>
@@ -105,11 +109,19 @@
 
 <style>
     .take-task {
-        top: 5px;
+        position: absolute;
+        top: 2px;
+        right: 5px;
+        font-size: 13px;
+        width: 70px;
     }
 
     .top-task {
-        top: 30px;
+        position: absolute;
+        top: 34px;
+        width: 70px;
+        right: 5px;
+        font-size: 13px;
     }
 
     .task-reward {
@@ -151,9 +163,12 @@
 </style>
 <script src="/static/libs/vue.js"></script>
 <script src="/static/libs/vue-resource.js"></script>
+<script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js"></script>
+<script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js"></script>
 <script>
   $(() => {
     let loading = $('#loading');
+    loading.hide();
     $('#indexTab').attr('href', 'javascript:void(0)');
     let vmDiv = $('#vm');
     vmDiv.scroll(() => {
@@ -205,6 +220,11 @@
           .then(resp => {
             vm.loading = false;
             resp.json().then(result => {
+              result.result.forEach(item => {
+                if (item.detail.length > 25) {
+                  item.detail = item.detail.substr(0, 25) + '...';
+                }
+              });
               vm.items = vm.items.concat(result.result);
               vm.currentPage++;
             });
@@ -212,6 +232,32 @@
             vm.loading = false;
             vm._showError(resp);
           });
+      },
+      stick: item => {
+        let loading = Ladda.create($('.ladda-button').get(0)),
+          stickButton = $('.top-task');
+        loading.start();
+        vm.$resource(`/api/task/stick/${item.id}`).update()
+          .then(resp => {
+            vm.loading = false;
+            resp.json().then(result => {
+              stickButton.text(result.result ? '成功' : '失败');
+              setTimeout(() => {
+                stickButton.text('置顶');
+                loading.stop();
+              }, 500);
+            });
+          }, resp => {
+            stickButton.text('失败');
+            setTimeout(() => {
+              stickButton.text('置顶');
+              loading.stop();
+            }, 500);
+            vm._showError(resp);
+          });
+      },
+      order:item=>{
+        window.location.href='/task/detail';
       }
     }
   });

@@ -2,7 +2,6 @@ import {cookie2user} from '../../tools/cookie';
 import {session} from '../../tools/config';
 import {mkDirsSync} from '../../tools/upload';
 import {Task}  from '../../tools/model';
-import {TASK_STATE}  from '../../models/Task';
 import fs from 'fs';
 import uuid from 'uuid';
 import path from 'path';
@@ -15,24 +14,8 @@ charset(superagent);
 const DIR = 'mvc/';
 
 let index = async ctx => {
-  let data = [
-    {
-      "type": "代取",
-      "location": "第二食堂",
-      "reward": "15元",
-      "date": "2017-08-08"
-    },
-    {
-      "type": "代取",
-      "location": "第二食堂",
-      "reward": "15元",
-      "date": "2017-08-08"
-    }
-  ];
-
   ctx.render(`${DIR}index`, {
-    title: '校园资源共享',
-    data: data
+    title: '校园资源共享'
   });
 };
 
@@ -60,8 +43,8 @@ let login = async ctx => {
   if (!mkDirsSync(codeRealDir)) {
     console.error('create ' + codeRealDir + ' dir fail!');
   }
-  const verificationCodePicture = path.join(codeRealDir, idPng);
-  let verificationCodePictureUrl = path.join(codeDir, idPng);
+  const verificationCodePicture = path.join(codeRealDir, idPng),
+    verificationCodePictureUrl = path.join(codeDir, idPng);
 
   let response = await superagent.get(captchaGenerateUrl);
   if (response.ok) {

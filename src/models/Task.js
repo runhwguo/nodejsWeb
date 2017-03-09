@@ -6,7 +6,14 @@ const STATE = {
   COMPLETED: 2,
   PAID: 3,
   CANCELLED: 4,
-  EXPIRED:5
+  EXPIRED: 5
+};
+
+const TYPE = {
+  SUBSTITUTE_CLASS: '代课',
+  SUBSTITUTE_FETCH: '代取',
+  FREE_RIDE: '顺风车',
+  BORROW_SOMETHING: '东西'
 };
 
 module.exports = db.defineModel('tasks', {
@@ -31,3 +38,4 @@ module.exports = db.defineModel('tasks', {
 });
 
 module.exports.TASK_STATE = STATE;
+module.exports.TASK_TYPE = TYPE;
