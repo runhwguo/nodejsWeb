@@ -2,7 +2,7 @@ import path from 'path';
 import mime from 'mime';
 import fs from 'mz/fs';// 与nodejs的fs功能相同,封装成Promise
 
-function staticFiles(url, dir) {
+export default (url, dir) => {
   return async(ctx, next) => {
     let requestPath = ctx.request.path;
     if (requestPath.startsWith(url)) {
@@ -17,6 +17,4 @@ function staticFiles(url, dir) {
       await next();
     }
   };
-}
-
-module.exports = staticFiles;
+};

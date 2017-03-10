@@ -11,16 +11,14 @@ import charset from 'superagent-charset';
 
 charset(superagent);
 
-const DIR = 'mvc/';
-
 const index = async ctx => {
-  ctx.render(`${DIR}index`, {
+  ctx.render(`index`, {
     title: '校园资源共享'
   });
 };
 
 const me = async ctx => {
-  ctx.render(`${DIR}myInfo`, {
+  ctx.render(`myInfo`, {
     title: '我的信息'
   });
 };
@@ -28,7 +26,7 @@ const me = async ctx => {
 const createTask = async ctx => {
   let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
   let user = await cookie2user(schoolResourceShareCookie);
-  ctx.render(`${DIR}createTask`, {
+  ctx.render(`createTask`, {
     title: '发布任务',
     user: user
   });
@@ -53,7 +51,7 @@ const login = async ctx => {
     console.log('ujs cookie = ' + cookie);
     ctx.cookies.set(session.ujsCookieName, cookie);
     fs.writeFileSync(verificationCodePicture, response.body, 'binary');
-    ctx.render('mvc/login', {
+    ctx.render('login', {
       title: '教务处身份验证',
       verificationCodePictureUrl: verificationCodePictureUrl
     });
@@ -63,7 +61,7 @@ const login = async ctx => {
 const userInfo = async ctx => {
   let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
   let user = await cookie2user(schoolResourceShareCookie);
-  ctx.render(`${DIR}userInfo`, {
+  ctx.render(`userInfo`, {
     title: '完善用户信息',
     user: user
   });

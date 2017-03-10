@@ -114,14 +114,13 @@ let exp = {
       throw new Error('Cannot sync() when NODE_ENV is set to \'production\'.');
     }
   },
-  literal: sequelize.literal
+  literal: sequelize.literal,
+  ID: ID_TYPE,
+  generateId: generateId
 };
 
 for (let type of TYPES) {
   exp[type] = Sequelize[type];
 }
 
-exp.ID = ID_TYPE;
-exp.generateId = generateId;
-
-module.exports = exp;
+export default exp;

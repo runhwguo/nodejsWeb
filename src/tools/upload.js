@@ -3,20 +3,19 @@ import appRootDir from 'app-root-dir';
 import fs from'fs';
 import Busboy from 'busboy';
 import uuid from 'uuid';
+import {inspect} from 'util';
 
 /**
  * 同步创建文件目录
  * @param  {string} dirname 目录绝对地址
  * @return {boolean}        创建目录结果
  */
-let mkDirsSync = dirname => {
+const mkDirsSync = dirname => {
   if (fs.existsSync(dirname)) {
     return true;
-  } else {
-    if (mkDirsSync(path.dirname(dirname))) {
-      fs.mkdirSync(dirname);
-      return true;
-    }
+  } else if (mkDirsSync(path.dirname(dirname))) {
+    fs.mkdirSync(dirname);
+    return true;
   }
 };
 
@@ -25,7 +24,7 @@ let mkDirsSync = dirname => {
  * @param  {string} fileName 获取上传文件的后缀名
  * @return {string}          文件后缀名
  */
-let getSuffixName = fileName => {
+const _getSuffixName = fileName => {
   let nameList = fileName.split('.');
   return nameList[nameList.length - 1];
 };
@@ -36,7 +35,7 @@ let getSuffixName = fileName => {
  * @param  {object} options 文件上传参数 fileType文件类型， path文件存放路径
  * @return {Promise}
  */
-let uploadFile = async(ctx, options) => {
+const uploadFile = async(ctx, options) => {
   let req = ctx.req;
   let busboy = new Busboy({headers: req.headers});
 
@@ -52,13 +51,14 @@ let uploadFile = async(ctx, options) => {
     console.log('文件上传中...');
     console.dir(req.headers['content-type']);
     let result = {
-      success: false
+      success: false,
+      data: {}
     };
 
     // 解析请求文件事件
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
         console.log('file...');
-        let fileName = uuid.v4() + '.' + getSuffixName(filename);
+        let fileName = uuid.v4() + '.' + _getSuffixName(filename);
         let _uploadFilePath = path.join(filePath, fileName);
         let saveTo = path.join(appRootDir.get(), _uploadFilePath);
 
@@ -68,7 +68,8 @@ let uploadFile = async(ctx, options) => {
         // 文件写入事件结束
         file.on('end', () => {
           result.success = true;
-          result.filename = `${path.sep}${path.join(filePath, fileName)}`;
+          result.data.filename = `${path.sep}${path.join(filePath, fileName)}`;
+          result.data.date = new Date(result.data.date).getTime();
 
           console.log('文件上传成功！');
           resolve(result);
@@ -76,8 +77,8 @@ let uploadFile = async(ctx, options) => {
       }
     );
 
-    busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
-      result[fieldname] = val;
+    busboy.on('field', (fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) => {
+      result.data[fieldname] = val;
     });
 
     // 解析结束事件
@@ -94,7 +95,6 @@ let uploadFile = async(ctx, options) => {
     req.pipe(busboy);
   })
 };
-
 
 export {
   uploadFile, mkDirsSync

@@ -2,7 +2,6 @@ import {Task, User} from '../../tools/model';
 import * as Dao from '../../tools/dao';
 import {TASK_STATE}  from '../../models/Task';
 
-const DIR = 'mvc/';
 const unfinishedTasks = async ctx => {
   let data = await Dao.findAll(Task, {
     attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
@@ -11,7 +10,7 @@ const unfinishedTasks = async ctx => {
     }
   });
 
-  ctx.render(`${DIR}unfinishedTasks`, {
+  ctx.render(`unfinishedTasks`, {
     title: '未完成任务',
     data: data
   })
@@ -25,7 +24,7 @@ const completedTasks = async ctx => {
     }
   });
 
-  ctx.render(`${DIR}completedTasks`, {
+  ctx.render(`completedTasks`, {
     title: '已完成的任务',
     data: data
   })
@@ -38,7 +37,7 @@ const publishedTasks = async ctx => {
     }
   });
 
-  ctx.render(`${DIR}completedTasks`, {
+  ctx.render(`completedTasks`, {
     title: '发布的任务',
     data: data
   })
@@ -46,7 +45,7 @@ const publishedTasks = async ctx => {
 let myInfo = async ctx => {
   let user = await User.findById(ctx.state.user.id);
 
-  ctx.render(`${DIR}completedTasks`, {
+  ctx.render(`completedTasks`, {
     title: '已完成的任务',
     data: user
   })
@@ -54,7 +53,7 @@ let myInfo = async ctx => {
 
 const taskDetail = async ctx => {
   let task = null;
-  ctx.render(`${DIR}task_detail`, {
+  ctx.render(`task_detail`, {
     title: '任务详情',
     data: task
   })

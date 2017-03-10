@@ -1,13 +1,13 @@
-import nunjucks from 'nunjucks';
+import {Environment, FileSystemLoader} from 'nunjucks';
 
-function createEnv(path = 'views', opts) {
+const createEnv = (path = 'views', opts) => {
   let autoescape = opts.autoescape && true,
     noCache = opts.noCache || false,
     watch = opts.watch || false,
     throwOnUndefined = opts.throwOnUndefined || false,
-    env = new nunjucks.Environment(
+    env = new Environment(
       // 创建一个文件系统加载器，从views目录读取模板
-      new nunjucks.FileSystemLoader(path, {
+      new FileSystemLoader(path, {
         noCache: noCache,
         watch: watch,
       }), {
@@ -20,17 +20,16 @@ function createEnv(path = 'views', opts) {
     }
   }
   return env;
-}
+};
 
-module.exports = (path, opts) => {
+export default (path, opts) => {
   // 创建Nunjucks的env对象:
   let env = createEnv(path, opts);
   return async(ctx, next) => {
     // 给ctx绑定render函数:
     ctx.render = (view, model) => {
       // 把render后的内容赋值给response.body: 为了扩展 将多个对象的属性复制到一个对象中
-      view = `${view}.html`;
-      ctx.response.body = env.render(view, Object.assign({}, ctx.state || {}, model || {}));
+      ctx.response.body = env.render(`mvc/${view}.html`, Object.assign({}, ctx.state || {}, model || {}));
       // 设置Content-Type:
       ctx.response.type = 'text/html';
     };

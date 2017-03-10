@@ -4,8 +4,9 @@ import logger from 'koa-logger';
 import opn from 'opn';
 import controller from './tools/controller';
 import templating from './tools/templating';
-import rest from './tools/rest';
 import {cookie2user} from './tools/cookie';
+import staticFiles from './tools/static_files';
+import {restify} from './tools/rest';
 import {project, session} from './tools/config';
 
 const app = new Koa();
@@ -36,7 +37,6 @@ app.use(async(ctx, next) => {
 // 这样会导致开发环境非常复杂
 // TODO
 // if (!isProduction) {
-let staticFiles = require('./tools/static_files');
 // middleware
 app.use(staticFiles('/static/', `${__dirname}/../static`));
 // }
@@ -44,15 +44,12 @@ app.use(staticFiles('/static/', `${__dirname}/../static`));
 app.use(bodyParser());
 // 给ctx加上render()来使用Nunjucks middleware
 app.use(templating('views', {
-  // TODO
-  // noCache: !isProduction,
-  // watch: !isProduction
-  noCache: true,
-  watch: true
+  noCache: !isProduction,
+  watch: !isProduction
 }));
 
 // bind .rest() for ctx:
-app.use(rest.restify());
+app.use(restify());
 
 // 处理URL路由
 app.use(controller());
