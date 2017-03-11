@@ -1,20 +1,7 @@
 {% extends "./myBase.html" %}
 
 {% block main %}
-<script>
-  $(() => {
-    let back = $('#back');
-    back.click(() => {
-      window.history.back();
-    });
-  });
-</script>
 <style>
-    #back {
-        margin-left: 1%;
-        margin-top: 2%;
-    }
-
     .task {
         margin-left: 40px;
     }
@@ -24,7 +11,7 @@
         margin-right: 20px;
     }
 </style>
-<input id="back" type="button" class="btn btn-link" value="< 返回"/>
+<input type="button" class="btn btn-link back" value="< 返回">
 {% for item in data %}
 <div class="list-group list">
     <a class="list-group-item">
@@ -34,5 +21,12 @@
     </a>
 </div>
 {% endfor %}
+<script>
+  $(() => {
+    $('.back').click(() => {
+      window.history.back();
+    });
+  });
+</script>
 
 {% endblock %}

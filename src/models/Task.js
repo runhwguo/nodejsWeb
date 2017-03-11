@@ -13,7 +13,7 @@ const TYPE = {
   SUBSTITUTE_CLASS: '代课',
   SUBSTITUTE_FETCH: '代取',
   FREE_RIDE: '顺风车',
-  BORROW_SOMETHING: '东西'
+  BORROW_SOMETHING: '借东西'
 };
 
 module.exports = db.defineModel('tasks', {

@@ -1,25 +1,8 @@
 {% extends "./myBase.html" %}
 
 {% block main %}
-<script>
-  $(() => {
-    let me = $('#me'),
-      back = $('#back');
-    me.attr('href', 'javascript:void(0)');
-    back.click(() => window.history.back());
-  });
-</script>
+<link href="/static/css/common.css" rel="stylesheet">
 <style>
-    #main {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-
-    #back {
-        margin-left: 1%;
-        margin-top: 2%;
-    }
-
     .task {
         margin-left: 40px;
     }
@@ -28,14 +11,15 @@
         text-align: center;
     }
 </style>
-<input id="back" type="button" class="btn btn-link" value="< 返回"/>
+
+<input type="button" class="btn btn-link back" value="< 返回">
 
 <div id="userImg">
     <img src="/static/images/cat1.jpeg" alt="cat1">
     <p>小明</p>
 </div>
 
-<div id="main" class="list-group">
+<div class="list-group main">
     <a id="unfinishedTasks" class="list-group-item" href="/unfinishedTasks">
         <span class="pull-left glyphicon glyphicon-asterisk"></span>
         <span class="task">未完成任务<span class="badge">3</span></span>
@@ -57,5 +41,11 @@
         <span class="pull-right glyphicon glyphicon-chevron-right"></span>
     </a>
 </div>
+<script>
+  $(() => {
+    $('.back').click(() => window.history.back());
+    $('#meTab').attr('href', 'javascript:void(0)');
+  });
+</script>
 
 {% endblock %}

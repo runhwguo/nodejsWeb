@@ -44,8 +44,10 @@ app.use(staticFiles('/static/', `${__dirname}/../static`));
 app.use(bodyParser());
 // 给ctx加上render()来使用Nunjucks middleware
 app.use(templating('views', {
-  noCache: !isProduction,
-  watch: !isProduction
+  // noCache: !isProduction,
+  // watch: !isProduction
+  noCache: true,
+  watch: true
 }));
 
 // bind .rest() for ctx:

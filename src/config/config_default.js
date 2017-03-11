@@ -15,7 +15,7 @@ const config = {
     maxAge: 86400//一天
   },
   project: {
-    port: 3000
+    port: 8080
   }
 };
 

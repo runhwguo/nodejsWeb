@@ -59,9 +59,18 @@ const taskDetail = async ctx => {
   })
 };
 
+const showTasks = async ctx=>{
+  let where = ctx.query.where;
+  console.log(where);
+  ctx.render(`show_tasks`, {
+    title: where
+  })
+};
+
 module.exports = {
   'GET /unfinishedTasks': unfinishedTasks,
   'GET /completedTasks': completedTasks,
   'GET /publishedTasks': publishedTasks,
+  'GET /showTasks': showTasks,
   'GET /myInfo': myInfo
 };

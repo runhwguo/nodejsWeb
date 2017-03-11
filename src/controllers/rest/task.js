@@ -60,16 +60,18 @@ let publish = async ctx => {
     fileType: `taskImage/${firstDir}/${secondDir}`,
     path: serverFilePath
   });
-  result['publishUserId'] = userId;
-  result['deadline'] = new Date(result['deadline']).getTime();
+  result.data.publishUserId = userId;
+  result.data.deadline = new Date(result.data.deadline).getTime();
 
-  let isOK = await Dao.create(Task, result);
+  let isOK = await Dao.create(Task, result.data);
   ctx.rest({
     result: isOK
   });
 };
 
 const count = async ctx => {
+  // 判断来源
+  let where = ctx.query.where;
   let count = await Dao.count(Task, {
     where: {
       state: TASK_STATE.RELEASED_NOT_CLAIMED

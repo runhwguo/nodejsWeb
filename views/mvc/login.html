@@ -11,20 +11,16 @@
         margin-top: 3%;
     }
 
-    #login {
+    .submit {
         width: 60%;
         margin-left: 20%;
     }
-
-    #back {
-        margin-left: 3%;
-        margin-top: 2%;
-    }
 </style>
+<link href="/static/css/common.css" rel="stylesheet">
 <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
 <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
 
-<input id="back" type="button" class="btn btn-link" value="< 返回"/>
+<input type="button" class="btn btn-link back" value="< 返回"/>
 
 <form id="stdInfo" action="/api/login" method="post">
     <div class="form-group">
@@ -41,8 +37,8 @@
                name="verificationCode" placeholder="验证码"/>
         <img src="{{verificationCodePictureUrl}}" style="width: 20%;margin-left: 5%;">
     </div>
-    <button id="login" type="submit" class="btn btn-primary ladda-button" data-style="expand-right"><span
-            class="ladda-label" id="submitBtnWord">登录</span></button>
+    <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
+            class="ladda-label">登录</span></button>
 </form>
 <script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
 <script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
@@ -50,8 +46,8 @@
 <script>
   $(() => {
     let form = $("#stdInfo"),
-      submitBtnWord = $('#submitBtnWord'),
-      back = $('#back');
+      submitBtnWord = $('.ladda-label'),
+      back = $('.back');
     form.bootstrapValidator({
       message: 'The form is not valid',
       feedbackIcons: {
@@ -95,7 +91,7 @@
       }
     }).on('success.form.bv', e => {
       e.preventDefault();
-      let loading = Ladda.create($('#login').get(0));
+      let loading = Ladda.create($(':submit').get(0));
       loading.start();
       $.ajax({
         type: form.attr('method'),
