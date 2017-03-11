@@ -67,7 +67,6 @@ const uploadFile = async(ctx, options) => {
 
         // 文件写入事件结束
         file.on('end', () => {
-          result.success = true;
           result.data.filename = `${path.sep}${path.join(filePath, fileName)}`;
           result.data.date = new Date(result.data.date).getTime();
 
@@ -83,6 +82,7 @@ const uploadFile = async(ctx, options) => {
 
     // 解析结束事件
     busboy.on('finish', () => {
+      result.success = true;
       console.log('文件上结束');
       resolve(result);
     });

@@ -65,6 +65,10 @@
           validators: {
             notEmpty: {
               message: '请填写学号'
+            },
+            regexp: {
+              regexp: /^[0-9]+$/,
+              message: '请填写正确的学号'
             }
           }
         },
@@ -81,6 +85,10 @@
           validators: {
             notEmpty: {
               message: '请填写验证码'
+            },
+            regexp: {
+              regexp: /^[a-zA-Z0-9]{4}$/,
+              message: '请填写正确的验证码'
             }
           }
         }
