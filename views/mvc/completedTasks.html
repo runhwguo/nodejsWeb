@@ -2,7 +2,7 @@
 
 {% block main %}
 <link href="/static/css/common.css" rel="stylesheet">
-<input id="back" type="button" class="btn btn-link" value="< 返回"/>
+<input type="button" class="btn btn-link back" value="< 返回">
 {% for item in data %}
 <div class="list-group main">
     <a class="list-group-item">
@@ -13,20 +13,13 @@
     </a>
 </div>
 {% endfor %}
-<center>
-    <ul class="pagination">
-        <li><a href="#">&laquo;</a></li>
-        <li class="active"><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">&raquo;</a></li>
-    </ul>
-</center>
+<ul class="pager" style="margin:auto 50px">
+    <li class="previous"><a>&larr; 上一页</a></li>
+    <li class="next"><a>下一页 &rarr;</a></li>
+</ul>
 <script>
   $(() => {
-    l$('.back').click(() => {
+    $('.back').click(() => {
       window.history.back();
     });
   });
