@@ -17,6 +17,7 @@ let sequelize = new Sequelize(db.database, db.username, db.password, {
     min: 0,
     idle: 10000
   },
+  port: db.port,
   dialectOptions: {
     charset: 'utf8'
   }
@@ -24,7 +25,7 @@ let sequelize = new Sequelize(db.database, db.username, db.password, {
 
 const ID_TYPE = Sequelize.STRING(50);
 // 强制实现规则
-function defineModel(name, attributes) {
+let defineModel = (name, attributes) => {
   let attrs = {};
   for (let key in attributes) {
     let value = attributes[key];
@@ -89,8 +90,7 @@ function defineModel(name, attributes) {
           if (!obj.id) {
             obj.id = generateId();
           }
-          obj.createdAt = now;
-          obj.updatedAt = now;
+          obj.createdAt = obj.updatedAt = now;
           obj.version = 0;
         } else {
           console.log('will update entity...');
@@ -106,14 +106,7 @@ const TYPES = ['STRING', 'INTEGER', 'BIGINT', 'TEXT', 'DOUBLE', 'DATEONLY', 'BOO
 
 let exp = {
   defineModel: defineModel,
-  sync: () => {
-    // only allow create ddl in non-production environment:
-    if (process.env.NODE_ENV !== 'production') {
-      return sequelize.sync({force: true});
-    } else {
-      throw new Error('Cannot sync() when NODE_ENV is set to \'production\'.');
-    }
-  },
+  sync: () => sequelize.sync({force: true}),
   literal: sequelize.literal,
   ID: ID_TYPE,
   generateId: generateId
