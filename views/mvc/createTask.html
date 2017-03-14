@@ -153,7 +153,7 @@
       }
     }).on('success.form.bv', e => {
       e.preventDefault();
-      let loading = Ladda.create($(':submit').get(0));
+      let loading = Ladda.create($('.submit').get(0));
       loading.start();
       let serializeArray = form.serializeArray(),
         formData = {};

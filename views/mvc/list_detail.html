@@ -4,10 +4,9 @@
 <input type="button" class="btn btn-link back" value="< 返回">
 {% for item in data %}
 <div class="list-group main">
-    <a class="list-group-item">
+    <a class="list-group-item" href="#">
         <span>[{{item.type}}]</span>
-        <span>{{item.location}}</span>
-        <span>{{item.reward}}元</span>
+        <span>{{item.detail}}元</span>
         <span class="pull-right glyphicon glyphicon-chevron-right"></span>
     </a>
 </div>
