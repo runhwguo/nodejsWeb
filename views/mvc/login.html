@@ -7,10 +7,6 @@
         margin-left: 15%;
     }
 
-    #stdInfo {
-        margin-top: 3%;
-    }
-
     .submit {
         width: 60%;
         margin-left: 20%;
@@ -21,7 +17,7 @@
 
 <input type="button" class="btn btn-link back" value="< 返回"/>
 
-<form id="stdInfo" action="/api/login" method="post">
+<form class="main" action="/api/login" method="post">
     <div class="form-group">
         <input type="text" value="3150803016" class="form-control custom-form-control" id="id" name="id"
                placeholder="学号"/>
@@ -44,9 +40,8 @@
 <script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js" defer></script>
 <script>
   $(() => {
-    let form = $("#stdInfo"),
-      submitBtnWord = $('.ladda-label'),
-      back = $('.back');
+    let form = $('form'),
+      submitBtnWord = $('.ladda-label');
     form.bootstrapValidator({
       message: 'The form is not valid',
       feedbackIcons: {
@@ -96,7 +91,7 @@
         type: form.attr('method'),
         url: form.attr('action'),
         data: JSON.parse('{"' + decodeURIComponent(form.serialize()).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}'),
-        success: (data) => {
+        success: data => {
           if (data.result) {
             submitBtnWord.text('成功');
             setTimeout(() => {
@@ -106,7 +101,7 @@
             }, 500);
           }
         },
-        error: (xhr) => {
+        error: xhr => {
           submitBtnWord.text('失败');
           setTimeout(() => {
             submitBtnWord.text('登录');
@@ -115,7 +110,7 @@
         }
       });
     });
-    back.click(() => {
+    $('.back').click(() => {
       window.history.back();
     });
   });

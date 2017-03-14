@@ -3,9 +3,8 @@
 {% block main %}
 <script>
   $(() => {
-    let back = $('.back'),
-      form = $("form");
-    back.click(() => {
+    let form = $('form');
+    $('.back').click(() => {
       window.history.back();
     });
     form.submit(e => {
@@ -41,10 +40,6 @@
         margin-left: 30%;
     }
 
-    .back {
-        margin-left: 3%;
-        margin-top: 2%;
-    }
 </style>
 <input type='button' class='btn btn-link back' value='< 返回'/>
 <form class="userInfo" action='/api/save' method='post'>
