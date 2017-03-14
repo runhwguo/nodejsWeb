@@ -2,7 +2,7 @@ import sha1 from 'sha1';
 import {User} from './model';
 import {session} from './config';
 
-async function cookie2user(cookie) {
+const cookie2user = async cookie => {
   if (cookie) {
     let cookieElements = cookie.split('-');
     if (cookieElements.length === 3) {
@@ -18,13 +18,13 @@ async function cookie2user(cookie) {
       }
     }
   }
-}
+};
 
 //build cookieName string by: id-expires-sha1
-function user2cookie(id, password) {
+const user2cookie = (id, password) => {
   let expires = Math.round(Date.now() / 1000 + session.maxAge);
   return `${id}-${expires}-` + sha1(`${id}-${password}-${expires}-${session.cookieName}`);
-}
+};
 
 export {
   cookie2user, user2cookie

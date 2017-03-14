@@ -4,10 +4,10 @@
   "description": "learn how to use koa",
   "main": "start.js",
   "scripts": {
-    "prestart": "npm install",
-    "pretest": "npm install",
+    "prestart": "npm install -f",
+    "pretest": "npm install -f",
     "test": "NODE_ENV=test supervisor node --use_strict start.js",
-    "start": "NODE_ENV=production supervisor node --use_strict start.js"
+    "start": "NODE_ENV=production node --use_strict start.js"
   },
   "keywords": [
     "koa, nodejs framework",
@@ -32,7 +32,6 @@
     "mysql": "^2.11.1",
     "mz": "^2.4.0",
     "nunjucks": "^2.4.2",
-    "opn": "^4.0.2",
     "sequelize": "^3.24.1",
     "sha1": "^1.1.1",
     "superagent": "^3.4.1",

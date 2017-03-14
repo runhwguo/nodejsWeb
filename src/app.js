@@ -44,10 +44,8 @@ app.use(staticFiles('/static/', `${__dirname}/../static`));
 app.use(bodyParser());
 // 给ctx加上render()来使用Nunjucks middleware
 app.use(templating('views', {
-  // noCache: !isProduction,
-  // watch: !isProduction
-  noCache: true,
-  watch: true
+  noCache: !isProduction,
+  watch: !isProduction
 }));
 
 // bind .rest() for ctx:
@@ -58,7 +56,7 @@ app.use(controller());
 app.listen(project.port);
 const uri = `http://localhost:${project.port}`;
 console.log(`app started at port ${uri}...`);
-if (process.env.NODE_ENV === 'test') {
-  opn(uri);
+if (process.env.NODE_ENV !== 'production') {
+  console.log('不是生产环境');
 }
 console.log(`node is running in ${process.env.NODE_ENV}`);

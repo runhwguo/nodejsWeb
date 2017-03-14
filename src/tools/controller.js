@@ -4,7 +4,7 @@ import path from 'path';
 const fileList = [];
 
 // mvc rest
-function walk(dir) {
+const walk = dir => {
   let dirList = fs.readdirSync(dir);
   dirList.forEach(item => {
     if (fs.statSync(path.join(dir, item)).isDirectory()) {
@@ -13,9 +13,9 @@ function walk(dir) {
       fileList.push(path.join(dir, item));
     }
   });
-}
+};
 
-function addControllers(router, dir) {
+const addControllers = (router, dir) => {
 
   walk(path.join(__dirname, dir));
 
@@ -23,9 +23,9 @@ function addControllers(router, dir) {
     console.log(`process controller: ${f.replace(path.join(__dirname, dir), '')}`);
     addMapping(router, require(f));
   });
-}
+};
 
-function addMapping(router, mapping) {
+const addMapping = (router, mapping) => {
   for (let url in mapping) {
     if (url.startsWith('GET ')) {
       let path = url.substring(4);
@@ -51,7 +51,7 @@ function addMapping(router, mapping) {
       console.log('invalid URL: ${url}');
     }
   }
-}
+};
 
 export default (dir = '../controllers') => {
   let router = require('koa-router')();

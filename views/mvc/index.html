@@ -16,22 +16,27 @@
     <div class="carousel-inner" role="listbox">
         <div class="item active">
             <img src="/static/images/cat1.jpeg" alt="cat1">
+            <div class="carousel-caption">cat1</div>
         </div>
 
         <div class="item">
             <img src="/static/images/cat2.jpeg" alt="cat2">
+            <div class="carousel-caption">cat2</div>
         </div>
 
         <div class="item">
             <img src="/static/images/cat3.jpeg" alt="cat3">
+            <div class="carousel-caption">cat3</div>
         </div>
 
         <div class="item">
             <img src="/static/images/cat4.jpeg" alt="cat4">
+            <div class="carousel-caption">cat4</div>
         </div>
 
         <div class="item">
             <img src="/static/images/cat5.jpeg" alt="cat5">
+            <div class="carousel-caption">cat5</div>
         </div>
     </div>
 
@@ -148,10 +153,6 @@
         top: 5px;
     }
 
-    #myCarousel {
-        height: 201px
-    }
-
     .list-group {
         margin-top: 10px;
     }
@@ -166,6 +167,11 @@
         right: 10px;
         width: 80px;
         border-radius: 9px;
+    }
+
+    .carousel-inner > .item > img {
+        height: 200px;
+        width: 100%;
     }
 </style>
 <script src="/static/libs/vue.js"></script>

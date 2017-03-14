@@ -1,15 +1,11 @@
 // 统一Model的定义
 import Sequelize from 'sequelize';
-import uuid from 'uuid';
+import {v4} from 'uuid';
 import {db} from './config';
 
 console.log('init sequelize...');
 
-function generateId() {
-  return uuid.v4();
-}
-
-let sequelize = new Sequelize(db.database, db.username, db.password, {
+const sequelize = new Sequelize(db.database, db.username, db.password, {
   host: db.host,
   dialect: db.dialect,
   pool: {
@@ -25,7 +21,7 @@ let sequelize = new Sequelize(db.database, db.username, db.password, {
 
 const ID_TYPE = Sequelize.STRING(50);
 // 强制实现规则
-let defineModel = (name, attributes) => {
+const defineModel = (name, attributes) => {
   let attrs = {};
   for (let key in attributes) {
     let value = attributes[key];
@@ -88,7 +84,7 @@ let defineModel = (name, attributes) => {
         if (obj.isNewRecord) {
           console.log('will create entity...' + obj);
           if (!obj.id) {
-            obj.id = generateId();
+            obj.id = v4();
           }
           obj.createdAt = obj.updatedAt = now;
           obj.version = 0;
@@ -100,7 +96,7 @@ let defineModel = (name, attributes) => {
       }
     }
   });
-}
+};
 
 const TYPES = ['STRING', 'INTEGER', 'BIGINT', 'TEXT', 'DOUBLE', 'DATEONLY', 'BOOLEAN', 'BLOB', 'TEXT'];
 
@@ -108,8 +104,7 @@ let exp = {
   defineModel: defineModel,
   sync: () => sequelize.sync({force: true}),
   literal: sequelize.literal,
-  ID: ID_TYPE,
-  generateId: generateId
+  ID: ID_TYPE
 };
 
 for (let type of TYPES) {

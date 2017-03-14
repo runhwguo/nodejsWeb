@@ -7,7 +7,7 @@ import * as cookie from '../../tools/cookie';
 
 charset(superagent);
 
-let login = async ctx => {
+const login = async ctx => {
   let schoolResourceShareCookie = ctx.cookies.get(config.session.cookieName);
   let ujsCookieName = ctx.cookies.get(config.session.ujsCookieName);
   let user = null;

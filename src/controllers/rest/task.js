@@ -8,11 +8,11 @@ import db from '../../tools/db';
 
 let logger = tracer.console();
 
-let completedTasks = async ctx => {
+const completedTasks = async ctx => {
 
 };
 
-let get = async ctx => {
+const get = async ctx => {
   let page = Number.parseInt(ctx.params.page);
   let limit = Number.parseInt(ctx.params.limit);
   let tasks = await Dao.findAll(Task, {
@@ -31,7 +31,7 @@ let get = async ctx => {
   });
 };
 // postman中x-www-form-urlencoded下才能获取数据
-let stick = async ctx => {
+const stick = async ctx => {
   let taskId = ctx.params.id;
   let result = await Dao.update(Task, {
     priority: db.literal('priority+1')
@@ -45,7 +45,7 @@ let stick = async ctx => {
   });
 };
 
-let publish = async ctx => {
+const publish = async ctx => {
   let user = ctx.state.user;
   let userId = user.id;
 

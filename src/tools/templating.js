@@ -22,7 +22,7 @@ const createEnv = (path = 'views', opts) => {
   return env;
 };
 
-export default (path, opts) => {
+const templating = (path, opts) => {
   // 创建Nunjucks的env对象:
   let env = createEnv(path, opts);
   return async(ctx, next) => {
@@ -37,3 +37,5 @@ export default (path, opts) => {
     await next();
   };
 };
+
+export default templating;

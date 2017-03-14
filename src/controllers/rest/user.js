@@ -5,7 +5,7 @@ import tracer from 'tracer';
 
 let logger = tracer.console();
 
-let save = async ctx => {
+const save = async ctx => {
   let name = ctx.request.body.name;
   let wx = ctx.request.body.wx;
   let tel = ctx.request.body.tel;
