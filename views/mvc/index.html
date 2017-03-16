@@ -118,9 +118,9 @@
                 <span class="task-info">[${item.type}]&nbsp;${item.detail}</span>
                 <span class="task-reward">[悬赏]&nbsp;${item.reward}(元)</span>
                 <button type="button" class="btn btn-primary btn-sm take-task">接单</button>
-                <button v-bind:id="item.id" type="button" class="btn btn-default btn-sm top-task ladda-button"
-                        data-style="slide-right" v-on:click="stick(item)">置顶
-                </button>
+                <!--<button v-bind:id="item.id" type="button" class="btn btn-default btn-sm top-task ladda-button"-->
+                        <!--data-style="slide-right" v-on:click="stick(item)">置顶-->
+                <!--</button>-->
             </li>
             <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
         </ul>
@@ -131,19 +131,19 @@
 <style>
     .take-task {
         position: absolute;
-        top: 2px;
-        right: 5px;
+        bottom: 5px;
+        right: 8px;
         font-size: 13px;
         width: 60px;
     }
 
-    .top-task {
-        position: absolute;
-        top: 34px;
-        width: 60px;
-        right: 5px;
-        font-size: 13px;
-    }
+    /*.top-task {*/
+        /*position: absolute;*/
+        /*top: 34px;*/
+        /*width: 60px;*/
+        /*right: 5px;*/
+        /*font-size: 13px;*/
+    /*}*/
 
     .task-reward {
         position: absolute;
@@ -243,8 +243,8 @@
             vm.loading = false;
             resp.json().then(result => {
               result.result.forEach(item => {
-                if (item.detail.length > 25) {
-                  item.detail = item.detail.substr(0, 25) + '...';
+                if (item.detail.length > 45) {
+                  item.detail = item.detail.substr(0, 45) + '...';
                 }
               });
               vm.items = vm.items.concat(result.result);

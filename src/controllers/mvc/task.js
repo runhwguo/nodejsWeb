@@ -34,7 +34,8 @@ const publishedTasks = async ctx => {
     attributes: ['id', 'type', 'deadline', 'detail', 'filename', 'reward'],
     where: {
       publishUserId: ctx.state.user.id
-    }
+    },
+    limit: 5
   });
 
   ctx.render(`completedTasks`, {
@@ -59,7 +60,7 @@ const taskDetail = async ctx => {
   })
 };
 
-const showTasks = async ctx=>{
+const showTasks = async ctx => {
   let where = ctx.query.where;
   console.log(where);
   ctx.render(`show_tasks`, {
