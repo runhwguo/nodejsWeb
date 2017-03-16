@@ -149,7 +149,8 @@
       }
     }).on('success.form.bv', e => {
       e.preventDefault();
-      let loading = Ladda.create($('.submit').get(0));
+      let submit = $('.submit');
+      let loading = Ladda.create(submit.get(0));
       loading.start();
       let serializeArray = form.serializeArray(),
         formData = {};
@@ -168,11 +169,8 @@
           setTimeout(() => {
             submitBtnWord.text('发布');
             loading.stop();
-//            $('#detail').val('');
-//            $('.selectpicker').selectpicker('val', []);
-//            $('#reward').val('');
-//            $(".badge").remove();
-//            $('form')[0].reset();
+            // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
+            submit.attr('disabled', true);
           }, 500);
         },
         error: (xhr, status, e) => {

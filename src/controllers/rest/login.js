@@ -88,7 +88,11 @@ const login = async ctx => {
 
 
     if (user && isSuccessful) {
-      ctx.cookies.set(config.session.cookieName, cookie.user2cookie(username, password));
+      ctx.cookies.set(config.session.cookieName, cookie.user2cookie(username, password),
+        {
+          maxAge: config.session.maxAge * 1000
+        }
+      );
     }
   }
   ctx.rest({

@@ -49,7 +49,11 @@ const login = async ctx => {
     console.log('验证码图片获取成功');
     let cookie = response.header['set-cookie'][0].split(';')[0];
     console.log('ujs cookie = ' + cookie);
-    ctx.cookies.set(session.ujsCookieName, cookie);
+    ctx.cookies.set(session.ujsCookieName, cookie,
+      {
+        maxAge: session.maxAge * 1000
+      }
+    );
     fs.writeFileSync(verificationCodePicture, response.body, 'binary');
     ctx.render('login', {
       title: '教务处身份验证',
