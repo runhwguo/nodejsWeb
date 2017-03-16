@@ -60,7 +60,7 @@ $.extend({
   },
 
   ajaxFileUpload: s => {
-    // TODO introduce global settings, allowing the client to modify them for all requests, not only timeout
+    // introduce global settings, allowing the client to modify them for all requests, not only timeout
     s = $.extend({}, $.ajaxSettings, s);
     let id = Date.now(),
       form = $.createUploadForm(id, s.fileElementId, s.data);
