@@ -1,48 +1,17 @@
 {% extends './myBase.html' %}
 
 {% block main %}
-<script>
-  $(() => {
-    let form = $('form');
-    $('.back').click(() => {
-      window.history.back();
-    });
-    form.submit(e => {
-      $.ajax({
-        type: form.attr('method'),
-        url: form.attr('action'),
-        data: form.serialize(), // serializes the form's elements.
-        success: data => {
-          window.location.href = '/';
-        },
-        error: data => {
-          alert('error -> ' + data);
-        }
-      });
-
-      e.preventDefault(); // avoid to execute the actual submit of the form.
-    });
-  });
-</script>
-
 <style>
     .form-control {
         width: 50%;
         margin-left: 25%;
     }
 
-    .userInfo {
-        margin-top: 3%;
-    }
-
-    .submit {
-        width: 40%;
-        margin-left: 30%;
-    }
-
 </style>
+<link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
 <input type='button' class='btn btn-link back' value='< 返回'/>
-<form class="userInfo" action='/api/save' method='post'>
+<form class="main" action='/api/save' method='post'>
     <div class='form-group'>
         <input type='text' class='form-control' id='name' name='name' placeholder='姓名' value="{{user.name}}"/>
     </div>
@@ -55,6 +24,108 @@
     <div class='form-group'>
         <input type='text' class='form-control' id='wx' name='wx' value="{{user.wx}}" placeholder='微信号'/>
     </div>
-    <input type='submit' class='btn btn-primary submit' value='提交'/>
+    <!--<input type='submit' class='btn btn-primary submit' value='提交'/>-->
+    <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
+            class="ladda-label">提交</span></button>
 </form>
+<script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
+<script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
+<script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js" defer></script>
+<script>
+  $(() => {
+    let form = $('form'),
+      submitBtnWord = $('.ladda-label');
+    $('.back').click(() => {
+      window.history.back();
+    });
+//    form.submit(e => {
+//      $.ajax({
+//        type: form.attr('method'),
+//        url: form.attr('action'),
+//        data: form.serialize(), // serializes the form's elements.
+//        success: data => {
+//          window.location.href = '/';
+//        },
+//        error: data => {
+//          alert('error -> ' + data);
+//        }
+//      });
+//
+//      e.preventDefault(); // avoid to execute the actual submit of the form.
+//    });
+
+    form.bootstrapValidator({
+      message: 'The form is not valid',
+      feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+        id: {
+          message: 'The id is not valid',
+          validators: {
+            notEmpty: {
+              message: '请填写学号'
+            },
+            regexp: {
+              regexp: /^[0-9]+$/,
+              message: '请填写正确的学号'
+            }
+          }
+        },
+        password: {
+          message: 'The password is not valid',
+          validators: {
+            notEmpty: {
+              message: '请填写密码'
+            }
+          }
+        },
+        verificationCode: {
+          message: 'The verificationCode is not valid',
+          validators: {
+            notEmpty: {
+              message: '请填写验证码'
+            },
+            regexp: {
+              regexp: /^[a-zA-Z0-9]{4}$/,
+              message: '请填写正确的验证码'
+            }
+          }
+        }
+      }
+    }).on('success.form.bv', e => {
+      e.preventDefault();
+
+      let submit = $('.submit');
+      let loading = Ladda.create(submit.get(0));
+      loading.start();
+      $.ajax({
+        type: form.attr('method'),
+        url: form.attr('action'),
+        data: JSON.parse('{"' + decodeURIComponent(form.serialize()).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}'),
+        success: data => {
+          if (data.result) {
+            submitBtnWord.text('成功');
+            setTimeout(() => {
+              submitBtnWord.text('提交');
+              loading.stop();
+              // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
+              submit.attr('disabled', true);
+              window.location.href = '/';
+            }, 500);
+          }
+        },
+        error: xhr => {
+          submitBtnWord.text('失败');
+          setTimeout(() => {
+            submitBtnWord.text('提交');
+            loading.stop();
+          }, 500);
+        }
+      });
+    });
+  });
+</script>
 {% endblock %}

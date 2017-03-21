@@ -1,9 +1,6 @@
-import {User}  from '../../tools/model';
-import {cookie2user} from '../../tools/cookie';
-import {session} from '../../tools/config';
-import tracer from 'tracer';
-
-let logger = tracer.console();
+import {User} from "../../tools/model";
+import {cookie2user} from "../../tools/cookie";
+import {session} from "../../tools/config";
 
 const save = async ctx => {
   let name = ctx.request.body.name;
@@ -13,7 +10,7 @@ const save = async ctx => {
 
   let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
   let user = await cookie2user(schoolResourceShareCookie);
-  await User.update({
+  let result = await User.update({
     wx: wx,
     name: name,
     tel: tel,
@@ -24,7 +21,7 @@ const save = async ctx => {
     }
   });
   ctx.rest({
-    user: user
+    result: !!result
   });
 };
 

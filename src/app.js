@@ -1,7 +1,6 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import logger from 'koa-logger';
-import opn from 'opn';
 import controller from './tools/controller';
 import templating from './tools/templating';
 import {cookie2user} from './tools/cookie';

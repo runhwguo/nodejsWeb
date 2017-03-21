@@ -1,7 +1,7 @@
 {
   "name": "schoolResourceShare",
   "version": "1.0.0",
-  "description": "learn how to use koa",
+  "description": "江苏大学资源共享平台，利用了koa框架，es6/es7，mysql，sequelize等",
   "main": "start.js",
   "scripts": {
     "prestart": "npm install -f",

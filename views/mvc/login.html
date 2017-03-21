@@ -7,10 +7,6 @@
         margin-left: 15%;
     }
 
-    .submit {
-        width: 60%;
-        margin-left: 20%;
-    }
 </style>
 <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
 <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
@@ -85,7 +81,8 @@
       }
     }).on('success.form.bv', e => {
       e.preventDefault();
-      let loading = Ladda.create($(':submit').get(0));
+      let submit = $('.submit');
+      let loading = Ladda.create(submit.get(0));
       loading.start();
       $.ajax({
         type: form.attr('method'),
@@ -97,6 +94,8 @@
             setTimeout(() => {
               submitBtnWord.text('登录');
               loading.stop();
+              // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
+              submit.attr('disabled', true);
               window.location.href = '/userInfo';
             }, 500);
           }

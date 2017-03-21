@@ -1,10 +1,10 @@
-import tracer from 'tracer';
-import {Task}  from '../../tools/model';
-import {TASK_STATE, TASK_TYPE}  from '../../models/Task';
-import {session} from '../../tools/config';
-import {uploadFile} from '../../tools/upload';
-import * as Dao from '../../tools/dao';
-import db from '../../tools/db';
+import tracer from "tracer";
+import {Task} from "../../tools/model";
+import {TASK_STATE, TASK_TYPE} from "../../models/Task";
+import {session} from "../../tools/config";
+import {uploadFile} from "../../tools/upload";
+import * as Dao from "../../tools/dao";
+import db from "../../tools/db";
 
 let logger = tracer.console();
 
@@ -65,7 +65,7 @@ const publish = async ctx => {
 
   let isOK = await Dao.create(Task, result.data);
   ctx.rest({
-    result: isOK
+    result: !!isOK
   });
 };
 
