@@ -1,6 +1,6 @@
-import {Task, User} from '../../tools/model';
-import * as Dao from '../../tools/dao';
-import {TASK_STATE}  from '../../models/Task';
+import {Task, User} from "../../tools/model";
+import * as Dao from "../../tools/dao";
+import {TASK_STATE} from "../../models/Task";
 
 const unfinishedTasks = async ctx => {
   let data = await Dao.findAll(Task, {
@@ -60,10 +60,13 @@ const taskDetail = async ctx => {
   })
 };
 
-const showTasks = async ctx => {
+const taskList = async ctx => {
   let where = ctx.query.where;
+  await Dao.findAll(Task, {
+    attributes:[]
+  });
   console.log(where);
-  ctx.render(`show_tasks`, {
+  ctx.render(`task_list`, {
     title: where
   })
 };
@@ -72,6 +75,6 @@ module.exports = {
   'GET /unfinishedTasks': unfinishedTasks,
   'GET /completedTasks': completedTasks,
   'GET /publishedTasks': publishedTasks,
-  'GET /showTasks': showTasks,
+  'GET /taskList': taskList,
   'GET /myInfo': myInfo
 };

@@ -1,4 +1,3 @@
-import tracer from "tracer";
 import {Task} from "../../tools/model";
 import {TASK_STATE, TASK_TYPE} from "../../models/Task";
 import {session} from "../../tools/config";
@@ -6,7 +5,8 @@ import {uploadFile} from "../../tools/upload";
 import * as Dao from "../../tools/dao";
 import db from "../../tools/db";
 
-let logger = tracer.console();
+
+const LIMIT = 5;
 
 const completedTasks = async ctx => {
 
@@ -14,14 +14,13 @@ const completedTasks = async ctx => {
 
 const get = async ctx => {
   let page = Number.parseInt(ctx.params.page);
-  let limit = Number.parseInt(ctx.params.limit);
   let tasks = await Dao.findAll(Task, {
     attributes: ['id', 'type', 'detail', 'reward'],
     where: {
       state: TASK_STATE.RELEASED_NOT_CLAIMED
     },
-    offset: (page - 1) * limit,
-    limit: limit
+    offset: (page - 1) * LIMIT,
+    limit: LIMIT
   });
   tasks.forEach(item => {
     item.type = TASK_TYPE[item.type];
@@ -49,7 +48,7 @@ const publish = async ctx => {
   let user = ctx.state.user;
   let userId = user.id;
 
-  let serverFilePath = 'static/tmp';
+  const serverFilePath = 'static/tmp';
   // 上传文件事件
   let getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -83,9 +82,9 @@ const count = async ctx => {
 };
 
 module.exports = {
-  'POST /api/completedTasks': completedTasks,
-  'POST /api/publish': publish,
-  'GET /api/task/get/page/:page/limit/:limit': get,
+  'POST /api/task/completedTasks': completedTasks,
+  'POST /api/task/publish': publish,
+  'GET /api/task/get/page/:page': get,
   'GET /api/task/get/count': count,
   'PUT /api/task/stick/:id': stick
 };

@@ -1,0 +1,117 @@
+{% extends "./myBase.html" %}
+
+{% block main %}
+<input type="button" class="btn btn-link back" value="< 返回">
+<div id="vm">
+    <p v-if="loading">Loading...</p>
+    <ul class="list-group text-center">
+        <li v-for="item in items" class="list-group-item">
+            <span class="task-info">[${item.type}]&nbsp;${item.detail}</span>
+            <span class="task-reward">[悬赏]&nbsp;${item.reward}(元)</span>
+            <button type="button" class="btn btn-primary btn-sm take-task">接单</button>
+        </li>
+    </ul>
+</div>
+<ul class="pager" style="margin:auto 50px">
+    <li class="previous"><a>&larr; 上一页</a></li>
+    <li class="next"><a>下一页 &rarr;</a></li>
+</ul>
+
+<script src="/static/libs/vue.js"></script>
+<script src="/static/libs/vue-resource.js"></script>
+<script>
+  $('.back').click(() => {
+    window.history.back();
+  });
+  let previous = $('.previous'),
+    next = $('.next');
+  previous.click(() => {
+    if (!previous.hasClass('disabled')) {
+      vm.page--;
+      vm.get();
+    }
+  });
+  next.click(() => {
+    if (!next.hasClass('disabled')) {
+      vm.page++;
+      vm.get();
+    }
+  });
+
+  let vm = new Vue({
+    delimiters: ['${', '}'],
+    el: '#vm',
+    http: {
+      timeout: 5000
+    },
+    data: {
+      title: '列表详情',
+      items: [],
+      loading: false,
+      page: 1,
+      count: -1
+    },
+    created: function () { // VM初始化成功后的回调函数
+      this
+        .$resource('/api/task/get/count')
+        .get()
+        .then(resp => {
+          resp
+            .json()
+            .then(result => {
+              vm.count = result.result;
+              vm.get();
+            });
+        });
+    },
+    methods: {
+      _showError: resp => {
+        resp.json().then(result => console.log('Error: ' + result.message));
+      },
+      get: () => {
+        previous.removeClass('disabled');
+        next.removeClass('disabled');
+        if (vm.page === 1) {
+          previous.addClass('disabled');
+        }
+        if (vm.page >= Math.ceil(vm.count / 5)) {
+          next.addClass('disabled');
+        }
+
+        vm.loading = true;
+        vm.$resource(`/api/task/get/page/${vm.page}`).get()
+          .then(resp => {
+            vm.loading = false;
+            resp.json().then(result => vm.items = result.result);
+          }, resp => {
+            vm.loading = false;
+            vm._showError(resp);
+          });
+      },
+      remove: item => {
+        vm.$resource(`/api/admin/remove/type/${item.type}/id/${item.id}`).delete()
+          .then(resp => {
+            resp.json().then(result => {
+              if (result.result) {
+                let index = -1;
+                for (let i = 0; i < vm.items.length; i++) {
+                  if (vm.items[i].id === item.id) {
+                    index = i;
+                    break;
+                  }
+                }
+                if (index !== -1) {
+                  vm.items.splice(index, 1);
+                  vm.count--;
+                }
+              } else {
+                vm._showError(resp);
+              }
+            });
+          }, vm._showError);
+      }
+    }
+  });
+</script>
+
+{% endblock %}
