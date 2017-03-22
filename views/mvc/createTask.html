@@ -20,8 +20,10 @@
         <select class="selectpicker col-form-select form-control" id="type" name="type" title="请选择发布类型">
             <option value="SUBSTITUTE_CLASS">代活动</option>
             <option value="SUBSTITUTE_FETCH">代取</option>
+            <option value="GOODS_SHARING">物品共享</option>
             <option value="FREE_RIDE">顺风车</option>
-            <option value="BORROW_SOMETHING">物品共享</option>
+            <option value="MEMBER_SHARING">会员共享</option>
+            <option value="SUBSTITUTE_WORK">代做</option>
         </select>
     </div>
 
@@ -43,7 +45,7 @@
                   placeholder="请详细说明任务详情，比如地点时间，不然接任务人就一脸懵逼了~">三江楼405 马克思 3/4节 ffffffffffff</textarea>
     </div>
     <div class="form-group" style="margin-left: 15%">
-        <input type="file" id="file" name="file" class="filestyle" data-input="false" data-buttonName="btn-primary"
+        <input type="file" accept="image/png,image/jpeg,image/bmp"  id="file" name="file" class="filestyle" data-input="false" data-buttonName="btn-primary"
                data-buttonText="图片补充(可选)">
     </div>
     <div class="form-group">
@@ -144,8 +146,8 @@
       }
     }).on('success.form.bv', e => {
       e.preventDefault();
-      let submit = $('.submit');
-      let loading = Ladda.create(submit.get(0));
+      let submit = $('.submit'),
+        loading = Ladda.create(submit.get(0));
       loading.start();
       let serializeArray = form.serializeArray(),
         formData = {};

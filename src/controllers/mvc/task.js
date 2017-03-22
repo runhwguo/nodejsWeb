@@ -10,7 +10,7 @@ const unfinishedTasks = async ctx => {
     }
   });
 
-  ctx.render(`unfinishedTasks`, {
+  ctx.render(`my_task_list`, {
     title: '未完成任务',
     data: data
   })
@@ -24,7 +24,7 @@ const completedTasks = async ctx => {
     }
   });
 
-  ctx.render(`completedTasks`, {
+  ctx.render(`my_task_list`, {
     title: '已完成的任务',
     data: data
   })
@@ -38,7 +38,7 @@ const publishedTasks = async ctx => {
     limit: 5
   });
 
-  ctx.render(`completedTasks`, {
+  ctx.render(`my_task_list`, {
     title: '发布的任务',
     data: data
   })
@@ -62,7 +62,7 @@ const taskDetail = async ctx => {
 
 const taskList = async ctx => {
   let where = ctx.query.where;
-  ctx.render(`task_list`, {
+  ctx.render(`take_task_list`, {
     title: TASK_TYPE[where],
     where: where
   })
