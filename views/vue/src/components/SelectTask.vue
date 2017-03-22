@@ -22,7 +22,7 @@ export default {
     data() {
         return {
             value: "",
-            options: ['代课', '代取', '顺风车','借东西']
+            options: ['代活动', '代取', '顺风车','物品共享']
         }
     },
     watch: {
@@ -31,5 +31,5 @@ export default {
             router.push('createTask')
         }
     }
-} 
+}
 </script>

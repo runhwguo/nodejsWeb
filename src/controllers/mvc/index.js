@@ -1,19 +1,20 @@
-import {cookie2user} from '../../tools/cookie';
-import {session} from '../../tools/config';
-import {mkDirsSync} from '../../tools/upload';
-import {Task}  from '../../tools/model';
-import fs from 'fs';
-import uuid from 'uuid';
-import path from 'path';
-import appRootDir from 'app-root-dir';
-import superagent from 'superagent';
-import charset from 'superagent-charset';
+import {cookie2user} from "../../tools/cookie";
+import {session} from "../../tools/config";
+import {mkDirsSync} from "../../tools/upload";
+import {Task} from "../../tools/model";
+import fs from "fs";
+import uuid from "uuid";
+import path from "path";
+import appRootDir from "app-root-dir";
+import superagent from "superagent";
+import charset from "superagent-charset";
 
 charset(superagent);
 
 const index = async ctx => {
   ctx.render(`index`, {
-    title: '校园资源共享'
+    title: '校园资源共享',
+    where: 'index'
   });
 };
 

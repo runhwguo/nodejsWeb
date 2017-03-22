@@ -1,4 +1,4 @@
-{% extends "./myBase.html" %}
+{% extends "./template/base.html" %}
 
 {% block main %}
 <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
@@ -18,10 +18,10 @@
 <form class="main" action="/api/task/publish" method="post" enctype="multipart/form-data">
     <div class="form-group text-center">
         <select class="selectpicker col-form-select form-control" id="type" name="type" title="请选择发布类型">
-            <option value="SUBSTITUTE_CLASS">代课</option>
+            <option value="SUBSTITUTE_CLASS">代活动</option>
             <option value="SUBSTITUTE_FETCH">代取</option>
             <option value="FREE_RIDE">顺风车</option>
-            <option value="BORROW_SOMETHING">借东西</option>
+            <option value="BORROW_SOMETHING">物品共享</option>
         </select>
     </div>
 

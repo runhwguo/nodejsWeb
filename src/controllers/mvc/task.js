@@ -1,6 +1,6 @@
 import {Task, User} from "../../tools/model";
 import * as Dao from "../../tools/dao";
-import {TASK_STATE} from "../../models/Task";
+import {TASK_STATE, TASK_TYPE} from "../../models/Task";
 
 const unfinishedTasks = async ctx => {
   let data = await Dao.findAll(Task, {
@@ -62,12 +62,9 @@ const taskDetail = async ctx => {
 
 const taskList = async ctx => {
   let where = ctx.query.where;
-  await Dao.findAll(Task, {
-    attributes:[]
-  });
-  console.log(where);
   ctx.render(`task_list`, {
-    title: where
+    title: TASK_TYPE[where],
+    where: where
   })
 };
 

@@ -6,21 +6,28 @@ import * as Dao from "../../tools/dao";
 import db from "../../tools/db";
 
 
-const LIMIT = 5;
-
 const completedTasks = async ctx => {
 
 };
 
 const get = async ctx => {
   let page = Number.parseInt(ctx.params.page);
+  let fromWhere = ctx.query.where;
+  let limit = 5;
+  if (fromWhere !== 'index') {
+    limit = 8;
+  }
+  let where = {
+    state: TASK_STATE.RELEASED_NOT_CLAIMED
+  };
+  if (fromWhere !== 'index') {
+    where.type = fromWhere;
+  }
   let tasks = await Dao.findAll(Task, {
     attributes: ['id', 'type', 'detail', 'reward'],
-    where: {
-      state: TASK_STATE.RELEASED_NOT_CLAIMED
-    },
-    offset: (page - 1) * LIMIT,
-    limit: LIMIT
+    where: where,
+    offset: (page - 1) * limit,
+    limit: limit
   });
   tasks.forEach(item => {
     item.type = TASK_TYPE[item.type];
@@ -70,11 +77,15 @@ const publish = async ctx => {
 
 const count = async ctx => {
   // 判断来源
-  let where = ctx.query.where;
+  let fromWhere = ctx.query.where;
+  let where = {
+    state: TASK_STATE.RELEASED_NOT_CLAIMED,
+  };
+  if (fromWhere !== 'index') {
+    where.type = fromWhere;
+  }
   let count = await Dao.count(Task, {
-    where: {
-      state: TASK_STATE.RELEASED_NOT_CLAIMED
-    }
+    where: where
   });
   ctx.rest({
     result: count
