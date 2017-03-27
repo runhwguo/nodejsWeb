@@ -52,8 +52,12 @@ let myInfo = async ctx => {
   })
 };
 
-const taskDetail = async ctx => {
-  let task = null;
+const detail = async ctx => {
+  let id = ctx.params.id;
+  let task = await Task.findOne({
+    where: {id: id},
+    attributes: {exclude: ['version', 'updatedAt', 'createdAt']}
+  });
   ctx.render(`task_detail`, {
     title: '任务详情',
     data: task
@@ -73,5 +77,6 @@ module.exports = {
   'GET /completedTasks': completedTasks,
   'GET /publishedTasks': publishedTasks,
   'GET /taskList': taskList,
-  'GET /myInfo': myInfo
+  'GET /myInfo': myInfo,
+  'GET /task/detail/:id': detail
 };

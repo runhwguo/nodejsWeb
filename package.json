@@ -4,8 +4,6 @@
   "description": "江苏大学资源共享平台，利用了koa框架，es6/es7，mysql，sequelize等",
   "main": "start.js",
   "scripts": {
-    "prestart": "npm install -f",
-    "pretest": "npm install -f",
     "test": "NODE_ENV=test supervisor node --use_strict start.js",
     "start": "NODE_ENV=production node --use_strict start.js"
   },

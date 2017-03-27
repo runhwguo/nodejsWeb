@@ -68,8 +68,8 @@ let vm = new Vue({
           vm._showError(resp);
         });
     },
-    order: item => {
-      window.location.href = '/task/detail';
+    detail: item => {
+      window.location.href = `/task/detail/${item.id}`;
     }
   }
 });

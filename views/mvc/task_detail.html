@@ -1,5 +1,74 @@
 {% extends "./template/base.html" %}
 
 {% block main %}
-<p>任务详情</p>
+<style>
+    img {
+        cursor: zoom-in;
+    }
+
+</style>
+<div class="main">
+    <table class="table">
+        <tr>
+            <td class="col-md-3">任务类型</td>
+            <td class="col-md-9">{{data.type}}</td>
+        </tr>
+        <tr>
+            <td>发布者</td>
+            <td>{{data.name}}</td>
+        </tr>
+        <tr>
+            <td>联系方式</td>
+            <td>{{data.tel}}</td>
+        </tr>
+        <tr>
+            <td>截止日期</td>
+            <td>{{data.deadline}}</td>
+        </tr>
+        <tr>
+            <td>任务报酬</td>
+            <td>{{data.reward}}元</td>
+        </tr>
+    </table>
+    <div class="input-group form-control-static">
+        <div class="input-group-btn">
+            <label class="btn btn-default disabled">任务详情</label>
+        </div>
+        <textarea class="form-control" rows="5" id="detail" name="detail"
+                  placeholder="请详细说明任务详情，比如地点时间，不然接任务人就一脸懵逼了~">{{data.detail}}</textarea>
+    </div>
+    <div class="input-group form-control-static">
+    </div>
+    <div class="input-group form-control-static">
+        <div class="input-group-btn">
+            <label class="btn btn-default disabled">补充图片</label>
+        </div>
+        <img src="{{task.img}}" class="thumbnail" width="30%" height="60%">
+    </div>
+
+    <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
+            class="ladda-label">接单</span></button>
+</div>
+<div class="modal fade" id="enlargeImageModal" tabindex="-1" role="dialog" aria-labelledby="enlargeImageModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <img src="" class="enlargeImageModalSource" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  $(() => {
+    $('img').on('click', function () {
+      $('.enlargeImageModalSource').attr('src', $(this).attr('src'));
+      $('#enlargeImageModal').modal('show');
+    });
+  });
+</script>
 {% endblock %}
