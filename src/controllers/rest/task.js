@@ -92,17 +92,6 @@ const count = async ctx => {
   });
 };
 
-const detail = async ctx => {
-  let id = ctx.params.id;
-  let task = await Task.findOne({
-    where: {id: id},
-    attributes: {exclude: ['version', 'updatedAt', 'createdAt']}
-  });
-  ctx.rest({
-    result: task
-  });
-};
-
 module.exports = {
   'POST /api/task/completedTasks': completedTasks,
   'POST /api/task/publish': publish,

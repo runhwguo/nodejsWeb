@@ -58,9 +58,17 @@ const detail = async ctx => {
     where: {id: id},
     attributes: {exclude: ['version', 'updatedAt', 'createdAt']}
   });
+  task = task.dataValues;
+  let user = await User.findOne({
+    where: {id: task.publishUserId},
+    attributes: ['name', 'tel']
+  });
+  user = user.dataValues;
+  task.type = TASK_TYPE[task.type];
+  let data = Object.assign({}, task, user);
   ctx.render(`task_detail`, {
     title: '任务详情',
-    data: task
+    data: data
   })
 };
 
