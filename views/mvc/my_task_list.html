@@ -1,26 +1,22 @@
 {% extends "./template/base.html" %}
 
 {% block main %}
+<link rel="stylesheet" href="/static/css/take-task.css">
 <input type="button" class="btn btn-link back" value="< 返回">
-{% for item in data %}
-<div class="list-group main">
-    <a class="list-group-item">
-        <span>[{{item.type}}]</span>
-        <span>{{item.location}}</span>
-        <span>{{item.reward}}元</span>
-        <span class="pull-right glyphicon glyphicon-chevron-right"></span>
-    </a>
-</div>
-{% endfor %}
-<ul class="pager" style="margin:auto 50px">
-    <li class="previous"><a>&larr; 上一页</a></li>
-    <li class="next"><a>下一页 &rarr;</a></li>
-</ul>
+{% if where === 'published'%}
+{% include "./template/published_task_list.html" ignore missing %}
+{% elif where === 'completed'%}
+{% include "./template/completed_task_list.html" ignore missing %}
+{% elif where === 'unfinished' %}
+{% include "./template/unfinished_task_list.html" ignore missing %}
+{% endif %}
+<script src="/static/libs/vue.js"></script>
+<script src="/static/libs/vue-resource.js"></script>
+
+<script src="/static/js/take_task_operation.js"></script>
 <script>
-  $(() => {
-    $('.back').click(() => {
-      window.history.back();
-    });
+  $('.back').click(() => {
+    window.history.back();
   });
 </script>
 
