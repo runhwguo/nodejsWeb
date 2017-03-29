@@ -1,4 +1,4 @@
-{% extends "./template/base.html" %}
+{% extends "./../template/base.html" %}
 
 {% block main %}
 <style>
@@ -43,7 +43,7 @@
         <div class="input-group-btn">
             <label class="btn btn-default disabled">补充图片</label>
         </div>
-        <img src="{{data.filename}}" class="thumbnail" width="30%" height="60%">
+        <img src="{{data.filename}}" class="thumbnail" width="30%" height="60%" alt="无图片说明">
     </div>
 
     <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
@@ -65,7 +65,7 @@
 </div>
 <script>
   $(() => {
-    $('img').on('click', function () {
+    $('img').on('click', () => {
       $('.enlargeImageModalSource').attr('src', $(this).attr('src'));
       $('#enlargeImageModal').modal('show');
     });

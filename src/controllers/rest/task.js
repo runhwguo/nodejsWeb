@@ -10,6 +10,41 @@ const completedTasks = async ctx => {
 
 };
 
+const _judgeTaskType = ctx => {
+  // 判断来源  take-task    mine-task ~ed
+  let fromWhere = ctx.query.where;
+  let where = {};
+  if (fromWhere.endsWith('ed')) {
+    where.publishUserId = ctx.state.user.id;
+  } else {
+    where.state = TASK_STATE.RELEASED_NOT_CLAIMED;
+    if (fromWhere !== 'index') {
+      where.type = fromWhere;
+    }
+  }
+  // let type = ctx.params.type;
+  // let state = TASK_STATE.NONE;
+  // let where = {
+  //   publishUserId: ctx.state.user.id,
+  // };
+  // let attributes = ['id', 'type', 'detail'];
+  // if (type === 'completed') {
+  //   attributes.push('reward');
+  //   where.state = TASK_STATE.COMPLETED;
+  // } else if (type === 'unfinished') {
+  //   attributes.push('deadline');
+  //   where.state = TASK_STATE.COMPLETING;
+  // } else if (type === 'published') {
+  //   attributes.push('state');
+  // }
+  // let data = await Dao.findAll(Task, {
+  //   attributes: attributes,
+  //   where: where
+  // });
+  return where;
+};
+
+
 const get = async ctx => {
   let page = Number.parseInt(ctx.params.page);
   let fromWhere = ctx.query.where;
@@ -17,12 +52,8 @@ const get = async ctx => {
   if (fromWhere !== 'index') {
     limit = 8;
   }
-  let where = {
-    state: TASK_STATE.RELEASED_NOT_CLAIMED
-  };
-  if (fromWhere !== 'index') {
-    where.type = fromWhere;
-  }
+  let where = _judgeTaskType(ctx);
+
   let tasks = await Dao.findAll(Task, {
     attributes: ['id', 'type', 'detail', 'reward'],
     where: where,
@@ -76,14 +107,9 @@ const publish = async ctx => {
 };
 
 const count = async ctx => {
-  // 判断来源
-  let fromWhere = ctx.query.where;
-  let where = {
-    state: TASK_STATE.RELEASED_NOT_CLAIMED,
-  };
-  if (fromWhere !== 'index') {
-    where.type = fromWhere;
-  }
+
+  let where = _judgeTaskType(ctx);
+
   let count = await Dao.count(Task, {
     where: where
   });

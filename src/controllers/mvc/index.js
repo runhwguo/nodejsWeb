@@ -19,6 +19,7 @@ const index = async ctx => {
 };
 
 const me = async ctx => {
+  let user = ctx.state.user;
   ctx.render(`myInfo`, {
     title: '我的信息'
   });
@@ -27,7 +28,7 @@ const me = async ctx => {
 const createTask = async ctx => {
   let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
   let user = await cookie2user(schoolResourceShareCookie);
-  ctx.render(`createTask`, {
+  ctx.render(`task/createTask`, {
     title: '发布任务',
     user: user
   });

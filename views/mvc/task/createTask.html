@@ -1,29 +1,27 @@
-{% extends "./template/base.html" %}
+{% extends "./../template/base.html" %}
 
 {% block main %}
-<link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
-<link rel="stylesheet" href="/static/libs/bootstrap-select-1.12.2.min.css">
-<link href="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
-<link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
 <style>
-
     .form-control {
         width: 70%;
         margin-left: 15%;
     }
-
 </style>
+<link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
+<link rel="stylesheet" href="/static/libs/bootstrap-select-1.12.2.min.css">
+<link href="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
 
 <input type="button" class="btn btn-link back" value="< 返回">
 <form class="main" action="/api/task/publish" method="post" enctype="multipart/form-data">
     <div class="form-group text-center">
         <select class="selectpicker col-form-select form-control" id="type" name="type" title="请选择发布类型">
-            <option value="SUBSTITUTE_ACTIVITY">代活动</option>
-            <option value="SUBSTITUTE_FETCH">代取</option>
-            <option value="GOODS_SHARING">物品共享</option>
-            <option value="FREE_RIDE">顺风车</option>
-            <option value="MEMBER_SHARING">会员共享</option>
-            <option value="SUBSTITUTE_WORK">代做</option>
+            <option value="substitute_activity">代活动</option>
+            <option value="substitute_fetch">代取</option>
+            <option value="goods_sharing">物品共享</option>
+            <option value="free_ride">顺风车</option>
+            <option value="member_sharing">会员共享</option>
+            <option value="substitute_work">代做</option>
         </select>
     </div>
 
