@@ -1,4 +1,7 @@
 {% extends "./../template/task_list.html" %}
 {% block main %}
-<span>{{item.id}}</span>
+<span class="pull-left">[${item.type}]</span>
+<span>${item.detail}</span>
+<span>${item.state}</span>
+<span class="glyphicon glyphicon-chevron-right pull-right"></span>
 {% endblock%}
