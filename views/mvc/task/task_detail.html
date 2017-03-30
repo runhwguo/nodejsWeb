@@ -1,12 +1,13 @@
 {% extends "./../template/base.html" %}
 
 {% block main %}
+<link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
 <style>
     img {
         cursor: zoom-in;
     }
-
 </style>
+<input type="button" class="btn btn-link back" value="< 返回">
 <div class="main">
     <table class="table">
         <tr>
@@ -43,19 +44,21 @@
         <div class="input-group-btn">
             <label class="btn btn-default disabled">补充图片</label>
         </div>
-        <img src="{{data.filename}}" class="thumbnail" width="30%" height="60%" alt="无图片说明">
+        <img src="{{ data.filename }}" class="thumbnail" width="30%" height="60%" alt="无图片说明">
     </div>
 
-    <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
-            class="ladda-label">接单</span></button>
+    <button id="{{ data.id }}" type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right">
+        <span class="ladda-label">接单</span>
+    </button>
 </div>
 <div class="modal fade" id="enlargeImageModal" tabindex="-1" role="dialog" aria-labelledby="enlargeImageModal"
      aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">×</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
             <div class="modal-body">
                 <img src="" class="enlargeImageModalSource" style="width: 100%;">
@@ -63,11 +66,44 @@
         </div>
     </div>
 </div>
+<script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
+<script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
 <script>
   $(() => {
-    $('img').on('click', () => {
+    $('img').click(() => {
       $('.enlargeImageModalSource').attr('src', $(this).attr('src'));
       $('#enlargeImageModal').modal('show');
+    });
+    $('.back').click(() => {
+      window.history.back();
+    });
+    let submit = $('.ladda-button'),
+      submitBtnWord = $('.ladda-label'),
+      loading = Ladda.create(submit.get(0));
+    submit.click(() => {
+      $.ajax({
+        type: 'PUT',
+        url: '/api/task/order/' + submit.get(0).id,
+        success: data => {
+          if (data.result) {
+            submitBtnWord.text('成功');
+            setTimeout(() => {
+              submitBtnWord.text('提交');
+              loading.stop();
+              submit.attr('disabled', true);
+              window.location.href = '/';
+            }, 500);
+          }
+        },
+        error: xhr => {
+          submitBtnWord.text('失败');
+          setTimeout(() => {
+            submitBtnWord.text('提交');
+            loading.stop();
+          }, 500);
+        }
+      });
+      return false;
     });
   });
 </script>

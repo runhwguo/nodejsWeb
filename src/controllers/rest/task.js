@@ -1,14 +1,9 @@
-import {Task} from "../../tools/model";
+import {Task, User_Task} from "../../tools/model";
 import {TASK_STATE, TASK_TYPE} from "../../models/Task";
 import {session} from "../../tools/config";
 import {uploadFile} from "../../tools/upload";
 import * as Dao from "../../tools/dao";
 import db from "../../tools/db";
-
-
-const completedTasks = async ctx => {
-
-};
 
 const _judgeTaskType = ctx => {
   // 判断来源  take-task    mine-task ~ed
@@ -19,17 +14,21 @@ const _judgeTaskType = ctx => {
     where.publishUserId = ctx.state.user.id;
     if (fromWhere === 'completed') {
       attributes.push('reward');
-      where.state = TASK_STATE.COMPLETED;
+      where.state = Object.keys(TASK_STATE)[3];
     } else if (fromWhere === 'unfinished') {
       attributes.push('deadline');
-      where.state = TASK_STATE.COMPLETING;
+      where.state = Object.keys(TASK_STATE)[2];
     } else if (fromWhere === 'published') {
       attributes.push('state');
     }
   } else {
-    where.state = TASK_STATE.RELEASED_NOT_CLAIMED;
+    where.state = Object.keys(TASK_STATE)[1];
     if (fromWhere !== 'index') {
       where.type = fromWhere;
+      // 用户登录，去查看take-task
+      where.publishUserId = {
+        $ne: ctx.state.user.id
+      };
     }
     attributes.push('reward');
   }
@@ -57,8 +56,8 @@ const get = async ctx => {
     if (item.type) {
       item.type = TASK_TYPE[item.type];
     }
-    if(item.state){
-      item.state =
+    if (item.state) {
+      item.state = TASK_STATE[item.state];
     }
   });
   ctx.rest({
@@ -105,7 +104,6 @@ const publish = async ctx => {
 };
 
 const count = async ctx => {
-
   let where = _judgeTaskType(ctx)[0];
 
   let count = await Dao.count(Task, {
@@ -116,10 +114,42 @@ const count = async ctx => {
   });
 };
 
+const order = async ctx => {
+  let result = false;
+  let id = ctx.params.id;
+  let task = await Task.findOne({
+    where: {
+      id: id
+    },
+    attributes: ['publishUserId']
+  });
+  let publishUserId = task.dataValues.publishUserId;
+  // 更新任务的状态
+  let isUpdateTaskOk = await Dao.update(Task, {
+    state: Object.keys(TASK_STATE)[2]
+  }, {
+    where: {
+      id: id
+    }
+  });
+  if (isUpdateTaskOk) {
+    // 插入User_Task
+    let isCreateObjOk = await Dao.create(User_Task, {
+      taskId: id,
+      userId: publishUserId
+    });
+    result = !!isCreateObjOk
+  }
+
+  ctx.rest({
+    result: result
+  });
+};
+
 module.exports = {
-  'POST /api/task/completedTasks': completedTasks,
   'POST /api/task/publish': publish,
   'GET /api/task/get/page/:page': get,
   'GET /api/task/get/count': count,
-  'PUT /api/task/stick/:id': stick
+  'PUT /api/task/stick/:id': stick,
+  'PUT /api/task/order/:id': order,
 };

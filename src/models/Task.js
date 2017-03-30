@@ -38,15 +38,11 @@ module.exports = db.defineModel('tasks', {
   reward: db.INTEGER,
   state: {// 0:刚发布未被认领，1:认领了在完成中，2:我完成的，3:完成交易成功，4:发布者取消，5:过期没有认领
     type: db.STRING,
-    defaultValue: STATE.released_not_claimed
+    defaultValue: Object.keys(STATE)[1]
   },
   priority: {
     type: db.INTEGER,
     defaultValue: 0
-  },
-  receiveTaskUserId: {
-    type: db.STRING,
-    allowNull: true
   }
 });
 
