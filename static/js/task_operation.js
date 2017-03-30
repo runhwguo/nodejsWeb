@@ -46,7 +46,7 @@ let vm = new Vue({
       let where = $('input:hidden')[0].value;
       let url = `/api/task/get/page/${vm.currentPage + 1}?where=${ where }`;
       if (vm.isSearch) {
-        url += '&keyword=' + $('#searchContent').get(0).val();
+        url += '&keyword=' + $('#searchContent').val();
       }
       vm.$resource(url)
         .get()
@@ -54,7 +54,7 @@ let vm = new Vue({
           vm.loading = false;
           resp.json().then(data => {
             data.result.forEach(item => {
-              let maxWidthOfInfo = $(window).width() * 0.90 * 0.80;
+              let maxWidthOfInfo = $(window).width() * 0.9 * 0.8;
               let info = null;
               do {
                 info = item.type + ' ' + item.detail;
@@ -74,7 +74,7 @@ let vm = new Vue({
       let stickButton = $(`#${item.id}`),
         loading = Ladda.create(stickButton[0]);
       loading.start();
-      vm.$resource(`/api/task/stick/${item.id}`).update()
+      vm.$resource(`/task/stick/${item.id}`).update()
         .then(resp => {
           vm.loading = false;
           resp.json().then(result => {
@@ -103,7 +103,7 @@ let vm = new Vue({
       vm.isSearch = isSearch;
       let url = '/api/task/get/count?where=' + $('input:hidden')[0].value;
       if (vm.isSearch) {
-        url += '&keyword=' + $('#searchContent').get(0).val();
+        url += '&keyword=' + $('#searchContent').val();
       }
       vm.$resource(url)
         .get()
@@ -121,8 +121,7 @@ let vm = new Vue({
 window.vm = vm;
 $(() => {
   let vmDiv = $('#vm'),
-    loading = $('.fa-spinner'),
-    searchButton = $('#customSearch');
+    loading = $('.fa-spinner');
 
   loading.hide();
   if ($('input:hidden')[0].value === 'index') {
@@ -145,10 +144,4 @@ $(() => {
       }
     }
   });
-  if (searchButton) {
-    searchButton.click(() => {
-      let searchContent = $('#searchContent')[0].value;
-      console.log('searchButton click')
-    });
-  }
 });

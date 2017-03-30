@@ -35,7 +35,7 @@ const _judgeTaskType = ctx => {
     // 对任务搜索做处理
     if (keyword) {
       where.detail = {
-        $iLike: '%' + keyword + '%'
+        $like: '%' + keyword + '%'
       };
     }
   }
@@ -69,20 +69,6 @@ const get = async ctx => {
   });
   ctx.rest({
     result: tasks
-  });
-};
-// postman中x-www-form-urlencoded下才能获取数据
-const stick = async ctx => {
-  let taskId = ctx.params.id;
-  let result = await Dao.update(Task, {
-    priority: db.literal('priority+1')
-  }, {
-    where: {
-      id: taskId
-    }
-  });
-  ctx.rest({
-    result: result
   });
 };
 
@@ -157,6 +143,5 @@ module.exports = {
   'POST /api/task/publish': publish,
   'GET /api/task/get/page/:page': get,
   'GET /api/task/get/count': count,
-  'PUT /api/task/stick/:id': stick,
   'PUT /api/task/order/:id': order,
 };

@@ -15,15 +15,6 @@ const list = async ctx => {
   })
 };
 
-let myInfo = async ctx => {
-  let user = await User.findById(ctx.state.user.id);
-
-  ctx.render(`task/completedTasks`, {
-    title: '已完成的任务',
-    data: user
-  })
-};
-
 const detail = async ctx => {
   let id = ctx.params.id;
   let task = await Task.findOne({
@@ -44,9 +35,24 @@ const detail = async ctx => {
   })
 };
 
+// postman中x-www-form-urlencoded下才能获取数据
+const stick = async ctx => {
+  let taskId = ctx.params.id;
+  let result = await Dao.update(Task, {
+    priority: db.literal('priority+1')
+  }, {
+    where: {
+      id: taskId
+    }
+  });
+  ctx.rest({
+    result: result
+  });
+};
+
 module.exports = {
   'GET /task/mine/:where': list,
   'GET /task/take/:where': list,
-  'GET /myInfo': myInfo,
+  'PUT /task/stick/:id': stick,
   'GET /task/detail/:id': detail
 };
