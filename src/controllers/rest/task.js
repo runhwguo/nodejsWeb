@@ -3,7 +3,6 @@ import {TASK_STATE, TASK_TYPE} from "../../models/Task";
 import {session} from "../../tools/config";
 import {uploadFile} from "../../tools/upload";
 import * as Dao from "../../tools/dao";
-import db from "../../tools/db";
 
 const _judgeTaskType = ctx => {
   // 判断来源  take-task    mine-task ~ed

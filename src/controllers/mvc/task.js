@@ -1,5 +1,7 @@
 import {Task, User} from "../../tools/model";
 import {MINE_TASK_TYPE, TASK_TYPE} from "../../models/Task";
+import * as Dao from "../../tools/dao";
+import db from "../../tools/db";
 
 const list = async ctx => {
   let where = ctx.params.where;
