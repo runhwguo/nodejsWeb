@@ -23,6 +23,7 @@ const _judgeTaskType = ctx => {
     }
   } else {
     where.state = Object.keys(TASK_STATE)[1];
+    let keyword = ctx.query.keyword;
     if (fromWhere !== 'index') {
       where.type = fromWhere;
       // 用户登录，去查看take-task
@@ -31,6 +32,12 @@ const _judgeTaskType = ctx => {
       };
     }
     attributes.push('reward');
+    // 对任务搜索做处理
+    if (keyword) {
+      where.detail = {
+        $iLike: '%' + keyword + '%'
+      };
+    }
   }
 
   return [where, attributes];

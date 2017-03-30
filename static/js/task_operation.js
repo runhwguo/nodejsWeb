@@ -1,3 +1,19 @@
+String.prototype.getWidth = function () {
+  let o = $('<span>' + this + '</span>')
+      .css({
+        'position': 'absolute',
+        'float': 'left',
+        'white-space': 'nowrap',
+        'visibility': 'hidden',
+        'font': $('.task-info').css('font')
+      })
+      .appendTo($('body')),
+    w = o.width();
+
+  o.remove();
+  return w;
+};
+
 let vm = new Vue({
   delimiters: ['${', '}'],
   el: '#vm',
@@ -6,11 +22,11 @@ let vm = new Vue({
     currentPage: 0,
     loading: false,
     count: -1,
-    limit: 5
+    limit: 5,
+    isSearch: false
   },
   created: function () { // VM初始化成功后的回调函数
-    this
-      .$resource('/api/task/get/count?where=' + $('input:hidden')[0].value)
+    this.$resource('/api/task/get/count?where=' + $('input:hidden')[0].value)
       .get()
       .then(resp => {
         resp
@@ -28,15 +44,23 @@ let vm = new Vue({
     get: () => {
       vm.loading = true;
       let where = $('input:hidden')[0].value;
-      vm.$resource(`/api/task/get/page/${vm.currentPage + 1}?where=${ where }`).get()
+      let url = `/api/task/get/page/${vm.currentPage + 1}?where=${ where }`;
+      if (vm.isSearch) {
+        url += '&keyword=' + $('#searchContent').get(0).val();
+      }
+      vm.$resource(url)
+        .get()
         .then(resp => {
           vm.loading = false;
           resp.json().then(data => {
             data.result.forEach(item => {
-              const detailMaxLength = 30;
-              if (item.detail.length > detailMaxLength) {
-                item.detail = item.detail.substr(0, detailMaxLength) + '...';
-              }
+              let maxWidthOfInfo = $(window).width() * 0.90 * 0.80;
+              let info = null;
+              do {
+                info = item.type + ' ' + item.detail;
+                item.detail = item.detail.substr(0, item.detail.length - 1);
+              } while (info.getWidth() > maxWidthOfInfo);
+              item.detail += '...';
             });
             vm.items = vm.items.concat(data.result);
             vm.currentPage++;
@@ -71,17 +95,41 @@ let vm = new Vue({
     },
     detail: item => {
       window.location.href = `/task/detail/${item.id}`;
+    },
+    init: (isSearch) => {
+      vm.items = [];
+      vm.currentPage = 0;
+      vm.loading = false;
+      vm.isSearch = isSearch;
+      let url = '/api/task/get/count?where=' + $('input:hidden')[0].value;
+      if (vm.isSearch) {
+        url += '&keyword=' + $('#searchContent').get(0).val();
+      }
+      vm.$resource(url)
+        .get()
+        .then(resp => {
+          resp
+            .json()
+            .then(data => {
+              vm.count = data.result;
+              vm.get();
+            });
+        });
     }
   }
 });
+window.vm = vm;
 $(() => {
-  let vmDiv = $('#vm');
-  let loading = $('.fa-spinner');
+  let vmDiv = $('#vm'),
+    loading = $('.fa-spinner'),
+    searchButton = $('#customSearch');
+
   loading.hide();
   if ($('input:hidden')[0].value === 'index') {
     vmDiv.css('margin-bottom', '40px');
   } else {
     vmDiv.css('max-height', '500px');
+    vm.limit = 8;
   }
   vmDiv.scroll(() => {
     let divHeight = vmDiv.height();
@@ -97,4 +145,10 @@ $(() => {
       }
     }
   });
+  if (searchButton) {
+    searchButton.click(() => {
+      let searchContent = $('#searchContent')[0].value;
+      console.log('searchButton click')
+    });
+  }
 });

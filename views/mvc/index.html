@@ -101,16 +101,6 @@
         </ul>
     </div>
 
-    <div id="custom-search-input">
-        <div class="input-group col-xs-12">
-            <input type="text" class="form-control" placeholder="搜索任务：请输入关键字">
-            <span class="input-group-btn">
-                        <button class="btn btn-info" type="button">
-                            <i class="glyphicon glyphicon-search"></i>
-                        </button>
-                    </span>
-        </div>
-    </div>
     {% include "./task/take_task_list.html" ignore missing %}
 </div>
 
@@ -124,8 +114,8 @@
 </style>
 <script src="/static/libs/vue.js"></script>
 <script src="/static/libs/vue-resource.js"></script>
-<script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js"></script>
-<script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js"></script>
+<script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
+<script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
 <script src="/static/js/task_operation.js"></script>
 <script>
   $('#indexTab').attr('href', 'javascript:void(0)');

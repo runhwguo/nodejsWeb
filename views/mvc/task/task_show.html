@@ -2,11 +2,13 @@
 
 {% block main %}
 <input type="button" class="btn btn-link back" value="< 返回">
-{% if where.endsWith('ed') %}
-    {% include "./mine_task_list.html" ignore missing %}
-{% else %}
-    {% include "./take_task_list.html" ignore missing %}
-{% endif %}
+<div class="main">
+    {% if where.endsWith('ed') %}
+        {% include "./mine_task_list.html" ignore missing %}
+    {% else %}
+        {% include "./take_task_list.html" ignore missing %}
+    {% endif %}
+</div>
 <script src="/static/libs/vue.js"></script>
 <script src="/static/libs/vue-resource.js"></script>
 

@@ -1,6 +1,46 @@
 {% extends "./../template/task_list.html" %}
-{% block main %}
+{% block search%}
 <link rel="stylesheet" href="/static/css/take-task.css">
+<style>
+    .form-control-feedback {
+        pointer-events: auto;
+    }
+</style>
+<div class="input-group col-xs-12">
+        <span class="input-group-btn">
+            <button class="btn btn-info" type="button">
+                <i class="glyphicon glyphicon-search"></i>
+            </button>
+        </span>
+    <input type="text" id="searchContent" class="form-control" placeholder="请输入关键字(默认显示所有)">
+    <span class="glyphicon glyphicon-remove-circle form-control-feedback"></span>
+</div>
+<script>
+  let searchContent = $('#searchContent'),
+    searchClear = $('.glyphicon-remove-circle'),
+    searchButton = $('glyphicon-search');
+
+  searchClear.hide();
+  searchContent.keyup(() => {
+    if (searchContent.val()) {
+      searchClear.show();
+    }
+  });
+  searchClear.click(() => {
+    searchContent.val('');
+  });
+  searchButton.click(() => {
+    if (searchContent) {
+      vm.init(true);
+    } else {
+      if (!vm.items.length) {
+        vm.init(false);
+      }
+    }
+  });
+</script>
+{% endblock %}
+{% block main %}
 <span class="task-info">[${item.type}]&nbsp;${item.detail}</span>
 <span class="task-reward">[悬赏]&nbsp;${item.reward}(元)</span>
 <button v-bind:id="item.id" type="button" class="btn btn-primary btn-sm task-top ladda-button"
