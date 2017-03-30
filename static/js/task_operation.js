@@ -33,8 +33,9 @@ let vm = new Vue({
           vm.loading = false;
           resp.json().then(data => {
             data.result.forEach(item => {
-              if (item.detail.length > 40) {
-                item.detail = item.detail.substr(0, 40) + '...';
+              const detailMaxLength = 30;
+              if (item.detail.length > detailMaxLength) {
+                item.detail = item.detail.substr(0, detailMaxLength) + '...';
               }
             });
             vm.items = vm.items.concat(data.result);

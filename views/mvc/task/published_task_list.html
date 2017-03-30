@@ -1,7 +1,6 @@
 {% extends "./../template/task_list.html" %}
 {% block main %}
-<span class="pull-left">[${item.type}]</span>
-<span>${item.detail}</span>
-<span>${item.state}</span>
-<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+<link rel="stylesheet" href="/static/css/mine-task.css">
+<span class="task-info" style="white-space:pre">[${item.type}]&nbsp;${item.detail}</span>
+<span class="task-remind">${item.state}</span>
 {% endblock%}

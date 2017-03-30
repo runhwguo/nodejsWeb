@@ -14,34 +14,27 @@ const _judgeTaskType = ctx => {
   // 判断来源  take-task    mine-task ~ed
   let fromWhere = ctx.query.where;
   let where = {};
+  let attributes = ['id', 'type', 'detail'];
   if (fromWhere.endsWith('ed')) {
     where.publishUserId = ctx.state.user.id;
+    if (fromWhere === 'completed') {
+      attributes.push('reward');
+      where.state = TASK_STATE.COMPLETED;
+    } else if (fromWhere === 'unfinished') {
+      attributes.push('deadline');
+      where.state = TASK_STATE.COMPLETING;
+    } else if (fromWhere === 'published') {
+      attributes.push('state');
+    }
   } else {
     where.state = TASK_STATE.RELEASED_NOT_CLAIMED;
     if (fromWhere !== 'index') {
       where.type = fromWhere;
     }
+    attributes.push('reward');
   }
-  // let type = ctx.params.type;
-  // let state = TASK_STATE.NONE;
-  // let where = {
-  //   publishUserId: ctx.state.user.id,
-  // };
-  // let attributes = ['id', 'type', 'detail'];
-  // if (type === 'completed') {
-  //   attributes.push('reward');
-  //   where.state = TASK_STATE.COMPLETED;
-  // } else if (type === 'unfinished') {
-  //   attributes.push('deadline');
-  //   where.state = TASK_STATE.COMPLETING;
-  // } else if (type === 'published') {
-  //   attributes.push('state');
-  // }
-  // let data = await Dao.findAll(Task, {
-  //   attributes: attributes,
-  //   where: where
-  // });
-  return where;
+
+  return [where, attributes];
 };
 
 
@@ -52,16 +45,21 @@ const get = async ctx => {
   if (fromWhere !== 'index') {
     limit = 8;
   }
-  let where = _judgeTaskType(ctx);
+  let [where, attributes] = _judgeTaskType(ctx);
 
   let tasks = await Dao.findAll(Task, {
-    attributes: ['id', 'type', 'detail', 'reward'],
+    attributes: attributes,
     where: where,
     offset: (page - 1) * limit,
     limit: limit
   });
   tasks.forEach(item => {
-    item.type = TASK_TYPE[item.type];
+    if (item.type) {
+      item.type = TASK_TYPE[item.type];
+    }
+    if(item.state){
+      item.state =
+    }
   });
   ctx.rest({
     result: tasks
@@ -108,7 +106,7 @@ const publish = async ctx => {
 
 const count = async ctx => {
 
-  let where = _judgeTaskType(ctx);
+  let where = _judgeTaskType(ctx)[0];
 
   let count = await Dao.count(Task, {
     where: where

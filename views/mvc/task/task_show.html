@@ -2,14 +2,10 @@
 
 {% block main %}
 <input type="button" class="btn btn-link back" value="< 返回">
-{% if where === 'published' %}
-{% include "./published_task_list.html" ignore missing %}
-{% elif where === 'completed' %}
-{% include "./completed_task_item.list" ignore missing %}
-{% elif where === 'unfinished' %}
-{% include "./unfinished_task_list.html" ignore missing %}
+{% if where.endsWith('ed') %}
+    {% include "./mine_task_list.html" ignore missing %}
 {% else %}
-{% include "./take_task_list.html" ignore missing %}
+    {% include "./take_task_list.html" ignore missing %}
 {% endif %}
 <script src="/static/libs/vue.js"></script>
 <script src="/static/libs/vue-resource.js"></script>

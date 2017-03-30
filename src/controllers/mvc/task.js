@@ -46,7 +46,7 @@ const detail = async ctx => {
 
 module.exports = {
   'GET /task/mine/:where': list,
-  'GET /task/list/:where': list,
+  'GET /task/take/:where': list,
   'GET /myInfo': myInfo,
   'GET /task/detail/:id': detail
 };
