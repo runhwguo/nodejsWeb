@@ -1,13 +1,13 @@
-import {cookie2user} from "../../tools/cookie";
-import {session} from "../../tools/config";
-import {mkDirsSync} from "../../tools/upload";
-import {Task} from "../../tools/model";
-import fs from "fs";
-import uuid from "uuid";
-import path from "path";
-import appRootDir from "app-root-dir";
-import superagent from "superagent";
-import charset from "superagent-charset";
+import {cookie2user} from '../../tools/cookie';
+import {session} from '../../tools/config';
+import {mkDirsSync} from '../../tools/upload';
+import {Task} from '../../tools/model';
+import fs from 'fs';
+import uuid from 'uuid';
+import path from 'path';
+import appRootDir from 'app-root-dir';
+import superagent from 'superagent';
+import charset from 'superagent-charset';
 
 charset(superagent);
 
@@ -79,5 +79,5 @@ module.exports = {
   'GET /me': me,
   'GET /createTask': createTask,
   'GET /login': login,
-  "GET /userInfo": userInfo
+  'GET /userInfo': userInfo
 };

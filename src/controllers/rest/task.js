@@ -1,8 +1,8 @@
-import {Task, User_Task} from "../../tools/model";
-import {TASK_STATE, TASK_TYPE} from "../../models/Task";
-import {session} from "../../tools/config";
-import {uploadFile} from "../../tools/upload";
-import * as Dao from "../../tools/dao";
+import {Task, User_Task} from '../../tools/model';
+import {TASK_STATE, TASK_TYPE} from '../../models/Task';
+import {session} from '../../tools/config';
+import {uploadFile} from '../../tools/upload';
+import * as Dao from '../../tools/dao';
 
 const _judgeTaskType = ctx => {
   // 判断来源  take-task    mine-task ~ed
@@ -34,7 +34,10 @@ const _judgeTaskType = ctx => {
     // 对任务搜索做处理
     if (keyword) {
       where.detail = {
-        $like: '%' + keyword + '%'
+        $like: `%${keyword}%`
+      };
+      where.type = {
+        $like:`%${keyword}%`
       };
     }
   }
