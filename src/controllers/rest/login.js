@@ -1,4 +1,4 @@
-import {User}  from '../../tools/model';
+import {User} from '../../tools/model';
 import config from '../../tools/config';
 import superagent from 'superagent';
 import charset from 'superagent-charset';

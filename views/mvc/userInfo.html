@@ -82,34 +82,19 @@
     }).on('success.form.bv', e => {
       e.preventDefault();
 
-      let submit = $('.submit');
-      let loading = Ladda.create(submit.get(0));
-      loading.start();
-      $.ajax({
+      submitAjax({
         type: form.attr('method'),
         url: form.attr('action'),
         data: JSON.parse('{"' + decodeURIComponent(form.serialize()).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}'),
-        success: data => {
-          if (data.result) {
-            submitBtnWord.text('成功');
-            setTimeout(() => {
-              submitBtnWord.text('提交');
-              loading.stop();
-              // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
-              submit.attr('disabled', true);
-              window.location.href = '/';
-            }, 500);
-          }
-        },
-        error: xhr => {
-          submitBtnWord.text('失败');
-          setTimeout(() => {
-            submitBtnWord.text('提交');
-            loading.stop();
-          }, 500);
-        }
+      }, {
+        success: '成功',
+        fail: '失败',
+        normal: '提交'
+      }, () => {
+        window.location.href = '/';
       });
     });
   });
 </script>
+<script src="/static/js/ajax_loading.js" defer></script>
 {% endblock %}

@@ -1,7 +1,7 @@
 import {cookie2user} from "../../tools/cookie";
 import {session} from "../../tools/config";
+import {getUserUnfinishedTaskIds} from '../../tools/multi_dao';
 import {mkDirsSync} from "../../tools/upload";
-import {Task} from "../../tools/model";
 import fs from "fs";
 import uuid from "uuid";
 import path from "path";
@@ -20,16 +20,15 @@ const index = async ctx => {
 
 const me = async ctx => {
   let user = ctx.state.user;
+  let result = await getUserUnfinishedTaskIds(user.id);
   let data = {
     title: '我的信息'
   };
-  let badge = 0;
+  let badge = result.length;
   if (badge) {
     data.badge = badge;
   }
-  ctx.render(`myInfo`, {
-    title: '我的信息'
-  });
+  ctx.render(`myInfo`, data);
 };
 
 const createTask = async ctx => {

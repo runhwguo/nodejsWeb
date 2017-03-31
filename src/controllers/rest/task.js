@@ -1,10 +1,12 @@
-import {Task, UserTask} from "../../tools/model";
 import {TASK_STATE, TASK_TYPE} from "../../models/Task";
+import {Task, UserTask} from "../../tools/model";
 import {session} from "../../tools/config";
 import {uploadFile} from "../../tools/upload";
 import * as Dao from "../../tools/dao";
+import {getUserUnfinishedTaskIds} from "../../tools/multi_dao";
+import db from "../../tools/db";
 
-const _judgeTaskType = ctx => {
+const _judgeTaskType = async ctx => {
   // 判断来源  take-task    mine-task ~ed
   let fromWhere = ctx.query.where;
   let where = {};
@@ -24,7 +26,7 @@ const _judgeTaskType = ctx => {
     where.state = Object.keys(TASK_STATE)[1];
     let keyword = ctx.query.keyword;
     if (fromWhere !== 'index') {
-      where.type = fromWhere;
+      where.type = TASK_TYPE[fromWhere];
       // 用户登录，去查看take-task
       where.userId = {
         $ne: ctx.state.user.id
@@ -33,12 +35,6 @@ const _judgeTaskType = ctx => {
     attributes.push('reward');
     // 对任务搜索做处理
     if (keyword) {
-      // where.detail = {
-      //   $like: `%${keyword}%`
-      // };
-      // where.type = {
-      //   $like: `%${keyword}%`
-      // };
       where.$or = [
         {
           detail: {
@@ -59,20 +55,25 @@ const _judgeTaskType = ctx => {
 
 
 const get = async ctx => {
-  let page = Number.parseInt(ctx.params.page);
-  let fromWhere = ctx.query.where;
-  let limit = 5;
-  if (fromWhere !== 'index') {
-    limit = 8;
+  let page = Number.parseInt(ctx.params.page),
+    fromWhere = ctx.query.where,
+    limit = 5,
+    tasks = null;
+  if (fromWhere === 'unfinished') {
+    tasks = await getUserUnfinishedTaskIds(ctx.state.user.id);
+  } else {
+    if (fromWhere !== 'index') {
+      limit = 8;
+    }
+    let [where, attributes] = await _judgeTaskType(ctx);
+    tasks = await Dao.findAll(Task, {
+      attributes: attributes,
+      where: where,
+      offset: (page - 1) * limit,
+      limit: limit
+    });
   }
-  let [where, attributes] = _judgeTaskType(ctx);
 
-  let tasks = await Dao.findAll(Task, {
-    attributes: attributes,
-    where: where,
-    offset: (page - 1) * limit,
-    limit: limit
-  });
   tasks.forEach(item => {
     if (item.state) {
       item.state = TASK_STATE[item.state];
@@ -99,7 +100,6 @@ const publish = async ctx => {
     path: serverFilePath
   });
   result.data.userId = userId;
-  result.data.deadline = new Date(result.data.deadline).getTime();
 
   let isOK = await Dao.create(Task, result.data);
   ctx.rest({
@@ -121,13 +121,8 @@ const count = async ctx => {
 const order = async ctx => {
   let result = false;
   let id = ctx.params.id;
-  let task = await Task.findOne({
-    where: {
-      id: id
-    },
-    attributes: ['userId']
-  });
-  let userId = task.dataValues.userId;
+
+  let userId = ctx.state.user.id;
   // 更新任务的状态
   let isUpdateTaskOk = await Dao.update(Task, {
     state: Object.keys(TASK_STATE)[2]
@@ -150,9 +145,25 @@ const order = async ctx => {
   });
 };
 
+// postman中x-www-form-urlencoded下才能获取数据
+const stick = async ctx => {
+  let taskId = ctx.params.id;
+  let result = await Dao.update(Task, {
+    priority: db.sequelize.literal('priority+1')
+  }, {
+    where: {
+      id: taskId
+    }
+  });
+  ctx.rest({
+    result: result
+  });
+};
+
 module.exports = {
   'POST /api/task/publish': publish,
   'GET /api/task/get/page/:page': get,
   'GET /api/task/get/count': count,
   'PUT /api/task/order/:id': order,
+  'PUT /api/task/stick/:id': stick,
 };

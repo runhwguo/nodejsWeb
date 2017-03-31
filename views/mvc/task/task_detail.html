@@ -68,6 +68,7 @@
 </div>
 <script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
 <script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
+<script src="/static/js/ajax_loading.js" defer></script>
 <script>
   $(() => {
     $('img').click(() => {
@@ -77,29 +78,14 @@
     $('.back').click(() => {
       window.history.back();
     });
-    let submit = $('.ladda-button'),
-      submitBtnWord = $('.ladda-label'),
-      loading = Ladda.create(submit.get(0));
-    submit.click(() => {
-      $.ajax({
+    $('.ladda-button').click(() => {
+      submitAjax({
         type: 'PUT',
-        url: '/api/task/order/' + submit.get(0).id,
-        success: data => {
-          if (data.result) {
-            submitBtnWord.text('成功');
-            setTimeout(() => {
-              loading.stop();
-              submit.attr('disabled', true);
-            }, 500);
-          }
-        },
-        error: xhr => {
-          submitBtnWord.text('失败');
-          setTimeout(() => {
-            submitBtnWord.text('接单');
-            loading.stop();
-          }, 500);
-        }
+        url: '/api/task/order/' + $('.ladda-button').get(0).id
+      }, {
+        success: '成功',
+        fail: '失败',
+        normal: '接单'
       });
     });
   });

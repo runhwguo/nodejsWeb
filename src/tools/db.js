@@ -93,8 +93,7 @@ const TYPES = ['STRING', 'INTEGER', 'BIGINT', 'TEXT', 'DOUBLE', 'DATEONLY', 'BOO
 let exp = {
   defineModel: defineModel,
   sync: () => sequelize.sync({force: true}),
-  literal: sequelize.literal,
-  ID: ID_TYPE
+  sequelize: sequelize
 };
 
 for (let type of TYPES) {

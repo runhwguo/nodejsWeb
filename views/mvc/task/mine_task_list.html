@@ -10,5 +10,6 @@
 <span class="task-remind">${item.reward}</span>
 {% elif where === 'unfinished' %}
 <span class="task-info" style="white-space:pre">[${item.type}]&nbsp;${item.detail}</span>
+<span class="task-remind" style="color: red">${item.deadline}</span>
 {% endif %}
 {% endblock%}

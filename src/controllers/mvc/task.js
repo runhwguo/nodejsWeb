@@ -1,7 +1,5 @@
 import {Task, User} from '../../tools/model';
 import {MINE_TASK_TYPE, TASK_TYPE} from '../../models/Task';
-import * as Dao from '../../tools/dao';
-import db from '../../tools/db';
 
 const list = async ctx => {
   let where = ctx.params.where;
@@ -29,7 +27,6 @@ const detail = async ctx => {
     attributes: ['name', 'tel']
   });
   user = user.dataValues;
-  task.type = TASK_TYPE[task.type];
   let data = Object.assign({}, task, user);
   ctx.render(`task/task_detail`, {
     title: '任务详情',
@@ -37,24 +34,8 @@ const detail = async ctx => {
   })
 };
 
-// postman中x-www-form-urlencoded下才能获取数据
-const stick = async ctx => {
-  let taskId = ctx.params.id;
-  let result = await Dao.update(Task, {
-    priority: db.literal('priority+1')
-  }, {
-    where: {
-      id: taskId
-    }
-  });
-  ctx.rest({
-    result: result
-  });
-};
-
 module.exports = {
   'GET /task/mine/:where': list,
   'GET /task/take/:where': list,
-  'PUT /task/stick/:id': stick,
   'GET /task/detail/:id': detail
 };

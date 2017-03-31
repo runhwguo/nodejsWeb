@@ -74,7 +74,7 @@ let vm = new Vue({
       let stickButton = $(`#${item.id}`),
         loading = Ladda.create(stickButton[0]);
       loading.start();
-      vm.$resource(`/task/stick/${item.id}`).update()
+      vm.$resource(`/api/task/stick/${item.id}`).update()
         .then(resp => {
           vm.loading = false;
           resp.json().then(result => {
