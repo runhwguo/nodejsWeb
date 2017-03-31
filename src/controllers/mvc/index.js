@@ -1,13 +1,13 @@
-import {cookie2user} from '../../tools/cookie';
-import {session} from '../../tools/config';
-import {mkDirsSync} from '../../tools/upload';
-import {Task} from '../../tools/model';
-import fs from 'fs';
-import uuid from 'uuid';
-import path from 'path';
-import appRootDir from 'app-root-dir';
-import superagent from 'superagent';
-import charset from 'superagent-charset';
+import {cookie2user} from "../../tools/cookie";
+import {session} from "../../tools/config";
+import {mkDirsSync} from "../../tools/upload";
+import {Task} from "../../tools/model";
+import fs from "fs";
+import uuid from "uuid";
+import path from "path";
+import appRootDir from "app-root-dir";
+import superagent from "superagent";
+import charset from "superagent-charset";
 
 charset(superagent);
 
@@ -20,6 +20,13 @@ const index = async ctx => {
 
 const me = async ctx => {
   let user = ctx.state.user;
+  let data = {
+    title: '我的信息'
+  };
+  let badge = 0;
+  if (badge) {
+    data.badge = badge;
+  }
   ctx.render(`myInfo`, {
     title: '我的信息'
   });

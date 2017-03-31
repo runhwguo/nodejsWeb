@@ -39,14 +39,6 @@ const defineModel = (name, attributes) => {
     type: ID_TYPE,
     primaryKey: true
   };
-  attrs.createdAt = {
-    type: Sequelize.BIGINT,
-    allowNull: false
-  };
-  attrs.updatedAt = {
-    type: Sequelize.BIGINT,
-    allowNull: false
-  };
   attrs.version = {
     type: Sequelize.BIGINT,
     allowNull: false
@@ -75,7 +67,6 @@ const defineModel = (name, attributes) => {
     }, '  '));
   return sequelize.define(name, attrs, {
     tableName: name,
-    timestamps: false,
     charset: 'utf8',
     collate: 'utf8_general_ci',
     hooks: {
@@ -86,7 +77,6 @@ const defineModel = (name, attributes) => {
           if (!obj.id) {
             obj.id = v4();
           }
-          obj.createdAt = obj.updatedAt = now;
           obj.version = 0;
         } else {
           console.log('will update entity...');

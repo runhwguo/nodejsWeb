@@ -25,7 +25,7 @@ const detail = async ctx => {
   });
   task = task.dataValues;
   let user = await User.findOne({
-    where: {id: task.publishUserId},
+    where: {id: task.userId},
     attributes: ['name', 'tel']
   });
   user = user.dataValues;

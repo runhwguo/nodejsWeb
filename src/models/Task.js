@@ -27,7 +27,6 @@ const MINE_TYPE = {
 
 
 module.exports = db.defineModel('tasks', {
-  publishUserId: db.STRING,
   type: db.STRING,
   deadline: db.BIGINT,
   detail: db.TEXT,

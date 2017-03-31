@@ -1,8 +1,8 @@
-import {Task, User_Task} from '../../tools/model';
-import {TASK_STATE, TASK_TYPE} from '../../models/Task';
-import {session} from '../../tools/config';
-import {uploadFile} from '../../tools/upload';
-import * as Dao from '../../tools/dao';
+import {Task, UserTask} from "../../tools/model";
+import {TASK_STATE, TASK_TYPE} from "../../models/Task";
+import {session} from "../../tools/config";
+import {uploadFile} from "../../tools/upload";
+import * as Dao from "../../tools/dao";
 
 const _judgeTaskType = ctx => {
   // 判断来源  take-task    mine-task ~ed
@@ -10,7 +10,7 @@ const _judgeTaskType = ctx => {
   let where = {};
   let attributes = ['id', 'type', 'detail'];
   if (fromWhere.endsWith('ed')) {
-    where.publishUserId = ctx.state.user.id;
+    where.userId = ctx.state.user.id;
     if (fromWhere === 'completed') {
       attributes.push('reward');
       where.state = Object.keys(TASK_STATE)[3];
@@ -26,19 +26,31 @@ const _judgeTaskType = ctx => {
     if (fromWhere !== 'index') {
       where.type = fromWhere;
       // 用户登录，去查看take-task
-      where.publishUserId = {
+      where.userId = {
         $ne: ctx.state.user.id
       };
     }
     attributes.push('reward');
     // 对任务搜索做处理
     if (keyword) {
-      where.detail = {
-        $like: `%${keyword}%`
-      };
-      where.type = {
-        $like:`%${keyword}%`
-      };
+      // where.detail = {
+      //   $like: `%${keyword}%`
+      // };
+      // where.type = {
+      //   $like: `%${keyword}%`
+      // };
+      where.$or = [
+        {
+          detail: {
+            $like: `%${keyword}%`
+          }
+        },
+        {
+          type: {
+            $like: `%${keyword}%`
+          }
+        }
+      ];
     }
   }
 
@@ -62,9 +74,6 @@ const get = async ctx => {
     limit: limit
   });
   tasks.forEach(item => {
-    if (item.type) {
-      item.type = TASK_TYPE[item.type];
-    }
     if (item.state) {
       item.state = TASK_STATE[item.state];
     }
@@ -89,7 +98,7 @@ const publish = async ctx => {
     fileType: `taskImage/${firstDir}/${secondDir}`,
     path: serverFilePath
   });
-  result.data.publishUserId = userId;
+  result.data.userId = userId;
   result.data.deadline = new Date(result.data.deadline).getTime();
 
   let isOK = await Dao.create(Task, result.data);
@@ -116,9 +125,9 @@ const order = async ctx => {
     where: {
       id: id
     },
-    attributes: ['publishUserId']
+    attributes: ['userId']
   });
-  let publishUserId = task.dataValues.publishUserId;
+  let userId = task.dataValues.userId;
   // 更新任务的状态
   let isUpdateTaskOk = await Dao.update(Task, {
     state: Object.keys(TASK_STATE)[2]
@@ -128,10 +137,10 @@ const order = async ctx => {
     }
   });
   if (isUpdateTaskOk) {
-    // 插入User_Task
-    let isCreateObjOk = await Dao.create(User_Task, {
+    // 插入UserTask
+    let isCreateObjOk = await Dao.create(UserTask, {
       taskId: id,
-      userId: publishUserId
+      userId: userId
     });
     result = !!isCreateObjOk
   }

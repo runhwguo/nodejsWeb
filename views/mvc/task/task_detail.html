@@ -47,7 +47,7 @@
         <img src="{{ data.filename }}" class="thumbnail" width="30%" height="60%" alt="无图片说明">
     </div>
 
-    <button id="{{ data.id }}" type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right">
+    <button id="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit" data-style="expand-right">
         <span class="ladda-label">接单</span>
     </button>
 </div>
@@ -88,22 +88,19 @@
           if (data.result) {
             submitBtnWord.text('成功');
             setTimeout(() => {
-              submitBtnWord.text('提交');
               loading.stop();
               submit.attr('disabled', true);
-              window.location.href = '/';
             }, 500);
           }
         },
         error: xhr => {
           submitBtnWord.text('失败');
           setTimeout(() => {
-            submitBtnWord.text('提交');
+            submitBtnWord.text('接单');
             loading.stop();
           }, 500);
         }
       });
-      return false;
     });
   });
 </script>
