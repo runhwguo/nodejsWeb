@@ -13,9 +13,9 @@ $.extend({
       io;
     if (window.ActiveXObject) {
       io = document.createElement('<iframe id="' + frameId + '" name="' + frameId + '" />');
-      if (typeof uri == 'boolean') {
+      if (typeof uri === 'boolean') {
         io.src = 'javascript:false';
-      } else if (typeof uri == 'string') {
+      } else if (typeof uri === 'string') {
         io.src = uri;
       }
     } else {
@@ -95,9 +95,9 @@ $.extend({
         requestDone = true;
         let status;
         try {
-          status = isTimeout != 'timeout' ? 'success' : 'error';
+          status = isTimeout !== 'timeout' ? 'success' : 'error';
           // Make sure that the request was successful or notmodified
-          if (status != 'error') {
+          if (status !== 'error') {
             // process the data (runs the xml through httpData regardless of callback)
             let data = $.uploadHttpData(xml, s.dataType);
             // If a local callback was specified, fire it and pass it the data
@@ -143,7 +143,7 @@ $.extend({
           }
         }, 100);
         xml = null
-      } else if (isTimeout == 'timeout') {
+      } else if (isTimeout === 'timeout') {
         requestDone = true;
         let status = 'error';
         try {

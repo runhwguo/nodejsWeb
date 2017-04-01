@@ -1,4 +1,4 @@
-const findAll = async(model, option = {}) => {
+const findAll = async (model, option = {}) => {
   let result = await model.findAll(option);
   let tasks = [];
   for (let item of result) {
@@ -8,11 +8,11 @@ const findAll = async(model, option = {}) => {
   return tasks;
 };
 
-const update = async(model, values, options) => {
+const update = async (model, values, options) => {
   return await model.update(values, options);
 };
 
-const create = async(model, option = {}) => {
+const create = async (model, option = {}) => {
   let isOk = false;
   if (await model.create(option)) {
     isOk = true;
@@ -20,11 +20,11 @@ const create = async(model, option = {}) => {
   return isOk;
 };
 
-const count = async(model, opt = {}) => {
+const count = async (model, opt = {}) => {
   return await model.count(opt);
 };
 
-const remove = async(model, option = {}) => {
+const remove = async (model, option = {}) => {
   let opt = Object.assign(option, {force: true});
   return await model.destroy(opt);
 };

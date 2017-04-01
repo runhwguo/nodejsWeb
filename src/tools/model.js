@@ -28,4 +28,4 @@ Task.hasMany(UserTask);
 UserTask.belongsTo(Task);
 // end
 
-module.exports.sync = () =>db.sync();
+module.exports.sync = () => db.sync();

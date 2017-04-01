@@ -9,7 +9,7 @@ const cookie2user = async cookie => {
       // auth maxAge
       let [id, expires, sha1Str] = cookieElements;
       if (expires > Math.round(Date.now() / 1000)) {
-        let user = await User.findById(id);
+        let user = await User.findByPrimary(id);
         if (user) {
           if (sha1Str === sha1(`${user.id}-${user.password}-${expires}-${session.cookieName}`)) {
             return user;

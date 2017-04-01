@@ -64,7 +64,7 @@ const login = async ctx => {
           qq: qq,
           gender: gender
         });
-        user = await User.findById(username);
+        user = await User.findByPrimary(username);
         return true;
       }
       return false;

@@ -1,9 +1,9 @@
-import path from 'path';
-import mime from 'mime';
-import fs from 'mz/fs';// 与nodejs的fs功能相同,封装成Promise
+import path from "path";
+import mime from "mime";
+import fs from "mz/fs"; // 与nodejs的fs功能相同,封装成Promise
 
 const staticFile = (url, dir) => {
-  return async(ctx, next) => {
+  return async (ctx, next) => {
     let requestPath = ctx.request.path;
     if (requestPath.startsWith(url)) {
       let filePath = path.join(dir, requestPath.substring(url.length));

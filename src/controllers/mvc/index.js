@@ -28,13 +28,13 @@ const me = async ctx => {
   if (badge) {
     data.badge = badge;
   }
-  ctx.render(`myInfo`, data);
+  ctx.render(`my_info`, data);
 };
 
 const createTask = async ctx => {
   let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
   let user = await cookie2user(schoolResourceShareCookie);
-  ctx.render(`task/createTask`, {
+  ctx.render(`task/create_task`, {
     title: '发布任务',
     user: user
   });
@@ -73,7 +73,7 @@ const login = async ctx => {
 const userInfo = async ctx => {
   let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
   let user = await cookie2user(schoolResourceShareCookie);
-  ctx.render(`userInfo`, {
+  ctx.render(`user_info`, {
     title: '完善用户信息',
     user: user
   });
