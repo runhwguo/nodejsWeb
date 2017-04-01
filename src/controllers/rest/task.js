@@ -1,5 +1,5 @@
 import {TASK_STATE, TASK_TYPE} from "../../models/Task";
-import {Task, UserTask} from "../../tools/model";
+import {Task, UserTask} from '../../tools/model';
 import {session} from "../../tools/config";
 import {uploadFile} from "../../tools/upload";
 import * as Dao from "../../tools/dao";
@@ -118,24 +118,34 @@ const count = async ctx => {
   });
 };
 
-const order = async ctx => {
-  let result = false;
+// postman中x-www-form-urlencoded下才能获取数据
+const stateUpdate = async ctx => {
   let id = ctx.params.id;
+  let operate = ctx.params.operate;
 
-  let userId = ctx.state.user.id;
-  // 更新任务的状态
-  let isUpdateTaskOk = await Dao.update(Task, {
-    state: Object.keys(TASK_STATE)[2]
-  }, {
+  let value = {};
+  switch (operate) {
+    case 'order': {
+      value.state = Object.keys(TASK_STATE)[2];
+      break;
+    }
+    case 'stick': {
+      value.priority = db.sequelize.literal('priority+1');
+      break;
+    }
+  }
+
+  let result = await Dao.update(Task, value, {
     where: {
       id: id
     }
   });
-  if (isUpdateTaskOk) {
+
+  if (operate === 'order' && !!result) {
     // 插入UserTask
     let isCreateObjOk = await Dao.create(UserTask, {
       taskId: id,
-      userId: userId
+      userId: ctx.state.user.id
     });
     result = !!isCreateObjOk
   }
@@ -145,25 +155,9 @@ const order = async ctx => {
   });
 };
 
-// postman中x-www-form-urlencoded下才能获取数据
-const stick = async ctx => {
-  let taskId = ctx.params.id;
-  let result = await Dao.update(Task, {
-    priority: db.sequelize.literal('priority+1')
-  }, {
-    where: {
-      id: taskId
-    }
-  });
-  ctx.rest({
-    result: result
-  });
-};
-
 module.exports = {
   'POST /api/task/publish': publish,
   'GET /api/task/get/page/:page': get,
   'GET /api/task/get/count': count,
-  'PUT /api/task/order/:id': order,
-  'PUT /api/task/stick/:id': stick,
+  'PUT /api/task/state/:operate/:id': stateUpdate,
 };

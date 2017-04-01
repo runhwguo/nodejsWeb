@@ -1,5 +1,5 @@
-import {Task, User} from '../../tools/model';
 import {MINE_TASK_TYPE, TASK_TYPE} from '../../models/Task';
+import {Task, User} from '../../tools/model';
 
 const list = async ctx => {
   let where = ctx.params.where;
@@ -30,8 +30,9 @@ const detail = async ctx => {
   let data = Object.assign({}, task, user);
   ctx.render(`task/task_detail`, {
     title: '任务详情',
-    data: data
-  })
+    data: data,
+    where: ctx.query.where
+  });
 };
 
 module.exports = {

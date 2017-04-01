@@ -54,7 +54,7 @@ let vm = new Vue({
           vm.loading = false;
           resp.json().then(data => {
             data.result.forEach(item => {
-              let maxWidthOfInfo = $(window).width() * 0.9 * 0.8;
+              let maxWidthOfInfo = $(window).width() * 0.9 * 0.75;
               let info = null;
               do {
                 info = item.type + ' ' + item.detail;
@@ -74,7 +74,7 @@ let vm = new Vue({
       let stickButton = $(`#${item.id}`),
         loading = Ladda.create(stickButton[0]);
       loading.start();
-      vm.$resource(`/api/task/stick/${item.id}`).update()
+      vm.$resource(`/api/task/state/stick/${item.id}`).update()
         .then(resp => {
           vm.loading = false;
           resp.json().then(result => {
@@ -94,7 +94,7 @@ let vm = new Vue({
         });
     },
     detail: item => {
-      window.location.href = `/task/detail/${item.id}`;
+      window.location.href = `/task/detail/${item.id}?where=`+$('input:hidden')[0].value;
     },
     init: (isSearch) => {
       vm.items = [];
