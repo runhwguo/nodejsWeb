@@ -60,15 +60,17 @@
         </div>
     </div>
     {% elif where === 'published' %}
-    <button id="off" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
-            data-style="expand-right">
-        <span class="ladda-label">下架</span>
-    </button>
+        {% if data.state < 3 %}
+            <button id="off" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
+                    data-style="expand-right">
+                <span class="ladda-label">下架</span>
+            </button>
+        {% endif %}
     {% else %}
-    <button id="order" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
-            data-style="expand-right">
-        <span class="ladda-label">接单</span>
-    </button>
+        <button id="order" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
+                data-style="expand-right">
+            <span class="ladda-label">接单</span>
+        </button>
     {% endif %}
 </div>
 <input type="hidden" value="{{ where }}">
@@ -112,8 +114,7 @@
         url: `/api/task/state/${this.id}/${this.name}?where=${where}`
       }, {
         success: '成功',
-        fail: '失败',
-        normal: this.children[0].textContent
+        fail: '失败'
       }, successCallback);
     });
   });

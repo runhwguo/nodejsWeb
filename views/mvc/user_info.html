@@ -23,7 +23,6 @@
     <div class='form-group'>
         <input type='text' class='form-control' id='wx' name='wx' value="{{user.wx}}" placeholder='微信号'/>
     </div>
-    <!--<input type='submit' class='btn btn-primary submit' value='提交'/>-->
     <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
             class="ladda-label">提交</span></button>
 </form>
@@ -32,8 +31,7 @@
 <script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js" defer></script>
 <script>
   $(() => {
-    let form = $('form'),
-      submitBtnWord = $('.ladda-label');
+    let form = $('form');
     $('.back').click(() => {
       window.history.back();
     });
@@ -82,14 +80,13 @@
     }).on('success.form.bv', e => {
       e.preventDefault();
 
-      submitAjax({
+      submitAjax($('.ladda-button'), {
         type: form.attr('method'),
         url: form.attr('action'),
         data: JSON.parse('{"' + decodeURIComponent(form.serialize()).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}'),
       }, {
         success: '成功',
-        fail: '失败',
-        normal: '提交'
+        fail: '失败'
       }, () => {
         window.location.href = '/';
       });

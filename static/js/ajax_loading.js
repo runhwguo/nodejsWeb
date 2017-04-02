@@ -1,6 +1,8 @@
 function submitAjax(submit, ajaxOption, submitBtnWordOption, successCallback) {
+
+  submitBtnWordOption.normal = submit.text();
   let submitBtnWord = submit[0],
-    loading = Ladda.create(submitBtnWord);
+    loading = Ladda.create(submit[0]);
   loading.start();
   $.ajax({
     type: ajaxOption.type || '',
@@ -8,7 +10,7 @@ function submitAjax(submit, ajaxOption, submitBtnWordOption, successCallback) {
     data: ajaxOption.data || '',
     success: data => {
       if (data.result) {
-        submitBtnWord.textContent = submitBtnWordOption.success;
+        submit.text(submitBtnWordOption.success);
         setTimeout(() => {
           loading.stop();
           // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
@@ -20,9 +22,9 @@ function submitAjax(submit, ajaxOption, submitBtnWordOption, successCallback) {
       }
     },
     error: xhr => {
-      submitBtnWord.textContent = submitBtnWordOption.fail;
+      submit.text(submitBtnWordOption.fail);
       setTimeout(() => {
-        submitBtnWord.textContent = submitBtnWordOption.normal;
+        submit.text(submitBtnWordOption.normal);
         loading.stop();
       }, 500);
     }

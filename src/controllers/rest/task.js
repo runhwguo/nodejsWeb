@@ -1,5 +1,5 @@
-import {TASK_STATE, TASK_TYPE} from '../../models/Task';
 import {Task, UserTask} from '../../tools/model';
+import {TASK_STATE, TASK_TYPE} from '../../models/Task';
 import {session} from '../../tools/config';
 import {uploadFile} from '../../tools/upload';
 import * as Dao from '../../tools/dao';
@@ -124,15 +124,31 @@ const stateUpdate = async ctx => {
   let operate = ctx.params.operate;
 
   let value = {};
+  let stateIndex = 0;
   switch (operate) {
     case 'order': {
-      value.state = Object.keys(TASK_STATE)[2];
+      stateIndex = 2;
       break;
     }
     case 'stick': {
       value.priority = db.sequelize.literal('priority+1');
       break;
     }
+    case 'abandon': {
+      stateIndex = 1;
+      break;
+    }
+    case 'done': {
+      stateIndex = 3;
+      break;
+    }
+    case 'off': {
+      stateIndex = 5;
+      break;
+    }
+  }
+  if (stateIndex) {
+    value.state = Object.keys(TASK_STATE)[stateIndex];
   }
 
   let result = await Dao.update(Task, value, {

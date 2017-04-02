@@ -81,14 +81,13 @@
     }).on('success.form.bv', e => {
       e.preventDefault();
 
-      submitAjax({
+      submitAjax($('.ladda-button'), {
         type: form.attr('method'),
         url: form.attr('action'),
         data: JSON.parse('{"' + decodeURIComponent(form.serialize()).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}'),
       }, {
         success: '成功',
-        fail: '失败',
-        normal: '登录'
+        fail: '失败'
       }, () => {
         window.location.href = '/userInfo';
       });
