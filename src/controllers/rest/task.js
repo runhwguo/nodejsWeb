@@ -144,6 +144,12 @@ const stateUpdate = async ctx => {
     }
     case 'off': {
       stateIndex = 5;
+      let isRemoved = await Dao.remove(Task, {
+        where: {
+          id: id
+        }
+      });
+      console.log('isRemoved = ' + isRemoved);
       break;
     }
   }

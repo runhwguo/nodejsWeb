@@ -60,7 +60,7 @@
         </div>
     </div>
     {% elif where === 'published' %}
-        {% if data.state < 3 %}
+        {% if data.state === 'released_not_claimed' or data.state === 'completing' %}
             <button id="off" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
                     data-style="expand-right">
                 <span class="ladda-label">下架</span>

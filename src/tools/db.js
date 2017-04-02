@@ -1,7 +1,7 @@
 // 统一Model的定义
-import Sequelize from 'sequelize';
-import {v4} from 'uuid';
-import {db} from './config';
+import Sequelize from "sequelize";
+import {v4} from "uuid";
+import {db} from "./config";
 
 console.log('init sequelize...');
 
@@ -69,6 +69,7 @@ const defineModel = (name, attributes) => {
     tableName: name,
     charset: 'utf8',
     collate: 'utf8_general_ci',
+    paranoid: true,
     hooks: {
       beforeValidate: obj => {
         let now = Date.now();
