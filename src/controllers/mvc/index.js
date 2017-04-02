@@ -8,6 +8,9 @@ import path from 'path';
 import appRootDir from 'app-root-dir';
 import superagent from 'superagent';
 import charset from 'superagent-charset';
+import * as Dao from '../../tools/dao';
+import {Task} from '../../tools/model';
+import {TASK_STATE} from '../../models/Task';
 
 charset(superagent);
 
@@ -25,9 +28,19 @@ const me = async ctx => {
     title: '我的信息',
     username: user.name
   };
-  let badge = result.length;
-  if (badge) {
-    data.badge = badge;
+  let unfinishedBadge = result.length;
+  if (unfinishedBadge) {
+    data.unfinishedBadge = unfinishedBadge;
+  }
+
+  result = await Dao.count(Task, {
+    where: {
+      userId: ctx.state.user.id,
+      state: Object.keys(TASK_STATE)[3]
+    }
+  });
+  if (result) {
+    data.unPaidBadge = result;
   }
   ctx.render(`my_info`, data);
 };
