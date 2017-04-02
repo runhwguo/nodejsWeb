@@ -1,10 +1,10 @@
-import {TASK_STATE, TASK_TYPE} from "../../models/Task";
+import {TASK_STATE, TASK_TYPE} from '../../models/Task';
 import {Task, UserTask} from '../../tools/model';
-import {session} from "../../tools/config";
-import {uploadFile} from "../../tools/upload";
-import * as Dao from "../../tools/dao";
-import {getUserUnfinishedTaskIds} from "../../tools/multi_dao";
-import db from "../../tools/db";
+import {session} from '../../tools/config';
+import {uploadFile} from '../../tools/upload';
+import * as Dao from '../../tools/dao';
+import {getUserUnfinishedTaskIds} from '../../tools/multi_dao';
+import db from '../../tools/db';
 
 const _judgeTaskType = async ctx => {
   // 判断来源  take-task    mine-task ~ed

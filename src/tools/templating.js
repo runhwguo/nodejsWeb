@@ -1,4 +1,4 @@
-import {Environment, FileSystemLoader} from "nunjucks";
+import {Environment, FileSystemLoader} from 'nunjucks';
 
 const createEnv = (path = 'views', opts) => {
   let autoescape = opts.autoescape && true,

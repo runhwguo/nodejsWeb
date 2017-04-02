@@ -1,13 +1,13 @@
-import {cookie2user} from "../../tools/cookie";
-import {session} from "../../tools/config";
-import {getUserUnfinishedTaskIds} from "../../tools/multi_dao";
-import {mkDirsSync} from "../../tools/upload";
-import fs from "fs";
-import uuid from "uuid";
-import path from "path";
-import appRootDir from "app-root-dir";
-import superagent from "superagent";
-import charset from "superagent-charset";
+import {cookie2user} from '../../tools/cookie';
+import {session} from '../../tools/config';
+import {getUserUnfinishedTaskIds} from '../../tools/multi_dao';
+import {mkDirsSync} from '../../tools/upload';
+import fs from 'fs';
+import uuid from 'uuid';
+import path from 'path';
+import appRootDir from 'app-root-dir';
+import superagent from 'superagent';
+import charset from 'superagent-charset';
 
 charset(superagent);
 
