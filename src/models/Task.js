@@ -4,7 +4,7 @@ const STATE = {
   none: '未知',
   released_not_claimed: '认领中',
   completing: '完成中',
-  completed: '已完成',
+  completed: '确认支付',// 已完成
   paid: '已支付',
   cancelled: '已取消',
   expired: '已过期'

@@ -65,6 +65,11 @@
                     data-style="expand-right">
                 <span class="ladda-label">下架</span>
             </button>
+        {% elif data.state === 'completed' %}
+    <button id="paid" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
+            data-style="expand-right">
+        <span class="ladda-label">确认支付</span>
+    </button>
         {% endif %}
     {% else %}
         <button id="order" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"

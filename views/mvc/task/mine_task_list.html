@@ -1,15 +1,18 @@
 {% extends "./../template/task_list.html" %}
 {% block main %}
-<link rel="stylesheet" href="/static/css/mine-task.css">
+    <link rel="stylesheet" href="/static/css/mine-task.css">
 
-{% if where === 'published' %}
-<span class="task-info" style="white-space:pre">[${item.type}]&nbsp;${item.detail}</span>
-<span class="task-remind">${item.state}</span>
-{% elif where === 'completed' %}
-<span class="task-info" style="white-space:pre">[${item.type}]&nbsp;${item.detail}</span>
-<span class="task-remind">${item.reward}</span>
-{% elif where === 'unfinished' %}
-<span class="task-info" style="white-space:pre">[${item.type}]&nbsp;${item.detail}</span>
-<span class="task-remind" style="color: red">${item.deadline}</span>
-{% endif %}
+    {% if where === 'published' %}
+        <span class="task-info">[${item.type}]&nbsp;${item.detail}</span>
+
+        <span v-if="item.state === '确认支付'" class="task-remind" style="color: red">${item.state}</span>
+        <span v-if="item.state === '已支付'" class="task-remind">${item.state}</span>
+    {% elif where === 'completed' %}
+        <span class="task-info">[${item.type}]&nbsp;${item.detail}</span>
+        <span v-if="item.state === '确认支付'" class="task-remind" style="color: red">${item.state}</span>
+        <span v-if="item.state === '已支付'" class="task-remind">${item.state}</span>
+    {% elif where === 'unfinished' %}
+        <span class="task-info">[${item.type}]&nbsp;${item.detail}</span>
+        <span class="task-remind" style="color: red">${item.deadline}</span>
+    {% endif %}
 {% endblock%}

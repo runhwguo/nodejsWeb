@@ -14,8 +14,11 @@ const _judgeTaskType = async ctx => {
   if (fromWhere.endsWith('ed')) {
     where.userId = ctx.state.user.id;
     if (fromWhere === 'completed') {
-      attributes.push('reward');
-      where.state = Object.keys(TASK_STATE)[3];
+      attributes.push('state');
+      // where.state = Object.keys(TASK_STATE)[3];
+      where.state = {
+        $in: [Object.keys(TASK_STATE)[3], Object.keys(TASK_STATE)[4]]
+      };
     } else if (fromWhere === 'unfinished') {
       attributes.push('deadline');
       where.state = Object.keys(TASK_STATE)[2];
@@ -25,8 +28,10 @@ const _judgeTaskType = async ctx => {
   } else {
     where.state = Object.keys(TASK_STATE)[1];
     let keyword = ctx.query.keyword;
-    if (fromWhere !== 'index') {
+    if (fromWhere!=='index') {
       where.type = TASK_TYPE[fromWhere];
+    }
+    if (fromWhere !== 'index' || ctx.state.user) {
       // 用户登录，去查看take-task
       where.userId = {
         $ne: ctx.state.user.id
@@ -149,6 +154,10 @@ const stateUpdate = async ctx => {
           id: id
         }
       });
+      break;
+    }
+    case 'paid': {
+      stateIndex = 4;
       break;
     }
   }
