@@ -1,12 +1,12 @@
-import Koa from 'koa';
-import bodyParser from 'koa-bodyparser';
-import logger from 'koa-logger';
-import controller from './tools/controller';
-import templating from './tools/templating';
-import {cookie2user} from './tools/cookie';
-import staticFiles from './tools/static_files';
-import {restify} from './tools/rest';
-import {project, session} from './tools/config';
+import Koa from "koa";
+import bodyParser from "koa-bodyparser";
+import logger from "koa-logger";
+import controller from "./tools/controller";
+import templating from "./tools/templating";
+import {cookie2user} from "./tools/cookie";
+import staticFiles from "./tools/static_files";
+import {restify} from "./tools/rest";
+import {project, session} from "./tools/config";
 
 const app = new Koa();
 
@@ -18,11 +18,14 @@ app.use(async(ctx, next) => {
   let loginCookie = ctx.cookies.get(session.cookieName);
   let user = await cookie2user(loginCookie);
   if (user) {
-    ctx.state.user = user;
+    ctx.state.user = user.dataValues;
   }
   let reqPath = ctx.request.path;
   if (user || reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api')) {
     await next();
+    if (user) {
+
+    }
   } else {
     ctx.response.redirect('/login');
   }

@@ -33,7 +33,11 @@ var vm = new Vue({
           .json()
           .then(data => {
             vm.count = data.result;
-            vm.get();
+            if (vm.count) {
+              vm.get();
+            } else {
+              $('#vm').html('<h3>任务正在路上...</h3>')
+            }
           });
       });
   },
@@ -94,7 +98,7 @@ var vm = new Vue({
         });
     },
     detail: item => {
-      window.location.href = `/task/detail/${item.id}?where=`+$('input:hidden')[0].value;
+      window.location.href = `/task/detail/${item.id}?where=` + $('input:hidden')[0].value;
     },
     init: (isSearch) => {
       vm.items = [];

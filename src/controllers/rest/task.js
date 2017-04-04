@@ -6,10 +6,14 @@ import * as Dao from '../../tools/dao';
 import {getUserUnfinishedTaskIds} from '../../tools/multi_dao';
 import db from '../../tools/db';
 
-const _judgeTaskType = async ctx => {
+const _judgeTaskType = ctx => {
   // 判断来源  take-task    mine-task ~ed
   let fromWhere = ctx.query.where;
-  let where = {};
+  let where = {
+    shareCount: {
+      $gt: 0
+    }
+  };
   let attributes = ['id', 'type', 'detail'];
   if (fromWhere.endsWith('ed')) {
     where.userId = ctx.state.user.id;
@@ -70,7 +74,7 @@ const get = async ctx => {
     if (fromWhere !== 'index') {
       limit = 8;
     }
-    let [where, attributes] = await _judgeTaskType(ctx);
+    let [where, attributes] = _judgeTaskType(ctx);
     tasks = await Dao.findAll(Task, {
       attributes: attributes,
       where: where,
@@ -90,9 +94,6 @@ const get = async ctx => {
 };
 
 const publish = async ctx => {
-  let user = ctx.state.user;
-  let userId = user.id;
-
   const serverFilePath = 'static/tmp';
   // 上传文件事件
   let getRandomInt = (min, max) => {
@@ -104,7 +105,10 @@ const publish = async ctx => {
     fileType: `taskImage/${firstDir}/${secondDir}`,
     path: serverFilePath
   });
-  result.data.userId = userId;
+  result.data.userId = ctx.state.user.id;
+  if(result.data.shareCount) {
+    result.data.shareCount = Number.parseInt(result.data.shareCount);
+  }
 
   let isOK = await Dao.create(Task, result.data);
   ctx.rest({

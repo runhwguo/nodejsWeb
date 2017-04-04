@@ -1,8 +1,7 @@
 function submitAjax(submit, ajaxOption, submitBtnWordOption, successCallback) {
 
   submitBtnWordOption.normal = submit.text();
-  let submitBtnWord = submit[0],
-    loading = Ladda.create(submit[0]);
+  let loading = Ladda.create(submit[0]);
   loading.start();
   $.ajax({
     type: ajaxOption.type || '',

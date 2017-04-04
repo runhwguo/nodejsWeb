@@ -24,9 +24,9 @@
         </select>
     </div>
 
-    <!--<div class="form-group">-->
-        <!--<input type="text" class="form-control" name="shareCount" id="shareCount" placeholder="共享次数">-->
-    <!--</div>-->
+    <div class="form-group" id="shareCountDiv">
+        <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control" name="shareCount" id="shareCount" placeholder="共享次数,默认1">
+    </div>
 
     <div class="form-group">
         <input type="text" id="deadline" name="deadline" class="form-control" placeholder="请选择截止时间(包含)" readonly>
@@ -37,7 +37,8 @@
                   placeholder="请详细说明任务详情，比如地点时间，不然接任务人就一脸懵逼了~">三江楼405 马克思 3/4节 ffffffffffff</textarea>
     </div>
     <div class="form-group" style="margin-left: 15%">
-        <input type="file" accept="image/png,image/jpeg,image/bmp"  id="file" name="file" class="filestyle" data-input="false" data-buttonName="btn-primary"
+        <input type="file" accept="image/png,image/jpeg,image/bmp" id="file" name="file" class="filestyle"
+               data-input="false" data-buttonName="btn-primary"
                data-buttonText="图片补充(可选)">
     </div>
     <div class="form-group">
@@ -80,6 +81,14 @@
           validators: {
             notEmpty: {
               message: '请选择任务类型'
+            }
+          }
+        },
+        shareCount: {
+          message: 'The type is not valid',
+          validators: {
+            notEmpty: {
+              message: '请填写共享次数'
             }
           }
         },
@@ -152,6 +161,16 @@
       });
     });
     createTask.attr('href', 'javascript:void(0)');
+    let selectpicker = $('.selectpicker');
+    selectpicker.change(() => {
+        if (selectpicker[0].value === '会员共享') {
+          $('#shareCountDiv').show(300);
+        } else {
+          $('#shareCountDiv').hide(300);
+        }
+      }
+    )
+    ;
   });
 </script>
 <script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js" defer></script>
