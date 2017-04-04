@@ -191,14 +191,17 @@ const stateUpdate = async ctx => {
 
 const unread = async ctx=>{
   let user = ctx.state.user;
-  let result = await getUserUnfinishedTaskIds(user.id);
+  let result = 0;
+  if(user){
+    result = await getUserUnfinishedTaskIds(user.id);
 
-  result += await Dao.count(Task, {
-    where: {
-      userId: ctx.state.user.id,
-      state: Object.keys(TASK_STATE)[3]
-    }
-  });
+    result += await Dao.count(Task, {
+      where: {
+        userId: ctx.state.user.id,
+        state: Object.keys(TASK_STATE)[3]
+      }
+    });
+  }
   ctx.rest({
     result: result
   });
