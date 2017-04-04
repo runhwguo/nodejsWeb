@@ -99,7 +99,7 @@
 <script>
   $(() => {
     $('img').click(() => {
-      $('.enlargeImageModalSource').attr('src', $(this).attr('src'));
+      $('.enlargeImageModalSource').attr('src', $('img').attr('src'));
       $('#enlargeImageModal').modal('show');
     });
     $('.ladda-button').click(function () {
