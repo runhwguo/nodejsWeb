@@ -189,9 +189,25 @@ const stateUpdate = async ctx => {
   });
 };
 
+const unread = async ctx=>{
+  let user = ctx.state.user;
+  let result = await getUserUnfinishedTaskIds(user.id);
+
+  result += await Dao.count(Task, {
+    where: {
+      userId: ctx.state.user.id,
+      state: Object.keys(TASK_STATE)[3]
+    }
+  });
+  ctx.rest({
+    result: result
+  });
+};
+
 module.exports = {
   'POST /api/task/publish': publish,
   'GET /api/task/get/page/:page': get,
   'GET /api/task/get/count': count,
+  'GET /api/task/get/unread': unread,
   'PUT /api/task/state/:operate/:id': stateUpdate,
 };

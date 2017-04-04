@@ -82,9 +82,15 @@
                 <a href="/me" id="meTab">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                     <span class="block">我</span>
-                    <span class="badge badge-success pull-right">3</span>
-                    <script>
-                        <!--  红点吸引-->
+                    <span class="badge pull-right"></span>
+                    <script defer>
+                      <!--  红点吸引-->
+                      $.get('/api/task/get/unread', data => {
+                        let badge = Number.parseInt(data.result);
+                        if (badge) {
+                          $('#meTab span.badge').text(badge)
+                        }
+                      });
                     </script>
                 </a>
             </li>
