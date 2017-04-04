@@ -12,7 +12,6 @@
 <link href="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
 <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
 
-<input type="button" class="btn btn-link back" value="< 返回">
 <form class="main" action="/api/task/publish" method="post" enctype="multipart/form-data">
     <div class="form-group text-center">
         <select class="selectpicker col-form-select form-control" id="type" name="type" title="请选择发布类型">
@@ -28,11 +27,6 @@
     <!--<div class="form-group">-->
         <!--<input type="text" class="form-control" name="shareCount" id="shareCount" placeholder="共享次数">-->
     <!--</div>-->
-
-    <div class="form-group">
-        <input type="text" maxlength="11" onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-               class="form-control" id="tel" name="tel" value="{{user.tel}}" placeholder="电话号码">
-    </div>
 
     <div class="form-group">
         <input type="text" id="deadline" name="deadline" class="form-control" placeholder="请选择截止时间(包含)" readonly>
@@ -86,26 +80,6 @@
           validators: {
             notEmpty: {
               message: '请选择任务类型'
-            }
-          }
-        },
-        name: {
-          message: 'The name is not valid',
-          validators: {
-            notEmpty: {
-              message: '姓名不能为空'
-            }
-          }
-        },
-        tel: {
-          message: 'The tel is not valid',
-          validators: {
-            notEmpty: {
-              message: '电话号码不能为空'
-            },
-            regexp: {
-              regexp: /^1[34578]\d{9}$/,
-              message: "请输入11位有效号码"
             }
           }
         },
@@ -176,10 +150,6 @@
           }, 500);
         }
       });
-    });
-
-    $('.back').click(() => {
-      window.history.back();
     });
     createTask.attr('href', 'javascript:void(0)');
   });

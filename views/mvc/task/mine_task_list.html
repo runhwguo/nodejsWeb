@@ -6,7 +6,7 @@
         <span class="task-info">[${item.type}]&nbsp;${item.detail}</span>
 
         <span v-if="item.state === '确认支付'" class="task-remind" style="color: red">${item.state}</span>
-        <span v-if="item.state === '已支付'" class="task-remind">${item.state}</span>
+        <span v-else class="task-remind">${item.state}</span>
     {% elif where === 'completed' %}
         <span class="task-info">[${item.type}]&nbsp;${item.detail}</span>
         <span v-if="item.state === '确认支付'" class="task-remind" style="color: red">${item.state}</span>

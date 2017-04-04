@@ -9,7 +9,6 @@
 </style>
 <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
 <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
-<input type='button' class='btn btn-link back' value='< 返回'/>
 <form class="main" action='/api/save' method='post'>
     <div class='form-group'>
         <input type='text' class='form-control' id='name' name='name' placeholder='姓名' value="{{user.name}}"/>
@@ -32,9 +31,6 @@
 <script>
   $(() => {
     let form = $('form');
-    $('.back').click(() => {
-      window.history.back();
-    });
 
     form.bootstrapValidator({
       message: 'The form is not valid',

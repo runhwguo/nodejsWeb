@@ -7,7 +7,6 @@
         cursor: zoom-in;
     }
 </style>
-<input type="button" class="btn btn-link back" value="< 返回">
 <div class="main">
     <table class="table">
         <tr>
@@ -102,9 +101,6 @@
     $('img').click(() => {
       $('.enlargeImageModalSource').attr('src', $(this).attr('src'));
       $('#enlargeImageModal').modal('show');
-    });
-    $('.back').click(() => {
-      window.history.back();
     });
     $('.ladda-button').click(function () {
       let where = $('input:hidden')[0].value;

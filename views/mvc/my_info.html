@@ -11,8 +11,6 @@
     }
 </style>
 
-<input type="button" class="btn btn-link back" value="< 返回">
-
 <div class="userImg">
     <img src="/static/images/cat1.jpeg" alt="cat1">
     <p>{{ username }}</p>
@@ -40,11 +38,5 @@
         <span class="pull-right glyphicon glyphicon-chevron-right"></span>
     </a>
 </div>
-<script>
-  $(() => {
-    $('.back').click(() => window.history.back());
-    $('#meTab').attr('href', 'javascript:void(0)');
-  });
-</script>
 
 {% endblock %}
