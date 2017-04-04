@@ -23,9 +23,6 @@ app.use(async(ctx, next) => {
   let reqPath = ctx.request.path;
   if (user || reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api')) {
     await next();
-    if (user) {
-
-    }
   } else {
     ctx.response.redirect('/login');
   }
