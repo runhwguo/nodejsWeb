@@ -26,7 +26,8 @@ const me = async ctx => {
   let result = await getUserUnfinishedTaskIds(user.id);
   let data = {
     title: '我的信息',
-    username: user.name
+    username: user.name,
+    gender: user.gender
   };
   let unfinishedBadge = result.length;
   if (unfinishedBadge) {

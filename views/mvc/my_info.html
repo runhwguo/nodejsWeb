@@ -12,7 +12,11 @@
 </style>
 
 <div class="userImg">
-    <img src="/static/images/cat1.jpeg" alt="cat1">
+    {% if gender === '女' %}
+        <img src="/static/images/girl.jpeg" class="img-circle" alt="girl">
+    {% elif gender === '男' %}
+        <img src="/static/images/boy.jpeg" class="img-circle" alt="boy">
+    {% endif %}
     <p>{{ username }}</p>
 </div>
 
