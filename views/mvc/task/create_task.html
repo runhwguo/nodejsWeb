@@ -21,15 +21,21 @@
             <option value="顺风车">顺风车</option>
             <option value="会员共享">会员共享</option>
             <option value="代做">代做</option>
+            <option value="其他">其他</option>
         </select>
     </div>
 
     <div class="form-group" id="shareCountDiv">
-        <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control" name="shareCount" id="shareCount" placeholder="共享次数,默认1">
+        <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+               class="form-control" name="shareCount" id="shareCount" placeholder="共享次数,默认1">
     </div>
 
     <div class="form-group">
         <input type="text" id="deadline" name="deadline" class="form-control" placeholder="请选择截止时间(包含)" readonly>
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="title" name="title" class="form-control" placeholder="任务标题">
     </div>
 
     <div class="form-group">
@@ -92,15 +98,11 @@
             }
           }
         },
-        detail: {
-          message: 'The username is not valid',
+        title: {
+          message: 'The title is not valid',
           validators: {
             notEmpty: {
-              message: '请输入任务详情'
-            },
-            stringLength: {
-              min: 20,
-              message: '请描述更详细点'
+              message: '请填入任务标题'
             }
           }
         },
@@ -111,7 +113,7 @@
               message: '请填入相应报酬'
             },
             regexp: {
-              regexp: /^[1-9]\d*$/,
+              regexp: /^[0-9]\d*$/,
               message: "请输入正整数的钱数"
             }
           }
