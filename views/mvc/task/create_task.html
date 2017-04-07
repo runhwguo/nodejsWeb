@@ -1,10 +1,10 @@
 {% extends "./../template/base.html" %}
 
 {% block main %}
+
 <style>
-    .form-control {
-        width: 70%;
-        margin-left: 15%;
+    div ul.dropdown-menu {
+        min-width: 80px !important;
     }
 </style>
 <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
@@ -15,12 +15,12 @@
 <form class="main" action="/api/task/publish" method="post" enctype="multipart/form-data">
     <div class="form-group text-center">
         <select class="selectpicker col-form-select form-control" id="type" name="type" title="请选择发布类型">
-            <option value="代活动">代活动</option>
             <option value="代取">代取</option>
-            <option value="物品共享">物品共享</option>
-            <option value="顺风车">顺风车</option>
-            <option value="会员共享">会员共享</option>
             <option value="代做">代做</option>
+            <option value="代活动">代活动</option>
+            <option value="顺风车">顺风车</option>
+            <option value="物品共享">物品共享</option>
+            <option value="会员共享">会员共享</option>
             <option value="其他">其他</option>
         </select>
     </div>
@@ -31,25 +31,36 @@
     </div>
 
     <div class="form-group">
-        <input type="text" id="deadline" name="deadline" class="form-control" placeholder="请选择截止时间(包含)" readonly>
-    </div>
-
-    <div class="form-group">
         <input type="text" id="title" name="title" class="form-control" placeholder="任务标题">
     </div>
 
     <div class="form-group">
-        <textarea class="form-control" rows="5" id="detail" name="detail"
-                  placeholder="请详细说明任务详情，比如地点时间，不然接任务人就一脸懵逼了~">三江楼405 马克思 3/4节 ffffffffffff</textarea>
+        <input type="text" id="deadline" name="deadline" class="form-control" placeholder="请选择截止时间(包含)" readonly>
     </div>
-    <div class="form-group" style="margin-left: 15%">
+
+    <div class="form-group">
+        <textarea class="form-control" rows="5" id="detail" name="detail"
+                  placeholder="请详细说明任务详情，比如地点时间，不然接任务人就一脸懵逼了~"></textarea>
+    </div>
+    <div class="form-group">
         <input type="file" accept="image/png,image/jpeg,image/bmp" id="file" name="file" class="filestyle"
                data-input="false" data-buttonName="btn-primary"
                data-buttonText="图片补充(可选)">
     </div>
     <div class="form-group">
         <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control"
-               id="reward" name="reward" value="21" placeholder="报酬(元)"/>
+               id="reward" name="reward" placeholder="报酬(元)，悬赏或收取" style="width: 75%;display: inline-block;"/>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" id="rewardType" name="rewardType">悬赏</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li>悬赏</li>
+                <li>收取</li>
+            </ul>
+        </div>
     </div>
 
     <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
@@ -171,8 +182,11 @@
           $('#shareCountDiv').hide(300);
         }
       }
-    )
-    ;
+    );
+    $('div.form-group ul.dropdown-menu li').click(function() {
+      console.log(this);
+      $('#rewardType').text($(this).text());
+    });
   });
 </script>
 <script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js" defer></script>

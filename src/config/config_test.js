@@ -1,4 +1,4 @@
-//应用测试环境的配置
+// 应用测试环境的配置
 const config = {
   db: {
     dialect: 'mysql',
@@ -9,13 +9,18 @@ const config = {
     port: 3306
   },
   session: {
-    cookieName: 'schoolResourceShare',
+    userCookieName: 'schoolResourceShare',
     ujsCookieName: 'JSESSIONID',
+    adminCookieName: 'adminCookie',
     cookieKey: 'fuckQ',
     maxAge: 86400//一天
   },
   project: {
     port: 8080
+  },
+  admin: {
+    username: 'admin',
+    password: 'admin'
   }
 };
 

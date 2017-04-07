@@ -47,8 +47,8 @@ const me = async ctx => {
 };
 
 const createTask = async ctx => {
-  let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
-  let user = await cookie2user(schoolResourceShareCookie);
+  let schoolResourceShareCookie = ctx.cookies.get(session.userCookieName);
+  let user = await cookie2user(schoolResourceShareCookie, session.userCookieName);
   ctx.render(`task/create_task`, {
     title: '发布任务',
     user: user
@@ -85,8 +85,8 @@ const login = async ctx => {
 };
 
 const userInfo = async ctx => {
-  let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
-  let user = await cookie2user(schoolResourceShareCookie);
+  let schoolResourceShareCookie = ctx.cookies.get(session.userCookieName);
+  let user = await cookie2user(schoolResourceShareCookie,session.userCookieName);
   ctx.render(`user_info`, {
     title: '完善用户信息',
     user: user

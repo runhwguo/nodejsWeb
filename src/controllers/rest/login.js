@@ -8,11 +8,11 @@ import * as cookie from '../../tools/cookie';
 charset(superagent);
 
 const login = async ctx => {
-  let schoolResourceShareCookie = ctx.cookies.get(config.session.cookieName);
+  let schoolResourceShareCookie = ctx.cookies.get(config.session.userCookieName);
   let ujsCookieName = ctx.cookies.get(config.session.ujsCookieName);
   let user = null;
   if (schoolResourceShareCookie) {
-    user = await cookie.cookie2user(schoolResourceShareCookie);
+    user = await cookie.cookie2user(schoolResourceShareCookie, config.session.userCookieName);
   }
   if (!user) {
     const UJS_MAIN_URL = 'http://my.ujs.edu.cn/';
@@ -88,8 +88,7 @@ const login = async ctx => {
 
 
     if (user && isSuccessful) {
-      ctx.cookies.set(config.session.cookieName, cookie.user2cookie(username, password),
-        {
+      ctx.cookies.set(config.session.userCookieName, cookie.user2cookie(username, password, config.session.userCookieName), {
           maxAge: config.session.maxAge * 1000
         }
       );

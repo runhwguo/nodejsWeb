@@ -1,30 +1,23 @@
 {% extends "./template/base.html" %}
 
 {% block main %}
-<style>
-    .custom-form-control {
-        width: 70%;
-        margin-left: 15%;
-    }
-
-</style>
 <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
 <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
 
 <form class="main" action="/api/login" method="post">
     <div class="form-group">
-        <input type="text" value="3150803016" class="form-control custom-form-control" id="id" name="id"
+        <input type="text" value="3150803016" class="form-control" id="id" name="id"
                placeholder="学号"/>
     </div>
     <div class="form-group">
-        <input type="password" value="jnzx021527" class="form-control custom-form-control" id="password" name="password"
+        <input type="password" value="jnzx021527" class="form-control" id="password" name="password"
                placeholder="密码"/>
     </div>
     <div class="form-group">
         <input type="text" id="verificationCode" class="form-control"
-               style="display: inline-block;margin-left: 15%;width: 40%;"
+               style="display: inline-block;width: 70%;"
                name="verificationCode" placeholder="验证码"/>
-        <img src="{{ verificationCodePictureUrl }}" style="width: 20%;margin-left: 5%;">
+        <img src="{{ verificationCodePictureUrl }}" style="width: 20%;">
     </div>
     <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
             class="ladda-label">登录</span></button>

@@ -8,8 +8,8 @@ const save = async ctx => {
   let tel = ctx.request.body.tel;
   let qq = ctx.request.body.qq;
 
-  let schoolResourceShareCookie = ctx.cookies.get(session.cookieName);
-  let user = await cookie2user(schoolResourceShareCookie);
+  let schoolResourceShareCookie = ctx.cookies.get(session.userCookieName);
+  let user = await cookie2user(schoolResourceShareCookie, session.userCookieName);
   let result = await User.update({
     wx: wx,
     name: name,
