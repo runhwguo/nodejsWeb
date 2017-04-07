@@ -21,13 +21,14 @@
     searchButton = $('.glyphicon-search');
 
   searchClear.hide();
-  searchContent.keyup(() => {
+  searchContent.change(() => {
     if (searchContent.val()) {
       searchClear.show();
     }
   });
   searchClear.click(() => {
     searchContent.val('');
+    searchClear.hide();
   });
   searchButton.click(() => {
     if (vm.count) { // 服务器没有数据，点击查询不刷新

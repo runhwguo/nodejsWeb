@@ -8,10 +8,10 @@
         <input type='text' class='form-control' id='name' name='name' placeholder='姓名' value="{{user.name}}"/>
     </div>
     <div class='form-group'>
-        <input type='tel' class='form-control' id='tel' name='tel' placeholder='电话' value="{{user.tel}}"/>
+        <input type='tel' class='form-control' onkeypress="return event.charCode >= 48 && event.charCode <= 57" id='tel' name='tel' placeholder='电话' value="{{user.tel}}"/>
     </div>
     <div class='form-group'>
-        <input type='tel' class='form-control' id='qq' name='qq' placeholder='QQ号' value="{{user.qq}}"/>
+        <input type='tel' class='form-control' onkeypress="return event.charCode >= 48 && event.charCode <= 57" id='qq' name='qq' placeholder='QQ号' value="{{user.qq}}"/>
     </div>
     <div class='form-group'>
         <input type='text' class='form-control' id='wx' name='wx' value="{{user.wx}}" placeholder='微信号'/>
@@ -19,6 +19,7 @@
     <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
             class="ladda-label">提交</span></button>
 </form>
+<input type="hidden" value="{{ where }}">
 <script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
 <script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
 <script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js" defer></script>
@@ -34,35 +35,39 @@
         validating: 'glyphicon glyphicon-refresh'
       },
       fields: {
-        id: {
-          message: 'The id is not valid',
+        name: {
+          message: 'The name is not valid',
           validators: {
             notEmpty: {
-              message: '请填写学号'
-            },
-            regexp: {
-              regexp: /^[0-9]+$/,
-              message: '请填写正确的学号'
+              message: '请填写姓名'
             }
           }
         },
-        password: {
-          message: 'The password is not valid',
+        tel: {
+          message: 'The tel is not valid',
           validators: {
             notEmpty: {
-              message: '请填写密码'
+              message: '请填写手机号'
             }
           }
         },
-        verificationCode: {
-          message: 'The verificationCode is not valid',
+        qq: {
+          message: 'The qq is not valid',
           validators: {
             notEmpty: {
-              message: '请填写验证码'
+              message: '请填写QQ号'
             },
             regexp: {
-              regexp: /^[a-zA-Z0-9]{4}$/,
-              message: '请填写正确的验证码'
+              regexp: /^[0-9]{6, 11}$/,
+              message: '请填写正确的QQ号'
+            }
+          }
+        },
+        wx :{
+          message: 'The wx is not valid',
+          validators: {
+            notEmpty: {
+              message: '请填写微信号'
             }
           }
         }
@@ -81,6 +86,10 @@
         window.location.href = '/';
       });
     });
+
+    if($('input:hidden')[0].value==='me'){
+      $('.submit').attr('disabled', true);
+    }
   });
 </script>
 <script src="/static/js/ajax_loading.js" defer></script>
