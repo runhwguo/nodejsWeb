@@ -30,10 +30,8 @@
     searchContent.val('');
   });
   searchButton.click(() => {
-    if (searchContent.val()) {
-      vm.init(true);
-    } else {
-      vm.init(false);
+    if (vm.count) { // 服务器没有数据，点击查询不刷新
+      vm.init(searchContent.val());
     }
   });
 </script>

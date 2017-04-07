@@ -21,7 +21,7 @@ var vm = new Vue({
     items: [],
     currentPage: 0,
     loading: false,
-    count: -1,
+    count: 0,
     limit: 5,
     isSearch: false
   },
@@ -36,7 +36,7 @@ var vm = new Vue({
             if (vm.count) {
               vm.get();
             } else {
-              $('#vm').html('<h3>任务正在路上...</h3>')
+              $('#vm').html('<h4>任务正在路上...</h4>');
             }
           });
       });
