@@ -32,15 +32,15 @@ const _judgeTaskType = ctx => {
   } else {
     where.state = Object.keys(TASK_STATE)[1];
     let keyword = ctx.query.keyword;
-    if (fromWhere!=='index') {
+    if (fromWhere !== 'index') {
       where.type = TASK_TYPE[fromWhere];
     }
-    if (fromWhere !== 'index' || ctx.state.user) {
-      // 用户登录，去查看take-task
-      where.userId = {
-        $ne: ctx.state.user.id
-      };
-    }
+    // 用户登录，去查看take-task
+    // if (fromWhere !== 'index' || ctx.state.user) {
+    //   where.userId = {
+    //     $ne: ctx.state.user.id
+    //   };
+    // }
     attributes.push('reward');
     // 对任务搜索做处理
     if (keyword) {
