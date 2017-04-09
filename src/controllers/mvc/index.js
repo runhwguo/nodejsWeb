@@ -1,6 +1,6 @@
 import {cookie2user} from '../../tools/cookie';
 import {session} from '../../tools/config';
-import {getUserUnfinishedTaskIds} from '../../tools/multi_dao';
+import {getUserUnfinishedTasks} from '../../tools/multi_dao';
 import {mkDirsSync} from '../../tools/upload';
 import fs from 'fs';
 import uuid from 'uuid';
@@ -23,7 +23,7 @@ const index = async ctx => {
 
 const me = async ctx => {
   let user = ctx.state.user;
-  let result = await getUserUnfinishedTaskIds(user.id);
+  let result = await getUserUnfinishedTasks(user.id);
   let data = {
     title: '我的信息',
     username: user.name,

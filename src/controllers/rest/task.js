@@ -3,7 +3,7 @@ import {TASK_STATE, TASK_TYPE} from '../../models/Task';
 import {session} from '../../tools/config';
 import {uploadFile} from '../../tools/upload';
 import * as Dao from '../../tools/dao';
-import {getUserUnfinishedTaskIds} from '../../tools/multi_dao';
+import {getUserUnfinishedTasks} from '../../tools/multi_dao';
 import db from '../../tools/db';
 
 const _judgeTaskType = ctx => {
@@ -16,17 +16,8 @@ const _judgeTaskType = ctx => {
   };
   let attributes = ['id', 'type', 'detail'];
   if (fromWhere.endsWith('ed')) {
-    where.userId = ctx.state.user.id;
-    if (fromWhere === 'completed') {
-      attributes.push('state');
-      // where.state = Object.keys(TASK_STATE)[3];
-      where.state = {
-        $in: [Object.keys(TASK_STATE)[3], Object.keys(TASK_STATE)[4]]
-      };
-    } else if (fromWhere === 'unfinished') {
-      attributes.push('deadline');
-      where.state = Object.keys(TASK_STATE)[2];
-    } else if (fromWhere === 'published') {
+    if (fromWhere === 'published') {
+      where.userId = ctx.state.user.id;
       attributes.push('state');
     }
   } else {
@@ -63,7 +54,7 @@ const get = async ctx => {
     limit = 5,
     tasks = null;
   if (fromWhere === 'unfinished') {
-    tasks = await getUserUnfinishedTaskIds(ctx.state.user.id);
+    tasks = await getUserUnfinishedTasks(ctx.state.user.id);
   } else {
     if (fromWhere !== 'index') {
       limit = 8;
@@ -193,7 +184,7 @@ const unread = async ctx=>{
   let user = ctx.state.user;
   let result = 0;
   if(user){
-    result = (await getUserUnfinishedTaskIds(user.id)).length;
+    result = (await getUserUnfinishedTasks(user.id)).length;
 
     result += await Dao.count(Task, {
       where: {
