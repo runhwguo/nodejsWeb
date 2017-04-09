@@ -106,6 +106,10 @@ const publish = async ctx => {
     result.data.shareCount = 1;
   }
 
+  if (!result.data.reward){
+    result.data.reward = 0;
+  }
+
   let isOK = await Dao.create(Task, result.data);
   ctx.rest({
     result: !!isOK
