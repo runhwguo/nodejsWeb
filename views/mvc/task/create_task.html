@@ -11,6 +11,7 @@
         background-color: #efefef;
         color: #000;
     }
+
     #image-preview input {
         line-height: 20px;
         font-size: 20px;
@@ -18,6 +19,7 @@
         opacity: 0;
         z-index: 10;
     }
+
     #image-preview label {
         position: absolute;
         z-index: 1;
@@ -36,13 +38,17 @@
         margin: auto;
         text-align: center;
     }
+
+    .pre-scrollable {
+        max-height: 100%;
+    }
 </style>
 <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/libs/bootstrap-select-1.12.2.min.css">
 <link href="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
 <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
 
-<form class="main" action="/api/task/publish" method="post" enctype="multipart/form-data">
+<form class="main pre-scrollable" action="/api/task/publish" method="post" enctype="multipart/form-data">
     <div class="form-group text-center">
         <select class="selectpicker col-form-select form-control" id="type" name="type" title="请选择发布类型">
             <option value="代取">代取</option>
@@ -73,13 +79,13 @@
                   placeholder="请详细说明任务详情，比如地点时间，不然接任务人就一脸懵逼了~"></textarea>
     </div>
     <!--<div class="form-group">-->
-        <!--<input type="file" accept="image/png,image/jpeg,image/bmp" id="file" name="file" class="filestyle"-->
-               <!--data-input="false" data-buttonName="btn-primary"-->
-               <!--data-buttonText="图片补充(可选)">-->
+    <!--<input type="file" accept="image/png,image/jpeg,image/bmp" id="file" name="file" class="filestyle"-->
+    <!--data-input="false" data-buttonName="btn-primary"-->
+    <!--data-buttonText="图片补充(可选)">-->
     <!--</div>-->
     <div id="image-preview" class="form-group">
         <label for="file" id="image-label">补充图片</label>
-        <input type="file" name="file" id="file" />
+        <input type="file" name="file" id="file"/>
     </div>
     <div class="form-group">
         <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control"
@@ -218,7 +224,7 @@
         }
       }
     );
-    $('li[name="rewwrdValue"]').click(function() {
+    $('li[name="rewwrdValue"]').click(function () {
       console.log(this);
       $('#rewardType').text($(this).text());
     });
