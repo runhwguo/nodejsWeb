@@ -16,13 +16,17 @@
         margin-bottom: 0;
         border-bottom: 1px solid black;
     }
+
+    .img-circle {
+        width: 50%;
+    }
 </style>
 
 <div class="userImg">
     {% if gender === '女' %}
-        <img src="/static/images/girl.jpeg" class="img-circle" alt="girl">
+    <img src="/static/images/girl.jpeg" class="img-circle" alt="girl">
     {% elif gender === '男' %}
-        <img src="/static/images/boy.jpeg" class="img-circle" alt="boy">
+    <img src="/static/images/boy.jpeg" class="img-circle" alt="boy">
     {% endif %}
     <p>{{ username }}</p>
 </div>
