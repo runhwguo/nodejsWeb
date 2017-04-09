@@ -35,12 +35,6 @@ const _judgeTaskType = ctx => {
     if (fromWhere !== 'index') {
       where.type = TASK_TYPE[fromWhere];
     }
-    // 用户登录，去查看take-task
-    // if (fromWhere !== 'index' || ctx.state.user) {
-    //   where.userId = {
-    //     $ne: ctx.state.user.id
-    //   };
-    // }
     attributes.push('reward');
     // 对任务搜索做处理
     if (keyword) {
