@@ -45,10 +45,10 @@
         min-height: 30px;
     }
 
-    .badge {
+    .badge-custom {
         position: relative;
-        top: -45px;
-        left: -10px;
+        top: -40px;
+        right: 20px;
     }
 </style>
 
@@ -81,7 +81,7 @@
                 <a href="/me" id="meTab">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                     <span class="block">我</span>
-                    <span class="badge pull-right"></span>
+                    <span class="badge pull-right badge-custom"></span>
                     <script defer>
                       <!--  红点吸引-->
                       $.get('/api/task/get/unread', data => {

@@ -54,37 +54,36 @@
         <img src="{{ data.filename }}" class="thumbnail" width="30%" height="60%" alt="无图片说明">
     </div>
     {% if where === 'unfinished' %}
-    <div class="container text-center">
-        <div>
-            <button id="done" type="button" name="{{ data.id }}" class="btn btn-primary ladda-button"
-                    style="width: 30%;">
-                <span class="ladda-label">完成</span>
-            </button>
-            <button id="abandon" type="button" name="{{ data.id }}" class="btn btn-primary ladda-button"
-                    style="width: 30%;margin-left: 10%;">
-                <span class="ladda-label">放弃</span>
-            </button>
+        <div class="container text-center">
+            <div>
+                <button id="done" type="button" name="{{ data.id }}" class="btn btn-primary ladda-button"
+                        style="width: 30%;">
+                    <span class="ladda-label">完成</span>
+                </button>
+                <button id="abandon" type="button" name="{{ data.id }}" class="btn btn-primary ladda-button"
+                        style="width: 30%;margin-left: 10%;">
+                    <span class="ladda-label">放弃</span>
+                </button>
+            </div>
         </div>
-    </div>
     {% elif where === 'published' %}
-    {% if data.state === 'released_not_claimed' or data.state === 'completing' %}
-    <button id="off" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
-            data-style="expand-right">
-        <span class="ladda-label">下架</span>
-    </button>
-    {% elif data.state === 'completed' %}
-    <button id="paid" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
-            data-style="expand-right">
-        <span class="ladda-label">确认支付</span>
-    </button>
-    {% endif %}
-    {% elif data.type === '会员共享' %}
-
+        {% if data.state === 'released_not_claimed' or data.state === 'completing' %}
+            <button id="off" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
+                    data-style="expand-right">
+                <span class="ladda-label">下架</span>
+            </button>
+        {% elif data.state === 'completed' %}
+            <button id="paid" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
+                    data-style="expand-right">
+                <span class="ladda-label">确认支付</span>
+            </button>
+        {% endif %}
+    {% elif data.type === '会员共享' or data.isSelfTask %}
     {% else %}
-    <button id="order" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
-            data-style="expand-right">
-        <span class="ladda-label">接单</span>
-    </button>
+        <button id="order" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
+                data-style="expand-right">
+            <span class="ladda-label">接单</span>
+        </button>
     {% endif %}
 </div>
 <input type="hidden" value="{{ where }}">

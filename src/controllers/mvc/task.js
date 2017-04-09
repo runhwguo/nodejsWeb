@@ -35,10 +35,11 @@ const detail = async ctx => {
   }
   let user = await User.findOne({
     where: {id: task.userId},
-    attributes: ['name', 'tel']
+    attributes: ['name', 'tel', 'id', 'qq', 'wx']
   });
   user = user.dataValues;
-  let data = Object.assign({}, task, user);
+  let isSelfTask = task.userId === ctx.state.user.id;
+  let data = Object.assign({}, task, user, {isSelfTask: isSelfTask});
   ctx.render(`task/task_detail`, {
     title: '任务详情',
     data: data,

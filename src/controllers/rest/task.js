@@ -189,7 +189,7 @@ const unread = async ctx=>{
   let user = ctx.state.user;
   let result = 0;
   if(user){
-    result = await getUserUnfinishedTaskIds(user.id);
+    result = (await getUserUnfinishedTaskIds(user.id)).length;
 
     result += await Dao.count(Task, {
       where: {
