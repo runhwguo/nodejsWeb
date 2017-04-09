@@ -24,7 +24,7 @@
     }
     #image-preview label {
         position: absolute;
-        z-index: 5;
+        z-index: 1;
         opacity: 1;
         cursor: pointer;
         background-color: #ffff;
@@ -82,12 +82,12 @@
                <!--data-buttonText="图片补充(可选)">-->
     <!--</div>-->
     <div id="image-preview" class="form-group">
-        <label for="image-upload" id="image-label">补充图片</label>
-        <input type="file" name="image" id="image-upload" />
+        <label for="file" id="image-label">补充图片</label>
+        <input type="file" name="file" id="file" />
     </div>
     <div class="form-group">
         <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control"
-               id="reward" name="reward" placeholder="报酬(元)，悬赏或收取" style="width: 75%;display: inline-block;"/>
+               id="reward" name="reward" placeholder="报酬(元)，悬赏或收取" style="width: 70%;display: inline-block;"/>
         <div class="btn-group">
             <button type="button" class="btn btn-default" id="rewardType" name="rewardType">悬赏</button>
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
@@ -95,8 +95,8 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li>悬赏</li>
-                <li>收取</li>
+                <li name="rewwrdValue">悬赏</li>
+                <li name="rewwrdValue">收取</li>
             </ul>
         </div>
     </div>
@@ -222,13 +222,13 @@
         }
       }
     );
-    $('div.form-group ul.dropdown-menu li').click(function() {
+    $('li[name="rewwrdValue"]').click(function() {
       console.log(this);
       $('#rewardType').text($(this).text());
     });
 
     $.uploadPreview({
-      input_field: "#image-upload",   // Default: .image-upload
+      input_field: "#file",   // Default: .file
       preview_box: "#image-preview",  // Default: .image-preview
       label_field: "#image-label",    // Default: .image-label
       label_default: "图片补充",   // Default: Choose File

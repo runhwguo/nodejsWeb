@@ -108,6 +108,8 @@ const publish = async ctx => {
   result.data.userId = ctx.state.user.id;
   if(result.data.shareCount) {
     result.data.shareCount = Number.parseInt(result.data.shareCount);
+  }else {
+    result.data.shareCount = 1;
   }
 
   let isOK = await Dao.create(Task, result.data);
