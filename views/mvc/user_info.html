@@ -8,10 +8,12 @@
         <input type='text' class='form-control' id='name' name='name' placeholder='姓名' value="{{user.name}}"/>
     </div>
     <div class='form-group'>
-        <input type='tel' class='form-control' onkeypress="return event.charCode >= 48 && event.charCode <= 57" id='tel' name='tel' placeholder='电话' value="{{user.tel}}"/>
+        <input type='tel' class='form-control' onkeypress="return event.charCode >= 48 && event.charCode <= 57" id='tel'
+               name='tel' placeholder='电话' value="{{user.tel}}"/>
     </div>
     <div class='form-group'>
-        <input type='tel' class='form-control' onkeypress="return event.charCode >= 48 && event.charCode <= 57" id='qq' name='qq' placeholder='QQ号' value="{{user.qq}}"/>
+        <input type='tel' class='form-control' onkeypress="return event.charCode >= 48 && event.charCode <= 57" id='qq'
+               name='qq' placeholder='QQ号' value="{{user.qq}}"/>
     </div>
     <div class='form-group'>
         <input type='text' class='form-control' id='wx' name='wx' value="{{user.wx}}" placeholder='微信号'/>
@@ -63,7 +65,7 @@
             }
           }
         },
-        wx :{
+        wx: {
           message: 'The wx is not valid',
           validators: {
             notEmpty: {
@@ -87,7 +89,7 @@
       });
     });
 
-    if($('input:hidden')[0].value==='me'){
+    if ($('input:hidden')[0].value === 'me') {
       $('.submit').attr('disabled', true);
     }
   });

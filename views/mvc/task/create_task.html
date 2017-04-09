@@ -1,50 +1,9 @@
-{% extends "./../template/base.html" %}
+<link rel="stylesheet" href="../../../static/css/create-task.css">{% extends "./../template/base.html" %}
 
 {% block main %}
-
-<style>
-    #image-preview {
-        width: 100px;
-        height: 100px;
-        position: relative;
-        overflow: hidden;
-        background-color: #efefef;
-        color: #000;
-    }
-
-    #image-preview input {
-        line-height: 20px;
-        font-size: 20px;
-        position: absolute;
-        opacity: 0;
-        z-index: 10;
-    }
-
-    #image-preview label {
-        position: absolute;
-        z-index: 1;
-        opacity: 1;
-        cursor: pointer;
-        background-color: transparent;
-        width: 60px;
-        height: 30px;
-        font-size: 14px;
-        line-height: 12px;
-        text-transform: uppercase;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-        text-align: center;
-    }
-
-    .pre-scrollable {
-        max-height: 100%;
-    }
-</style>
 <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/libs/bootstrap-select-1.12.2.min.css">
+<link rel="stylesheet" href="/static/css/create-task.css">
 <link href="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
 <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
 

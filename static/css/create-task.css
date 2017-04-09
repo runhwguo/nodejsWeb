@@ -1,0 +1,39 @@
+#image-preview {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+    background-color: #efefef;
+    color: #000;
+}
+
+#image-preview input {
+    line-height: 20px;
+    font-size: 20px;
+    position: absolute;
+    opacity: 0;
+    z-index: 10;
+}
+
+#image-preview label {
+    position: absolute;
+    z-index: 1;
+    opacity: 1;
+    cursor: pointer;
+    background-color: transparent;
+    width: 60px;
+    height: 30px;
+    font-size: 14px;
+    line-height: 12px;
+    text-transform: uppercase;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    text-align: center;
+}
+
+.pre-scrollable {
+    max-height: 100%;
+}

@@ -1,27 +1,7 @@
 {% extends "./template/base.html" %}
 
 {% block main %}
-<style>
-    .task {
-        margin-left: 40px;
-    }
-
-    .userImg {
-        text-align: center;
-    }
-
-    .list-group-item {
-        width: 100%;
-        border: 0;
-        margin-bottom: 0;
-        border-bottom: 1px solid black;
-    }
-
-    .img-circle {
-        width: 50%;
-    }
-</style>
-
+<link rel="stylesheet" href="/static/css/my-info.css">
 <div class="userImg">
     {% if gender === '女' %}
     <img src="/static/images/girl.jpeg" class="img-circle" alt="girl">
