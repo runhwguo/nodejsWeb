@@ -2,10 +2,6 @@
     margin-left: 40px;
 }
 
-.user-img {
-    text-align: center;
-}
-
 .list-group-item {
     width: 100%;
     border: 0;
@@ -15,4 +11,8 @@
 
 .img-circle {
     width: 50%;
+}
+
+.user-head {
+    text-align: center;
 }
