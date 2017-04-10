@@ -61,10 +61,10 @@ var vm = new Vue({
               let maxWidthOfInfo = $(window).width() * 0.9 * 0.75;
               let info = null;
               do {
-                info = item.type + ' ' + item.detail;
-                item.detail = item.detail.substr(0, item.detail.length - 1);
+                info = item.type + ' ' + item.title;
+                item.title = item.title.substr(0, item.title.length - 1);
               } while (info.getWidth() > maxWidthOfInfo);
-              item.detail += '...';
+              item.title += '...';
             });
             vm.items = vm.items.concat(data.result);
             vm.currentPage++;

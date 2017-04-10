@@ -1,12 +1,4 @@
-import db from './db';
-
-const getUserUnfinishedTasks = async id => {
-  return await _rawQuery(`select tasks.id, type, title, deadline from tasks,userTasks where userTasks.userId=${id} and userTasks.taskId=tasks.id and state='unfinished'`);
-};
-
-const getUserCompletedTasks = async id => {
-  return await _rawQuery(`select tasks.id, type, title, state from tasks,userTasks where userTasks.userId=${id} and userTasks.taskId=tasks.id and state in ('completing', 'completed')`);
-};
+import db from "./db";
 
 const _rawQuery = async sql => {
   return await db.sequelize.query(sql, {
@@ -17,32 +9,40 @@ const _rawQuery = async sql => {
 
 const _convert2sqlGrammar = data => {
   if (Array.isArray(data)) {
-    data.forEach(item => {
-      item = `'${item}'`;
+    data.forEach((item, index) => {
+      data[index] = `'${item}'`;
     });
+    data = data.join(',');
   } else {
     data = `'${data}'`;
   }
   return data;
 };
 
-const get = async (id, stateArray = []) => {
-  stateArray.forEach(item => {
-    item = `'${item}'`;
-  });
-};
+const get = async (id, state = [], page) => {
+  state = _convert2sqlGrammar(state);
+  id = _convert2sqlGrammar(id);
 
-const count = async (id, state=[]) => {
-  _convert2sqlGrammar(state);
-  let state = state.join(',');
-  const sql = `select count(*) from tasks,userTasks where userTasks.userId='${id}' and userTasks.taskId=tasks.id and state in (${state})`;
+  const LIMIT = 8;
+
+  const sql = `select tasks.id, type, state, title, deadline from tasks,userTasks where userTasks.userId=${id} and userTasks.taskId=tasks.id and state  in (${state}) limit ${(page - 1) * LIMIT}, ${LIMIT}`;
+
   let result = await _rawQuery(sql);
-
 
   return result;
 };
 
+const count = async (id, state = []) => {
+  state = _convert2sqlGrammar(state);
+  id = _convert2sqlGrammar(id);
+  const sql = `select count(*) as count from tasks,userTasks where userTasks.userId=${id} and userTasks.taskId=tasks.id and state in (${state})`;
+  let result = await _rawQuery(sql);
+
+
+  return result[0].count;
+};
+
 
 export {
-  getUserUnfinishedTasks, getUserCompletedTasks, count
+  count, get
 };

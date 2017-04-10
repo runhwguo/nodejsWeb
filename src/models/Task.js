@@ -37,7 +37,7 @@ module.exports = db.defineModel('tasks', {
   reward: db.INTEGER, // 正:发布任务者收钱钱   负：发布任务者给钱
   state: {// 0:刚发布未被认领，1:认领了在完成中，2:我完成的，3:完成交易成功，4:发布者取消，5:过期没有认领
     type: db.STRING,
-    defaultValue: Object.keys(STATE)[1]
+    defaultValue: STATE.released_not_claimed
   },
   shareCount: { // 会员共享的次数，仅对会员共享有效
     type: db.INTEGER,

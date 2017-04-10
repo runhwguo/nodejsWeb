@@ -3,7 +3,7 @@ import {TASK_STATE, TASK_TYPE} from '../../models/Task';
 import {session} from '../../tools/config';
 import {uploadFile} from '../../tools/upload';
 import * as Dao from '../../tools/dao';
-import {getUserUnfinishedTasks} from '../../tools/multi_dao';
+import * as userTaskDao from '../../tools/user_task_dao';
 import db from '../../tools/db';
 
 const _judgeTaskType = ctx => {
@@ -14,14 +14,14 @@ const _judgeTaskType = ctx => {
       $gt: 0
     }
   };
-  let attributes = ['id', 'type', 'detail'];
+  let attributes = ['id', 'type', 'title'];
   if (fromWhere.endsWith('ed')) {
     if (fromWhere === 'published') {
       where.userId = ctx.state.user.id;
       attributes.push('state');
     }
   } else {
-    where.state = Object.keys(TASK_STATE)[1];
+    where.state = TASK_STATE.released_not_claimed;
     let keyword = ctx.query.keyword;
     if (fromWhere !== 'index') {
       where.type = TASK_TYPE[fromWhere];
@@ -51,11 +51,13 @@ const _judgeTaskType = ctx => {
 const get = async ctx => {
   let page = Number.parseInt(ctx.params.page),
     fromWhere = ctx.query.where,
-    limit = 5,
     tasks = null;
   if (fromWhere === 'unfinished') {
-    tasks = await getUserUnfinishedTasks(ctx.state.user.id);
+    tasks = await userTaskDao.get(ctx.state.user.id, [TASK_STATE.completing], page);
+  } else if (fromWhere === 'completed') {
+    tasks = await userTaskDao.get(ctx.state.user.id, [TASK_STATE.completed, TASK_STATE.paid], page);
   } else {
+    let limit = 5;
     if (fromWhere !== 'index') {
       limit = 8;
     }
@@ -64,15 +66,15 @@ const get = async ctx => {
       attributes: attributes,
       where: where,
       offset: (page - 1) * limit,
-      limit: limit
+      limit: limit,
+      order: [
+        ['state', 'ASC'],
+        ['priority', 'DESC'],
+        ['createdAt', 'ASC']
+      ]
     });
   }
 
-  tasks.forEach(item => {
-    if (item.state) {
-      item.state = TASK_STATE[item.state];
-    }
-  });
   ctx.rest({
     result: tasks
   });
@@ -108,11 +110,19 @@ const publish = async ctx => {
 };
 
 const count = async ctx => {
-  let where = _judgeTaskType(ctx)[0];
+  let fromWhere = ctx.query.where;
+  let count = 0;
+  if (fromWhere === 'unfinished') {
+    count = await userTaskDao.count(ctx.state.user.id, [TASK_STATE.completing]);
+  } else if (fromWhere === 'completed') {
+    count = await userTaskDao.count(ctx.state.user.id, [TASK_STATE.completed, TASK_STATE.paid]);
+  } else{
+    let where = _judgeTaskType(ctx)[0];
 
-  let count = await Dao.count(Task, {
+    count = await Dao.count(Task, {
     where: where
   });
+  }
   ctx.rest({
     result: count
   });
@@ -124,10 +134,10 @@ const stateUpdate = async ctx => {
   let operate = ctx.params.operate;
 
   let value = {};
-  let stateIndex = 0;
+  let state = null;
   switch (operate) {
     case 'order': {
-      stateIndex = 2;
+      state = TASK_STATE.completing;
       break;
     }
     case 'stick': {
@@ -135,15 +145,15 @@ const stateUpdate = async ctx => {
       break;
     }
     case 'abandon': {
-      stateIndex = 1;
+      state = TASK_STATE.released_not_claimed;
       break;
     }
     case 'done': {
-      stateIndex = 3;
+      state = TASK_STATE.completed;
       break;
     }
     case 'off': {
-      stateIndex = 5;
+      state = TASK_STATE.cancelled;
       await Dao.remove(Task, {
         where: {
           id: id
@@ -152,12 +162,12 @@ const stateUpdate = async ctx => {
       break;
     }
     case 'paid': {
-      stateIndex = 4;
+      state = TASK_STATE.paid;
       break;
     }
   }
-  if (stateIndex) {
-    value.state = Object.keys(TASK_STATE)[stateIndex];
+  if (state) {
+    value.state = state;
   }
 
   let result = await Dao.update(Task, value, {
@@ -184,12 +194,12 @@ const unread = async ctx=>{
   let user = ctx.state.user;
   let result = 0;
   if(user){
-    result = (await getUserUnfinishedTasks(user.id)).length;
+    result = await userTaskDao.count(user.id, [TASK_STATE.completing]);
 
     result += await Dao.count(Task, {
       where: {
         userId: ctx.state.user.id,
-        state: Object.keys(TASK_STATE)[3]
+        state: TASK_STATE.completed
       }
     });
   }

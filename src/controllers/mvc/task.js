@@ -35,7 +35,7 @@ const detail = async ctx => {
   }
   let user = await User.findOne({
     where: {id: task.userId},
-    attributes: ['name', 'tel', 'id', 'qq', 'wx']
+    attributes: ['name', 'tel', 'qq', 'wx']
   });
   user = user.dataValues;
   let isSelfTask = task.userId === ctx.state.user.id;

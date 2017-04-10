@@ -1,6 +1,6 @@
 import {cookie2user} from '../../tools/cookie';
 import {session} from '../../tools/config';
-import {getUserUnfinishedTasks} from '../../tools/multi_dao';
+import {count} from '../../tools/user_task_dao';
 import {mkDirsSync} from '../../tools/upload';
 import fs from 'fs';
 import uuid from 'uuid';
@@ -23,25 +23,24 @@ const index = async ctx => {
 
 const me = async ctx => {
   let user = ctx.state.user;
-  let result = await getUserUnfinishedTasks(user.id);
+  let unfinishedBadge = await count(user.id, TASK_STATE.completing);
   let data = {
     title: '我的信息',
     username: user.name,
     gender: user.gender
   };
-  let unfinishedBadge = result.length;
   if (unfinishedBadge) {
     data.unfinishedBadge = unfinishedBadge;
   }
 
-  result = await Dao.count(Task, {
+  let unPaidBadge = await Dao.count(Task, {
     where: {
       userId: user.id,
-      state: Object.keys(TASK_STATE)[3]
+      state: TASK_STATE.completed
     }
   });
-  if (result) {
-    data.unPaidBadge = result;
+  if (unPaidBadge) {
+    data.unPaidBadge = unPaidBadge;
   }
   ctx.render(`my_info`, data);
 };

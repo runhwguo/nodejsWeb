@@ -92,18 +92,18 @@
             </div>
         </div>
     {% elif where === 'published' %}
-        {% if data.state === 'released_not_claimed' or data.state === 'completing' %}
+        {% if data.state === '认领中' or data.state === '完成中' %}
             <button id="off" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
                     data-style="expand-right">
                 <span class="ladda-label">下架</span>
             </button>
-        {% elif data.state === 'completed' %}
+        {% elif data.state === '确认支付' %}
             <button id="paid" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
                     data-style="expand-right">
                 <span class="ladda-label">确认支付</span>
             </button>
         {% endif %}
-    {% elif data.type === '会员共享' or data.isSelfTask %}
+    {% elif data.type === '会员共享' or data.isSelfTask or where === 'completed' %}
     {% else %}
         <button id="order" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
                 data-style="expand-right">
