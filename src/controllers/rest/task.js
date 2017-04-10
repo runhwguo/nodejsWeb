@@ -176,13 +176,24 @@ const stateUpdate = async ctx => {
     }
   });
 
-  if (operate === 'order' && !!result) {
-    // 插入UserTask
-    let isCreateObjOk = await Dao.create(UserTask, {
-      taskId: id,
-      userId: ctx.state.user.id
-    });
-    result = !!isCreateObjOk
+  if (!!result) {
+    if (operate === 'order'){
+      // 插入UserTask
+      let isCreateObjOk = await Dao.create(UserTask, {
+        taskId: id,
+        userId: ctx.state.user.id
+      });
+      result = !!isCreateObjOk
+    } else if (operate === 'abandon') {
+      // 删除UserTask
+      let isCreateObjOk = await Dao.remove(UserTask, {
+        where: {
+          taskId: id,
+          userId: ctx.state.user.id
+        }
+      });
+      result = !!isCreateObjOk
+    }
   }
 
   ctx.rest({

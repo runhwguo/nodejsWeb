@@ -78,7 +78,7 @@
         </div>
         <img src="{{ data.filename }}" class="thumbnail" width="30%" height="60%" alt="无图片说明">
     </div>
-    {% if where === 'unfinished' %}
+    {% if where === 'unfinished' and data.state === '完成中' %}
         <div class="container text-center">
             <div>
                 <button id="done" type="button" name="{{ data.id }}" class="btn btn-primary ladda-button"
@@ -104,7 +104,7 @@
             </button>
         {% endif %}
     {% elif data.type === '会员共享' or data.isSelfTask or where === 'completed' %}
-    {% else %}
+    {% elif data.state === '认领中' %}
         <button id="order" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
                 data-style="expand-right">
             <span class="ladda-label">接单</span>
