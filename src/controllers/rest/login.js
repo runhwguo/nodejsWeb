@@ -3,6 +3,7 @@ import config from '../../tools/config';
 import superagent from 'superagent';
 import charset from 'superagent-charset';
 import cheerio from 'cheerio';
+import sha1 from 'sha1';
 import * as cookie from '../../tools/cookie';
 
 charset(superagent);
@@ -53,7 +54,7 @@ const login = async ctx => {
         await User.upsert({
           id: username,
           name: name,
-          password: password,
+          password: sha1(password),
           tel: tel,
           qq: qq,
           gender: gender
@@ -85,7 +86,7 @@ const login = async ctx => {
     }
 
     if (user && isSuccessful) {
-      ctx.cookies.set(config.session.userCookieName, cookie.user2cookie(username, password, config.session.userCookieName), {
+      ctx.cookies.set(config.session.userCookieName, cookie.user2cookie(username, sha1(password), config.session.userCookieName), {
           maxAge: config.session.maxAge * 1000
         }
       );
