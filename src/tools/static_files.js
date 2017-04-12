@@ -16,7 +16,6 @@ const staticFile = (url, dir) => {
     } else {
       await next();
     }
-
   };
 
 };

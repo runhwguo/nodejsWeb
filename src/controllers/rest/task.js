@@ -201,10 +201,10 @@ const stateUpdate = async ctx => {
   });
 };
 
-const unread = async ctx=>{
+const unread = async ctx => {
   let user = ctx.state.user;
   let result = 0;
-  if(user){
+  if (user) {
     result = await userTaskDao.count(user.id, [TASK_STATE.completing]);
 
     result += await Dao.count(Task, {

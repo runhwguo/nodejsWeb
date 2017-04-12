@@ -71,8 +71,7 @@ const uploadFile = async (ctx, options) => {
           }
 
           console.log('文件上传成功！');
-          resolve(result);
-        })
+        });
       }
     );
 
@@ -93,7 +92,7 @@ const uploadFile = async (ctx, options) => {
       reject(result);
     });
     req.pipe(busboy);
-  })
+  });
 };
 
 export {

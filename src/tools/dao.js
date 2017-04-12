@@ -8,8 +8,8 @@ const findAll = async (model, option = {}) => {
   return tasks;
 };
 
-const update = async (model, values, options) => {
-  return await model.update(values, options);
+const update = async (model, values, option) => {
+  return await model.update(values, option);
 };
 
 const create = async (model, option = {}) => {
@@ -20,8 +20,8 @@ const create = async (model, option = {}) => {
   return isOk;
 };
 
-const count = async (model, opt = {}) => {
-  return await model.count(opt);
+const count = async (model, option = {}) => {
+  return await model.count(option);
 };
 
 const remove = async (model, option = {}) => {

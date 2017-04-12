@@ -29,13 +29,7 @@ const login = async ctx => {
     const STU_INFO_LOGIN = 'http://stu.ujs.edu.cn/mobile/login.aspx';
     const STU_INFO = 'http://stu.ujs.edu.cn/mobile/rsbulid/r_3_3_st_jbxg.aspx';
 
-    let isSuccessful = false;
-    if (verificationCodeReg.test(verificationCode)) {
-      let iPlanetDirectoryProCookie = await login();
-      isSuccessful = await getUserInfo(iPlanetDirectoryProCookie);
-    }
-
-    async function getUserInfo(iPlanetDirectoryProCookie) {
+    const _getUserInfo = async iPlanetDirectoryProCookie => {
       if (iPlanetDirectoryProCookie) {
         let response = await superagent
           .get(STU_INFO)
@@ -52,10 +46,10 @@ const login = async ctx => {
           .set('Cookie', ASP_NET_SessionId);
         let $ = cheerio.load(response.text);
 
-        let name = $('#y_xm').text();
-        let gender = $('#y_xbdm').text();
-        let qq = $('#y_qq').text();
-        let tel = $('#y_cell').text();
+        let name = $('#y_xm').text(),
+          gender = $('#y_xbdm').text(),
+          qq = $('#y_qq').text(),
+          tel = $('#y_cell').text();
         await User.upsert({
           id: username,
           name: name,
@@ -67,10 +61,9 @@ const login = async ctx => {
         user = await User.findByPrimary(username);
         return true;
       }
-      return false;
-    }
+    };
 
-    async function login() {
+    const _login = async ()=> {
       let response = await superagent
         .post(userPasswordValidateUrl)
         .send('Login.Token1=' + username)
@@ -83,9 +76,13 @@ const login = async ctx => {
       if (response.ok) {
         return response.header['set-cookie'];
       }
-      return '';
-    }
+    };
 
+    let isSuccessful = false;
+    if (verificationCodeReg.test(verificationCode)) {
+      let iPlanetDirectoryProCookie = await _login();
+      isSuccessful = await _getUserInfo(iPlanetDirectoryProCookie);
+    }
 
     if (user && isSuccessful) {
       ctx.cookies.set(config.session.userCookieName, cookie.user2cookie(username, password, config.session.userCookieName), {

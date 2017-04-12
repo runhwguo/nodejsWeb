@@ -27,9 +27,7 @@ const get = async (id, state = [], page) => {
 
   const sql = `select tasks.id, type, state, title, deadline from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${id} and userTasks.taskId=tasks.id and state  in (${state}) limit ${(page - 1) * LIMIT}, ${LIMIT}`;
 
-  let result = await _rawQuery(sql);
-
-  return result;
+  return await _rawQuery(sql);
 };
 
 const count = async (id, state = []) => {
@@ -37,7 +35,6 @@ const count = async (id, state = []) => {
   id = _convert2sqlGrammar(id);
   const sql = `select count(*) as count from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${id} and userTasks.taskId=tasks.id and state in (${state})`;
   let result = await _rawQuery(sql);
-
 
   return result[0].count;
 };
