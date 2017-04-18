@@ -1,3 +1,3 @@
-require('./src/tools/hook.js');
+require('./src/tools/hook');
 
-require('./src/app.js');
+require('./src/app');
