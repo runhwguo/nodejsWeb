@@ -32,17 +32,23 @@ const login = async ctx => {
 
     const _getUserInfo = async iPlanetDirectoryProCookie => {
       if (iPlanetDirectoryProCookie) {
-        let response = await superagent
-          .get(STU_INFO)
-          .set('Cookie', iPlanetDirectoryProCookie);
-        const ASP_NET_SessionId = response.header['set-cookie'][0].split(';')[0];
-        console.log(response.header['set-cookie'][0]);
+        let ASP_NET_SessionId=null;
+        try {
+          await superagent
+            .get(STU_INFO)
+            .redirects(0)
+            .set('Cookie', iPlanetDirectoryProCookie);
+        } catch (e) {
+          ASP_NET_SessionId = e.response.header['set-cookie'];
+        }
+
+        console.log(ASP_NET_SessionId);
 
         await superagent
           .get(STU_INFO_LOGIN)
           .set('Cookie', iPlanetDirectoryProCookie + '; ' + ASP_NET_SessionId);
 
-        response = await superagent
+        let response = await superagent
           .get(STU_INFO)
           .set('Cookie', ASP_NET_SessionId);
         let $ = cheerio.load(response.text);
