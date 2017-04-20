@@ -50,8 +50,8 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li name="rewwrdValue">悬赏</li>
-                <li name="rewwrdValue">收取</li>
+                <li name="rewardValue">悬赏</li>
+                <li name="rewardValue">收取</li>
             </ul>
         </div>
         <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control"
@@ -176,7 +176,7 @@
         }
       }
     );
-    $('li[name="rewwrdValue"]').click(function () {
+    $('li[name="rewardValue"]').click(function () {
       console.log(this);
       $('#rewardType').text($(this).text());
     });
