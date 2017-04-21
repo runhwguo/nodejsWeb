@@ -11,6 +11,8 @@ import appRootDir from 'app-root-dir';
 
 const app = new Koa();
 
+app.proxy = true;
+
 const isProduction = process.env.NODE_ENV === 'production';
 // 打印url和请求时间 middleware
 app.use(logger());
