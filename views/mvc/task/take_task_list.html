@@ -18,22 +18,18 @@
 <script>
   var searchContent = $('#searchContent'),
     searchClear = $('.glyphicon-remove-circle'),
-    searchButton = $('.glyphicon-search');
+    searchButton = $('#searchButton');
 
   searchClear.hide();
-  searchContent.change(() => {
-    if (searchContent.val()) {
-      searchClear.show();
-    }
+  searchContent.keyup(() => {
+    searchClear.show();
   });
   searchClear.click(() => {
     searchContent.val('');
     searchClear.hide();
   });
   searchButton.click(() => {
-    if (vm.count) { // 服务器没有数据，点击查询不刷新
-      vm.init(searchContent.val());
-    }
+    vm.init(searchContent.val());
   });
 </script>
 {% endblock %}
