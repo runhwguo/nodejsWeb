@@ -39,6 +39,7 @@ app.use(async(ctx, next) => {
     }
   }
   console.log(ctx.ip);
+  console.log(ctx.request.headers["X-Orig-IP"]);
 });
 
 //在生产环境下，
