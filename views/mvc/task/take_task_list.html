@@ -5,20 +5,20 @@
     .form-control-feedback {
         pointer-events: auto;
     }
+
+    .input-group .input-group-addon {
+        top: 0;
+    }
 </style>
 <div class="input-group col-xs-12">
-        <span class="input-group-btn">
-            <button class="btn btn-info" id="searchButton" type="button">
-                <span class="glyphicon glyphicon-search"></span>
-            </button>
-        </span>
+    <span class="input-group-addon glyphicon glyphicon-search"></span>
     <input type="text" id="searchContent" class="form-control" placeholder="请输入关键字(默认显示所有)">
     <span class="glyphicon glyphicon-remove-circle form-control-feedback"></span>
 </div>
 <script>
   var searchContent = $('#searchContent'),
     searchClear = $('.glyphicon-remove-circle'),
-    searchButton = $('#searchButton');
+    searchButton = $('.glyphicon-search');
 
   searchClear.hide();
   searchContent.keyup(() => {
