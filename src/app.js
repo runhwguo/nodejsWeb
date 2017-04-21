@@ -15,6 +15,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 // 打印url和请求时间 middleware
 app.use(logger());
 
+// auth
 app.use(async(ctx, next) => {
   let userLoginCookie = ctx.cookies.get(session.userCookieName);
   let user = await cookie2user(userLoginCookie,session.userCookieName);
@@ -37,6 +38,7 @@ app.use(async(ctx, next) => {
       ctx.response.redirect('/login');
     }
   }
+  console.log(ctx.ip);
 });
 
 //在生产环境下，
