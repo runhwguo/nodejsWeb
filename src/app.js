@@ -40,6 +40,7 @@ app.use(async(ctx, next) => {
       ctx.response.redirect('/login');
     }
   }
+  console.log(ctx.ip);
   console.log(ctx.ips);
 });
 
