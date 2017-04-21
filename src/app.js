@@ -38,8 +38,7 @@ app.use(async(ctx, next) => {
       ctx.response.redirect('/login');
     }
   }
-  console.log(ctx.ip);
-  console.log(ctx.request.headers["X-Orig-IP"]);
+  console.log(ctx.request.headers['X-Real-IP']);
 });
 
 //在生产环境下，
