@@ -1,9 +1,8 @@
 import crypto from "crypto";
 
-const paySign = (appid, attach, body, mch_id, nonce_str, notify_url, openid, out_trade_no, spbill_create_ip, total_fee, trade_type) => {
+const paySign = (appid, body, mch_id, nonce_str, notify_url, openid, out_trade_no, spbill_create_ip, total_fee, trade_type) => {
   let ret = {
     appid: appid,
-    attach: attach,
     body: body,
     mch_id: mch_id,
     nonce_str: nonce_str,

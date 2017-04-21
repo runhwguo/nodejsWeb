@@ -7,7 +7,8 @@ import {cookie2user} from "./tools/cookie";
 import staticFiles from "./tools/static_files";
 import {restify} from "./tools/rest";
 import {project, session} from "./tools/config";
-import appRootDir from 'app-root-dir';
+import appRootDir from "app-root-dir";
+import json2xml from "json2xml";
 
 const app = new Koa();
 
@@ -18,30 +19,28 @@ const isProduction = process.env.NODE_ENV === 'production';
 app.use(logger());
 
 // auth
-app.use(async(ctx, next) => {
+app.use(async (ctx, next) => {
   let userLoginCookie = ctx.cookies.get(session.userCookieName);
-  let user = await cookie2user(userLoginCookie,session.userCookieName);
+  let user = await cookie2user(userLoginCookie, session.userCookieName);
   if (user) {
     ctx.state.user = user;
   }
   let reqPath = ctx.request.path;
-  if(reqPath.startsWith('/admin')){
+  if (reqPath.startsWith('/admin')) {
     let adminLoginCookie = ctx.cookies.get(session.adminCookieName);
     let admin = await cookie2user(adminLoginCookie, session.adminCookieName);
-    if(admin){
+    if (admin) {
       await next();
-    }else{
+    } else {
       ctx.response.redirects('admin/login');
     }
-  }else{
+  } else {
     if (user || reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api')) {
       await next();
     } else {
       ctx.response.redirect('/login');
     }
   }
-  console.log(ctx.ip);
-  console.log(ctx.ips);
 });
 
 //在生产环境下，

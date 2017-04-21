@@ -17,7 +17,6 @@ const login = async ctx => {
   }
   if (!user) {
     const UJS_MAIN_URL = 'http://my.ujs.edu.cn/';
-    const CHAR_SET = 'utf-8';
     let username = ctx.request.body.id;
     let password = ctx.request.body.password;
     let verificationCode = ctx.request.body.verificationCode;
@@ -79,7 +78,7 @@ const login = async ctx => {
         .send('goto=' + loginSuccessUrl)
         .send('gotoOnFail=' + loginFailureUrl)
         .set('Cookie', ujsCookieName)
-        .charset(CHAR_SET);
+        .charset(config.common.char_set_utf8);
       if (response.ok) {
         return response.header['set-cookie'];
       }
