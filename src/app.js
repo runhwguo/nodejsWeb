@@ -21,7 +21,7 @@ app.use(logger());
 app.use(async (ctx, next) => {
   let reqPath = ctx.request.path;
   if(reqPath === '/MP_verify_LXFIuaHyNWtcqG7k.txt'){
-    ctx.response.redirects(`/static/third_party${ reqPath }`);
+    ctx.response.redirect(`/static/third_party${ reqPath }`);
   }else{
     await next();
   }
@@ -41,7 +41,7 @@ app.use(async (ctx, next) => {
     if (admin) {
       await next();
     } else {
-      ctx.response.redirects('/admin/login');
+      ctx.response.redirect('/admin/login');
     }
   } else {
     if (user || reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api')) {
