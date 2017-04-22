@@ -21,7 +21,8 @@ app.use(logger());
 app.use(async (ctx, next) => {
   let reqPath = ctx.request.path;
   if(reqPath === '/MP_verify_LXFIuaHyNWtcqG7k.txt'){
-    ctx.response.redirect(`/static/third_party${ reqPath }`);
+    ctx.response.type = 200;
+    ctx.response.body = 'LXFIuaHyNWtcqG7k';
   }else{
     await next();
   }
