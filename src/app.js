@@ -17,6 +17,16 @@ const isProduction = process.env.NODE_ENV === 'production';
 // 打印url和请求时间 middleware
 app.use(logger());
 
+//wechat pay
+app.use(async (ctx, next) => {
+  let reqPath = ctx.request.path;
+  if(reqPath === '/MP_verify_LXFIuaHyNWtcqG7k.txt'){
+    ctx.response.redirects(`/static/third_party${ reqPath }`);
+  }else{
+    await next();
+  }
+});
+
 // auth
 app.use(async (ctx, next) => {
   let userLoginCookie = ctx.cookies.get(session.userCookieName);
@@ -31,7 +41,7 @@ app.use(async (ctx, next) => {
     if (admin) {
       await next();
     } else {
-      ctx.response.redirects('admin/login');
+      ctx.response.redirects('/admin/login');
     }
   } else {
     if (user || reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api')) {

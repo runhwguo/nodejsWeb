@@ -2,6 +2,7 @@ import crypto from "crypto";
 import urlencode from "urlencode";
 import superagent from "superagent";
 import charset from "superagent-charset";
+import config from "./config";
 
 charset(superagent);
 
@@ -49,7 +50,9 @@ const getOpenId = () => {
 };
 
 const getCode = async () => {
-  let response = await superagent.get(URL_OPEN_ID_CODE);
+  let response = await superagent
+    .get(URL_OPEN_ID_CODE)
+    .charset('gbk');
   console.log(response);
 };
 
