@@ -22,7 +22,7 @@ const ENCODING_AES_KEY = 'zhzyeMf9jzO9HEiVmCzi3KDGPjyxUyJUFyh1AkI7SfE';
 const GET_ACCESS_TOKEN = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET';//get
 const GET_WX_IP = 'https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=ACCESS_TOKEN';
 const UNIFIED_ORDER_URL = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
-const REDIRECT_URI = urlencode('');
+const REDIRECT_URI = urlencode('http://i-sharing.xyz/');
 const OPEN_ID_CODE = `https://open.weixin.qq.com/connect/qrconnect?appid=${ APP_ID }&redirect_uri=${ REDIRECT_URI }&response_type=code&scope=snsapi_login#wechat_redirect`;
 
 const checkIsFromWeChatServer = async ctx => {
@@ -43,6 +43,10 @@ const checkIsFromWxServer = async (signature, timestamp, nonce) => {
   let code = crypto.createHash('sha1').update([TOKEN, timestamp, nonce].sort().toString().replace(/,/g, ''), 'utf-8').digest('hex');
 
   return code === signature;
+};
+
+const _getCode = async () => {
+
 };
 
 

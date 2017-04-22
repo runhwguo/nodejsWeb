@@ -1,4 +1,15 @@
 import crypto from "crypto";
+import urlencode from "urlencode";
+import superagent from "superagent";
+import charset from "superagent-charset";
+
+charset(superagent);
+
+
+const APP_ID = 'wx90eb6b04dcbf5fb2';
+const REDIRECT_URI = urlencode('http://i-sharing.xyz/');
+const URL_OPEN_ID_CODE = `https://open.weixin.qq.com/connect/qrconnect?appid=${ APP_ID }&redirect_uri=${ REDIRECT_URI }&response_type=code&scope=snsapi_login#wechat_redirect`;
+
 
 const paySign = (appid, body, mch_id, nonce_str, notify_url, openid, out_trade_no, spbill_create_ip, total_fee, trade_type) => {
   let ret = {
@@ -33,6 +44,15 @@ const _raw = args => {
   return string;
 };
 
+const getOpenId = () => {
+
+};
+
+const getCode = async () => {
+  let response = await superagent.get(URL_OPEN_ID_CODE);
+  console.log(response);
+};
+
 export {
-  paySign
+  paySign, getOpenId, getCode
 };

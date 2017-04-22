@@ -15,6 +15,8 @@ import {TASK_STATE} from '../../models/Task';
 charset(superagent);
 
 const index = async ctx => {
+  let code = ctx.query.code;
+  console.log('code = ' + code);
   ctx.render(`index`, {
     title: '校园资源共享',
     where: 'index'

@@ -6,9 +6,9 @@ import templating from "./tools/templating";
 import {cookie2user} from "./tools/cookie";
 import staticFiles from "./tools/static_files";
 import {restify} from "./tools/rest";
+import {getCode} from "./tools/wx_pay";
 import {project, session} from "./tools/config";
 import appRootDir from "app-root-dir";
-import json2xml from "json2xml";
 
 const app = new Koa();
 
@@ -20,6 +20,12 @@ app.use(logger());
 
 // auth
 app.use(async (ctx, next) => {
+  ////// for test start /////
+  await getCode();
+
+  ////// for test end /////
+
+
   let userLoginCookie = ctx.cookies.get(session.userCookieName);
   let user = await cookie2user(userLoginCookie, session.userCookieName);
   if (user) {
