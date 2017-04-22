@@ -8,7 +8,7 @@ charset(superagent);
 
 
 const APP_ID = 'wx90eb6b04dcbf5fb2';
-const REDIRECT_URI = urlencode('http://i-sharing.xyz/');
+const REDIRECT_URI = urlencode('http://i-sharing.xyz');
 const URL_OPEN_ID_CODE = `https://open.weixin.qq.com/connect/qrconnect?appid=${ APP_ID }&redirect_uri=${ REDIRECT_URI }&response_type=code&scope=snsapi_login#wechat_redirect`;
 
 
