@@ -53,8 +53,8 @@ const unifiedOrder = async (ctx, totalFee) => {
   let notify_url = 'http://i-sharing.xyz/api/wechat/pay/notify';
   let total_fee = totalFee || 1;
   let body = '测试支付';
-  console.log(ctx.cookies);
   let openid = ctx.cookies.get(config.session.wxOpenId);
+  console.log('get unifiedOrder openid = ' + openid);
   let nonce_str = Math.random().toString();
   let out_trade_no = `out_trade_no-${ nonce_str }`;
   let spbill_create_ip = ctx.ip;
