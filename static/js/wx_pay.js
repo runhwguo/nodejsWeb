@@ -16,8 +16,6 @@ function onBridgeReady(fee) {
       );
     }
   });
-
-
 }
 
 function startPay(fee) {

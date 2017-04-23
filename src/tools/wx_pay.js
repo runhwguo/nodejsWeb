@@ -5,6 +5,10 @@ import config from "./config";
 
 import json2xml from "json2xml";
 import xml2json from "xml2json";
+import tracer from "tracer";
+
+
+let logger = tracer.console();
 
 charset(superagent);
 
@@ -75,9 +79,9 @@ const unifiedOrder = async (ctx, totalFee) => {
     .send(formData)
     .charset(config.common.char_set_utf8);
 
-  console.log(response.text);
+  logger.log(response.text);
   let result = xml2json.toJson(response.text);
-  console.log(result);
+  logger.log(result);
 
   return JSON.parse(result);
 };
@@ -88,9 +92,9 @@ const getAccessTokenOpenId = async code => {
   let response = await superagent
     .get(url);
   let resObj = JSON.parse(response.text);
-  console.log(response.text);
-  console.log(resObj);
-  console.log(resObj.openid);
+  // console.log(response.text);
+  // console.log(resObj);
+  // console.log(resObj.openid);
   return resObj.openid;
 };
 
