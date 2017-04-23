@@ -7,7 +7,6 @@ import json2xml from "json2xml";
 
 charset(superagent);
 
-
 const APP_ID = 'wx90eb6b04dcbf5fb2';
 const APP_SECRET = '7e87a72a56080c466d9256387016c886';
 const MCH_ID = '1462750902';
