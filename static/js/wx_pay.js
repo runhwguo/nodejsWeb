@@ -25,9 +25,9 @@ function onBridgeReady() {
 function getCode() {
   const APP_ID = 'wx90eb6b04dcbf5fb2';
   const REDIRECT_URI = encodeURIComponent('http://i-sharing.xyz');
-  const URL_OPEN_ID_CODE = `https://open.weixin.qq.com/connect/qrconnect?appid=${ APP_ID }&redirect_uri=${ REDIRECT_URI }&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
-  alert('get code');
+  const URL_OPEN_ID_CODE = `https://open.weixin.qq.com/connect/qrconnect?appid=${ APP_ID }&redirect_uri=${ REDIRECT_URI }&response_type=code&scope=snsapi_base&state=getCode#wechat_redirect`;
   $.get(URL_OPEN_ID_CODE);
+  alert('get code');
 }
 // if (typeof WeixinJSBridge === 'undefined') {
 //   if (document.addEventListener) {
