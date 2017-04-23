@@ -4,10 +4,11 @@ function _isSupportWxPay() {
 }
 
 function onBridgeReady() {
-  $.get('/api/wechat/pay/start?fee=' + $('#money-input')[0].value, result => {
-      alert(result);
+  $.get('/api/wechat/pay/start?fee=' + $('#money-input')[0].value, data => {
+      alert(data.result);
+      let request = data.result;
       if (result) {
-        WeixinJSBridge.invoke('getBrandWCPayRequest', result, res => {
+        WeixinJSBridge.invoke('getBrandWCPayRequest', request, res => {
             alert(res);
             if (res.err_msg === 'get_brand_wcpay_request:ok') {
               alert('pay success');
@@ -22,7 +23,6 @@ function onBridgeReady() {
 function startPay() {
   if (_isSupportWxPay) {
     if (typeof WeixinJSBridge === 'undefined') {
-      alert('WeixinJSBridge is undefined');
       if (document.addEventListener) {
         document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
       } else if (document.attachEvent) {
@@ -30,7 +30,6 @@ function startPay() {
         document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
       }
     } else {
-      alert('WeixinJSBridge exists');
       onBridgeReady();
     }
   } else {
