@@ -117,7 +117,7 @@ const getOnBridgeReadyRequest = async prepay_id => {
 
   logger.log(request);
 
-  return request;
+  return request.toString();
 };
 
 export {

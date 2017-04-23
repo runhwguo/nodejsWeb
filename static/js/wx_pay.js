@@ -5,7 +5,7 @@ function _isSupportWxPay() {
 
 function onBridgeReady() {
   $.get('/api/wechat/pay/start?fee=' + $('#money-input')[0].value, data => {
-      alert('startPay -> ' + data.result.toString());
+      alert('startPay -> ' + data.result);
       let request = data.result;
       if (result) {
         WeixinJSBridge.invoke('getBrandWCPayRequest', request, res => {
