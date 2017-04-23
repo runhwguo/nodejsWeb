@@ -98,6 +98,7 @@ const getAccessTokenOpenId = async code => {
   console.log(response.text);
   console.log(resObj);
   console.log(resObj.openid);
+  return resObj.openid;
 };
 
 export {

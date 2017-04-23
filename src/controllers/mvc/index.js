@@ -25,11 +25,14 @@ const index = async ctx => {
 
   let code = ctx.query.code;
   let state = ctx.query.state;
+  let openId = ctx.cookies.get(session.wxOpenId);
   console.log('state = ' + state+ ', code = ' + code);
 
-  if(code){
-    await wxPay.getAccessTokenOpenId(code);
+  if(code && !openId){
+    openId = await wxPay.getAccessTokenOpenId(code);
+    ctx.cookies.set(session.wxOpenId,openId);
   }
+  console.log('openId = ' + openId);
 };
 
 const me = async ctx => {
