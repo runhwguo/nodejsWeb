@@ -10,7 +10,6 @@ import superagent from 'superagent';
 import charset from 'superagent-charset';
 import * as Dao from '../../tools/dao';
 import {Task} from '../../tools/model';
-import {getCode} from '../../tools/wx_pay';
 import {TASK_STATE} from '../../models/Task';
 
 charset(superagent);
@@ -18,8 +17,6 @@ charset(superagent);
 const index = async ctx => {
   let code = ctx.query.code;
   console.log('code = ' + code);
-
-  await getCode();
 
   ctx.render(`index`, {
     title: '校园资源共享',
