@@ -44,7 +44,7 @@ const _raw = args => {
 
   let string = '';
   for (let k in newArgs) {
-    string += `&${k}'=${newArgs[k]}`;
+    string += `&${k}=${newArgs[k]}`;
   }
   string = string.substr(1);
   return string;
