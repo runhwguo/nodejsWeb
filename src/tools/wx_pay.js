@@ -79,7 +79,7 @@ const unifiedOrder = async (ctx, totalFee) => {
   let result = xml2json.toJson(response.text);
   console.log(result);
 
-  return result;
+  return JSON.parse(result);
 };
 
 const getAccessTokenOpenId = async code => {
