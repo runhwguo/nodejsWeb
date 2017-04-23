@@ -3,7 +3,8 @@ import superagent from "superagent";
 import charset from "superagent-charset";
 import config from "./config";
 
-import Parser from "xml2json";
+import json2xml from "json2xml";
+import xml2json from "xml2json";
 
 charset(superagent);
 
@@ -76,15 +77,16 @@ const unifiedOrder = async (ctx, totalFee) => {
       sign: sign
     }
   };
-  formData = Parser.toXml(formData);
+  formData = json2xml(formData);
 
 
   let response = await superagent
     .post(URL_UNIFIED_ORDER)
     .send(formData)
     .charset(config.common.char_set_utf8);
-  let result = Parser.toJson(response.text)
-  console.log(result);
+
+  console.log(response.text);
+  console.log(xml2json.toJson(response.text));
 };
 
 const getAccessTokenOpenId = async code => {
