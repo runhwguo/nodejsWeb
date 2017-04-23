@@ -1,4 +1,6 @@
 import crypto from "crypto";
+import * as wxPay from "../../tools/wx_pay";
+import {session} from '../../tools/config';
 
 const TOKEN = 'FuckQ';
 
@@ -19,7 +21,7 @@ const checkIsFromWeChatServer = async ctx => {
   let nonce = ctx.query.nonce;
   let echostr = ctx.query.echostr;
 
-  let result = _isFromWxServer(signature, timestamp, nonce);
+  let result = _isFromWechatServer(signature, timestamp, nonce);
   if (result) {
     ctx.rest(echostr);
   } else {
@@ -27,19 +29,37 @@ const checkIsFromWeChatServer = async ctx => {
   }
 };
 
-const _isFromWxServer = async (signature, timestamp, nonce) => {
+const _isFromWechatServer = async (signature, timestamp, nonce) => {
   let code = crypto.createHash('sha1').update([TOKEN, timestamp, nonce].sort().toString().replace(/,/g, ''), 'utf-8').digest('hex');
 
   return code === signature;
 };
 
-const orderNotify = async (ctx) => {
+const orderNotify = async ctx => {
   console.log('receive order notify');
   ctx.rest('');
 };
 
+const startPay = async ctx => {
+  let fee = ctx.query.fee;
+  let openId = ctx.cookies.get(session.wxOpenId);
+  let result = '';
+
+  if (openId) {
+    let result = await wxPay.unifiedOrder(ctx, fee);
+    let prepay_id = result.xml.prepay_id;
+    console.log('prepay_id = ' + prepay_id);
+    result = await wxPay.getOnBridgeReadyRequest(prepay_id);
+  }
+
+  ctx.rest({
+    result: result
+  });
+}
+
 module.exports = {
   'GET /api/wechat/': checkIsFromWeChatServer,
   'POST /api/wechat/': checkIsFromWeChatServer,
-  'GET /api/wechat/order/notify': orderNotify
+  'GET /api/wechat/order/notify': orderNotify,
+  'GET /api/wechat/pay/start': startPay
 };

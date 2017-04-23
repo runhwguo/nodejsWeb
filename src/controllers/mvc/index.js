@@ -16,11 +16,6 @@ import * as wxPay from "../../tools/wx_pay";
 charset(superagent);
 
 const index = async ctx => {
-  ctx.render(`index`, {
-    title: '校园资源共享',
-    where: 'index'
-  });
-
   // await wxPay.unifiedOrder(ctx);
 
   let code = ctx.query.code;
@@ -35,8 +30,15 @@ const index = async ctx => {
   console.log('openId = ' + openId);
   if(openId){
     let result = await wxPay.unifiedOrder(ctx, 1);
-    console.log('prepay_id = ' + result.xml.prepay_id);
+    let prepay_id= result.xml.prepay_id;
+    console.log('prepay_id = ' + prepay_id);
+    let request = await wxPay.getOnBridgeReadyRequest(prepay_id);
   }
+  ctx.render(`index`, {
+    title: '校园资源共享',
+    where: 'index'
+  });
+
 };
 
 const me = async ctx => {

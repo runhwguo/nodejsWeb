@@ -94,7 +94,7 @@ const getAccessTokenOpenId = async code => {
   return resObj.openid;
 };
 
-const getOnBridgeReadyRequest = prepay_id => {
+const getOnBridgeReadyRequest = async prepay_id => {
 
   let data = {
     appId: APP_ID,     //公众号名称，由商户传入
