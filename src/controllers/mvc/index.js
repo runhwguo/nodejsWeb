@@ -11,18 +11,17 @@ import charset from 'superagent-charset';
 import * as Dao from '../../tools/dao';
 import {Task} from '../../tools/model';
 import {TASK_STATE} from '../../models/Task';
+import * as wxPay from "../../tools/wx_pay";
 
 charset(superagent);
 
 const index = async ctx => {
-  let code = ctx.query.code;
-  let state = ctx.query.state;
-  console.log('code = ' + code+', state = ' +state);
-
   ctx.render(`index`, {
     title: '校园资源共享',
     where: 'index'
   });
+
+  await wxPay.unifiedOrder(ctx);
 };
 
 const me = async ctx => {

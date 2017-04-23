@@ -5,6 +5,7 @@ const config = {
     userCookieName: 'schoolResourceShare',
     adminCookieName: 'adminCookie',
     ujsCookieName: 'JSESSIONID',
+    wxOpenId: 'openid',
     cookieKey: 'fuckQ',
     maxAge: 86400//一天
   },
