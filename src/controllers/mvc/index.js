@@ -16,7 +16,8 @@ charset(superagent);
 
 const index = async ctx => {
   let code = ctx.query.code;
-  console.log('code = ' + code);
+  let state = ctx.query.state;
+  console.log('code = ' + code+', state = ' +state);
 
   ctx.render(`index`, {
     title: '校园资源共享',
