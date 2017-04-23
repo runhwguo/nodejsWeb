@@ -33,7 +33,7 @@ const _paySign = (appid, body, mch_id, nonce_str, notify_url, openid, out_trade_
   let string = _raw(ret);
   let key = 'guohaoweilovechengxihuiforeveruu';
   string += `&key=${key}`;  //key为在微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
-  return crypto.createHash('md5').update(string, 'utf8').digest('hex');
+  return crypto.createHash('md5').update(string, 'utf8').digest('hex').toUpperCase();
 };
 
 const _raw = args => {
