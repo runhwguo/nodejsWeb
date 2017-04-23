@@ -94,8 +94,8 @@ const getAccessTokenOpenId = async code => {
 
   let response = await superagent
     .get(url);
-
-  console.log(response.text);
+  let resObj = JSON.parse(response.text);
+  console.log(resObj.openid);
 };
 
 export {
