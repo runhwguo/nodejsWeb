@@ -28,7 +28,6 @@ function getCode() {
   const URL_OPEN_ID_CODE = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${ APP_ID }&redirect_uri=${ REDIRECT_URI }&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
 
   alert('get code');
-  window.location.href = URL_OPEN_ID_CODE;
 }
 // if (typeof WeixinJSBridge === 'undefined') {
 //   if (document.addEventListener) {

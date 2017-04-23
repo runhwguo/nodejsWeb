@@ -25,7 +25,7 @@ const index = async ctx => {
 
   let code = ctx.query.code;
   let state = ctx.query.state;
-  console.log('state = ' + state+ ', code = ' + state);
+  console.log('state = ' + state+ ', code = ' + code);
 };
 
 const me = async ctx => {
