@@ -19,7 +19,7 @@ const checkIsFromWeChatServer = async ctx => {
   let nonce = ctx.query.nonce;
   let echostr = ctx.query.echostr;
 
-  let result = checkIsFromWxServer(signature, timestamp, nonce);
+  let result = _isFromWxServer(signature, timestamp, nonce);
   if (result) {
     ctx.rest(echostr);
   } else {
@@ -27,13 +27,15 @@ const checkIsFromWeChatServer = async ctx => {
   }
 };
 
-const checkIsFromWxServer = async (signature, timestamp, nonce) => {
+const _isFromWxServer = async (signature, timestamp, nonce) => {
   let code = crypto.createHash('sha1').update([TOKEN, timestamp, nonce].sort().toString().replace(/,/g, ''), 'utf-8').digest('hex');
 
   return code === signature;
 };
 
 const orderNotify = async (ctx) => {
+  console.log('receive order notify');
+  ctx.rest('');
 };
 
 module.exports = {
