@@ -21,7 +21,7 @@ const index = async ctx => {
     where: 'index'
   });
 
-  await wxPay.unifiedOrder(ctx);
+  // await wxPay.unifiedOrder(ctx);
 };
 
 const me = async ctx => {
