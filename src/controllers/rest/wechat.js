@@ -50,7 +50,7 @@ const startPay = async ctx => {
     console.log('prepay_id = ' + prepay_id);
     result = await wxPay.getOnBridgeReadyRequest(prepay_id);
   }
-
+  console.log(result);
   ctx.rest({
     result: result
   });
