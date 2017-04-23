@@ -22,6 +22,7 @@ function onBridgeReady(fee) {
 function startPay(fee) {
   if (_isSupportWxPay) {
     if (typeof WeixinJSBridge === 'undefined') {
+      alert('WeixinJSBridge is undefined');
       if (document.addEventListener) {
         document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
       } else if (document.attachEvent) {
@@ -29,6 +30,7 @@ function startPay(fee) {
         document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
       }
     } else {
+      alert('WeixinJSBridge exists');
       onBridgeReady(fee);
     }
   } else {
