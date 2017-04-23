@@ -47,7 +47,7 @@ const _raw = args => {
 const unifiedOrder = async ctx => {
   logger.log(ctx.query.fee);
   let notify_url = 'http://i-sharing.xyz/api/wechat/order/notify';
-  let total_fee = ctx.query.fee || 1;
+  let total_fee = Number.parseInt(ctx.query.fee) || 1;
   let body = 'test wechat pay';
   let nonce_str = Math.random().toString();
   let openid = ctx.cookies.get(config.session.wxOpenId);

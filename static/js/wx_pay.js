@@ -3,8 +3,8 @@ function _isSupportWxPay() {
   return wxInfo && wxInfo[1] >= '5.0';
 }
 
-function onBridgeReady(fee) {
-  $.get(`/api/wechat/pay/start?fee=${ fee }`, result => {
+function onBridgeReady() {
+  $.get('/api/wechat/pay/start?fee=' + $('#money-input')[0].value, result => {
       alert(result);
       if (result) {
         WeixinJSBridge.invoke('getBrandWCPayRequest', result, res => {
@@ -19,7 +19,7 @@ function onBridgeReady(fee) {
   );
 }
 
-function startPay(fee) {
+function startPay() {
   if (_isSupportWxPay) {
     if (typeof WeixinJSBridge === 'undefined') {
       alert('WeixinJSBridge is undefined');
@@ -31,7 +31,7 @@ function startPay(fee) {
       }
     } else {
       alert('WeixinJSBridge exists');
-      onBridgeReady(fee);
+      onBridgeReady();
     }
   } else {
     alert('请升级微信!');

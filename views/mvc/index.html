@@ -107,6 +107,8 @@
     {% include "./task/take_task_list.html" ignore missing %}
 </div>
 
+<input type="hidden" id="money-input">
+
 <script src="/static/libs/vue.js"></script>
 <script src="/static/libs/vue-resource.js"></script>
 <script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
@@ -115,6 +117,7 @@
 <script src="/static/js/wx_pay.js"></script>
 <script>
   $('#indexTab').attr('href', 'javascript:void(0)');
-  startPay(1);
+  $('#money-input').val(2);
+  startPay();
 </script>
 {% endblock %}
