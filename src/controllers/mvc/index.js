@@ -21,7 +21,11 @@ const index = async ctx => {
     where: 'index'
   });
 
-  await wxPay.unifiedOrder(ctx);
+  // await wxPay.unifiedOrder(ctx);
+
+  let code = ctx.query.code;
+  let state = ctx.query.state;
+  console.log('state = ' + state+ ', code = ' + state);
 };
 
 const me = async ctx => {
