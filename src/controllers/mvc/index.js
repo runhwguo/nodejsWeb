@@ -34,7 +34,8 @@ const index = async ctx => {
   }
   console.log('openId = ' + openId);
   if(openId){
-    await wxPay.unifiedOrder(ctx, 1);
+    let result = await wxPay.unifiedOrder(ctx, 1);
+    console.log('prepay_id = ' + result.xml.prepay_id);
   }
 };
 

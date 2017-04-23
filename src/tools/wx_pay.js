@@ -18,20 +18,8 @@ const URL_UNIFIED_ORDER = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
 const URL_WX_OPEN_ID_ACCESS_TOKEN = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${ APP_ID }&secret=${ APP_SECRET }&code=CODE&grant_type=authorization_code`;
 
 
-const _paySign = (appid, body, mch_id, nonce_str, notify_url, openid, out_trade_no, spbill_create_ip, total_fee, trade_type) => {
-  let ret = {
-    appid: appid,
-    body: body,
-    mch_id: mch_id,
-    nonce_str: nonce_str,
-    notify_url: notify_url,
-    openid: openid,
-    out_trade_no: out_trade_no,
-    spbill_create_ip: spbill_create_ip,
-    total_fee: total_fee,
-    trade_type: trade_type
-  };
-  let string = _raw(ret);
+const _paySign = data => {
+  let string = _raw(data);
   let key = 'guohaoweilovechengxihuiforeveruu';
   string += `&key=${key}`;  //key为在微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
   return md5(string).toUpperCase();
@@ -60,22 +48,24 @@ const unifiedOrder = async (ctx, totalFee) => {
   let openid = ctx.cookies.get(config.session.wxOpenId);
   let out_trade_no = '' + Date.now();
   let spbill_create_ip = ctx.ip;
-  let sign = _paySign(APP_ID, body, MCH_ID, nonce_str, notify_url, openid, out_trade_no, spbill_create_ip, total_fee, TRADE_TYPE);
+
+
+  let data = {
+    appid: APP_ID,// appid
+    body: body,// 商品或支付单简要描述
+    mch_id: MCH_ID,// 商户号
+    nonce_str: nonce_str,// 随机字符串，不长于32位
+    notify_url: notify_url,// 支付成功后微信服务器通过POST请求通知这个地址
+    openid: openid,// 为微信用户在商户对应appid下的唯一标识
+    out_trade_no: out_trade_no,//订单号
+    spbill_create_ip: spbill_create_ip,//终端IP
+    total_fee: total_fee,//金额
+    trade_type: TRADE_TYPE,//NATIVE会返回code_url ，JSAPI不会返回
+  };
+  let sign = _paySign(data);
 
   let formData = {
-    xml: {
-      appid: APP_ID,// appid
-      body: body,// 商品或支付单简要描述
-      mch_id: MCH_ID,// 商户号
-      nonce_str: nonce_str,// 随机字符串，不长于32位
-      notify_url: notify_url,// 支付成功后微信服务器通过POST请求通知这个地址
-      openid: openid,// 为微信用户在商户对应appid下的唯一标识
-      out_trade_no: out_trade_no,//订单号
-      spbill_create_ip: spbill_create_ip,//终端IP
-      total_fee: total_fee,//金额
-      trade_type: TRADE_TYPE,//NATIVE会返回code_url ，JSAPI不会返回
-      sign: sign
-    }
+    xml: Object.assign(data, {sign: sign})
   };
   formData = json2xml(formData);
 
@@ -86,7 +76,10 @@ const unifiedOrder = async (ctx, totalFee) => {
     .charset(config.common.char_set_utf8);
 
   console.log(response.text);
-  console.log(xml2json.toJson(response.text));
+  let result = xml2json.toJson(response.text);
+  console.log(result);
+
+  return result;
 };
 
 const getAccessTokenOpenId = async code => {
@@ -101,6 +94,26 @@ const getAccessTokenOpenId = async code => {
   return resObj.openid;
 };
 
+const getOnBridgeReadyRequest = prepay_id => {
+
+  let data = {
+    appId: APP_ID,     //公众号名称，由商户传入
+    timeStamp: '' + Date.now() / 1000,         //时间戳，自1970年以来的秒数
+    nonceStr: Math.random().toString(), //随机串
+    package: `prepay_id=${ prepay_id }`,
+    signType: "MD5" //微信签名方式：
+  };
+
+  let paySign = _paySign(data);
+
+
+  let request = Object.assign(data, {
+    paySign: paySign //微信签名
+  });
+
+  return request;
+};
+
 export {
-  unifiedOrder, getAccessTokenOpenId
+  unifiedOrder, getAccessTokenOpenId, getOnBridgeReadyRequest
 };
