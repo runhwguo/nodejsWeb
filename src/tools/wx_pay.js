@@ -3,7 +3,7 @@ import superagent from "superagent";
 import charset from "superagent-charset";
 import config from "./config";
 
-import json2xml from "json2xml";
+import Parser from "xml2json";
 
 charset(superagent);
 
@@ -76,29 +76,15 @@ const unifiedOrder = async (ctx, totalFee) => {
       sign: sign
     }
   };
-  // let formData = '<xml>' +
-  //   '<appid>' + APP_ID + '</appid>' +
-  //   '<body>' + body + '</body>' +
-  //   '<mch_id>' + MCH_ID + '</mch_id>' +
-  //   '<nonce_str>' + nonce_str + '</nonce_str>' +
-  //   '<notify_url>' + notify_url + '</notify_url>' +
-  //   '<openid>' + openid + '</openid>' +
-  //   '<out_trade_no>' + out_trade_no + '</out_trade_no>' +
-  //   '<spbill_create_ip>' + spbill_create_ip + '</spbill_create_ip>' +
-  //   '<total_fee>' + total_fee + '</total_fee>' +
-  //   '<trade_type>' + TRADE_TYPE + '</trade_type>' +
-  //   '<sign>' + sign + '</sign>' +
-  //   '</xml>'
-  formData = json2xml(formData);
+  formData = Parser.toXml(formData);
 
-  console.log(formData);
 
   let response = await superagent
     .post(URL_UNIFIED_ORDER)
     .send(formData)
     .charset(config.common.char_set_utf8);
-
-  console.log(response);
+  let result = Parser.toJson(response.text)
+  console.log(result);
 };
 
 const getAccessTokenOpenId = async code => {
