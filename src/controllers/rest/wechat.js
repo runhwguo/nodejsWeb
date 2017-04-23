@@ -1,6 +1,10 @@
 import crypto from "crypto";
 import * as wxPay from "../../tools/wx_pay";
 import {session} from '../../tools/config';
+import tracer from 'tracer';
+
+
+let logger = tracer.console();
 
 const TOKEN = 'FuckQ';
 
@@ -50,7 +54,7 @@ const startPay = async ctx => {
     console.log('prepay_id = ' + prepay_id);
     result = await wxPay.getOnBridgeReadyRequest(prepay_id);
   }
-  console.log(result);
+  logger.log(result);
   ctx.rest({
     result: result
   });
