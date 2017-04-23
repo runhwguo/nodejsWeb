@@ -5,6 +5,7 @@ function _isSupportWxPay() {
 
 function onBridgeReady(fee) {
   $.get('/api/wechat/pay/start?fee=' + fee, result => {
+    alert(result);
     if (result) {
       WeixinJSBridge.invoke('getBrandWCPayRequest', result, res => {
           alert(res);
@@ -29,7 +30,7 @@ function startPay(fee) {
         document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
       }
     } else {
-      onBridgeReady();
+      onBridgeReady(fee);
     }
   } else {
     alert('请升级微信!');
