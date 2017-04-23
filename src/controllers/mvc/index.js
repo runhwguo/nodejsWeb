@@ -28,12 +28,14 @@ const index = async ctx => {
   let openId = ctx.cookies.get(session.wxOpenId);
   console.log('state = ' + state+ ', code = ' + code);
 
-  if(code && !openId){
+  if (code && !openId) {
     openId = await wxPay.getAccessTokenOpenId(code);
-    ctx.cookies.set(session.wxOpenId,openId);
+    ctx.cookies.set(session.wxOpenId, openId);
   }
   console.log('openId = ' + openId);
-  await wxPay.unifiedOrder(ctx, 1);
+  if(openId){
+    await wxPay.unifiedOrder(ctx, 1);
+  }
 };
 
 const me = async ctx => {
