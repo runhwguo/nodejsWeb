@@ -39,5 +39,5 @@ const notify = async (ctx) => {
 module.exports = {
   'GET /api/wechat/': checkIsFromWeChatServer,
   'POST /api/wechat/': checkIsFromWeChatServer,
-  'GET /api/wechat/order/notify': notify
+  'GET /api/wechat/notify': notify
 };

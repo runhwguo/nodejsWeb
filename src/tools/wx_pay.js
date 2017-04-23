@@ -52,7 +52,7 @@ const _raw = args => {
 
 
 const unifiedOrder = async (ctx, totalFee) => {
-  let notify_url = 'http://i-sharing.xyz/api/wechat/order/notify';
+  let notify_url = 'http://i-sharing.xyz/api/wechat/notify';
   let total_fee = totalFee || 1;
   let body = '测试支付';
   let nonce_str = Math.random().toString();
