@@ -103,7 +103,7 @@ const getOnBridgeReadyRequest = async prepay_id => {
 
   let data = {
     appId: APP_ID,     //公众号名称，由商户传入
-    timeStamp: '' + Date.now() / 1000,         //时间戳，自1970年以来的秒数
+    timeStamp: '' + Math.round(Date.now() / 1000),         //时间戳，自1970年以来的秒数
     nonceStr: Math.random().toString(), //随机串
     package: `prepay_id=${ prepay_id }`,
     signType: 'MD5' //微信签名方式：

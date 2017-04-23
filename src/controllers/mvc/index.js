@@ -28,12 +28,6 @@ const index = async ctx => {
     ctx.cookies.set(session.wxOpenId, openId);
   }
   console.log('openId = ' + openId);
-  if(openId){
-    let result = await wxPay.unifiedOrder(ctx, 1);
-    let prepay_id= result.xml.prepay_id;
-    console.log('prepay_id = ' + prepay_id);
-    let request = await wxPay.getOnBridgeReadyRequest(prepay_id);
-  }
   ctx.render(`index`, {
     title: '校园资源共享',
     where: 'index'
