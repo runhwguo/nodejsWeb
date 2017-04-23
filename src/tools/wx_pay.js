@@ -57,7 +57,7 @@ const unifiedOrder = async (ctx, totalFee) => {
   let body = 'test wechat pay';
   let nonce_str = Math.random().toString();
   let openid = ctx.cookies.get(config.session.wxOpenId);
-  let out_trade_no = `out_trade_no-${ nonce_str }`;
+  let out_trade_no = '' + Date.now();
   let spbill_create_ip = ctx.ip;
   let sign = _paySign(APP_ID, body, MCH_ID, nonce_str, notify_url, openid, out_trade_no, spbill_create_ip, total_fee, TRADE_TYPE);
 
