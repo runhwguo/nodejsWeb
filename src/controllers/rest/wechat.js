@@ -33,11 +33,11 @@ const checkIsFromWxServer = async (signature, timestamp, nonce) => {
   return code === signature;
 };
 
-const notify = async (ctx) => {
+const orderNotify = async (ctx) => {
 };
 
 module.exports = {
   'GET /api/wechat/': checkIsFromWeChatServer,
   'POST /api/wechat/': checkIsFromWeChatServer,
-  'GET /api/wechat/notify': notify
+  'GET /api/wechat/order/notify': orderNotify
 };

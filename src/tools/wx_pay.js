@@ -61,23 +61,34 @@ const unifiedOrder = async (ctx, totalFee) => {
   let spbill_create_ip = ctx.ip;
   let sign = _paySign(APP_ID, body, MCH_ID, nonce_str, notify_url, openid, out_trade_no, spbill_create_ip, total_fee, TRADE_TYPE);
 
-  let formData = {
-    xml: {
-      appid: APP_ID,// appid
-      body: body,// 商品或支付单简要描述
-      mch_id: MCH_ID,// 商户号
-      nonce_str: nonce_str,// 随机字符串，不长于32位
-      notify_url: notify_url,// 支付成功后微信服务器通过POST请求通知这个地址
-      openid: openid,// 为微信用户在商户对应appid下的唯一标识
-      out_trade_no: out_trade_no,//订单号
-      spbill_create_ip: spbill_create_ip,//终端IP
-      total_fee: total_fee,//金额
-      trade_type: TRADE_TYPE,//NATIVE会返回code_url ，JSAPI不会返回
-      sign: sign
-    }
-  };
-
-  formData = json2xml(formData);
+  // let formData = {
+  //   xml: {
+  //     appid: APP_ID,// appid
+  //     body: body,// 商品或支付单简要描述
+  //     mch_id: MCH_ID,// 商户号
+  //     nonce_str: nonce_str,// 随机字符串，不长于32位
+  //     notify_url: notify_url,// 支付成功后微信服务器通过POST请求通知这个地址
+  //     openid: openid,// 为微信用户在商户对应appid下的唯一标识
+  //     out_trade_no: out_trade_no,//订单号
+  //     spbill_create_ip: spbill_create_ip,//终端IP
+  //     total_fee: total_fee,//金额
+  //     trade_type: TRADE_TYPE,//NATIVE会返回code_url ，JSAPI不会返回
+  //     sign: sign
+  //   }
+  // };
+let formData = '<xml>' +
+  '<appid>'+APP_ID +'</appid>' +
+  '<body>'+body +'</body>' +
+  '<mch_id>'+ MCH_ID+'</mch_id>' +
+  '<nonce_str>'+ nonce_str+'</nonce_str>' +
+  '<notify_url>'+notify_url +'</notify_url>' +
+  '<openid>'+openid +'</openid>' +
+  '<spbill_create_ip>'+spbill_create_ip +'</spbill_create_ip>' +
+  '<total_fee>'+total_fee +'</total_fee>' +
+  '<trade_type>'+TRADE_TYPE +'</trade_type>' +
+  '<sign>'+sign +'</sign>' +
+  '</xml>'
+  // formData = json2xml(formData);
 
   console.log(formData);
 
