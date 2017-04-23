@@ -46,17 +46,17 @@ const orderNotify = async ctx => {
 
 const startPay = async ctx => {
   let openId = ctx.cookies.get(session.wxOpenId);
-  let result = '';
+  let request = '';
 
   if (openId) {
     let result = await wxPay.unifiedOrder(ctx);
     let prepay_id = result.xml.prepay_id;
     logger.log('prepay_id = ' + prepay_id);
-    result = await wxPay.getOnBridgeReadyRequest(prepay_id);
+    request = await wxPay.getOnBridgeReadyRequest(prepay_id);
   }
   logger.log(result);
   ctx.rest({
-    result: result
+    result: request
   });
 }
 
