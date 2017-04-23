@@ -4,7 +4,9 @@ function _isSupportWxPay() {
 }
 
 function onBridgeReady(fee) {
-  $.get('/api/wechat/pay/start', {fee: fee}, result => {
+  $.get('/api/wechat/pay/start', {
+      fee: fee
+    }, result => {
       alert(result);
       if (result) {
         WeixinJSBridge.invoke('getBrandWCPayRequest', result, res => {
@@ -16,8 +18,7 @@ function onBridgeReady(fee) {
         );
       }
     }
-  )
-  ;
+  );
 }
 
 function startPay(fee) {
