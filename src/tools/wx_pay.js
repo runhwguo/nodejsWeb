@@ -84,7 +84,7 @@ const unifiedOrder = async (ctx, totalFee) => {
     .send(formData)
     .charset(config.common.char_set_utf8);
 
-  console.log(response);
+  console.log(response.text);
 };
 
 export {
