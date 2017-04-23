@@ -14,6 +14,8 @@ const TRADE_TYPE = 'JSAPI';
 
 const URL_UNIFIED_ORDER = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
 
+const URL_WX_OPEN_ID_ACCESS_TOKEN = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${ APP_ID }&secret=${ APP_SECRET }&code=CODE&grant_type=authorization_code`;
+
 
 const _paySign = (appid, body, mch_id, nonce_str, notify_url, openid, out_trade_no, spbill_create_ip, total_fee, trade_type) => {
   let ret = {
@@ -87,6 +89,15 @@ const unifiedOrder = async (ctx, totalFee) => {
   console.log(response.text);
 };
 
+const getAccessTokenOpenId = async code => {
+  let url = URL_WX_OPEN_ID_ACCESS_TOKEN.replace('CODE', code);
+
+  let response = await superagent
+    .get(url);
+
+  console.log(response.text);
+};
+
 export {
-  unifiedOrder
+  unifiedOrder, getAccessTokenOpenId
 };

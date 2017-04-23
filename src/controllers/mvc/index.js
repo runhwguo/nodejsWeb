@@ -26,6 +26,10 @@ const index = async ctx => {
   let code = ctx.query.code;
   let state = ctx.query.state;
   console.log('state = ' + state+ ', code = ' + code);
+
+  if(code){
+    await wxPay.getAccessTokenOpenId(code);
+  }
 };
 
 const me = async ctx => {
