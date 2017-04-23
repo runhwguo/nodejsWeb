@@ -44,9 +44,10 @@ const _raw = args => {
 };
 
 
-const unifiedOrder = async (ctx, totalFee) => {
+const unifiedOrder = async ctx => {
+  logger.log(ctx.query.fee);
   let notify_url = 'http://i-sharing.xyz/api/wechat/order/notify';
-  let total_fee = totalFee || 1;
+  let total_fee = ctx.query.fee || 1;
   let body = 'test wechat pay';
   let nonce_str = Math.random().toString();
   let openid = ctx.cookies.get(config.session.wxOpenId);
@@ -105,7 +106,7 @@ const getOnBridgeReadyRequest = async prepay_id => {
     timeStamp: '' + Date.now() / 1000,         //时间戳，自1970年以来的秒数
     nonceStr: Math.random().toString(), //随机串
     package: `prepay_id=${ prepay_id }`,
-    signType: "MD5" //微信签名方式：
+    signType: 'MD5' //微信签名方式：
   };
 
   let paySign = _paySign(data);
