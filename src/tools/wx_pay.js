@@ -42,7 +42,7 @@ const _raw = args => {
   keys.forEach(key => newArgs[key.toLowerCase()] = args[key]);
 
   let string = '';
-  for (let k of newArgs) {
+  for (let k in newArgs) {
     string += `&${k}'=${newArgs[k]}`;
   }
   string = string.substr(1);
