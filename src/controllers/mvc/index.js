@@ -33,6 +33,7 @@ const index = async ctx => {
     ctx.cookies.set(session.wxOpenId,openId);
   }
   console.log('openId = ' + openId);
+  await wxPay.unifiedOrder(ctx, 1);
 };
 
 const me = async ctx => {
