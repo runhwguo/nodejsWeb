@@ -118,7 +118,7 @@ const getOnBridgeReadyRequest = async prepay_id => {
     paySign: paySign //微信签名
   });
 
-  logger.log(request)l
+  logger.log(request);
 
   return request;
 };
