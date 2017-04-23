@@ -55,9 +55,7 @@ const startPay = async ctx => {
     request = await wxPay.getOnBridgeReadyRequest(prepay_id);
   }
   logger.log(request);
-  ctx.rest({
-    result: request
-  });
+  ctx.rest(request);
 }
 
 module.exports = {
