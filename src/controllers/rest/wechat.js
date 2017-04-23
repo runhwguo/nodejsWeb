@@ -23,12 +23,12 @@ const checkIsFromWeChatServer = async ctx => {
   let result = checkIsFromWxServer(signature, timestamp, nonce);
   if (result) {
     let openid = ctx.query.openid;
-    ctx.rest(echostr);
     if (openid) {
       ctx.cookies.set(config.session.wxOpenId, openid, {
         maxAge: config.session.maxAge * 1000
       });
     }
+    ctx.rest(echostr);
   } else {
     ctx.rest('error');
   }
