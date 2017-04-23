@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import md5 from "md5";
 import superagent from "superagent";
 import charset from "superagent-charset";
 import config from "./config";
@@ -33,14 +33,14 @@ const _paySign = (appid, body, mch_id, nonce_str, notify_url, openid, out_trade_
   let string = _raw(ret);
   let key = 'guohaoweilovechengxihuiforeveruu';
   string += `&key=${key}`;  //key为在微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
-  return crypto.createHash('md5').update(string, 'utf8').digest('hex').toUpperCase();
+  return md5(string).toUpperCase();
 };
 
 const _raw = args => {
   let keys = Object.keys(args);
   keys = keys.sort();
   let newArgs = {};
-  keys.forEach(key => newArgs[key.toLowerCase()] = args[key]);
+  keys.forEach(key => newArgs[key] = args[key]);
 
   let string = '';
   for (let k in newArgs) {
@@ -54,7 +54,7 @@ const _raw = args => {
 const unifiedOrder = async (ctx, totalFee) => {
   let notify_url = 'http://i-sharing.xyz/api/wechat/order/notify';
   let total_fee = totalFee || 1;
-  let body = '测试支付';
+  let body = 'test wechat pay';
   let nonce_str = Math.random().toString();
   let openid = ctx.cookies.get(config.session.wxOpenId);
   let out_trade_no = `out_trade_no-${ nonce_str }`;
