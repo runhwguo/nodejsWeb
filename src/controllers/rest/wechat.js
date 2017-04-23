@@ -51,7 +51,7 @@ const startPay = async ctx => {
   if (openId) {
     let result = await wxPay.unifiedOrder(ctx);
     let prepay_id = result.xml.prepay_id;
-    console.log('prepay_id = ' + prepay_id);
+    logger.log('prepay_id = ' + prepay_id);
     result = await wxPay.getOnBridgeReadyRequest(prepay_id);
   }
   logger.log(result);

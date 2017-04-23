@@ -111,10 +111,14 @@ const getOnBridgeReadyRequest = async prepay_id => {
 
   let paySign = _paySign(data);
 
+  logger.log(paySign);
+
 
   let request = Object.assign(data, {
     paySign: paySign //微信签名
   });
+
+  logger.log(request)l
 
   return request;
 };
