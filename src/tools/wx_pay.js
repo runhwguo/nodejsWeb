@@ -4,6 +4,7 @@ import charset from "superagent-charset";
 import config from "./config";
 
 import json2xml from "json2xml";
+import xml2js from "xml2js";
 
 charset(superagent);
 
@@ -77,7 +78,7 @@ const unifiedOrder = async (ctx, totalFee) => {
     }
   };
 
-  formData = json2xml(formData);
+  formData = new xml2js().Builder(formData);
 
   console.log(formData);
 
