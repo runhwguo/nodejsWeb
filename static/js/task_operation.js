@@ -79,30 +79,33 @@ var vm = new Vue({
         });
     },
     stick: item => {
-      $('#money-input').val(1);
-      startPay();
-
       let stickButton = $(`#${item.id}`),
         loading = Ladda.create(stickButton[0]);
-      loading.start();
-      vm.$resource(`/api/task/state/stick/${item.id}`).update()
-        .then(resp => {
-          vm.loading = false;
-          resp.json().then(result => {
-            stickButton.text(result.result ? '成功' : '失败');
+      $('#money-input').val(1);
+      startPay(1, () => {
+        loading.start();
+        vm.$resource(`/api/task/state/stick/${item.id}`).update()
+          .then(resp => {
+            vm.loading = false;
+            resp.json().then(result => {
+              stickButton.text(result.result ? '成功' : '失败');
+              setTimeout(() => {
+                stickButton.text('置顶');
+                loading.stop();
+              }, 500);
+            });
+          }, resp => {
+            stickButton.text('失败');
             setTimeout(() => {
               stickButton.text('置顶');
               loading.stop();
             }, 500);
+            vm._showError(resp);
           });
-        }, resp => {
-          stickButton.text('失败');
-          setTimeout(() => {
-            stickButton.text('置顶');
-            loading.stop();
-          }, 500);
-          vm._showError(resp);
-        });
+      }, () => {
+        alert('pay dot not success');
+      });
+
     },
     detail: item => {
       window.location.href = `/task/detail/${item.id}?where=` + $('input:hidden')[0].value;
