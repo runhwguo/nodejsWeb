@@ -3,9 +3,9 @@
 {% block main %}
 <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/libs/bootstrap-select-1.12.2.min.css">
-<link rel="stylesheet" href="/static/css/create-task.css">
 <link href="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
 <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/create-task.css">
 
 <form class="main pre-scrollable" action="/api/task/publish" method="post" enctype="multipart/form-data">
     <div class="form-group text-center">
@@ -79,6 +79,21 @@
           .updateStatus('deadline', 'NOT_VALIDATED', null)
           .validateField('deadline');
       }
+    });
+
+    deadline.click(() => {
+      let uiDatepickerDiv = $('#ui-datepicker-div');
+      let viewportWidth = $(window).width();
+      let viewportHeight = $(window).height();
+      let datepickerWidth = uiDatepickerDiv.width();
+      let datepickerHeight = uiDatepickerDiv.height();
+      let leftPos = (viewportWidth - datepickerWidth) / 2; //Standard centering method
+      let topPos = (viewportHeight - datepickerHeight) / 2; //Standard centering method
+      uiDatepickerDiv.css({
+        left: leftPos,
+        top: topPos,
+        position: 'absolute'
+      });
     });
 
     form.bootstrapValidator({
