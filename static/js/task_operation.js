@@ -75,6 +75,9 @@ var vm = new Vue({
         });
     },
     stick: item => {
+      $('#money-input').val(1);
+      startPay();
+
       let stickButton = $(`#${item.id}`),
         loading = Ladda.create(stickButton[0]);
       loading.start();
