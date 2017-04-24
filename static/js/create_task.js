@@ -118,7 +118,7 @@ $(() => {
       });
     };
 
-    let rewardType = $('#rewardType')[0].value;
+    let rewardType = $('#rewardType').text();
     alert(rewardType);
     if (rewardType === '悬赏') {
       let reward = $('#reward')[0].value;
