@@ -60,11 +60,13 @@ var vm = new Vue({
             data.result.forEach(item => {
               let maxWidthOfInfo = $(window).width() * 0.9 * 0.75;
               let info = item.type + ' ' + item.title;
+              let isNeedProcess = false
               while (info.getWidth() > maxWidthOfInfo) {
+                isNeedProcess = true;
                 info = item.type + ' ' + item.title;
                 item.title = item.title.substr(0, item.title.length - 1);
               }
-              if (info.getWidth() > maxWidthOfInfo) {
+              if (isNeedProcess) {
                 item.title += '...';
               }
             });
