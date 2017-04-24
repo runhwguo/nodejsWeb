@@ -92,14 +92,14 @@ var vm = new Vue({
               setTimeout(() => {
                 stickButton.text('置顶');
                 loading.stop();
-              }, 500);
+              }, 1000);
             });
           }, resp => {
             stickButton.text('失败');
             setTimeout(() => {
               stickButton.text('置顶');
               loading.stop();
-            }, 500);
+            }, 1000);
             vm._showError(resp);
           });
       }, () => {
