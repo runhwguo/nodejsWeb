@@ -120,8 +120,8 @@ const count = async ctx => {
     let where = _judgeTaskType(ctx)[0];
 
     count = await Dao.count(Task, {
-    where: where
-  });
+      where: where
+    });
   }
   ctx.rest({
     result: count
