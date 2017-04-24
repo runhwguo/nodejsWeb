@@ -94,7 +94,9 @@
         top: topPos,
         position: 'absolute'
       });
-      event.stopPropagation();
+      uiDatepickerDiv.click((event => {
+        event.stopPropagation();
+      }));
     });
 
     form.bootstrapValidator({
