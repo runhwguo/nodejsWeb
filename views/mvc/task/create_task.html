@@ -94,9 +94,6 @@
         top: topPos,
         position: 'absolute'
       });
-      uiDatepickerDiv.click((event => {
-        event.stopPropagation();
-      }));
     });
 
     form.bootstrapValidator({
@@ -151,38 +148,53 @@
       }
     }).on('success.form.bv', e => {
       e.preventDefault();
-      let submit = $('.submit'),
-        loading = Ladda.create(submit.get(0));
-      loading.start();
-      let serializeArray = form.serializeArray(),
-        formData = {};
 
-      $.map(serializeArray, (n, i) => formData[n['name']] = n['value'].replace(/"/g, '\\"'));
-      $.ajaxFileUpload({
-        type: form.attr('method'),
-        url: form.attr('action'),
-        secureuri: false,
-        fileElementId: 'file',
-        data: JSON.parse(JSON.stringify(formData)),
-        dataType: 'json',
-        success: (data, status) => {
-          console.log(data, status);
-          submitBtnWord.text('成功');
-          setTimeout(() => {
-            submitBtnWord.text('发布');
-            loading.stop();
-            // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
-            submit.attr('disabled', true);
-          }, 500);
-        },
-        error: (xhr, status, e) => {
-          submitBtnWord.text('失败');
-          setTimeout(() => {
-            submitBtnWord.text('发布');
-            loading.stop();
-          }, 500);
-        }
-      });
+      const doSubmit = () => {
+        let submit = $('.submit'),
+          loading = Ladda.create(submit.get(0));
+        loading.start();
+        let serializeArray = form.serializeArray(),
+          formData = {};
+
+        $.map(serializeArray, (n, i) => formData[n['name']] = n['value'].replace(/"/g, '\\"'));
+        $.ajaxFileUpload({
+          type: form.attr('method'),
+          url: form.attr('action'),
+          secureuri: false,
+          fileElementId: 'file',
+          data: JSON.parse(JSON.stringify(formData)),
+          dataType: 'json',
+          success: (data, status) => {
+            console.log(data, status);
+            submitBtnWord.text('成功');
+            setTimeout(() => {
+              submitBtnWord.text('发布');
+              loading.stop();
+              // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
+              submit.attr('disabled', true);
+            }, 500);
+          },
+          error: (xhr, status, e) => {
+            submitBtnWord.text('失败');
+            setTimeout(() => {
+              submitBtnWord.text('发布');
+              loading.stop();
+            }, 500);
+          }
+        });
+      };
+
+      let rewardType = $('#rewardType')[0].value;
+      if (rewardType === '悬赏') {
+        let reward = $('#reward')[0].value;
+        startPay(reward * 100, () => {
+          doSubmit();
+        }, () => {
+        });
+      } else {
+        doSubmit();
+      }
+
     });
     createTask.attr('href', 'javascript:void(0)');
     let selectpicker = $('.selectpicker');
@@ -213,6 +225,7 @@
 <script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js" defer></script>
 <script src="/static/js/ajax_file_upload.js" defer></script>
 <script src="/static/js/jquery.uploadPreview.min.js"></script>
+<script src="/static/js/wx_pay.js"></script>
 <script src="/static/libs/bootstrap-select-1.12.2.min.js" defer></script>
 <script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
 <script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>

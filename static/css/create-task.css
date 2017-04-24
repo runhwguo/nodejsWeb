@@ -39,14 +39,3 @@
 .ui-datepicker {
     width: 20em;
 }
-
-.ui-widget-header {
-     border: 0;
-     background: #fff;
-}
-
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
-    border-radius: 50%;
-    border: 0;
-    text-align: center;
-}

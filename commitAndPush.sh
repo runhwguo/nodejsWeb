@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "datepicker 不传递"
+git commit -m "悬赏 付钱逻辑"
 git push

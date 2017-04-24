@@ -103,7 +103,6 @@ var vm = new Vue({
             vm._showError(resp);
           });
       }, () => {
-        alert('pay dot not success');
       });
 
     },
