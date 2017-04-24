@@ -106,14 +106,14 @@ $(() => {
             loading.stop();
             // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
             submit.attr('disabled', true);
-          }, 500);
+          }, 1000);
         },
         error: (xhr, status, e) => {
           submitBtnWord.text('失败');
           setTimeout(() => {
             submitBtnWord.text('发布');
             loading.stop();
-          }, 500);
+          }, 1000);
         }
       });
     };
