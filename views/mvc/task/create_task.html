@@ -81,7 +81,7 @@
       }
     });
 
-    deadline.click(() => {
+    deadline.click((event) => {
       let uiDatepickerDiv = $('#ui-datepicker-div');
       let viewportWidth = $(window).width();
       let viewportHeight = $(window).height();
@@ -94,6 +94,7 @@
         top: topPos,
         position: 'absolute'
       });
+      event.stopPropagation();
     });
 
     form.bootstrapValidator({
