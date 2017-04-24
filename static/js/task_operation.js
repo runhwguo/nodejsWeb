@@ -59,12 +59,14 @@ var vm = new Vue({
           resp.json().then(data => {
             data.result.forEach(item => {
               let maxWidthOfInfo = $(window).width() * 0.9 * 0.75;
-              let info = null;
-              do {
+              let info = item.type + ' ' + item.title;
+              while (info.getWidth() > maxWidthOfInfo) {
                 info = item.type + ' ' + item.title;
                 item.title = item.title.substr(0, item.title.length - 1);
-              } while (info.getWidth() > maxWidthOfInfo);
-              item.title += '...';
+              }
+              if (info.getWidth() > maxWidthOfInfo) {
+                item.title += '...';
+              }
             });
             vm.items = vm.items.concat(data.result);
             vm.currentPage++;
