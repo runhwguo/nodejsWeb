@@ -36,7 +36,7 @@
 {% block main %}
     <span class="task-info">[${item.type}]&nbsp;${item.title}</span>
     <span class="task-reward">[悬赏]&nbsp;${item.reward}(元)</span>
-    <button v-bind:id="item.id" type="button" class="btn btn-primary btn-sm task-top ladda-button"
-            data-style="slide-right" v-on:click.stop="stick(item)">置顶
+    <button :id="item.id" type="button" class="btn btn-primary btn-sm task-top ladda-button"
+            data-style="slide-right" @click.stop="stick(item)">置顶
     </button>
 {% endblock%}

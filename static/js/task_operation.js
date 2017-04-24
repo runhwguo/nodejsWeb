@@ -133,7 +133,7 @@ var vm = new Vue({
 });
 window.vm = vm;
 $(() => {
-  let vmDiv = $('#vm'),
+  let vmDiv = $(vm.$el),
     loading = $('.fa-spinner');
 
   loading.hide();
