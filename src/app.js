@@ -67,6 +67,7 @@ app.use(restify());
 
 // 处理URL路由
 app.use(controller());
+
 app.listen(project.port);
 const uri = `http://localhost:${project.port}`;
 console.log(`app started at port ${uri}...`);

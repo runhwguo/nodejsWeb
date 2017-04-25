@@ -67,45 +67,45 @@ const _payApiRequest = async (data, url) => {
 
 
 const unifiedOrder = async ctx => {
-  let notify_url = 'http://i-sharing.xyz/api/wechat/order/notify';
-  let total_fee = Number.parseInt(ctx.query.fee) || 1;
+  let notifyUrl = 'http://i-sharing.xyz/api/wechat/order/notify';
+  let totalFee = Number.parseInt(ctx.query.fee) || 1;
   let body = ctx.query.body || '下订单';
-  let nonce_str = Math.random().toString();
+  let nonceStr = Math.random().toString();
   let openid = ctx.cookies.get(config.session.wxOpenId);
-  let out_trade_no = '' + Date.now();
-  let spbill_create_ip = ctx.ip;
+  let outTradeNo = '' + Date.now();
+  let spbillCreateIp = ctx.ip;
 
 
   let data = {
     appid: APP_ID,// appid
     body: body,// 商品或支付单简要描述
     mch_id: MCH_ID,// 商户号
-    nonce_str: nonce_str,// 随机字符串，不长于32位
-    notify_url: notify_url,// 支付成功后微信服务器通过POST请求通知这个地址
+    nonce_str: nonceStr,// 随机字符串，不长于32位
+    notify_url: notifyUrl,// 支付成功后微信服务器通过POST请求通知这个地址
     openid: openid,// 为微信用户在商户对应appid下的唯一标识
-    out_trade_no: out_trade_no,//订单号
-    spbill_create_ip: spbill_create_ip,//终端IP
-    total_fee: total_fee,//金额
+    out_trade_no: outTradeNo,//订单号
+    spbill_create_ip: spbillCreateIp,//终端IP
+    total_fee: totalFee,//金额
     trade_type: TRADE_TYPE,//NATIVE会返回code_url ，JSAPI不会返回
   };
 
   return _payApiRequest(data, URL_UNIFIED_ORDER);
 };
 
-const refund = async () => {
-  let nonce_str = Math.random().toString();
-  let out_trade_no = '' + Date.now();
-  let total_fee = 1;
-  let refund_fee = 1;
+const refund = async param => {
+  let nonceStr = Math.random().toString();
+  let outTradeNo = param.outTradeNo || 1;
+  let totalFee = param.totalFee || 1;
+  let refundFee = totalFee;
   let data = {
     appid: APP_ID,// appid
     mch_id: MCH_ID,// 商户号
-    nonce_str: nonce_str,// 随机字符串，不长于32位
+    nonce_str: nonceStr,// 随机字符串，不长于32位
     op_user_id: MCH_ID,
-    out_refund_no: out_trade_no,
-    out_trade_no: out_trade_no,//订单号
-    refund_fee: refund_fee,
-    total_fee: total_fee,//金额
+    out_refund_no: outTradeNo,
+    out_trade_no: outTradeNo,//订单号
+    refund_fee: refundFee,
+    total_fee: totalFee,//金额
     transaction_id: ''
   };
 
