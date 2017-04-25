@@ -16,17 +16,18 @@ const APP_ID = 'wx90eb6b04dcbf5fb2';
 const APP_SECRET = '7e87a72a56080c466d9256387016c886';
 const MCH_ID = '1462750902';
 const TRADE_TYPE = 'JSAPI';
+const MCH_KEY = 'guohaoweilovechengxihuiforeveruu';//key为在微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
 
-const URL_UNIFIED_ORDER = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
-const URL_REFUND = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
+const MCH_PAU_URL = 'https://api.mch.weixin.qq.com/';
+
+const URL_UNIFIED_ORDER = `${ MCH_PAU_URL }pay/unifiedorder`;
+const URL_REFUND = `${ MCH_PAU_URL }secapi/pay/refund`;
 
 const URL_WX_OPEN_ID_ACCESS_TOKEN = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${ APP_ID }&secret=${ APP_SECRET }&code=CODE&grant_type=authorization_code`;
 
 
 const _paySign = data => {
-  let string = _raw(data);
-  let key = 'guohaoweilovechengxihuiforeveruu';
-  string += `&key=${key}`;  //key为在微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
+  let string = `${ _raw(data) }&key=${MCH_KEY}`;
   return md5(string).toUpperCase();
 };
 
@@ -44,11 +45,32 @@ const _raw = args => {
   return string;
 };
 
+const _payApiRequest = async (data, url) => {
+  let sign = _paySign(data);
+
+  let formData = {
+    xml: Object.assign(data, {sign: sign})
+  };
+
+  formData = json2xml(formData);
+
+  let response = await superagent
+    .post(url)
+    .send(formData)
+    .charset(config.common.char_set_utf8);
+
+  logger.log(response.text);
+  let result = xml2json.toJson(response.text);
+  logger.log(result);
+
+  return JSON.parse(result);
+};
+
 
 const unifiedOrder = async ctx => {
   let notify_url = 'http://i-sharing.xyz/api/wechat/order/notify';
   let total_fee = Number.parseInt(ctx.query.fee) || 1;
-  let body = 'test wechat pay';
+  let body = ctx.query.body || '下订单';
   let nonce_str = Math.random().toString();
   let openid = ctx.cookies.get(config.session.wxOpenId);
   let out_trade_no = '' + Date.now();
@@ -67,24 +89,8 @@ const unifiedOrder = async ctx => {
     total_fee: total_fee,//金额
     trade_type: TRADE_TYPE,//NATIVE会返回code_url ，JSAPI不会返回
   };
-  let sign = _paySign(data);
 
-  let formData = {
-    xml: Object.assign(data, {sign: sign})
-  };
-  formData = json2xml(formData);
-
-
-  let response = await superagent
-    .post(URL_UNIFIED_ORDER)
-    .send(formData)
-    .charset(config.common.char_set_utf8);
-
-  logger.log(response.text);
-  let result = xml2json.toJson(response.text);
-  logger.log(result);
-
-  return JSON.parse(result);
+  return _payApiRequest(data, URL_UNIFIED_ORDER);
 };
 
 const refund = async () => {
@@ -104,23 +110,7 @@ const refund = async () => {
     transaction_id: ''
   };
 
-  let sign = _paySign(data);
-
-  let formData = {
-    xml: Object.assign(data, {sign: sign})
-  };
-  formData = json2xml(formData);
-
-  let response = await superagent
-    .post(URL_REFUND)
-    .send(formData)
-    .charset(config.common.char_set_utf8);
-
-  logger.log(response.text);
-  let result = xml2json.toJson(response.text);
-  logger.log(result);
-
-  return JSON.parse(result);
+  return _payApiRequest(data, URL_REFUND);
 };
 
 const getAccessTokenOpenId = async code => {

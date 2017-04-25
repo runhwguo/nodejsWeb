@@ -82,7 +82,7 @@ var vm = new Vue({
       let stickButton = $(`#${item.id}`),
         loading = Ladda.create(stickButton[0]);
       $('#money-input').val(1);
-      startPay(1, () => {
+      startPay({fee: 1, body: '任务置顶费用'}, () => {
         loading.start();
         vm.$resource(`/api/task/state/stick/${item.id}`).update()
           .then(resp => {
