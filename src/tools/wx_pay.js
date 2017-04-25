@@ -7,7 +7,6 @@ import json2xml from "json2xml";
 import xml2json from "xml2json";
 import tracer from "tracer";
 
-
 let logger = tracer.console();
 
 charset(superagent);
@@ -102,7 +101,7 @@ const refund = async () => {
     appid: APP_ID,// appid
     mch_id: MCH_ID,// 商户号
     nonce_str: nonce_str,// 随机字符串，不长于32位
-    op_user_id: MCH_ID
+    op_user_id: MCH_ID,
     out_refund_no: out_trade_no,
     out_trade_no: out_trade_no,//订单号
     refund_fee: refund_fee,
