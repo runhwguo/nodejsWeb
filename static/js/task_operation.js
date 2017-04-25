@@ -152,6 +152,7 @@ $(() => {
       console.log("滚动条到底部了");
       if (vm.currentPage * vm.limit < vm.count) {
         loading.show();
+        alert('curPage='+vm.currentPage+",limit="+vm.limit+',count='+vm.count);
         vm.get();
       } else {
         loading.hide();

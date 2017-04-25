@@ -58,9 +58,9 @@ const _payApiRequest = async (data, url) => {
     .send(formData)
     .charset(config.common.char_set_utf8);
 
-  logger.log(response.text);
+  // logger.log(response.text);
   let result = xml2json.toJson(response.text);
-  logger.log(result);
+  // logger.log(result);
 
   return JSON.parse(result);
 };
