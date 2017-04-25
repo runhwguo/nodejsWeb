@@ -7,12 +7,16 @@ $(() => {
     minDate: 0,
     maxDate: 31,
     autoclose: true,
+    yearSuffix: '年',
     dateFormat: 'yy-mm-dd',
     onSelect: () => {
       form.data('bootstrapValidator')
         .updateStatus('deadline', 'NOT_VALIDATED', null)
         .validateField('deadline');
-    }
+    },
+    showMonthAfterYear: true,
+    dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+    monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
   });
 
   deadline.click((event) => {

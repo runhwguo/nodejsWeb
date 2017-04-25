@@ -14,7 +14,6 @@ const APP_SECRET = '7e87a72a56080c466d9256387016c886';
 const MCH_ID = '1462750902';
 const TRADE_TYPE = 'JSAPI';
 
-
 const ENCODING_AES_KEY = 'zhzyeMf9jzO9HEiVmCzi3KDGPjyxUyJUFyh1AkI7SfE';
 const GET_ACCESS_TOKEN = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET';//get
 const GET_WX_IP = 'https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=ACCESS_TOKEN';

@@ -18,6 +18,7 @@ const MCH_ID = '1462750902';
 const TRADE_TYPE = 'JSAPI';
 
 const URL_UNIFIED_ORDER = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
+const URL_REFUND = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
 
 const URL_WX_OPEN_ID_ACCESS_TOKEN = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${ APP_ID }&secret=${ APP_SECRET }&code=CODE&grant_type=authorization_code`;
 
@@ -45,7 +46,6 @@ const _raw = args => {
 
 
 const unifiedOrder = async ctx => {
-  logger.log(ctx.query.fee);
   let notify_url = 'http://i-sharing.xyz/api/wechat/order/notify';
   let total_fee = Number.parseInt(ctx.query.fee) || 1;
   let body = 'test wechat pay';
@@ -77,6 +77,42 @@ const unifiedOrder = async ctx => {
 
   let response = await superagent
     .post(URL_UNIFIED_ORDER)
+    .send(formData)
+    .charset(config.common.char_set_utf8);
+
+  logger.log(response.text);
+  let result = xml2json.toJson(response.text);
+  logger.log(result);
+
+  return JSON.parse(result);
+};
+
+const refund = async () => {
+  let nonce_str = Math.random().toString();
+  let out_trade_no = '' + Date.now();
+  let total_fee = 1;
+  let refund_fee = 1;
+  let data = {
+    appid: APP_ID,// appid
+    mch_id: MCH_ID,// 商户号
+    nonce_str: nonce_str,// 随机字符串，不长于32位
+    op_user_id: MCH_ID
+    out_refund_no: out_trade_no,
+    out_trade_no: out_trade_no,//订单号
+    refund_fee: refund_fee,
+    total_fee: total_fee,//金额
+    transaction_id: ''
+  };
+
+  let sign = _paySign(data);
+
+  let formData = {
+    xml: Object.assign(data, {sign: sign})
+  };
+  formData = json2xml(formData);
+
+  let response = await superagent
+    .post(URL_REFUND)
     .send(formData)
     .charset(config.common.char_set_utf8);
 

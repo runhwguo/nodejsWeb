@@ -1,4 +1,4 @@
-import db from '../tools/db';
+import db from "../tools/db";
 
 const STATE = {
   none: '未知',
@@ -47,6 +47,10 @@ module.exports = db.defineModel('tasks', {
   priority: {
     type: db.INTEGER,
     defaultValue: 0
+  },
+  outTradeNo: {// 商户侧传给微信的订单号
+    type: db.STRING,
+    defaultValue: ''
   }
 });
 
