@@ -103,6 +103,7 @@ var vm = new Vue({
             vm._showError(resp);
           });
       }, () => {
+        alert('支付失败，请重试');
       });
 
     },

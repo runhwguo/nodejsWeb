@@ -125,7 +125,7 @@ $(() => {
     let rewardType = $('#rewardType').text();
     if (rewardType === '悬赏') {
       let reward = $('#reward')[0].value;
-      startPay(reward * 100, () => {
+      startPay({fee: reward * 100,body:'发布任务预支付费用'}, () => {
         doSubmit();
       }, () => {
       });
