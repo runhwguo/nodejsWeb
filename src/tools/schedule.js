@@ -11,7 +11,9 @@ const logger = tracer.console();
 const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
-  scanRule.minute = new Date().getMinutes()+1;
+  let date = new Date(Date.now() + 1000 * 10);
+  scanRule.second = new Date().getSeconds();
+  scanRule.minute = new Date().getMinutes();
   scanRule.hour = new Date().getHours();
 
   let job = schedule.scheduleJob(scanRule, async () => {
