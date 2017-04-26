@@ -45,7 +45,7 @@ const _raw = args => {
 };
 
 const _payApiRequest = async (data, url) => {
-  logger.log();
+  logger.log('');
   let sign = _paySign(data);
 
   let formData = {
@@ -93,7 +93,7 @@ const unifiedOrder = async ctx => {
 };
 
 const refund = async param => {
-  logger.log();
+  logger.log('');
   let nonceStr = Math.random().toString();
   let outTradeNo = param.outTradeNo;
   let totalFee = param.totalFee;
