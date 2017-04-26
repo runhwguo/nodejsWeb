@@ -1,8 +1,11 @@
 {% extends './template/base.html' %}
 
-{% block main %}
+{% block style%}
 <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
 <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
+{% endblock%}
+
+{% block main %}
 <form class="main" action='/api/save' method='post'>
     <div class='form-group'>
         <input type='text' class='form-control' id='name' name='name' placeholder='姓名' value="{{user.name}}"/>
@@ -22,6 +25,9 @@
             class="ladda-label">提交</span></button>
 </form>
 <input type="hidden" value="{{ where }}">
+{% endblock %}
+
+{% block script%}
 <script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
 <script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
 <script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js" defer></script>
@@ -95,4 +101,4 @@
   });
 </script>
 <script src="/static/js/ajax_loading.js" defer></script>
-{% endblock %}
+{% endblock%}

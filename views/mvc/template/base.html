@@ -3,55 +3,20 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0,user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
     <meta name="description" content="江苏大学 资源共享平台">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="icon" href="/static/images/icon.png">
-    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
+    {% block style %}
+
+    {% endblock %}
     <link href="/static/css/common.css" rel="stylesheet">
 </head>
 <body>
 {% block main %}
 
 {% endblock %}
-<style>
-
-    ul {
-        list-style-type: none;
-    }
-
-    ul li {
-        text-align: center;
-    }
-
-    .col-xs-4 ul {
-        padding-left: 0;
-    }
-
-    .block {
-        display: block;
-    }
-
-    .custom-plus {
-        background-size: 100%;
-        width: 45px;
-        height: 45px;
-        margin-top: -13px;
-    }
-
-    .navbar {
-        max-height: 40px;
-        min-height: 30px;
-    }
-
-    .badge-custom {
-        position: relative;
-        top: -40px;
-        right: 20px;
-    }
-</style>
-
 <div class="navbar navbar-default navbar-fixed-bottom">
     <div class="col-xs-4">
         <ul>
@@ -96,6 +61,10 @@
         </ul>
     </div>
 </div>
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
 <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" async></script>
+{% block script %}
+
+{% endblock %}
 </body>
 </html>

@@ -14,3 +14,37 @@
     border: 0;
     border-bottom: 1px solid #e4b9c0;
 }
+
+ul {
+    list-style-type: none;
+}
+
+ul li {
+    text-align: center;
+}
+
+.col-xs-4 ul {
+    padding-left: 0;
+}
+
+.block {
+    display: block;
+}
+
+.custom-plus {
+    background-size: 100%;
+    width: 45px;
+    height: 45px;
+    margin-top: -13px;
+}
+
+.navbar {
+    max-height: 40px;
+    min-height: 30px;
+}
+
+.badge-custom {
+    position: relative;
+    top: -40px;
+    right: 20px;
+}

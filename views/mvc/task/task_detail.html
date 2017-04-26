@@ -1,16 +1,19 @@
 {% extends "./../template/base.html" %}
 
-{% block main %}
-<link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
-<style>
-    img {
-        cursor: zoom-in;
-    }
+{% block style%}
+    <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
+    <style>
+        img {
+            cursor: zoom-in;
+        }
 
-    .pre-scrollable {
-        max-height: 100%;
-    }
-</style>
+        .pre-scrollable {
+            max-height: 100%;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
 <div class="main pre-scrollable">
     <table class="table">
         <tr>
@@ -127,32 +130,35 @@
         </div>
     </div>
 </div>
-<script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
-<script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
-<script src="/static/js/ajax_loading.js"></script>
-<script>
-  $(() => {
-    $('img').click(() => {
-      $('.enlargeImageModalSource').attr('src', $('img').attr('src'));
-      $('#enlargeImageModal').modal('show');
-    });
-    $('.ladda-button').click(function () {
-      let where = $('input:hidden')[0].value;
-      let successCallback = null;
-      if (where === 'unfinished') {
-        successCallback = () => {
-          $('.ladda-button').attr('disabled', true);
-        };
-      }
-      submitAjax($(this), {
-        type: 'PUT',
-        url: `/api/task/state/${this.id}/${this.name}?where=${where}`
-      }, {
-        success: '成功',
-        fail: '失败'
-      }, successCallback);
-    });
-    $('div.main').css('margin-bottom', (15 + $('.navbar-fixed-bottom').height()));
-  });
-</script>
+{% endblock %}
+
+{% block script %}
+    <script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
+    <script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
+    <script src="/static/js/ajax_loading.js"></script>
+    <script>
+      $(() => {
+        $('img').click(() => {
+          $('.enlargeImageModalSource').attr('src', $('img').attr('src'));
+          $('#enlargeImageModal').modal('show');
+        });
+        $('.ladda-button').click(function () {
+          let where = $('input:hidden')[0].value;
+          let successCallback = null;
+          if (where === 'unfinished') {
+            successCallback = () => {
+              $('.ladda-button').attr('disabled', true);
+            };
+          }
+          submitAjax($(this), {
+            type: 'PUT',
+            url: `/api/task/state/${this.id}/${this.name}?where=${where}`
+          }, {
+            success: '成功',
+            fail: '失败'
+          }, successCallback);
+        });
+        $('div.main').css('margin-bottom', (15 + $('.navbar-fixed-bottom').height()));
+      });
+    </script>
 {% endblock %}

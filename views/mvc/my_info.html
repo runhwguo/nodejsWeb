@@ -1,7 +1,10 @@
 {% extends "./template/base.html" %}
 
-{% block main %}
+{% block style%}
 <link rel="stylesheet" href="/static/css/my-info.css">
+{% endblock%}
+
+{% block main %}
 <div class="user-head">
     {% if gender === '女' %}
     <img src="/static/images/girl.jpeg" class="img-circle" alt="girl">

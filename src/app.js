@@ -21,10 +21,10 @@ app.use(logger());
 //wechat pay
 app.use(async (ctx, next) => {
   let reqPath = ctx.request.path;
-  if(reqPath === '/MP_verify_LXFIuaHyNWtcqG7k.txt'){
+  if (reqPath === '/MP_verify_LXFIuaHyNWtcqG7k.txt') {
     ctx.response.type = 200;
     ctx.response.body = 'LXFIuaHyNWtcqG7k';
-  }else{
+  } else {
     await next();
   }
 });
@@ -42,8 +42,10 @@ app.use(async (ctx, next) => {
     let admin = await cookie2user(adminLoginCookie, session.adminCookieName);
     if (admin) {
       await next();
-    } else {
+    } else if (!reqPath.startsWith('/admin/login')) {
       ctx.response.redirect('/admin/login');
+    } else {
+      await next();
     }
   } else {
     if (user || reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api')) {
