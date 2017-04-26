@@ -128,10 +128,10 @@ $(() => {
     };
 
     let rewardType = $('#rewardType').text();
-    let reward = $('#reward')[0].value;
+    let reward = $('#reward')[0].value * 100;
     if (rewardType === '悬赏' && reward > 0) {
       let outTradeNo = Date.now() + '';
-      startPay({fee: reward * 100, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
+      startPay({fee: reward, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
         doSubmit(outTradeNo);
       }, () => {
       });
