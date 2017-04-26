@@ -12,9 +12,9 @@ const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
   let date = new Date(Date.now() + 1000 * 10);
-  scanRule.second = new Date().getSeconds();
-  scanRule.minute = new Date().getMinutes();
-  scanRule.hour = new Date().getHours();
+  scanRule.second = date.getSeconds();
+  scanRule.minute = date.getMinutes();
+  scanRule.hour = date.getHours();
 
   let job = schedule.scheduleJob(scanRule, async () => {
     logger.log('run schedule ...');
