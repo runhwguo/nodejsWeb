@@ -107,7 +107,7 @@ const refund = async param => {
     transaction_id: ''
   };
 
-  return _payApiRequest(data, URL_REFUND);
+  return await _payApiRequest(data, URL_REFUND);
 };
 
 const getAccessTokenOpenId = async code => {

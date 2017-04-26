@@ -54,21 +54,23 @@ const offExpiredTaskAndRefund = async () => {
     where: expiredTaskWhere
   });
   logger.log(expiredTasks);
+
+  await Dao.update(Task, {
+    state: TASK_STATE.expired
+  }, {
+    where: expiredTaskWhere
+  });
+
   if (expiredTasks.length > 0) {
     expiredTasks.forEach(async item => {
       // 发布任务者预付报酬
       if (item.reward < 0) {
-        logger.log('refund ' + item);
+        logger.log('refund ' + JSON.stringify(item));
         let refundResult = await refund(item);
         logger.log(refundResult);
       }
     });
 
-    await Dao.update(Task, {
-      state: TASK_STATE.expired
-    }, {
-      where: expiredTaskWhere
-    });
   }
 };
 
