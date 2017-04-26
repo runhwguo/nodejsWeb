@@ -74,8 +74,8 @@ const defineModel = (name, attributes) => {
       beforeValidate: obj => {
         let now = Date.now();
         if (obj.isNewRecord) {
-          console.log('will create entity...' + obj);
           if (!obj.id) {
+            console.log('will create entity...' + obj);
             obj.id = v4();
           }
           obj.version = 0;

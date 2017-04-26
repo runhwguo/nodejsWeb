@@ -60,7 +60,7 @@ const _payApiRequest = async (data, url) => {
 
   // logger.log(response.text);
   let result = xml2json.toJson(response.text);
-  // logger.log(result);
+  logger.log(result);
 
   return JSON.parse(result);
 };
@@ -93,8 +93,8 @@ const unifiedOrder = async ctx => {
 
 const refund = async param => {
   let nonceStr = Math.random().toString();
-  let outTradeNo = param.outTradeNo || 1;
-  let totalFee = param.totalFee || 1;
+  let outTradeNo = param.outTradeNo;
+  let totalFee = param.totalFee;
   let data = {
     appid: APP_ID,// appid
     mch_id: MCH_ID,// 商户号
