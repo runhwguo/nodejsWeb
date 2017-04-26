@@ -13,3 +13,7 @@ logs
 *.log
 # some test/produce files
 static/tmp
+
+# test files
+test.*
+test.js
