@@ -45,6 +45,7 @@ const _raw = args => {
 };
 
 const _payApiRequest = async (data, url) => {
+  logger.log();
   let sign = _paySign(data);
 
   let formData = {
@@ -52,12 +53,12 @@ const _payApiRequest = async (data, url) => {
   };
 
   formData = json2xml(formData);
-
+logger.log('test --');
   let response = await superagent
     .post(url)
     .send(formData)
     .charset(config.common.char_set_utf8);
-
+  logger.log('test --');
   // logger.log(response.text);
   let result = xml2json.toJson(response.text);
   logger.log(result);
@@ -88,10 +89,11 @@ const unifiedOrder = async ctx => {
     trade_type: TRADE_TYPE,//NATIVE会返回code_url ，JSAPI不会返回
   };
 
-  return _payApiRequest(data, URL_UNIFIED_ORDER);
+  return await _payApiRequest(data, URL_UNIFIED_ORDER);
 };
 
 const refund = async param => {
+  logger.log();
   let nonceStr = Math.random().toString();
   let outTradeNo = param.outTradeNo;
   let totalFee = param.totalFee;
