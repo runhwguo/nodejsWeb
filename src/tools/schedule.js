@@ -4,7 +4,9 @@ import * as Dao from "./dao";
 import {Task} from "../tools/model";
 import {TASK_STATE} from "../models/Task";
 import {refund} from "./wx_pay";
+import tracer from "tracer";
 
+const logger = tracer.console();
 
 const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
@@ -49,6 +51,7 @@ const offExpiredTaskAndRefund = async () => {
     attributes: ['reward', 'outTradeNo'],
     where: expiredTaskWhere
   });
+  logger.log(expiredTasks.length);
   if (expiredTasks.length > 0) {
     expiredTasks.forEach(async item => {
       // 发布任务者预付报酬

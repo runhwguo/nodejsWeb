@@ -94,9 +94,12 @@ $(() => {
       let serializeArray = form.serializeArray(),
         data = {};
 
-      data.outTradeNo = outTradeNo;
-
       $.map(serializeArray, (n, i) => data[n['name']] = n['value'].replace(/"/g, '\\"'));
+      data.outTradeNo = outTradeNo;
+      if (data.reward && outTradeNo) {
+        data.reward = -data.reward;
+      }
+
       $.ajaxFileUpload({
         type: form.attr('method'),
         url: form.attr('action'),
@@ -128,10 +131,10 @@ $(() => {
     if (rewardType === '悬赏') {
       let reward = $('#reward')[0].value;
       let outTradeNo = Date.now() + '';
-      startPay({fee: reward * 100, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
+      // startPay({fee: reward * 100, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
         doSubmit(outTradeNo);
-      }, () => {
-      });
+      // }, () => {
+      // });
     } else {
       doSubmit();
     }
