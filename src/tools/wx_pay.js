@@ -96,7 +96,6 @@ const refund = async param => {
   let nonceStr = Math.random().toString();
   let outTradeNo = param.outTradeNo || 1;
   let totalFee = param.totalFee || 1;
-  let refundFee = totalFee;
   let data = {
     appid: APP_ID,// appid
     mch_id: MCH_ID,// 商户号
@@ -104,7 +103,7 @@ const refund = async param => {
     op_user_id: MCH_ID,
     out_refund_no: outTradeNo,
     out_trade_no: outTradeNo,//订单号
-    refund_fee: refundFee,
+    refund_fee: totalFee,
     total_fee: totalFee,//金额
     transaction_id: ''
   };
@@ -146,5 +145,5 @@ const getOnBridgeReadyRequest = async prepay_id => {
 };
 
 export {
-  unifiedOrder, getAccessTokenOpenId, getOnBridgeReadyRequest
+  unifiedOrder, getAccessTokenOpenId, getOnBridgeReadyRequest,refund
 };

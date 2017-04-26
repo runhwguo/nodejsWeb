@@ -1,22 +1,26 @@
 import schedule from "node-schedule";
 
 import * as Dao from "./dao";
-import {Task} from "../models/Task";
-import {TASK_STATE} from '../models/Task';
+import {Task, TASK_STATE} from "../models/Task";
+import {refund} from "./wx_pay";
 
 
 const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
-  scanRule.minute = 28;
-  scanRule.hour = 0;
+  scanRule.minute = 35;
+  scanRule.hour = 20;
 
-  let job = schedule.scheduleJob(scanRule, function () {
-
+  let job = schedule.scheduleJob(scanRule, async () => {
+    await offExpiredTaskAndRefund();
   });
 };
 
-const offExpiredTask = async () => {
+/**
+ * 下架过期且没有被认领的任务
+ * @returns {Promise.<void>}
+ */
+const offExpiredTaskAndRefund = async () => {
   let today = new Date();
   let dd = today.getDate();
   let mm = today.getMonth() + 1; //January is 0!
@@ -32,21 +36,29 @@ const offExpiredTask = async () => {
 
   today = yyyy + '-' + mm + '-' + dd;
 
-  await Dao.findAll(Task, {
-    attributes: [],
-    where: {
-      deadline: {
-        $lt: today
-      },
-      state: TASK_STATE.released_not_claimed
+  let expiredTaskWhere = {
+    deadline: {
+      $lt: today
+    },
+    state: TASK_STATE.released_not_claimed,
+  };
+
+  let expiredTasks = await Dao.findAll(Task, {
+    attributes: ['reward', 'outTradeNo'],
+    where: expiredTaskWhere
+  });
+
+  expiredTasks.forEach(async item => {
+    // 发布任务者预付报酬
+    if (item.reward < 0) {
+      await refund(item);
     }
   });
+
   await Dao.update(Task, {
     state: TASK_STATE.expired
   }, {
-    where: {
-      state: TASK_STATE.released_not_claimed
-    }
+    where: expiredTaskWhere
   });
 };
 
