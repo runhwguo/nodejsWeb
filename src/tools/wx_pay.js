@@ -93,10 +93,10 @@ const unifiedOrder = async ctx => {
 };
 
 const refund = async param => {
-  logger.log('');
+  logger.log('refund');
   let nonceStr = Math.random().toString();
   let outTradeNo = param.outTradeNo;
-  let totalFee = param.totalFee;
+  let totalFee = Math.abs(param.reward);
   let data = {
     appid: APP_ID,// appid
     mch_id: MCH_ID,// 商户号
