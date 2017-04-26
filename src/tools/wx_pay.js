@@ -45,7 +45,7 @@ const _raw = args => {
 };
 
 const _payApiRequest = async (data, url) => {
-  logger.log('');
+  logger.log('_payApiRequest');
   let sign = _paySign(data);
 
   let formData = {
