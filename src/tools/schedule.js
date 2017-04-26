@@ -66,6 +66,7 @@ const offExpiredTaskAndRefund = async () => {
       // 发布任务者预付报酬
       if (item.reward < 0) {
         logger.log('refund ' + JSON.stringify(item));
+        console.log('refund ' + JSON.stringify(item));
         let refundResult = await refund(item);
         logger.log(refundResult);
       }
