@@ -3,6 +3,7 @@ import bodyParser from "koa-bodyparser";
 import logger from "koa-logger";
 import controller from "./tools/controller";
 import templating from "./tools/templating";
+import schedule from "./tools/schedule";
 import {cookie2user} from "./tools/cookie";
 import staticFiles from "./tools/static_files";
 import {restify} from "./tools/rest";
@@ -75,3 +76,7 @@ if (process.env.NODE_ENV !== 'production') {
   console.log('不是生产环境');
 }
 console.log(`node is running in ${process.env.NODE_ENV}`);
+
+
+// 运行定时服务
+schedule();

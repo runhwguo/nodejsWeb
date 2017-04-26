@@ -1,11 +1,11 @@
 const findAll = async (model, option = {}) => {
   let result = await model.findAll(option);
-  let tasks = [];
+  let data = [];
   for (let item of result) {
-    tasks.push(item.dataValues);
+    data.push(item.dataValues);
   }
 
-  return tasks;
+  return data;
 };
 
 const update = async (model, values, option) => {

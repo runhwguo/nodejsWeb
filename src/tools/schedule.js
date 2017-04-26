@@ -1,17 +1,19 @@
 import schedule from "node-schedule";
 
 import * as Dao from "./dao";
-import {Task, TASK_STATE} from "../models/Task";
+import {Task} from "../tools/model";
+import {TASK_STATE} from "../models/Task";
 import {refund} from "./wx_pay";
 
 
 const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
-  scanRule.minute = 35;
-  scanRule.hour = 20;
+  scanRule.minute =23;
+  scanRule.hour = 22;
 
   let job = schedule.scheduleJob(scanRule, async () => {
+    console.log('run schedule ...');
     await offExpiredTaskAndRefund();
   });
 };
@@ -47,19 +49,20 @@ const offExpiredTaskAndRefund = async () => {
     attributes: ['reward', 'outTradeNo'],
     where: expiredTaskWhere
   });
+  if (expiredTasks.length > 0) {
+    expiredTasks.forEach(async item => {
+      // 发布任务者预付报酬
+      if (item.reward < 0) {
+        await refund(item);
+      }
+    });
 
-  expiredTasks.forEach(async item => {
-    // 发布任务者预付报酬
-    if (item.reward < 0) {
-      await refund(item);
-    }
-  });
-
-  await Dao.update(Task, {
-    state: TASK_STATE.expired
-  }, {
-    where: expiredTaskWhere
-  });
+    await Dao.update(Task, {
+      state: TASK_STATE.expired
+    }, {
+      where: expiredTaskWhere
+    });
+  }
 };
 
 

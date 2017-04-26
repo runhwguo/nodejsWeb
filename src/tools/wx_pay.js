@@ -68,13 +68,12 @@ const _payApiRequest = async (data, url) => {
 
 const unifiedOrder = async ctx => {
   let notifyUrl = 'http://i-sharing.xyz/api/wechat/order/notify';
-  let totalFee = Number.parseInt(ctx.query.fee) || 1;
-  let body = ctx.query.body || '下订单';
+  let totalFee = Number.parseInt(ctx.query.fee);
+  let body = ctx.query.body;
   let nonceStr = Math.random().toString();
   let openid = ctx.cookies.get(config.session.wxOpenId);
-  let outTradeNo = '' + Date.now();
+  let outTradeNo = ctx.query.outTradeNo || Date.now() + '';
   let spbillCreateIp = ctx.ip;
-
 
   let data = {
     appid: APP_ID,// appid
@@ -145,5 +144,5 @@ const getOnBridgeReadyRequest = async prepay_id => {
 };
 
 export {
-  unifiedOrder, getAccessTokenOpenId, getOnBridgeReadyRequest,refund
+  unifiedOrder, getAccessTokenOpenId, getOnBridgeReadyRequest, refund
 };

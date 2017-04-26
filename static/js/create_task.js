@@ -87,20 +87,22 @@ $(() => {
   }).on('success.form.bv', e => {
     e.preventDefault();
 
-    const doSubmit = () => {
+    const doSubmit = (outTradeNo) => {
       let submit = $('.submit'),
         loading = Ladda.create(submit.get(0));
       loading.start();
       let serializeArray = form.serializeArray(),
-        formData = {};
+        data = {};
 
-      $.map(serializeArray, (n, i) => formData[n['name']] = n['value'].replace(/"/g, '\\"'));
+      data.outTradeNo = outTradeNo;
+
+      $.map(serializeArray, (n, i) => data[n['name']] = n['value'].replace(/"/g, '\\"'));
       $.ajaxFileUpload({
         type: form.attr('method'),
         url: form.attr('action'),
         secureuri: false,
         fileElementId: 'file',
-        data: JSON.parse(JSON.stringify(formData)),
+        data: data,
         dataType: 'json',
         success: (data, status) => {
           console.log(data, status);
@@ -125,8 +127,9 @@ $(() => {
     let rewardType = $('#rewardType').text();
     if (rewardType === '悬赏') {
       let reward = $('#reward')[0].value;
-      startPay({fee: reward * 100,body:'发布任务预支付费用'}, () => {
-        doSubmit();
+      let outTradeNo = Date.now() + '';
+      startPay({fee: reward * 100, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
+        doSubmit(outTradeNo);
       }, () => {
       });
     } else {
