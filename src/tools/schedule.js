@@ -11,7 +11,7 @@ const logger = tracer.console();
 const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
-  let date = new Date(Date.now() + 1000 * 10);
+  let date = new Date(Date.now() + 1000 * 5);
   scanRule.second = date.getSeconds();
   scanRule.minute = date.getMinutes();
   scanRule.hour = date.getHours();
@@ -58,7 +58,7 @@ const offExpiredTaskAndRefund = async () => {
     expiredTasks.forEach(async item => {
       // 发布任务者预付报酬
       if (item.reward < 0) {
-        logger.log('refund ' + refundResult);
+        logger.log('refund ' + item);
         let refundResult = await refund(item);
         logger.log(refundResult);
       }
