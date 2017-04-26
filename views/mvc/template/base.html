@@ -47,15 +47,6 @@
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                     <span class="block">我</span>
                     <span class="badge pull-right badge-custom"></span>
-                    <script defer>
-                      <!--  红点吸引-->
-                      $.get('/api/task/get/unread', data => {
-                        let badge = Number.parseInt(data.result);
-                        if (badge) {
-                          $('#meTab span.badge').text(badge)
-                        }
-                      });
-                    </script>
                 </a>
             </li>
         </ul>
@@ -63,6 +54,15 @@
 </div>
 <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
 <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" async></script>
+<script defer>
+  <!--  红点吸引-->
+  $.get('/api/task/get/unread', data => {
+    let badge = Number.parseInt(data.result);
+    if (badge) {
+      $('#meTab span.badge').text(badge)
+    }
+  });
+</script>
 {% block script %}
 
 {% endblock %}
