@@ -9,8 +9,8 @@ import {refund} from "./wx_pay";
 const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
-  scanRule.minute =23;
-  scanRule.hour = 22;
+  scanRule.minute =25;
+  scanRule.hour = 23;
 
   let job = schedule.scheduleJob(scanRule, async () => {
     console.log('run schedule ...');
