@@ -4,7 +4,7 @@ $(() => {
     deadline = $('#deadline'),
     createTask = $('#createTaskTab');
   deadline.datepicker({
-    minDate: 0,
+    minDate: -1,
     maxDate: 31,
     autoclose: true,
     yearSuffix: '年',
@@ -131,10 +131,10 @@ $(() => {
     if (rewardType === '悬赏') {
       let reward = $('#reward')[0].value;
       let outTradeNo = Date.now() + '';
-      // startPay({fee: reward * 100, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
+      startPay({fee: reward * 100, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
         doSubmit(outTradeNo);
-      // }, () => {
-      // });
+      }, () => {
+      });
     } else {
       doSubmit();
     }
