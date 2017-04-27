@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "优化jquery依赖顺序"
+git commit -m "css js压缩"
 git push

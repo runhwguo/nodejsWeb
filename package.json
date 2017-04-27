@@ -52,5 +52,13 @@
   "bugs": {
     "url": "https://github.com/runhwguo/nodejsWeb/issues"
   },
-  "homepage": "https://github.com/runhwguo/nodejsWeb#readme"
+  "homepage": "https://github.com/runhwguo/nodejsWeb#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-clean-css": "^3.0.4",
+    "gulp-uglify": "^2.1.2",
+    "gulp-util": "^3.0.8",
+    "uglify-js-harmony": "^2.7.5"
+  }
 }
