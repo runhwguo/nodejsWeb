@@ -1,0 +1,1 @@
+"use strict";$.get("/api/task/get/unread",function(e){var t=Number.parseInt(e.result);t&&$("#meTab span.badge").text(t)});

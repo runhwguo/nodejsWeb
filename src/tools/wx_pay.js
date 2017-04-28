@@ -57,6 +57,8 @@ logger.log('test --');
   let response = await superagent
     .post(url)
     .send(formData)
+    .key(MCH_ID)
+    .pfx(fs.readFileSync('../../static/third-party/apiclient_cert.p12'))
     .charset(config.common.char_set_utf8);
   logger.log('test --');
   // logger.log(response.text);
