@@ -7,6 +7,8 @@ import json2xml from "json2xml";
 import xml2json from "xml2json";
 import tracer from "tracer";
 import fs from "fs";
+import appRootDir from "app-root-dir";
+import path from "path";
 
 let logger = tracer.console();
 
@@ -54,12 +56,12 @@ const _payApiRequest = async (data, url) => {
   };
 
   formData = json2xml(formData);
-logger.log('test --');
+  logger.log('test --');
   let response = await superagent
     .post(url)
     .send(formData)
     .key(MCH_ID)
-    .pfx(fs.readFileSync('../../static/third-party/apiclient_cert.p12'))
+    .pfx(fs.readFileSync(path.join(appRootDir.get(), 'static/third-party/apiclient_cert.p12')))
     .charset(config.common.char_set_utf8);
   logger.log('test --');
   // logger.log(response.text);

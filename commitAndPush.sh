@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "css js html压缩"
+git commit -m "wechat pay refund cert"
 git push
