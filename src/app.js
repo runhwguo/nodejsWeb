@@ -60,7 +60,7 @@ app.use(staticFiles('/static/', `${appRootDir.get()}/static`));
 // 解析原始request请求，nodejs的request和koa的request都不解析request
 app.use(bodyParser());
 // 给ctx加上render()来使用Nunjucks middleware
-app.use(templating('views', {
+app.use(templating('view-min', {
   noCache: !isProduction,
   watch: !isProduction
 }));
