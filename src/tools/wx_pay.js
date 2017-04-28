@@ -6,6 +6,7 @@ import config from "./config";
 import json2xml from "json2xml";
 import xml2json from "xml2json";
 import tracer from "tracer";
+import fs from "fs";
 
 let logger = tracer.console();
 
