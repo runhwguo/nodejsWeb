@@ -29,11 +29,13 @@ const weixinPayConfig = {
   pfx: fs.readFileSync(path.join(appRootDir.get(), 'static/third-party/apiclient_cert.p12')), //微信商户平台证书
 };
 
+const wxPay = WXPay(weixinPayConfig);
+
 const unifiedOrder = async ctx => {
   let body = ctx.query.body;
   let spbillCreateIp = ctx.ip;
 
-  WXPay.createUnifiedOrder({
+  wxPay.createUnifiedOrder({
     body: body,
     out_trade_no: '20170428' + Math.random().toString().substr(2, 10),
     total_fee: 1,
@@ -58,7 +60,7 @@ const refund = async param => {
     refund_fee: totalFee, //退款金额
     transaction_id: '微信订单号'
   };
-  WXPay.refund(params, function (err, result) {
+  wxPay.refund(params, function (err, result) {
     console.log('refund', arguments);
   });
 };
@@ -77,7 +79,7 @@ const getOnBridgeReadyRequest = async ctx => {
   let result = '';
 
   if (openId) {
-    WXPay.getBrandWCPayRequestParams({
+    wxPay.getBrandWCPayRequestParams({
       openid: openId,
       body: ctx.query.body,
       out_trade_no: '20170428' + Math.random().toString().substr(2, 10),
