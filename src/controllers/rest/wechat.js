@@ -29,11 +29,7 @@ const _isFromWechatServer = async (signature, timestamp, nonce) => {
 };
 
 const orderNotify = async ctx => {
-  console.log('receive order notify');
-  logger.log(ctx);
-  logger.log(ctx.request);
-  logger.log(ctx.request.body);
-  ctx.rest('');
+  ctx.rest('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>');
 };
 
 const startPay = async ctx => {
