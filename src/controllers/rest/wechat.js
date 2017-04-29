@@ -48,7 +48,7 @@ const startPay = async ctx => {
   let request = '';
 
   if (openId) {
-    request = await wxPay.getOnBridgeReadyRequest();
+    request = await wxPay.getOnBridgeReadyRequest(ctx);
   }
   logger.log(request);
   ctx.rest(request);
