@@ -55,11 +55,11 @@ const offExpiredTaskAndRefund = async () => {
   });
   logger.log(expiredTasks);
 
-  // await Dao.update(Task, {
-  //   state: TASK_STATE.expired
-  // }, {
-  //   where: expiredTaskWhere
-  // });
+  await Dao.update(Task, {
+    state: TASK_STATE.expired
+  }, {
+    where: expiredTaskWhere
+  });
 
   if (expiredTasks.length > 0) {
     expiredTasks.forEach(async item => {

@@ -40,6 +40,7 @@ const _isFromWechatServer = async (signature, timestamp, nonce) => {
 
 const orderNotify = async ctx => {
   console.log('receive order notify');
+  logger.log(ctx);
   ctx.rest('');
 };
 
@@ -55,7 +56,7 @@ const startPay = async ctx => {
   }
   // logger.log(request);
   ctx.rest(request);
-}
+};
 
 module.exports = {
   'GET /api/wechat/': checkIsFromWeChatServer,
