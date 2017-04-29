@@ -28,7 +28,7 @@ const URL_UNIFIED_ORDER = `${ MCH_PAU_URL }pay/unifiedorder`;
 const URL_REFUND = `${ MCH_PAU_URL }secapi/pay/refund`;
 
 const URL_WX_OPEN_ID_ACCESS_TOKEN = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${ APP_ID }&secret=${ APP_SECRET }&code=CODE&grant_type=authorization_code`;
-const PFX = fs.readFileSync(path.join(appRootDir.get(),'static/third-party/apiclient_cert.pem')); //微信商户平台证书
+const PFX = fs.readFileSync(path.join(appRootDir.get(),'static/third-party/apiclient_cert.p12')); //微信商户平台证书
 
 const _paySign = data => {
   let string = `${ _sortAndGenerateParam(data) }&key=${MCH_KEY}`;
@@ -114,12 +114,12 @@ const refund = async param => {
   };
 
   let formData = _addSignAndConvertToXml(data);
-  let response = await superagent
-    .post(URL_REFUND)
-    .send(formData)
-    .pfx(PFX)
-    .key(MCH_ID)
-    .charset(config.common.char_set_utf8);
+  // let response = await superagent
+  //   .post(URL_REFUND)
+  //   .send(formData)
+  //   .pfx(PFX)
+  //   .key(MCH_ID)
+  //   .charset(config.common.char_set_utf8);
 
   request({
     url: URL_REFUND,
