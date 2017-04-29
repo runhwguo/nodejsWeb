@@ -124,7 +124,7 @@ const refund = async param => {
     }
   });
   logger.log(result);
-  logger.log(_xml2JsonObj(res));
+  logger.log(_xml2JsonObj(result));
 
   logger.log('end to refund');
 };
