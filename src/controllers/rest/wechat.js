@@ -41,6 +41,7 @@ const _isFromWechatServer = async (signature, timestamp, nonce) => {
 const orderNotify = async ctx => {
   console.log('receive order notify');
   logger.log(ctx.request);
+  logger.log(ctx.request.body);
   ctx.rest('');
 };
 
