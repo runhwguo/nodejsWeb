@@ -1,6 +1,6 @@
 import superagent from "superagent";
 import charset from "superagent-charset";
-import config from "./config";
+import {session} from "./config";
 
 import tracer from "tracer";
 import fs from "fs";
