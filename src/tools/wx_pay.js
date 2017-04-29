@@ -109,8 +109,7 @@ const refund = async param => {
     out_refund_no: outTradeNo,
     out_trade_no: outTradeNo,//订单号
     refund_fee: totalFee,
-    total_fee: totalFee,//金额
-    transaction_id: ''
+    total_fee: totalFee//金额
   };
 
   let formData = _addSignAndConvertToXml(data);
