@@ -95,8 +95,9 @@ $(() => {
         data = {};
 
       $.map(serializeArray, (n, i) => data[n['name']] = n['value'].replace(/"/g, '\\"'));
-      data.outTradeNo = outTradeNo;
-      if (data.reward && outTradeNo) {
+      if (outTradeNo) {
+        data.outTradeNo = outTradeNo;
+      } else {// 收取
         data.reward = -data.reward;
       }
 
