@@ -60,7 +60,6 @@ const _addSignAndConvertToXml = data => {
 };
 
 const _xml2JsonObj = xmlStr => {
-  logger.log(xmlStr);
   return JSON.parse(xml2json.toJson(xmlStr));
 };
 
@@ -122,7 +121,6 @@ const refund = async param => {
       passphrase: MCH_ID
     }
   });
-  logger.log(result);
   logger.log(_xml2JsonObj(result));
 
   logger.log('end to refund');
@@ -149,14 +147,9 @@ const getOnBridgeReadyRequest = async prepay_id => {
 
   let paySign = _paySign(data);
 
-  logger.log(paySign);
-
-
   let request = Object.assign(data, {
     paySign: paySign //微信签名
   });
-
-  logger.log(request);
 
   return request;
 };
