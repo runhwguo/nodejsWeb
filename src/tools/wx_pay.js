@@ -28,7 +28,7 @@ const URL_UNIFIED_ORDER = `${ MCH_PAU_URL }pay/unifiedorder`;
 const URL_REFUND = `${ MCH_PAU_URL }secapi/pay/refund`;
 
 const URL_WX_OPEN_ID_ACCESS_TOKEN = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${ APP_ID }&secret=${ APP_SECRET }&code=CODE&grant_type=authorization_code`;
-const PFX = fs.readFileSync(path.join(appRootDir.get(),'static/third-party/apiclient_cert.p12')); //微信商户平台证书
+const PFX = fs.readFileSync(path.join(appRootDir.get(), 'static/third-party/apiclient_cert.p12')); //微信商户平台证书
 
 const _paySign = data => {
   let string = `${ _sortAndGenerateParam(data) }&key=${MCH_KEY}`;
@@ -120,7 +120,9 @@ const refund = async param => {
   //   .key(MCH_ID)
   //   .charset(config.common.char_set_utf8);
 
-  let result = await request({
+  let result = null;
+  logger.log('start to refund');
+  await request({
     url: URL_REFUND,
     method: 'POST',
     body: formData,
@@ -128,8 +130,12 @@ const refund = async param => {
       pfx: PFX,
       passphrase: MCH_ID
     }
+  }, function (err, response, body) {
+    logger.log(_xml2JsonObj(body));
+    result = _xml2JsonObj(body);
+    logger.log('refund is finished');
   });
-  logger.log(result);
+  logger.log('end to refund');
 };
 
 const getAccessTokenOpenId = async code => {
