@@ -19,8 +19,6 @@ const APP_SECRET = '7e87a72a56080c466d9256387016c886';
 const MCH_ID = '1462750902';
 const TRADE_TYPE = 'JSAPI';
 const NOTIFY_URL = 'http://i-sharing.xyz/api/wechat/order/notify';
-
-
 const MCH_KEY = 'guohaoweilovechengxihuiforeveruu';//key为在微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
 
 const MCH_PAU_URL = 'https://api.mch.weixin.qq.com/';
@@ -29,6 +27,7 @@ const URL_UNIFIED_ORDER = `${ MCH_PAU_URL }pay/unifiedorder`;
 const URL_REFUND = `${ MCH_PAU_URL }secapi/pay/refund`;
 
 const URL_WX_OPEN_ID_ACCESS_TOKEN = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${ APP_ID }&secret=${ APP_SECRET }&code=CODE&grant_type=authorization_code`;
+const PFX = fs.readFileSync(path.join(appRootDir.get(),'static/third-party/apiclient_cert.p12')); //微信商户平台证书
 
 const _paySign = data => {
   let string = `${ _sortAndGenerateParam(data) }&key=${MCH_KEY}`;
@@ -117,6 +116,8 @@ const refund = async param => {
   let response = await superagent
     .post(URL_REFUND)
     .send(formData)
+    .pfx(PFX)
+    .key(MCH_ID)
     .charset(config.common.char_set_utf8);
 
   return _xml2JsonObj(response.text);
