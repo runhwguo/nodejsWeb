@@ -113,16 +113,8 @@ const refund = async param => {
   };
 
   let formData = _addSignAndConvertToXml(data);
-  // let response = await superagent
-  //   .post(URL_REFUND)
-  //   .send(formData)
-  //   .pfx(PFX)
-  //   .key(MCH_ID)
-  //   .charset(config.common.char_set_utf8);
-
-  let result = null;
   logger.log('start to refund');
-  result = await request({
+  let result = await request({
     url: URL_REFUND,
     method: 'POST',
     body: formData,
@@ -132,6 +124,8 @@ const refund = async param => {
     }
   });
   logger.log(result);
+  logger.log(_xml2JsonObj(res));
+
   logger.log('end to refund');
 };
 
