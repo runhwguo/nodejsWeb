@@ -8,16 +8,6 @@ let logger = tracer.console();
 
 const TOKEN = 'FuckQ';
 
-// 平台
-const APP_ID = 'wx90eb6b04dcbf5fb2';
-const APP_SECRET = '7e87a72a56080c466d9256387016c886';
-const MCH_ID = '1462750902';
-const TRADE_TYPE = 'JSAPI';
-
-const ENCODING_AES_KEY = 'zhzyeMf9jzO9HEiVmCzi3KDGPjyxUyJUFyh1AkI7SfE';
-const GET_ACCESS_TOKEN = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET';//get
-const GET_WX_IP = 'https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=ACCESS_TOKEN';
-
 const checkIsFromWeChatServer = async ctx => {
   let signature = ctx.query.signature;
   let timestamp = ctx.query.timestamp;
@@ -40,6 +30,7 @@ const _isFromWechatServer = async (signature, timestamp, nonce) => {
 
 const orderNotify = async ctx => {
   console.log('receive order notify');
+  logger.log(ctx);
   logger.log(ctx.request);
   logger.log(ctx.request.body);
   ctx.rest('');
