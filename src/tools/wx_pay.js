@@ -130,7 +130,7 @@ const refund = async param => {
       passphrase: MCH_ID
     }
   }, function(err, response, body){
-    logger.log(_xml2JsonObj(response.text));
+    logger.log(_xml2JsonObj(body));
   });
 
 };
