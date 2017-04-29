@@ -120,18 +120,16 @@ const refund = async param => {
   //   .key(MCH_ID)
   //   .charset(config.common.char_set_utf8);
 
-  request({
+  let result = await request({
     url: URL_REFUND,
-    method: "POST",
+    method: 'POST',
     body: formData,
     agentOptions: {
       pfx: PFX,
       passphrase: MCH_ID
     }
-  }, function(err, response, body){
-    logger.log(_xml2JsonObj(body));
   });
-
+  logger.log(result);
 };
 
 const getAccessTokenOpenId = async code => {
