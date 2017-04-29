@@ -9,7 +9,7 @@ import tracer from "tracer";
 import fs from "fs";
 import appRootDir from "app-root-dir";
 import path from "path";
-import request from "request";
+import request from "request-promise";
 
 let logger = tracer.console();
 
@@ -122,7 +122,7 @@ const refund = async param => {
 
   let result = null;
   logger.log('start to refund');
-  await request({
+  result = await request({
     url: URL_REFUND,
     method: 'POST',
     body: formData,
@@ -130,11 +130,8 @@ const refund = async param => {
       pfx: PFX,
       passphrase: MCH_ID
     }
-  }, function (err, response, body) {
-    logger.log(_xml2JsonObj(body));
-    result = _xml2JsonObj(body);
-    logger.log('refund is finished');
   });
+  logger.log(result);
   logger.log('end to refund');
 };
 
