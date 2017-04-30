@@ -31,7 +31,7 @@ $(() => {
       left: leftPos,
       top: topPos,
       position: 'absolute'
-    });
+    }).css('z-index', 999);
   });
 
   form.bootstrapValidator({

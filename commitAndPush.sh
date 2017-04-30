@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "input type 细化体验   当时数字的时候，弹出数字输入法"
+git commit -m "datepicker和input file覆盖的click问题，z-index引起的click响应顺序问题"
 git push
