@@ -108,7 +108,18 @@ let vm = new Vue({
 
     },
     detail: item => {
-      window.location.href = `/task/detail/${item.id}?where=` + $('input:hidden')[0].value;
+
+      const viewDetailSuccess = () => {
+        window.location.href = `/task/detail/${item.id}?where=` + $('input:hidden')[0].value;
+      };
+
+      if (item.type === '会员共享') {
+        startPay({fee: item.reward * 100, body: '购买会员共享费用'}, viewDetailSuccess, () => {
+
+        });
+      } else {
+        viewDetailSuccess();
+      }
     },
     init: (isSearch) => {
       vm.items = [];
