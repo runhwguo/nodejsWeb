@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "赏/收 用不同的颜色标注"
+git commit -m "es6纯语法 不用担心，因为可以转移到es5"
 git push

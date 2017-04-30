@@ -14,7 +14,7 @@ String.prototype.getWidth = function () {
   return w;
 };
 
-var vm = new Vue({
+let vm = new Vue({
   delimiters: ['${', '}'],
   el: '#vm',
   data: {
