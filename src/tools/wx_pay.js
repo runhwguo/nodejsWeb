@@ -66,8 +66,8 @@ const _xml2JsonObj = xmlStr => {
 const unifiedOrder = async ctx => {
   let body = ctx.query.body;
   let spbillCreateIp = ctx.ip;
-
-  let totalFee = Number.parseInt(ctx.query.fee);
+  // math.abs()  考虑到reward的正负性
+  let totalFee = Math.abs(Number.parseInt(ctx.query.fee));
   let nonceStr = Math.random().toString();
   let openid = ctx.cookies.get(config.session.wxOpenId);
   let outTradeNo = ctx.query.outTradeNo || Date.now() + '';
