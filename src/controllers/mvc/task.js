@@ -1,5 +1,5 @@
 import {MINE_TASK_TYPE, TASK_TYPE} from '../../models/Task';
-import {Task, User} from '../../tools/model';
+import {Task, User, UserTask} from '../../tools/model';
 import * as Dao from '../../tools/dao';
 import db from '../../tools/db';
 
@@ -24,13 +24,18 @@ const detail = async ctx => {
     attributes: {exclude: ['version', 'updatedAt', 'createdAt', 'deletedAt']}
   });
   task = task.dataValues;
-  if(task.type === TASK_TYPE.member_sharing) {
+  if (task.type === TASK_TYPE.member_sharing) {
     await Dao.update(Task, {
       shareCount: db.sequelize.literal('shareCount-1')
     }, {
       where: {
         id: id
       }
+    });
+    // 查看会员共享 付完款 就相当于    完成所有任务
+    await Dao.create(UserTask, {
+      taskId: id,
+      userId: ctx.state.user.id
     });
   }
   let user = await User.findOne({
@@ -40,6 +45,8 @@ const detail = async ctx => {
   user = user.dataValues;
   let isSelfTask = task.userId === ctx.state.user.id;
   let data = Object.assign({}, task, user, {isSelfTask: isSelfTask});
+
+  data.reward = Math.abs(data.reward);
   ctx.render(`task/task_detail`, {
     title: '任务详情',
     data: data,
