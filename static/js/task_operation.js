@@ -81,25 +81,29 @@ let vm = new Vue({
     stick: item => {
       let stickButton = $(`#${item.id}`),
         loading = Ladda.create(stickButton[0]);
-      let outTradeNo = Date.now() + '';
+
       startPay({fee: 1, body: '任务置顶费用'}, () => {
         loading.start();
+
+        const normalStickButtonWord = stickButton.text(),
+          interval = 1000;
+
         vm.$resource(`/api/task/state/stick/${ item.id }`).update()
           .then(resp => {
             vm.loading = false;
             resp.json().then(result => {
               stickButton.text(result.result ? '成功' : '失败');
               setTimeout(() => {
-                stickButton.text('置顶');
+                stickButton.text(normalStickButtonWord);
                 loading.stop();
-              }, 1000);
+              }, interval);
             });
           }, resp => {
             stickButton.text('失败');
             setTimeout(() => {
-              stickButton.text('置顶');
+              stickButton.text(normalStickButtonWord);
               loading.stop();
-            }, 1000);
+            }, interval);
             vm._showError(resp);
           });
       }, () => {

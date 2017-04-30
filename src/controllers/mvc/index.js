@@ -1,5 +1,6 @@
 import {cookie2user} from '../../tools/cookie';
 import {session} from '../../tools/config';
+import * as Common from '../../tools/common';
 import {count} from '../../tools/user_task_dao';
 import {mkDirsSync} from '../../tools/upload';
 import fs from 'fs';
@@ -16,8 +17,6 @@ import * as wxPay from "../../tools/wx_pay";
 charset(superagent);
 
 const index = async ctx => {
-  // await wxPay.unifiedOrder(ctx);
-
   let code = ctx.query.code;
   let state = ctx.query.state;
   let openId = ctx.cookies.get(session.wxOpenId);
@@ -32,7 +31,6 @@ const index = async ctx => {
     title: '校园资源共享',
     where: 'index'
   });
-
 };
 
 const me = async ctx => {
@@ -72,7 +70,7 @@ const login = async ctx => {
   const UJS_MAIN_URL = 'http://my.ujs.edu.cn/';
   const captchaGenerateUrl = `${UJS_MAIN_URL}captchaGenerate.portal`;
   const idPng = uuid.v4() + '.png';
-  const codeDir = 'static/tmp/verificationCode';
+  const codeDir = `static/tmp/verificationCode/${ Common.getRandomInt() }/${ Common.getRandomInt() }`;
   const codeRealDir = path.join(appRootDir.get(), codeDir);
   if (!mkDirsSync(codeRealDir)) {
     console.error('create ' + codeRealDir + ' dir fail!');
@@ -107,7 +105,6 @@ const userInfo = async ctx => {
     where: where
   });
 };
-
 
 module.exports = {
   'GET /': index,

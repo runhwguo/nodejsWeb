@@ -3,6 +3,7 @@ import {TASK_STATE, TASK_TYPE} from '../../models/Task';
 import {session} from '../../tools/config';
 import {uploadFile} from '../../tools/upload';
 import * as Dao from '../../tools/dao';
+import * as Common from '../../tools/common';
 import * as userTaskDao from '../../tools/user_task_dao';
 import db from '../../tools/db';
 
@@ -83,11 +84,8 @@ const get = async ctx => {
 const publish = async ctx => {
   const serverFilePath = 'static/tmp';
   // 上传文件事件
-  let getRandomInt = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  };
-  let firstDir = getRandomInt(0, 9);
-  let secondDir = getRandomInt(0, 9);
+  let firstDir = Common.getRandomInt();
+  let secondDir = Common.getRandomInt();
   let result = await uploadFile(ctx, {
     fileType: `taskImage/${firstDir}/${secondDir}`,
     path: serverFilePath

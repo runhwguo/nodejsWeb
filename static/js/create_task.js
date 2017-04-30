@@ -100,7 +100,8 @@ $(() => {
       } else {// 收
         data.reward = -data.reward;
       }
-
+      const interval = 1000,
+        normalSubmitBtnWord = submitBtnWord.text();
       $.ajaxFileUpload({
         type: form.attr('method'),
         url: form.attr('action'),
@@ -112,24 +113,24 @@ $(() => {
           console.log(data, status);
           submitBtnWord.text('成功');
           setTimeout(() => {
-            submitBtnWord.text('发布');
+            submitBtnWord.text(normalSubmitBtnWord);
             loading.stop();
             // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
             submit.attr('disabled', true);
-          }, 1000);
+          }, interval);
         },
         error: (xhr, status, e) => {
           submitBtnWord.text('失败');
           setTimeout(() => {
-            submitBtnWord.text('发布');
+            submitBtnWord.text(normalSubmitBtnWord);
             loading.stop();
-          }, 1000);
+          }, interval);
         }
       });
     };
 
     let rewardType = $('#rewardType').text();
-    let reward = $('#reward')[0].value;
+    let reward = $('#reward').val();
     if (rewardType === '赏' && reward > 0) {
       let outTradeNo = Date.now() + '';
       startPay({fee: reward, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
@@ -143,15 +144,14 @@ $(() => {
   createTask.attr('href', 'javascript:void(0)');
   let selectpicker = $('.selectpicker');
   selectpicker.change(() => {
-      if (selectpicker[0].value === '会员共享') {
-        $('#shareCountDiv').show(300);
+      if (selectpicker.val() === '会员共享') {
+        $('#shareCountDiv').show('fast');
       } else {
-        $('#shareCountDiv').hide(300);
+        $('#shareCountDiv').hide('fast');
       }
     }
   );
   $('li[name="rewardValue"]').click(function () {
-    console.log(this);
     $('#rewardType').text($(this).text());
   });
 
