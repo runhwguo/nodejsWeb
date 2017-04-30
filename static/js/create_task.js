@@ -130,7 +130,7 @@ $(() => {
 
     let rewardType = $('#rewardType').text();
     let reward = $('#reward')[0].value;
-    if (rewardType === '悬' && reward > 0) {
+    if (rewardType === '赏' && reward > 0) {
       let outTradeNo = Date.now() + '';
       startPay({fee: reward, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
         doSubmit(outTradeNo);
