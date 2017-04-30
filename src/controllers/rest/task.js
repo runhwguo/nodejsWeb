@@ -70,7 +70,7 @@ const get = async ctx => {
       order: [
         ['state', 'ASC'],
         ['priority', 'DESC'],
-        ['createdAt', 'ASC']
+        ['createdAt', 'DESC']
       ]
     });
   }
