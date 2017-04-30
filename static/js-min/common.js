@@ -1,1 +1,1 @@
-"use strict";$.get("/api/task/get/unread",function(e){var t=Number.parseInt(e.result);t&&$("#meTab span.badge").text(t)});
+"use strict";$.get("/api/task/get/unread",function(a){var e=Number.parseInt(a.result);e&&$("#meTab span.badge").text(e)}),$(function(){var a=window.location.pathname,e=null;"/"===a?e="indexTab":"/me"===a&&(e="meTab"),e&&$("#"+e).css("color","#337ab7")});

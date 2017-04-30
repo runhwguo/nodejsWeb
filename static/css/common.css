@@ -23,6 +23,10 @@ ul li {
     text-align: center;
 }
 
+li a {
+    color: #000000;
+}
+
 .col-xs-4 ul {
     padding-left: 0;
 }
