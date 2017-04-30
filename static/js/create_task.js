@@ -4,7 +4,7 @@ $(() => {
     deadline = $('#deadline'),
     createTask = $('#createTaskTab');
   deadline.datepicker({
-    minDate: -1,
+    minDate: 0,
     maxDate: 31,
     autoclose: true,
     yearSuffix: '年',
@@ -97,7 +97,7 @@ $(() => {
       $.map(serializeArray, (n, i) => data[n['name']] = n['value'].replace(/"/g, '\\"'));
       if (outTradeNo) {
         data.outTradeNo = outTradeNo;
-      } else {// 收取
+      } else {// 收
         data.reward = -data.reward;
       }
 
@@ -130,7 +130,7 @@ $(() => {
 
     let rewardType = $('#rewardType').text();
     let reward = $('#reward')[0].value;
-    if (rewardType === '悬赏' && reward > 0) {
+    if (rewardType === '悬' && reward > 0) {
       let outTradeNo = Date.now() + '';
       startPay({fee: reward, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
         doSubmit(outTradeNo);

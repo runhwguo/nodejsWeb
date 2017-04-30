@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "bottom tab different state show different color"
+git commit -m "赏/收 用不同的颜色标注"
 git push
