@@ -1,4 +1,3 @@
 import db from '../tools/db';
 
-module.exports = db.defineModel('userTasks', {
-});
+module.exports = db.defineModel('userTasks', {});

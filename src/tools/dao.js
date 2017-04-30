@@ -1,10 +1,9 @@
 const findAll = async (model, option = {}) => {
   let result = await model.findAll(option);
   let data = [];
-  for (let item of result) {
+  result.forEach(item => {
     data.push(item.dataValues);
-  }
-
+  });
   return data;
 };
 

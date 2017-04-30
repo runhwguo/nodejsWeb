@@ -1,23 +1,25 @@
 // scan all models defined in models:
-import fs from 'fs';
+import fs from 'mz/fs';
 import db from './db';
 
 let files = fs.readdirSync(`${__dirname}/../models`);
 
-let jsFiles = files.filter(f => f.endsWith('.js'), files);
+const jsExt = '.js';
+
+let jsFiles = files.filter(f => f.endsWith(jsExt), files);
 
 module.exports = {};
 
 for (let f of jsFiles) {
   console.log(`import model from file ${f}...`);
-  let name = f.substr(0, f.length - 3);
+  let name = f.substr(0, f.length - jsExt.length);
   module.exports[name] = require(`${__dirname}/../models/${f}`);
 }
 
 // 定义外键关系  start
-let Task = module.exports.Task;
-let User = module.exports.User;
-let UserTask = module.exports.UserTask;
+let Task = module.exports.Task,
+  User = module.exports.User,
+  UserTask = module.exports.UserTask;
 console.log('----- foreign key -----');
 User.hasMany(Task);
 Task.belongsTo(User);

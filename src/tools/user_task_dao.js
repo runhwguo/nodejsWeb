@@ -1,8 +1,11 @@
-import db from "./db";
+import Db from "./db";
+import * as Dao from "./dao";
+import {TASK_STATE, TASK_TYPE} from "../models/Task";
+import {TASK} from "./model";
 
 const _rawQuery = async sql => {
-  return await db.sequelize.query(sql, {
-      type: db.sequelize.QueryTypes.SELECT
+  return await Db.sequelize.query(sql, {
+      type: Db.sequelize.QueryTypes.SELECT
     }
   );
 };
@@ -19,26 +22,49 @@ const _convert2sqlGrammar = data => {
   return data;
 };
 
-const get = async (id, state = [], page) => {
-  state = _convert2sqlGrammar(state);
-  id = _convert2sqlGrammar(id);
+const get = async (userId, taskState = [], page) => {
+  taskState = _convert2sqlGrammar(taskState);
+  userId = _convert2sqlGrammar(userId);
 
   const LIMIT = 8;
 
-  const sql = `select tasks.id, type, state, title, deadline from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${id} and userTasks.taskId=tasks.id and state  in (${state}) limit ${(page - 1) * LIMIT}, ${LIMIT}`;
-
-  return await _rawQuery(sql);
-};
-
-const count = async (id, state = []) => {
-  state = _convert2sqlGrammar(state);
-  id = _convert2sqlGrammar(id);
-  const sql = `select count(*) as count from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${id} and userTasks.taskId=tasks.id and state in (${state})`;
+  const sql = `select tasks.id, type, state, title, deadline from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${userId} and userTasks.taskId=tasks.id and state  in (${taskState}) limit ${(page - 1) * LIMIT}, ${LIMIT}`;
   let result = await _rawQuery(sql);
+  if (_needQueryMemberSharing(taskState)) {
+    let resultOfMemberSharing = await Dao.findAll(TASK, {
+      type: TASK_TYPE.member_sharing
+    });
 
-  return result[0].count;
+    resultOfMemberSharing.forEach((item, index) => {
+      resultOfMemberSharing[index].state = '已支付';
+    });
+    result.push(resultOfMemberSharing);
+  }
+
+  return result;
 };
 
+const count = async (userId, taskState = []) => {
+  taskState = _convert2sqlGrammar(taskState);
+  userId = _convert2sqlGrammar(userId);
+  const sql = `select count(*) as count from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${userId} and userTasks.taskId=tasks.id and state in (${taskState})`;
+  let result = await _rawQuery(sql);
+  result = result[0].count;
+  // 共享会员，查看成功，即为一个任务完成支付成功
+  if (_needQueryMemberSharing(taskState)) {
+    let countOfMemberSharing = await Dao.count(TASK, {
+      type: TASK_TYPE.member_sharing
+    });
+    result += countOfMemberSharing;
+  }
+
+  return result;
+};
+
+
+const _needQueryMemberSharing = taskState => {
+  return taskState.indexOf(TASK_STATE.completed) + taskState.index(TASK_STATE.paid) !== -2;
+};
 
 export {
   count, get
