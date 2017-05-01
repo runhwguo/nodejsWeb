@@ -53,7 +53,9 @@ const count = async (userId, taskState = []) => {
   // 共享会员，查看成功，即为一个任务完成支付成功
   if (_needQueryMemberSharing(taskState)) {
     let countOfMemberSharing = await Dao.count(TASK, {
-      type: TASK_TYPE.member_sharing
+      where: {
+        type: TASK_TYPE.member_sharing
+      }
     });
     result += countOfMemberSharing;
   }
