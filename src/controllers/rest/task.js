@@ -86,6 +86,7 @@ const get = async ctx => {
     array[index] = Object.assign(task, taskBelongAttr);
     console.log(array[index]);
   });
+  console.log(tasks);
 
   ctx.rest({
     result: tasks
