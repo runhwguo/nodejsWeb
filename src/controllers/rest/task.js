@@ -81,7 +81,7 @@ const get = async ctx => {
 
   // 加载判断 是否是自己的任务，自己是否接了
   tasks.forEach(async (task, index, array) => {
-    let taskBelongAttr = addTaskBelongAttr(ctx.state.user.id, task.userId, task.id);
+    let taskBelongAttr = await addTaskBelongAttr(ctx.state.user.id, task.userId, task.id);
     array[index] = Object.assign(task, taskBelongAttr);
     console.log(array[index]);
   });
