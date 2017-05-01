@@ -2,6 +2,9 @@ import Db from "./db";
 import * as Dao from "./dao";
 import {TASK_STATE, TASK_TYPE} from "../models/Task";
 import {Task} from "./model";
+import Tracer from "tracer";
+
+const console = Tracer.console();
 
 const _rawQuery = async sql => {
   return await Db.sequelize.query(sql, {
@@ -41,6 +44,8 @@ const get = async (userId, taskState = [], page) => {
     result.push(resultOfMemberSharing);
   }
 
+  logger.log(result);
+
   return result;
 };
 
@@ -58,6 +63,8 @@ const count = async (userId, taskState = []) => {
     result = await _rawQuery(sql);
     count += result[0].count;
   }
+
+  console.log(count);
 
   return count;
 };
