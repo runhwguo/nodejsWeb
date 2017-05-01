@@ -26,7 +26,7 @@ const MINE_TYPE = {
   published: '发布的任务'
 };
 
-module.exports = Db.defineModel('tasks', {
+let exportModule = Db.defineModel('tasks', {
   type: Db.STRING,
   deadline: Db.STRING,
   detail: Db.TEXT,
@@ -53,8 +53,6 @@ module.exports = Db.defineModel('tasks', {
     defaultValue: ''
   }
 });
-
-let exportModule = module.exports;
 
 exportModule = Object.assign(exportModule, {
   TASK_STATE: STATE,
