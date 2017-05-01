@@ -86,7 +86,7 @@ const _deleteUsedVerificationCode = async dir => {
     let stat = await Fs.stat(file);
     if (stat.isDirectory()) {
       await _deleteUsedVerificationCode(file);
-    } else {
+    } else if(stat.isFile()) {
       result = await Fs.unlink(file);
     }
   });
