@@ -40,10 +40,14 @@ const detail = async ctx => {
         id: id
       }
     });
-    await Dao.create(UserTask, {
+    let userTaskOption = {
       taskId: id,
       userId: ctx.state.user.id
-    });
+    };
+    let thisUserTask = await Dao.findAll(UserTask, userTaskOption);
+    if (!thisUserTask || thisUserTask.length === 0) {
+      await Dao.create(UserTask, userTaskOption);
+    }
   }
   let publishTaskUser = await User.findOne({
     where: {id: task.userId},
