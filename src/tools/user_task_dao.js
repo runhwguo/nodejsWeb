@@ -44,7 +44,7 @@ const get = async (userId, taskState = [], page) => {
     result.push(resultOfMemberSharing);
   }
 
-  logger.log(result);
+  console.log(result);
 
   return result;
 };
