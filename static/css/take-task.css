@@ -2,14 +2,6 @@
     margin-top: 10px;
 }
 
-.list-group .list-group-item {
-    height: 60px;
-    margin-top: 10px;
-    width: 100%;
-    border: 0;
-    border-bottom: 1px solid #e4b9c0;
-}
-
 .task-top {
     position: absolute;
     top: 2px;
