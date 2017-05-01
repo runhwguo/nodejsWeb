@@ -33,13 +33,6 @@ const detail = async ctx => {
   task = task.dataValues;
   // 查看会员共享 付完款 就相当于    完成所有任务
   if (task.type === TASK_TYPE.member_sharing && !where.endsWith('ed')) {
-    await Dao.update(Task, {
-      shareCount: Db.sequelize.literal('shareCount-1')
-    }, {
-      where: {
-        id: id
-      }
-    });
     let userTaskOption = {
       taskId: id,
       userId: ctx.state.user.id
@@ -47,6 +40,14 @@ const detail = async ctx => {
     let thisUserTask = await Dao.findAll(UserTask, userTaskOption);
     if (!thisUserTask || thisUserTask.length === 0) {
       await Dao.create(UserTask, userTaskOption);
+
+      await Dao.update(Task, {
+        shareCount: Db.sequelize.literal('shareCount-1')
+      }, {
+        where: {
+          id: id
+        }
+      });
     }
   }
   let publishTaskUser = await User.findOne({
