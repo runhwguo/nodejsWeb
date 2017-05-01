@@ -4,8 +4,11 @@ import {session} from '../../tools/config';
 import {uploadFile} from '../../tools/upload';
 import * as Dao from '../../tools/dao';
 import * as Common from '../../tools/common';
-import * as userTaskDao from '../../tools/user_task_dao';
-import db from '../../tools/db';
+import * as UserTaskDao from '../../tools/user_task_dao';
+import Db from '../../tools/db';
+import Tracer from 'tracer';
+
+const console = Tracer.console();
 
 const _judgeTaskType = ctx => {
   // 判断来源  take-task    mine-task ~ed
@@ -54,9 +57,9 @@ const get = async ctx => {
     fromWhere = ctx.query.where,
     tasks = null;
   if (fromWhere === 'unfinished') {
-    tasks = await userTaskDao.get(ctx.state.user.id, [TASK_STATE.completing], page);
+    tasks = await UserTaskDao.get(ctx.state.user.id, [TASK_STATE.completing], page);
   } else if (fromWhere === 'completed') {
-    tasks = await userTaskDao.get(ctx.state.user.id, [TASK_STATE.completed, TASK_STATE.paid], page);
+    tasks = await UserTaskDao.get(ctx.state.user.id, [TASK_STATE.completed, TASK_STATE.paid], page);
   } else {
     let limit = 5;
     if (fromWhere !== 'index') {
@@ -80,6 +83,7 @@ const get = async ctx => {
   tasks.forEach(async (task, index, array) => {
     let taskBelongAttr = addTaskBelongAttr(ctx.state.user.id, task.userId, task.id);
     array[index] = Object.assign(task, taskBelongAttr);
+    console.log(array[index]);
   });
 
   ctx.rest({
@@ -117,9 +121,9 @@ const count = async ctx => {
   let fromWhere = ctx.query.where;
   let count = 0;
   if (fromWhere === 'unfinished') {
-    count = await userTaskDao.count(ctx.state.user.id, [TASK_STATE.completing]);
+    count = await UserTaskDao.count(ctx.state.user.id, [TASK_STATE.completing]);
   } else if (fromWhere === 'completed') {
-    count = await userTaskDao.count(ctx.state.user.id, [TASK_STATE.completed, TASK_STATE.paid]);
+    count = await UserTaskDao.count(ctx.state.user.id, [TASK_STATE.completed, TASK_STATE.paid]);
   } else{
     let where = _judgeTaskType(ctx)[0];
 
@@ -145,7 +149,7 @@ const stateUpdate = async ctx => {
       break;
     }
     case 'stick': {
-      value.priority = db.sequelize.literal('priority+1');
+      value.priority = Db.sequelize.literal('priority+1');
       break;
     }
     case 'abandon': {
@@ -209,7 +213,7 @@ const unread = async ctx => {
   let user = ctx.state.user;
   let result = 0;
   if (user) {
-    result = await userTaskDao.count(user.id, [TASK_STATE.completing]);
+    result = await UserTaskDao.count(user.id, [TASK_STATE.completing]);
 
     result += await Dao.count(Task, {
       where: {
