@@ -119,6 +119,7 @@ let vm = new Vue({
       if (item.type === '会员共享' &&
         item.reward !== 0 &&
         !($('input:hidden')[0].value.endsWith('ed')) &&
+        !item.isSelfOrderedTask
         !item.isSelfPublishedTask) {
         startPay({fee: item.reward * 100, body: '购买会员共享费用'}, viewDetailSuccess, () => {
 
