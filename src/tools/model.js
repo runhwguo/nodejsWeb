@@ -11,7 +11,7 @@ let jsFiles = files.filter(f => f.endsWith(jsExt), files);
 module.exports = {};
 
 for (let f of jsFiles) {
-  console.log(`import model from file ${f}...`);
+  // console.log(`import model from file ${f}...`);
   let name = f.substr(0, f.length - jsExt.length);
   module.exports[name] = require(`${__dirname}/../models/${f}`);
 }

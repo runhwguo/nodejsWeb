@@ -20,7 +20,7 @@ const addControllers = (router, dir) => {
   walk(path.join(__dirname, dir));
 
   fileList.filter(f => f.endsWith('.js')).forEach(f => {
-    console.log(`process controller: ${f.replace(path.join(__dirname, dir), '')}`);
+    // console.log(`process controller: ${f.replace(path.join(__dirname, dir), '')}`);
     addMapping(router, require(f));
   });
 };
