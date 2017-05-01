@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "delete some log print"
+git commit -m "judge task is ordered~"
 git push
 git status

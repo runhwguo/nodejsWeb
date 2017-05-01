@@ -107,7 +107,7 @@
             </button>
         {% endif %}
     {% elif data.type === '会员共享' or data.isSelfTask or where === 'completed' %}
-    {% elif data.state === '认领中' %}
+    {% elif data.state === '认领中' and data.reward !== 0 %}
         <button id="order" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
                 data-style="expand-right">
             <span class="ladda-label">接单</span>

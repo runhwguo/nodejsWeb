@@ -48,7 +48,8 @@ const detail = async ctx => {
   });
   user = user.dataValues;
   let isSelfTask = task.userId === ctx.state.user.id;
-  let data = Object.assign({}, task, user, {isSelfTask: isSelfTask});
+  // let isOrderedTask = task.userId === ctx.state.user.id;
+  let data = Object.assign(task, user, {isSelfTask: isSelfTask});
 
   data.reward = Math.abs(data.reward);
   ctx.render(`task/task_detail`, {
