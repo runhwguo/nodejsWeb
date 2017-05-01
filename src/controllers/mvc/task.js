@@ -4,7 +4,7 @@ import * as Dao from '../../tools/dao';
 import db from '../../tools/db';
 import Tracer from 'tracer';
 
-const console = Tracer.console;
+const console = Tracer.console();
 
 const list = async ctx => {
   let where = ctx.params.where;
@@ -22,13 +22,14 @@ const list = async ctx => {
 
 const detail = async ctx => {
   let id = ctx.params.id;
+  let where = ctx.query.where;
   let task = await Task.findOne({
     where: {id: id},
     attributes: {exclude: ['version', 'updatedAt', 'createdAt', 'deletedAt']}
   });
-  console.log(task);
   task = task.dataValues;
-  if (task.type === TASK_TYPE.member_sharing) {
+  // 查看会员共享 付完款 就相当于    完成所有任务
+  if (task.type === TASK_TYPE.member_sharing && !where.endsWith('ed')) {
     await Dao.update(Task, {
       shareCount: db.sequelize.literal('shareCount-1')
     }, {
@@ -36,7 +37,6 @@ const detail = async ctx => {
         id: id
       }
     });
-    // 查看会员共享 付完款 就相当于    完成所有任务
     await Dao.create(UserTask, {
       taskId: id,
       userId: ctx.state.user.id

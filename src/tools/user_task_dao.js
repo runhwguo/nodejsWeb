@@ -41,7 +41,7 @@ const get = async (userId, taskState = [], page) => {
     resultOfMemberSharing.forEach((item, index) => {
       resultOfMemberSharing[index].state = '已支付';
     });
-    result.push(resultOfMemberSharing);
+    result = result.concat(resultOfMemberSharing);
   }
 
   console.log(result);
