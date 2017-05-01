@@ -53,7 +53,7 @@ const detail = async ctx => {
 
   let userTask = await UserTask.findOne({
     where: {
-      userId: ctx.state.use.id,
+      userId: ctx.state.user.id,
       taskId: task.id
     }
   });
