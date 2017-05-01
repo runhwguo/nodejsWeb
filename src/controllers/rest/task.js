@@ -1,5 +1,6 @@
 import {Task, UserTask} from '../../tools/model';
 import {TASK_STATE, TASK_TYPE} from '../../models/Task';
+import {addTaskBelongAttr} from '../../models/UserTask';
 import {session} from '../../tools/config';
 import {uploadFile} from '../../tools/upload';
 import * as Dao from '../../tools/dao';
