@@ -1,32 +1,36 @@
+import fs from 'fs';
+import uuid from 'uuid';
+import path from 'path';
+import Superagent from 'superagent';
+import AppRootDir from 'app-root-dir';
+import charset from 'superagent-charset';
+import Tracer from 'tracer';
+
 import {cookie2user} from '../../tools/cookie';
 import {session} from '../../tools/config';
 import * as Common from '../../tools/common';
 import {count} from '../../tools/user_task_dao';
 import {mkDirsSync} from '../../tools/upload';
-import fs from 'fs';
-import uuid from 'uuid';
-import path from 'path';
-import appRootDir from 'app-root-dir';
-import superagent from 'superagent';
-import charset from 'superagent-charset';
 import * as Dao from '../../tools/dao';
 import {Task} from '../../tools/model';
 import {TASK_STATE} from '../../models/Task';
 import * as wxPay from "../../tools/wx_pay";
 
-charset(superagent);
+const console = Tracer.console();
+
+charset(Superagent);
 
 const index = async ctx => {
   let code = ctx.query.code;
   let state = ctx.query.state;
   let openId = ctx.cookies.get(session.wxOpenId);
-  console.log('state = ' + state+ ', code = ' + code);
+  // console.log('state = ' + state+ ', code = ' + code);
 
   if (code && !openId) {
     openId = await wxPay.getAccessTokenOpenId(code);
     ctx.cookies.set(session.wxOpenId, openId);
   }
-  console.log('openId = ' + openId);
+  // console.log('openId = ' + openId);
   ctx.render(`index`, {
     title: '校园资源共享',
     where: 'index'
@@ -71,14 +75,14 @@ const login = async ctx => {
   const captchaGenerateUrl = `${UJS_MAIN_URL}captchaGenerate.portal`;
   const idPng = uuid.v4() + '.png';
   const codeDir = `static/tmp/verificationCode/${ Common.getRandomInt() }/${ Common.getRandomInt() }`;
-  const codeRealDir = path.join(appRootDir.get(), codeDir);
+  const codeRealDir = path.join(AppRootDir.get(), codeDir);
   if (!mkDirsSync(codeRealDir)) {
     console.error('create ' + codeRealDir + ' dir fail!');
   }
   const verificationCodePicture = path.join(codeRealDir, idPng),
     verificationCodePictureUrl = path.join(codeDir, idPng);
 
-  let response = await superagent.get(captchaGenerateUrl);
+  let response = await Superagent.get(captchaGenerateUrl);
   if (response.ok) {
     console.log('验证码图片获取成功');
     let cookie = response.header['set-cookie'][0].split(';')[0];
@@ -97,7 +101,7 @@ const login = async ctx => {
 
 const userInfo = async ctx => {
   let schoolResourceShareCookie = ctx.cookies.get(session.userCookieName);
-  let user = await cookie2user(schoolResourceShareCookie,session.userCookieName);
+  let user = await cookie2user(schoolResourceShareCookie, session.userCookieName);
   let where = ctx.query.where;
   ctx.render(`user_info`, {
     title: '完善用户信息',

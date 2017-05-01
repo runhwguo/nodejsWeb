@@ -1,19 +1,20 @@
-import md5 from "MD5";
-import superagent from "superagent";
+import MD5 from "MD5";
+import Superagent from "superagent";
 import charset from "superagent-charset";
 import config from "./config";
+import {randomString} from "./common";
 
-import json2xml from "json2xml";
-import xml2json from "xml2json";
-import tracer from "tracer";
-import fs from "fs";
-import appRootDir from "app-root-dir";
+import Json2xml from "json2xml";
+import Xml2json from "xml2json";
+import Tracer from "tracer";
+import fs from "mz/fs";
+import AppRootDir from "app-root-dir";
 import path from "path";
 import request from "request-promise";
 
-let logger = tracer.console();
+let logger = Tracer.console();
 
-charset(superagent);
+charset(Superagent);
 
 const APP_ID = 'wx90eb6b04dcbf5fb2';
 const APP_SECRET = '7e87a72a56080c466d9256387016c886';
@@ -25,13 +26,14 @@ const MCH_KEY = 'guohaoweilovechengxihuiforeveruu';//key为在微信商户平台
 const URL_MCH_MAIN = 'https://api.mch.weixin.qq.com/';
 const URL_UNIFIED_ORDER = `${ URL_MCH_MAIN }pay/unifiedorder`;
 const URL_REFUND = `${ URL_MCH_MAIN }secapi/pay/refund`;
+const URL_ENTERPRISE_PAY_TO_USER = `${ URL_MCH_MAIN }mmpaymkttransfers/promotion/transfers`;
 const URL_WX_OPEN_ID_ACCESS_TOKEN = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${ APP_ID }&secret=${ APP_SECRET }&code=CODE&grant_type=authorization_code`;
 
-const PFX = fs.readFileSync(path.join(appRootDir.get(), 'static/third-party/apiclient_cert.p12')); //微信商户平台证书
+const PFX = fs.readFileSync(path.join(AppRootDir.get(), 'static/third-party/apiclient_cert.p12')); //微信商户平台证书
 
 const _paySign = data => {
   let string = `${ _sortAndGenerateParam(data) }&key=${MCH_KEY}`;
-  return md5(string).toUpperCase();
+  return MD5(string).toUpperCase();
 };
 
 const _sortAndGenerateParam = args => {
@@ -55,12 +57,12 @@ const _addSignAndConvertToXml = data => {
     xml: Object.assign(data, {sign: sign})
   };
 
-  formData = json2xml(formData);
+  formData = Json2xml(formData);
   return formData;
 };
 
 const _xml2JsonObj = xmlStr => {
-  return JSON.parse(xml2json.toJson(xmlStr));
+  return JSON.parse(Xml2json.toJson(xmlStr));
 };
 
 const unifiedOrder = async ctx => {
@@ -86,7 +88,7 @@ const unifiedOrder = async ctx => {
   };
 
   let formData = _addSignAndConvertToXml(data);
-  let response = await superagent
+  let response = await Superagent
     .post(URL_UNIFIED_ORDER)
     .send(formData)
     .charset(config.common.char_set_utf8);
@@ -129,8 +131,7 @@ const refund = async param => {
 const getAccessTokenOpenId = async code => {
   let url = URL_WX_OPEN_ID_ACCESS_TOKEN.replace('CODE', code);
 
-  let response = await superagent
-    .get(url);
+  let response = await Superagent.get(url);
   let resObj = JSON.parse(response.text);
   return resObj.openid;
 };
@@ -154,6 +155,33 @@ const getOnBridgeReadyRequest = async prepay_id => {
   return request;
 };
 
+const enterprisePayToUser = async param => {
+  let data = {
+    mch_appid: APP_ID,
+    mchid: MCH_ID,
+    nonce_str: randomString(),
+    partner_trade_no: randomString(26),
+    openid: param.openid,
+    check_name: 'NO_CHECK',
+    amount: param.amount,
+    desc: '资源共享 做任务报酬',
+    spbill_create_ip: param.ip,
+  };
+
+  let formData = _addSignAndConvertToXml(data);
+
+  let response = await request({
+    url: URL_ENTERPRISE_PAY_TO_USER,
+    method: 'POST',
+    body: formData,
+    agentOptions: {
+      pfx: PFX,
+      passphrase: MCH_ID
+    }
+  });
+  logger.log(_xml2JsonObj(response));
+};
+
 export {
-  unifiedOrder, getAccessTokenOpenId, getOnBridgeReadyRequest, refund
+  unifiedOrder, getAccessTokenOpenId, getOnBridgeReadyRequest, refund, enterprisePayToUser
 };

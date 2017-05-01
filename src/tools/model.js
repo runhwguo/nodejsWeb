@@ -19,7 +19,10 @@ for (let f of jsFiles) {
 // 定义外键关系  start
 let Task = module.exports.Task,
   User = module.exports.User,
-  UserTask = module.exports.UserTask;
+  UserTask = module.exports.UserTask,
+  Bill = module.exports.Bill;
+
+
 console.log('----- foreign key -----');
 User.hasMany(Task);
 Task.belongsTo(User);
@@ -28,6 +31,11 @@ User.hasMany(UserTask);
 UserTask.belongsTo(User);
 Task.hasMany(UserTask);
 UserTask.belongsTo(Task);
+
+// Bill 参考Task  外键
+Task.hasMany(Bill);
+Bill.belongsTo(Task);
+
 // end
 
 module.exports.sync = () => db.sync();

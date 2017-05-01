@@ -1,17 +1,21 @@
-import db from '../tools/db';
+import Db from '../tools/db';
 
-module.exports = db.defineModel('users', {
-  password: db.STRING,
-  name: db.STRING,
-  gender: db.STRING,
-  tel: db.STRING,
-  qq: db.STRING,
+module.exports = Db.defineModel('users', {
+  password: Db.STRING,
+  name: Db.STRING,
+  gender: Db.STRING,
+  tel: Db.STRING,
+  qq: Db.STRING,
   wx: {
-    type: db.STRING,
+    type: Db.STRING,
     allowNull: true
   },
   credit: {
-    type: db.INTEGER,
+    type: Db.INTEGER,
     defaultValue: 0
+  },
+  openId: {// 用户的openid
+    type: Db.STRING,
+    allowNull: true
   }
 });

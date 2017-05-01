@@ -55,14 +55,16 @@ const login = async ctx => {
         let name = $('#y_xm').text(),
           gender = $('#y_xbdm').text(),
           qq = $('#y_qq').text(),
-          tel = $('#y_cell').text();
+          tel = $('#y_cell').text(),
+          openId = ctx.cookies.get(config.session.wxOpenId);
         await User.upsert({
           id: username,
           name: name,
           password: sha1(password),
           tel: tel,
           qq: qq,
-          gender: gender
+          gender: gender,
+          openId: openId
         });
         user = await User.findByPrimary(username);
         return true;
