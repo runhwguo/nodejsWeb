@@ -2,6 +2,9 @@ import {MINE_TASK_TYPE, TASK_TYPE} from '../../models/Task';
 import {Task, User, UserTask} from '../../tools/model';
 import * as Dao from '../../tools/dao';
 import db from '../../tools/db';
+import Tracer from 'tracer';
+
+const console = Tracer.console;
 
 const list = async ctx => {
   let where = ctx.params.where;
@@ -23,6 +26,7 @@ const detail = async ctx => {
     where: {id: id},
     attributes: {exclude: ['version', 'updatedAt', 'createdAt', 'deletedAt']}
   });
+  console.log(task);
   task = task.dataValues;
   if (task.type === TASK_TYPE.member_sharing) {
     await Dao.update(Task, {
