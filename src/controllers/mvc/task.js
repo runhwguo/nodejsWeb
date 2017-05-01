@@ -1,7 +1,7 @@
 import {MINE_TASK_TYPE, TASK_TYPE} from '../../models/Task';
 import {Task, User, UserTask} from '../../tools/model';
 import * as Dao from '../../tools/dao';
-import db from '../../tools/db';
+import Db from '../../tools/db';
 import Tracer from 'tracer';
 
 const console = Tracer.console();
@@ -24,14 +24,16 @@ const detail = async ctx => {
   let id = ctx.params.id;
   let where = ctx.query.where;
   let task = await Task.findOne({
-    where: {id: id},
+    where: {
+      id: id
+    },
     attributes: {exclude: ['version', 'updatedAt', 'createdAt', 'deletedAt']}
   });
   task = task.dataValues;
   // 查看会员共享 付完款 就相当于    完成所有任务
   if (task.type === TASK_TYPE.member_sharing && !where.endsWith('ed')) {
     await Dao.update(Task, {
-      shareCount: db.sequelize.literal('shareCount-1')
+      shareCount: Db.sequelize.literal('shareCount-1')
     }, {
       where: {
         id: id
@@ -48,8 +50,21 @@ const detail = async ctx => {
   });
   user = user.dataValues;
   let isSelfTask = task.userId === ctx.state.user.id;
-  // let isOrderedTask = task.userId === ctx.state.user.id;
-  let data = Object.assign(task, user, {isSelfTask: isSelfTask});
+
+  let userTask = await UserTask.findOne({
+    where: {
+      userId: ctx.state.use.id,
+      taskId: task.id
+    }
+  });
+
+  userTask = userTask.dataValues;
+  let isSelfOrderedTask = !!userTask;
+
+  let data = Object.assign(task, user, {
+    isSelfTask: isSelfTask,
+    isSelfOrderedTask: isSelfOrderedTask
+  });
 
   data.reward = Math.abs(data.reward);
   ctx.render(`task/task_detail`, {
