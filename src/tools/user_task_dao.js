@@ -32,7 +32,7 @@ const get = async (userId, taskState = [], page) => {
   const sql = `${ baseSql } state  in (${taskState}) limit ${(page - 1) * LIMIT}, ${LIMIT}`;
   let result = await _rawQuery(sql);
   if (_needQueryMemberSharing(taskState) && result.length < LIMIT) {
-    sql = `${ baseSql } type=${ TASK_TYPE.member_sharing }`;
+    sql = `${ baseSql } type=${ _convert2sqlGrammar(TASK_TYPE.member_sharing) }`;
     let resultOfMemberSharing = await _rawQuery(sql);
 
     resultOfMemberSharing.forEach((item, index) => {
@@ -54,7 +54,7 @@ const count = async (userId, taskState = []) => {
 
   // 共享会员，查看成功，即为一个任务完成支付成功
   if (_needQueryMemberSharing(taskState)) {
-    sql = `${ baseSql } type=${TASK_TYPE.member_sharing}`;
+    sql = `${ baseSql } type=${ _convert2sqlGrammar(TASK_TYPE.member_sharing) }`;
     result = await _rawQuery(sql);
     count += result[0].count;
   }
