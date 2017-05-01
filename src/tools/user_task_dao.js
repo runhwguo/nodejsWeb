@@ -29,7 +29,7 @@ const get = async (userId, taskState = [], page) => {
   const LIMIT = 8;
 
   const baseSql = `select tasks.id, type, state, title, deadline from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${userId} and userTasks.taskId=tasks.id and`;
-  const sql = `${ baseSql } state  in (${taskState}) limit ${(page - 1) * LIMIT}, ${LIMIT}`;
+  let sql = `${ baseSql } state  in (${taskState}) limit ${(page - 1) * LIMIT}, ${LIMIT}`;
   let result = await _rawQuery(sql);
   if (_needQueryMemberSharing(taskState) && result.length < LIMIT) {
     sql = `${ baseSql } type=${ _convert2sqlGrammar(TASK_TYPE.member_sharing) }`;
