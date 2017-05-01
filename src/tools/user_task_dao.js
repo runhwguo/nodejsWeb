@@ -61,9 +61,14 @@ const count = async (userId, taskState = []) => {
   return result;
 };
 
-
+/**
+ * 是否要查询已完成的会员共享任务
+ * @param taskState
+ * @returns {boolean}
+ * @private
+ */
 const _needQueryMemberSharing = taskState => {
-  return taskState.indexOf(TASK_STATE.completed) + taskState.index(TASK_STATE.paid) !== -2;
+  return taskState.indexOf(TASK_STATE.completed) + taskState.indexOf(TASK_STATE.paid) !== -2;
 };
 
 export {
