@@ -1,4 +1,5 @@
 import {MINE_TASK_TYPE, TASK_TYPE, isSelfPublishedTask} from '../../models/Task';
+import {addTaskBelongAttr} from '../../models/UserTask';
 import {Task, User, UserTask} from '../../tools/model';
 import * as Dao from '../../tools/dao';
 import Db from '../../tools/db';
@@ -50,21 +51,9 @@ const detail = async ctx => {
   });
   publishTaskUser = publishTaskUser.dataValues;
 
+  let taskBelongAttr =addTaskBelongAttr(ctx.state.user.id, task.userId, id);
 
-  let isSelfPublishedTask = ctx.state.user.id === task.userId;
-
-  let userTask = await UserTask.findOne({
-    where: {
-      userId: ctx.state.user.id,
-      taskId: task.id
-    }
-  });
-  let isSelfOrderedTask = !!(userTask && userTask.dataValues);
-
-  let data = Object.assign(task, publishTaskUser, {
-    isSelfPublishedTask: isSelfPublishedTask,
-    isSelfOrderedTask: isSelfOrderedTask
-  });
+  let data = Object.assign(task, publishTaskUser, taskBelongAttr);
 
   data.reward = Math.abs(data.reward);
   ctx.render(`task/task_detail`, {

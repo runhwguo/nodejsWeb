@@ -78,20 +78,8 @@ const get = async ctx => {
 
   // 加载判断 是否是自己的任务，自己是否接了
   tasks.forEach(async (task, index, array) => {
-    let isSelfPublishedTask = ctx.state.user.id === task.userId;
-
-    let userTask = await UserTask.findOne({
-      where: {
-        userId: ctx.state.user.id,
-        taskId: task.id
-      }
-    });
-    let isSelfOrderedTask = !!(userTask && userTask.dataValues);
-
-    array[index] = Object.assign(task, {
-      isSelfPublishedTask: isSelfPublishedTask,
-      isSelfOrderedTask: isSelfOrderedTask
-    });
+    let taskBelongAttr = addTaskBelongAttr(ctx.state.user.id, task.userId, task.id);
+    array[index] = Object.assign(task, taskBelongAttr);
   });
 
   ctx.rest({
