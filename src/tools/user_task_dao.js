@@ -1,7 +1,7 @@
 import Db from "./db";
 import * as Dao from "./dao";
 import {TASK_STATE, TASK_TYPE} from "../models/Task";
-import {TASK} from "./model";
+import {Task} from "./model";
 
 const _rawQuery = async sql => {
   return await Db.sequelize.query(sql, {
@@ -31,7 +31,7 @@ const get = async (userId, taskState = [], page) => {
   const sql = `select tasks.id, type, state, title, deadline from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${userId} and userTasks.taskId=tasks.id and state  in (${taskState}) limit ${(page - 1) * LIMIT}, ${LIMIT}`;
   let result = await _rawQuery(sql);
   if (_needQueryMemberSharing(taskState)) {
-    let resultOfMemberSharing = await Dao.findAll(TASK, {
+    let resultOfMemberSharing = await Dao.findAll(Task, {
       type: TASK_TYPE.member_sharing
     });
 
