@@ -1,4 +1,4 @@
-import {MINE_TASK_TYPE, TASK_TYPE} from '../../models/Task';
+import {MINE_TASK_TYPE, TASK_TYPE, isSelfPublishedTask} from '../../models/Task';
 import {Task, User, UserTask} from '../../tools/model';
 import * as Dao from '../../tools/dao';
 import Db from '../../tools/db';
@@ -44,12 +44,14 @@ const detail = async ctx => {
       userId: ctx.state.user.id
     });
   }
-  let user = await User.findOne({
+  let publishTaskUser = await User.findOne({
     where: {id: task.userId},
     attributes: ['name', 'tel', 'qq', 'wx']
   });
-  user = user.dataValues;
-  let isSelfTask = task.userId === ctx.state.user.id;
+  publishTaskUser = publishTaskUser.dataValues;
+
+
+  let isSelfPublishedTask = ctx.state.user.id === task.userId;
 
   let userTask = await UserTask.findOne({
     where: {
@@ -57,12 +59,10 @@ const detail = async ctx => {
       taskId: task.id
     }
   });
+  let isSelfOrderedTask = !!(userTask && userTask.dataValues);
 
-  userTask = userTask.dataValues;
-  let isSelfOrderedTask = !!userTask;
-
-  let data = Object.assign(task, user, {
-    isSelfTask: isSelfTask,
+  let data = Object.assign(task, publishTaskUser, {
+    isSelfPublishedTask: isSelfPublishedTask,
     isSelfOrderedTask: isSelfOrderedTask
   });
 

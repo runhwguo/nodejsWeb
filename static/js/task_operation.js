@@ -112,7 +112,6 @@ let vm = new Vue({
 
     },
     detail: item => {
-
       const viewDetailSuccess = () => {
         window.location.href = `/task/detail/${item.id}?where=` + $('input:hidden')[0].value;
       };

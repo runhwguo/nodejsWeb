@@ -1,3 +1,3 @@
-import db from '../tools/db';
+import Db from '../tools/db';
 
-module.exports = db.defineModel('userTasks', {});
+module.exports = Db.defineModel('userTasks', {});

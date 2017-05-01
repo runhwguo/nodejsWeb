@@ -1,4 +1,4 @@
-import db from "../tools/db";
+import Db from "../tools/db";
 
 const STATE = {
   none: '未知',
@@ -26,34 +26,40 @@ const MINE_TYPE = {
   published: '发布的任务'
 };
 
-module.exports = db.defineModel('tasks', {
-  type: db.STRING,
-  deadline: db.STRING,
-  detail: db.TEXT,
+module.exports = Db.defineModel('tasks', {
+  type: Db.STRING,
+  deadline: Db.STRING,
+  detail: Db.TEXT,
   filename: {
-    type: db.STRING,
+    type: Db.STRING,
     defaultValue: ''
   },
-  reward: db.INTEGER, // 正:发布任务者赏   负：发布任务者收
+  reward: Db.INTEGER, // 正:发布任务者赏   负：发布任务者收
   state: {// 0:刚发布未被认领，1:认领了在完成中，2:我完成的，3:完成交易成功，4:发布者取消，5:过期没有认领
-    type: db.STRING,
+    type: Db.STRING,
     defaultValue: STATE.released_not_claimed
   },
   shareCount: { // 会员共享的次数，仅对会员共享有效
-    type: db.INTEGER,
+    type: Db.INTEGER,
     defaultValue: 1
   },
-  title: db.TEXT,
+  title: Db.TEXT,
   priority: {
-    type: db.INTEGER,
+    type: Db.INTEGER,
     defaultValue: 0
   },
   outTradeNo: {// 商户侧传给微信的订单号
-    type: db.STRING,
+    type: Db.STRING,
     defaultValue: ''
   }
 });
 
-module.exports.TASK_STATE = STATE;
-module.exports.TASK_TYPE = TYPE;
-module.exports.MINE_TASK_TYPE = MINE_TYPE;
+let exportModule = module.exports;
+
+exportModule = Object.assign(exportModule, {
+  TASK_STATE: STATE,
+  TASK_TYPE: TYPE,
+  MINE_TASK_TYPE: MINE_TYPE
+});
+
+module.exports = exportModule;
