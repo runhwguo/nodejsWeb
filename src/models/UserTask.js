@@ -1,10 +1,10 @@
 import Db from '../tools/db';
 import {UserTask} from '../tools/model';
 
-const addTaskBelongAttr = (stateUserId, taskUserId, taskId) => {
+const addTaskBelongAttr = async (stateUserId, taskUserId, taskId) => {
   let isSelfPublishedTask = stateUserId === taskUserId;
 
-  let userTask = UserTask.findOne({
+  let userTask = await UserTask.findOne({
     where: {
       userId: stateUserId,
       taskId: taskId

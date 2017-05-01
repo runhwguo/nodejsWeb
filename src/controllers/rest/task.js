@@ -81,12 +81,13 @@ const get = async ctx => {
   }
 
   // 加载判断 是否是自己的任务，自己是否接了
-  tasks.forEach((task, index) => {
+  for (let i = 0; i < tasks.length; i++) {
     if (ctx.state.user) {
-      let taskBelongAttr = addTaskBelongAttr(ctx.state.user.id, task.userId, task.id);
-      tasks[index] = Object.assign(task, taskBelongAttr);
+      let task = tasks[i];
+      let taskBelongAttr = await addTaskBelongAttr(ctx.state.user.id, task.userId, task.id);
+      tasks[i] = Object.assign(task, taskBelongAttr);
     }
-  });
+  }
 
   ctx.rest({
     result: tasks
