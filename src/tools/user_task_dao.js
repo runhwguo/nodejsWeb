@@ -28,12 +28,12 @@ const get = async (userId, taskState = [], page) => {
 
   const LIMIT = 8;
 
-  const sql = `select tasks.id, type, state, title, deadline from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${userId} and userTasks.taskId=tasks.id and state  in (${taskState}) limit ${(page - 1) * LIMIT}, ${LIMIT}`;
+  const baseSql = `select tasks.id, type, state, title, deadline from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${userId} and userTasks.taskId=tasks.id and`;
+  const sql = `${ baseSql } state  in (${taskState}) limit ${(page - 1) * LIMIT}, ${LIMIT}`;
   let result = await _rawQuery(sql);
-  if (_needQueryMemberSharing(taskState)) {
-    let resultOfMemberSharing = await Dao.findAll(Task, {
-      type: TASK_TYPE.member_sharing
-    });
+  if (_needQueryMemberSharing(taskState) && result.length < LIMIT) {
+    sql = `${ baseSql } type=${ TASK_TYPE.member_sharing }`;
+    let resultOfMemberSharing = await _rawQuery(sql);
 
     resultOfMemberSharing.forEach((item, index) => {
       resultOfMemberSharing[index].state = '已支付';
@@ -47,20 +47,19 @@ const get = async (userId, taskState = [], page) => {
 const count = async (userId, taskState = []) => {
   taskState = _convert2sqlGrammar(taskState);
   userId = _convert2sqlGrammar(userId);
-  const sql = `select count(*) as count from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${userId} and userTasks.taskId=tasks.id and state in (${taskState})`;
+  const baseSql = `select count(*) as count from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${userId} and userTasks.taskId=tasks.id and`;
+  let sql = `${ baseSql } state in (${ taskState })`;
   let result = await _rawQuery(sql);
-  result = result[0].count;
+  let count = result[0].count;
+
   // 共享会员，查看成功，即为一个任务完成支付成功
   if (_needQueryMemberSharing(taskState)) {
-    let countOfMemberSharing = await Dao.count(Task, {
-      where: {
-        type: TASK_TYPE.member_sharing
-      }
-    });
-    result += countOfMemberSharing;
+    sql = `${ baseSql } type=${TASK_TYPE.member_sharing}`;
+    result = await _rawQuery(sql);
+    count += result[0].count;
   }
 
-  return result;
+  return count;
 };
 
 /**
