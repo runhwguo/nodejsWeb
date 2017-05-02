@@ -1,5 +1,9 @@
+{% block style %}
+{% endblock %}
+
 {% block search%}
 {% endblock %}
+
 <div id="vm" class="pre-scrollable">
     <p v-if="loading">Loading...</p>
     <ul class="list-group text-center">
@@ -15,3 +19,6 @@
 </div>
 <input type="hidden" value="{{ where }}">
 <input type="hidden" id="money-input">
+
+{% block script %}
+{% endblock %}

@@ -6,7 +6,7 @@
 
 {% block main %}
     <div class="input-group">
-        <span class="input-group-addon glyphicon glyphicon-search" @click="search"></span>
+        <span class="input-group-addon glyphicon glyphicon-search"></span>
         <input type="text" id="searchContent" class="form-control" placeholder="请输入关键字(默认显示所有)">
         <span class="glyphicon glyphicon-remove-circle form-control-feedback"></span>
     </div>
@@ -18,8 +18,9 @@
                 <ul class="list-group">
                     <li v-for="item in items" class="list-group-item">
                         <dl>
-                            <dt>${ item.date }</dt>
-                            <dd>${ item.content }</dd>
+                            <dt>[${ item.type }] ${ item.type }</dt>
+                            <dd>${ item.detail }</dd>
+                            <dd>${ item.state }</dd>
                             <dd><a v-on:click="remove(item)">删除</a></dd>
                         </dl>
                     </li>
@@ -29,5 +30,5 @@
     </div>
 {% endblock %}
 {% block script %}
-    <script src="/static/js-min/admin/index.js"></script>
+    <script src="/static/js/admin/index.js"></script>
 {% endblock %}

@@ -24,7 +24,8 @@ const count = async (model, option = {}) => {
 };
 
 const remove = async (model, option = {}) => {
-  return await model.destroy(option);
+  let result = await model.destroy(option);
+  return result > 0;
 };
 
 export {

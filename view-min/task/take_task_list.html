@@ -1,15 +1,1 @@
-{% extends "./../template/task_list.html" %} {% block style %} {% endblock %} {% block search%}<link rel="stylesheet" href="/static/css-min/take-task.css"><style>.form-control-feedback{pointer-events:auto}.input-group .input-group-addon{top:0}</style><div class="input-group"><span class="input-group-addon glyphicon glyphicon-search"></span> <input type="text" id="searchContent" class="form-control" placeholder="请输入关键字(默认显示所有)"> <span class="glyphicon glyphicon-remove-circle form-control-feedback"></span></div>{% endblock %} {% block main %} <span class="task-info">[${item.type}]&nbsp;${item.title}</span> <span class="task-reward" v-if="item.reward > 0" style="color:red">[赏]&nbsp;￥${item.reward}</span> <span class="task-reward" v-else-if="item.reward < 0" style="color:#00f">[收]&nbsp;￥${-item.reward}</span> <span class="task-reward" v-else>[免费]&nbsp;&nbsp;~~~</span> <button :id="item.id" type="button" class="btn btn-primary btn-sm task-top ladda-button" data-style="slide-right" @click.stop="stick(item)">置顶</button> {% endblock%} {% block script %}<script>let searchContent = $('#searchContent'),
-        searchClear = $('.glyphicon-remove-circle'),
-        searchButton = $('.glyphicon-search');
-
-      searchClear.hide();
-      searchContent.keyup(() => {
-        searchClear.show();
-      });
-      searchClear.click(() => {
-        searchContent.val('');
-        searchClear.hide();
-      });
-      searchButton.click(() => {
-        vm.init(searchContent.val());
-      });</script>{% endblock %}
+{% extends "./../template/task_list.html" %} {% block style %} {% endblock %} {% block search%}<link rel="stylesheet" href="/static/css-min/take-task.css"><style>.form-control-feedback{pointer-events:auto}.input-group .input-group-addon{top:0}</style><div class="input-group"><span class="input-group-addon glyphicon glyphicon-search"></span> <input type="text" id="searchContent" class="form-control" placeholder="请输入关键字(默认显示所有)"> <span class="glyphicon glyphicon-remove-circle form-control-feedback"></span></div>{% endblock %} {% block main %} <span class="task-info">[${item.type}]&nbsp;${item.title}</span> <span class="task-reward" v-if="item.reward > 0" style="color:red">[赏]&nbsp;￥${item.reward}</span> <span class="task-reward" v-else-if="item.reward < 0" style="color:#00f">[收]&nbsp;￥${-item.reward}</span> <span class="task-reward" v-else>[免费]&nbsp;&nbsp;~~~</span> <button :id="item.id" type="button" class="btn btn-primary btn-sm task-top ladda-button" data-style="slide-right" @click.stop="stick(item)">置顶</button> {% endblock%} {% block script %}<script src="/static/js-min/task/take_task_list.js"></script>{% endblock %}

@@ -5,3 +5,7 @@
 .input-group .input-group-addon, .glyphicon {
     top: 0;
 }
+
+li.list-group-item dl{
+    text-align: center;
+}

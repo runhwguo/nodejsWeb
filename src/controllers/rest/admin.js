@@ -1,6 +1,7 @@
 import {admin, session} from "../../tools/config";
 import * as Cookie from "../../tools/cookie";
 import * as Dao from "../../tools/dao";
+import {Task} from "../../tools/model";
 
 const login = async ctx => {
   let username = ctx.request.body.username,
@@ -20,7 +21,7 @@ const login = async ctx => {
 
 const get = async ctx => {
   const LIMIT = 8;
-  let page = ctx.query.page;
+  let page = Number.parseInt(ctx.query.page);
   let tasks = await Dao.findAll(Task, {
     attributes: ['type', 'title', 'detail', 'id', 'state'],
     where: {},
@@ -38,7 +39,19 @@ const get = async ctx => {
 };
 
 const count = async ctx => {
-  let result = 0;
+  let result = await Dao.count(Task);
+  ctx.rest({
+    result: result
+  });
+};
+
+const remove = async ctx => {
+  let id = ctx.query.id;
+  let result = await  Dao.remove(Task, {
+    where: {
+      id: id
+    }
+  });
   ctx.rest({
     result: result
   });
@@ -47,5 +60,6 @@ const count = async ctx => {
 module.exports = {
   'POST /api/admin/login': login,
   'GET /api/admin/task/get': get,
-  'GET /api/admin/task/count': count
+  'GET /api/admin/task/count': count,
+  'DELETE /api/admin/task/remove': remove
 };

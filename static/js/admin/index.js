@@ -11,7 +11,15 @@ let vm = new Vue({
     count: -1
   },
   created: function () { // VM初始化成功后的回调函数
-    this.get();
+    Vue.http
+      .get('/api/admin/task/count')
+      .then(resp => {
+        console.log(resp);
+        this.get();
+      }, resp => {
+        console.log(resp);
+      });
+
   },
   methods: {
     _showError: resp => {
@@ -19,21 +27,25 @@ let vm = new Vue({
     },
     get: isSearch => {
       vm.loading = true;
-      vm.$http.get('/api/admin/get', {
-        page: vm.page
+      Vue.http.get('/api/admin/task/get', {
+        params: {
+          page: vm.page
+        }
       }).then(resp => {
         vm.loading = false;
         if (isSearch) {
 
         }
-        resp.json().then(result => vm.items = result.result);
+        resp.json().then(data => {
+          vm.items = data.result
+        });
       }, resp => {
         vm.loading = false;
         vm._showError(resp);
       });
     },
     remove: item => {
-      vm.$resource('/api/admin/remove').remove({
+      Vue.resource('/api/admin/task/remove').remove({
         id: item.id
       }).then(resp => {
         resp.json().then(result => {
@@ -45,7 +57,7 @@ let vm = new Vue({
                 break;
               }
             }
-            if (index !== -1) {
+            if (index >= 0) {
               vm.items.splice(index, 1);
               vm.count--;
             }
@@ -54,9 +66,23 @@ let vm = new Vue({
           }
         });
       }, vm._showError);
-    },
-    search: () => {
-      console.log('search click');
     }
   }
+});
+
+$(() => {
+  let vmDiv = $(vm.$el);
+
+  vmDiv.scroll(() => {
+    let divHeight = vmDiv.height();
+    let scrollHeight = vmDiv[0].scrollHeight;
+    let scrollTop = vmDiv[0].scrollTop;
+    if (scrollTop + divHeight >= scrollHeight) {
+      console.log("滚动条到底部了");
+    }
+  });
+
+  $('.glyphicon-search').click(() => {
+    console.log('search click');
+  });
 });
