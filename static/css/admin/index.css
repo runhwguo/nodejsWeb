@@ -1,0 +1,7 @@
+.form-control-feedback {
+    pointer-events: auto;
+}
+
+.input-group .input-group-addon, .glyphicon {
+    top: 0;
+}

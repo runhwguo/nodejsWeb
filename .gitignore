@@ -16,4 +16,11 @@ static/tmp
 
 # test files
 test.*
-test.js
+temp.*
+
+# minify
+static/css-min
+static/js-min
+view-min
+
+

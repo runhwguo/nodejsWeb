@@ -1,0 +1,33 @@
+{% extends "./base.html" %}
+
+{% block style %}
+    <link rel="stylesheet" href="/static/css-min/admin/index.css">
+{% endblock %}
+
+{% block main %}
+    <div class="input-group">
+        <span class="input-group-addon glyphicon glyphicon-search" @click="search"></span>
+        <input type="text" id="searchContent" class="form-control" placeholder="请输入关键字(默认显示所有)">
+        <span class="glyphicon glyphicon-remove-circle form-control-feedback"></span>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <div id="vm">
+                <p v-if="loading">Loading...</p>
+                <ul class="list-group">
+                    <li v-for="item in items" class="list-group-item">
+                        <dl>
+                            <dt>${ item.date }</dt>
+                            <dd>${ item.content }</dd>
+                            <dd><a v-on:click="remove(item)">删除</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="/static/js-min/admin/index.js"></script>
+{% endblock %}

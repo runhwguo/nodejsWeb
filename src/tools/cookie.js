@@ -1,23 +1,23 @@
-import sha1 from 'sha1';
-import {User} from './model';
-import {session, admin} from './config';
+import sha1 from "sha1";
+import {admin, session} from "./config";
+import {User} from "./model";
 
-const cookie2user = async (cookie,cookieName) => {
+const cookie2user = async (cookie, cookieName) => {
   if (cookie) {
     let cookieElements = cookie.split('-');
     if (cookieElements.length === 3) {
       // auth maxAge
       let [id, expires, sha1Str] = cookieElements;
       if (expires > Math.round(Date.now() / 1000)) {
-        if(cookieName===session.userCookieName){
+        if (cookieName === session.userCookieName) {
           let user = await User.findByPrimary(id);
           if (user) {
-            if (sha1Str === sha1(`${user.id}-${user.password}-${expires}-${session.userCookieName}`)) {
+            if (sha1Str === sha1(`${user.id}-${user.password}-${expires}-${session.cookieKey}`)) {
               return user.dataValues;
             }
           }
-        } else if(cookieName===session.adminCookieName){
-          if (sha1Str === sha1(`${admin.username}-${admin.password}-${expires}-${session.adminCookieName}`)) {
+        } else if (cookieName === session.adminCookieName) {
+          if (sha1Str === sha1(`${admin.username}-${admin.password}-${expires}-${session.cookieKey}`)) {
             return admin;
           }
         }
@@ -27,11 +27,11 @@ const cookie2user = async (cookie,cookieName) => {
 };
 
 //build cookieName string by: id-expires-sha1
-const user2cookie = (id, password,cookieName)=>{
+const user2cookie = (id, password) => {
   let expires = Math.round(Date.now() / 1000 + session.maxAge);
-  return `${id}-${expires}-` + sha1(`${id}-${password}-${expires}-${cookieName}`);
+  return `${id}-${expires}-` + sha1(`${id}-${password}-${expires}-${session.cookieKey}`);
 };
 
 export {
-  cookie2user,user2cookie
+  cookie2user, user2cookie
 };

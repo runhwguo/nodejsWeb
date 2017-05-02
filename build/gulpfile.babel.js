@@ -21,7 +21,7 @@ gulp.task('min-html', () => {
 });
 
 gulp.task('clean-css', () => {
-  gulp.src('../static/css/*.css')
+  gulp.src('../static/css/**/*.css')
     .pipe(cleanCss())
     .on('error', (err) => {
       gutil.log(gutil.colors.red('[Error]'), err.toString());
@@ -30,7 +30,7 @@ gulp.task('clean-css', () => {
 });
 
 gulp.task('babel-minify-js', () => {
-  gulp.src('../static/js/*.js')
+  gulp.src('../static/js/**/*.js')
     .pipe(gulpBabel({
       presets: ['es2015']
     }))
