@@ -1,5 +1,4 @@
 import {admin, session} from "../../tools/config";
-import {Task} from "../../tools/model";
 import * as Cookie from "../../tools/cookie";
 import * as Dao from "../../tools/dao";
 
@@ -38,7 +37,15 @@ const get = async ctx => {
   });
 };
 
+const count = async ctx => {
+  let result = 0;
+  ctx.rest({
+    result: result
+  });
+};
+
 module.exports = {
   'POST /api/admin/login': login,
-  'GET /api/admin/get': get
+  'GET /api/admin/task/get': get,
+  'GET /api/admin/task/count': count
 };

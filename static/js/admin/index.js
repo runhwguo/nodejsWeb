@@ -6,65 +6,26 @@ let vm = new Vue({
   },
   data: {
     items: [],
-    loading: false,
+    loading: true,
     page: 1,
     count: -1
   },
   created: function () { // VM初始化成功后的回调函数
     this.get();
-    this.items.push(
-      {
-        date: '任务时间',
-        content: '任务详情'
-      },
-      {
-        date: '任务时间',
-        content: '任务详情'
-      },
-      {
-        date: '任务时间',
-        content: '任务详情'
-      },
-      {
-        date: '任务时间',
-        content: '任务详情'
-      },
-      {
-        date: '任务时间',
-        content: '任务详情'
-      },
-      {
-        date: '任务时间',
-        content: '任务详情'
-      },
-      {
-        date: '任务时间',
-        content: '任务详情'
-      },
-      {
-        date: '任务时间',
-        content: '任务详情'
-      },
-      {
-        date: '任务时间',
-        content: '任务详情'
-      },
-      {
-        date: '任务时间',
-        content: '任务详情'
-      }
-    );
   },
   methods: {
     _showError: resp => {
       resp.json().then(result => console.log('Error: ' + result.message));
     },
-    get: () => {
+    get: isSearch => {
       vm.loading = true;
       vm.$http.get('/api/admin/get', {
         page: vm.page
       }).then(resp => {
         vm.loading = false;
+        if (isSearch) {
+
+        }
         resp.json().then(result => vm.items = result.result);
       }, resp => {
         vm.loading = false;

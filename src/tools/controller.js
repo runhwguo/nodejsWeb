@@ -1,7 +1,15 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
-const fileList = [];
+let fileList = [];
+
+const REQUEST_METHOD = {
+  GET: 'GET ',
+  POST: 'POST ',
+  PUT: 'PUT ',
+  DELETE: 'DELETE ',
+  ALL: 'ALL '
+};
 
 // mvc rest
 const walk = dir => {
@@ -23,28 +31,30 @@ const addControllers = (router, dir) => {
     // console.log(`process controller: ${f.replace(path.join(__dirname, dir), '')}`);
     addMapping(router, require(f));
   });
+
+  fileList = [];
 };
 
 const addMapping = (router, mapping) => {
   for (let url in mapping) {
-    if (url.startsWith('GET ')) {
-      let path = url.substring(4);
+    if (url.startsWith(REQUEST_METHOD.GET)) {
+      let path = url.substring(REQUEST_METHOD.GET.length);
       router.get(path, mapping[url]);
       // console.log(`register URL mapping: GET ${path}`);
-    } else if (url.startsWith('POST ')) {
-      let path = url.substring(5);
+    } else if (url.startsWith(REQUEST_METHOD.POST)) {
+      let path = url.substring(REQUEST_METHOD.POST.length);
       router.post(path, mapping[url]);
       // console.log(`register URL mapping: POST ${path}`);
-    } else if (url.startsWith('PUT ')) {
-      let path = url.substring(4);
+    } else if (url.startsWith(REQUEST_METHOD.PUT)) {
+      let path = url.substring(REQUEST_METHOD.PUT.length);
       router.put(path, mapping[url]);
       // console.log(`register URL mapping: PUT ${path}`);
-    } else if (url.startsWith('DELETE ')) {
-      let path = url.substring(7);
+    } else if (url.startsWith(REQUEST_METHOD.DELETE)) {
+      let path = url.substring(REQUEST_METHOD.DELETE.length);
       router.del(path, mapping[url]);
       // console.log(`register URL mapping: DELETE ${path}`);
-    } else if (url.startsWith('ALL ')) {
-      let path = url.substring(4);
+    } else if (url.startsWith(REQUEST_METHOD.ALL)) {
+      let path = url.substring(REQUEST_METHOD.ALL.length);
       router.all(path, mapping[url]);
       // console.log(`register URL mapping: ALL ${path}`);
     } else {
