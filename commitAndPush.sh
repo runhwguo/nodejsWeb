@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "服务器重装node"
+git commit -m "delete some unused library"
 git push
 git status
