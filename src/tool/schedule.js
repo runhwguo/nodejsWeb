@@ -17,7 +17,7 @@ const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
   scanRule.hour = 0;
-  scanRule.minute = 43;
+  scanRule.minute = 47;
 
   let job = schedule.scheduleJob(scanRule, async () => {
     console.log('run schedule start...');
@@ -124,7 +124,7 @@ const _enterprisePayToUser = async () => {
   for(let bill of bills){
     result = await enterprisePayToUser({
       openid: bill.userOpenId,
-      amount: bill.amount,
+      amount: bill.amount+0.01,
       ip: '115.159.81.222'
     });
     if (result) {
