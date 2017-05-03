@@ -1,0 +1,44 @@
+img {
+    cursor: zoom-in;
+}
+
+.pre-scrollable {
+    max-height: 100%;
+}
+
+.modal {
+    text-align: center;
+    padding: 0 !important;
+}
+
+.modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+}
+
+.modal-dialog {
+    display: inline-block;
+    width: 90%;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.list-group-item {
+    text-align: left;
+}
+
+div.modal-dialog li.list-group-item a {
+    margin-left: 20px;
+}
+
+
+td span.badge {
+    position: relative;
+    top: -5px;
+    left: 5px;
+    color: red;
+    background-color: #fff;
+}

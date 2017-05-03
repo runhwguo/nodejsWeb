@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "管理界面的功能完善"
+git commit -m "增加查看发布者的联系方式"
 git push
 git status
