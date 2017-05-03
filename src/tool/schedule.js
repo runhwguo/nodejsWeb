@@ -17,7 +17,7 @@ const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
   scanRule.hour = 0;
-  scanRule.minute = 56;
+  scanRule.minute = 58;
 
   let job = schedule.scheduleJob(scanRule, async () => {
     console.log('run schedule start...');
