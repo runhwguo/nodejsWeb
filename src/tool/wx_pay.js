@@ -164,13 +164,12 @@ const enterprisePayToUser = async param => {
     partner_trade_no: randomString(26),
     openid: param.openid,
     check_name: 'NO_CHECK',
-    amount: param.amount,
+    amount: param.amount*100,
     desc: '资源共享 做任务报酬',
     spbill_create_ip: param.ip,
   };
 
   let formData = _addSignAndConvertToXml(data);
-  console.log(formData);
 
   let response = await request({
     url: URL_ENTERPRISE_PAY_TO_USER,
