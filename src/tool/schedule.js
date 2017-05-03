@@ -11,33 +11,33 @@ import Fs from "mz/fs";
 import AppRootDir from "app-root-dir";
 import Path from "path";
 
-const logger = tracer.console();
+const console = tracer.console();
 
 const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
-  scanRule.hour = 23;
-  scanRule.minute = 54;
+  scanRule.hour = 0;
+  scanRule.minute = 4;
 
   let job = schedule.scheduleJob(scanRule, async () => {
-    logger.log('run schedule start...');
+    console.log('run schedule start...');
 
-    logger.log('run _offExpiredTaskAndRefund start...');
-    let result = await _offExpiredTaskAndRefund();
-    logger.log(result);
-    logger.log('run _offExpiredTaskAndRefund end...');
+    console.log('run _offExpiredTaskAndRefund start...');
+    await _offExpiredTaskAndRefund();
+    // console.log(result);
+    console.log('run _offExpiredTaskAndRefund end...');
 
-    logger.log('run _deleteUsedVerificationCode start...');
-    result = await _deleteUsedVerificationCode(Path.join(AppRootDir.get(), 'static/tmp/verificationCode'));
-    logger.log(result);
-    logger.log('run _deleteUsedVerificationCode end...');
+    console.log('run _deleteUsedVerificationCode start...');
+    await _deleteUsedVerificationCode(Path.join(AppRootDir.get(), 'static/tmp/verificationCode'));
+    // console.log(result);
+    console.log('run _deleteUsedVerificationCode end...');
 
-    logger.log('run _enterprisePayToUser start...');
+    console.log('run _enterprisePayToUser start...');
     result = await _enterprisePayToUser();
     console.log(result);
-    logger.log('run _enterprisePayToUser end...');
+    console.log('run _enterprisePayToUser end...');
 
-    logger.log('run schedule end...');
+    console.log('run schedule end...');
   });
 };
 
@@ -60,22 +60,24 @@ const _offExpiredTaskAndRefund = async () => {
     attributes: ['reward', 'outTradeNo'],
     where: expiredTaskWhere
   });
-  logger.log('过期的任务 -> ' + expiredTasks);
-
-  let result = await Dao.update(Task, {
-    state: TASK_STATE.expired
-  }, {
-    where: expiredTaskWhere
-  });
-  console.log('下架过期任务 count ->'+result);
+  console.log('过期的任务 -> ' + expiredTasks);
+  let result = 0;
+  if(expiredTasks.length > 0) {
+    result = await Dao.update(Task, {
+      state: TASK_STATE.expired
+    }, {
+      where: expiredTaskWhere
+    });
+  }
+  console.log('下架过期任务 count -> '+result);
 
   if (expiredTasks.length > 0) {
     for(let item of expiredTasks){
       // 发布任务者预付报酬
       if (item.reward > 0) {
-        logger.log('refund ' + JSON.stringify(item));
+        console.log('refund ' + JSON.stringify(item));
         let result = await refund(item);
-        logger.log(result);
+        console.log(result);
       }
     }
   }
@@ -116,7 +118,7 @@ const _enterprisePayToUser = async () => {
     },
   });
 
-  console.log('要给用户钱的订单 -> '+bills);
+  console.log('要给用户钱的订单 -> '+ JSON.stringify(bills));
   let result = false;
   // 处理每个bill
   for(let bill of bills){
