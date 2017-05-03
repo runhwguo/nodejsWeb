@@ -17,7 +17,7 @@ const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
   scanRule.hour = 23;
-  scanRule.minute = 53;
+  scanRule.minute = 54;
 
   let job = schedule.scheduleJob(scanRule, async () => {
     logger.log('run schedule start...');
@@ -77,7 +77,7 @@ const _offExpiredTaskAndRefund = async () => {
         let result = await refund(item);
         logger.log(result);
       }
-    });
+    }
   }
 };
 
