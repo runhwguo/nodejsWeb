@@ -12,7 +12,7 @@ import AppRootDir from "app-root-dir";
 import path from "path";
 import request from "request-promise";
 
-let logger = Tracer.console();
+let console = Tracer.console();
 
 charset(Superagent);
 
@@ -100,7 +100,7 @@ const unifiedOrder = async ctx => {
 };
 
 const refund = async param => {
-  logger.log('refund');
+  console.log('refund');
   let nonceStr = Math.random().toString();
   let outTradeNo = param.outTradeNo;
   let totalFee = param.reward;
@@ -116,7 +116,7 @@ const refund = async param => {
   };
 
   let formData = _addSignAndConvertToXml(data);
-  logger.log('start to refund');
+  console.log('start to refund');
   let result = await request({
     url: URL_REFUND,
     method: 'POST',
@@ -126,9 +126,9 @@ const refund = async param => {
       passphrase: MCH_ID
     }
   });
-  logger.log(_xml2JsonObj(result));
+  console.log(_xml2JsonObj(result));
 
-  logger.log('end to refund');
+  console.log('end to refund');
 };
 
 const getAccessTokenOpenId = async code => {
@@ -170,6 +170,7 @@ const enterprisePayToUser = async param => {
   };
 
   let formData = _addSignAndConvertToXml(data);
+  console.log(formData);
 
   let response = await request({
     url: URL_ENTERPRISE_PAY_TO_USER,
