@@ -35,10 +35,8 @@ li a {
     display: block;
 }
 
-.custom-plus {
-    background-size: 100%;
-    width: 45px;
-    height: 45px;
+.fa-plus-circle {
+    color: #fc6921;
     margin-top: -13px;
 }
 
