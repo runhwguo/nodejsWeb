@@ -2,7 +2,7 @@
 import fs from 'mz/fs';
 import db from './db';
 
-let files = fs.readdirSync(`${__dirname}/../models`);
+let files = fs.readdirSync(`${__dirname}/../model`);
 
 const jsExt = '.js';
 
@@ -13,7 +13,7 @@ module.exports = {};
 for (let f of jsFiles) {
   // console.log(`import model from file ${f}...`);
   let name = f.substr(0, f.length - jsExt.length);
-  module.exports[name] = require(`${__dirname}/../models/${f}`);
+  module.exports[name] = require(`${__dirname}/../model/${f}`);
 }
 
 // 定义外键关系  start

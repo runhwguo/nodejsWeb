@@ -1,6 +1,6 @@
-import {User} from '../../tools/model';
-import {cookie2user} from '../../tools/cookie';
-import {session} from '../../tools/config';
+import {User} from '../../tool/model';
+import {cookie2user} from '../../tool/cookie';
+import {session} from '../../tool/config';
 
 const save = async ctx => {
   let name = ctx.request.body.name;

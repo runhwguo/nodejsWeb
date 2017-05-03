@@ -1,8 +1,8 @@
-import {MINE_TASK_TYPE, TASK_TYPE, isSelfPublishedTask} from '../../models/Task';
-import {addTaskBelongAttr} from '../../models/UserTask';
-import {Task, User, UserTask} from '../../tools/model';
-import * as Dao from '../../tools/dao';
-import Db from '../../tools/db';
+import {MINE_TASK_TYPE, TASK_TYPE, isSelfPublishedTask} from '../../model/Task';
+import {addTaskBelongAttr} from '../../model/UserTask';
+import {Task, User, UserTask} from '../../tool/model';
+import * as Dao from '../../tool/dao';
+import Db from '../../tool/db';
 import Tracer from 'tracer';
 
 const console = Tracer.console();

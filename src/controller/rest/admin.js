@@ -1,7 +1,7 @@
-import {admin, session} from "../../tools/config";
-import * as Cookie from "../../tools/cookie";
-import * as Dao from "../../tools/dao";
-import {Task} from "../../tools/model";
+import {admin, session} from "../../tool/config";
+import * as Cookie from "../../tool/cookie";
+import * as Dao from "../../tool/dao";
+import {Task} from "../../tool/model";
 
 const login = async ctx => {
   let username = ctx.request.body.username,

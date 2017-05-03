@@ -6,15 +6,15 @@ import AppRootDir from 'app-root-dir';
 import charset from 'superagent-charset';
 import Tracer from 'tracer';
 
-import {cookie2user} from '../../tools/cookie';
-import {session} from '../../tools/config';
-import * as Common from '../../tools/common';
-import {count} from '../../tools/user_task_dao';
-import {mkDirsSync} from '../../tools/upload';
-import * as Dao from '../../tools/dao';
-import {Task} from '../../tools/model';
-import {TASK_STATE} from '../../models/Task';
-import * as wxPay from "../../tools/wx_pay";
+import {cookie2user} from '../../tool/cookie';
+import {session} from '../../tool/config';
+import * as Common from '../../tool/common';
+import {count} from '../../tool/user_task_dao';
+import {mkDirsSync} from '../../tool/upload';
+import * as Dao from '../../tool/dao';
+import {Task} from '../../tool/model';
+import {TASK_STATE} from '../../model/Task';
+import * as wxPay from "../../tool/wx_pay";
 
 const console = Tracer.console();
 

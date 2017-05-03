@@ -1,12 +1,12 @@
-import {Task, UserTask} from '../../tools/model';
-import {TASK_STATE, TASK_TYPE} from '../../models/Task';
-import {addTaskBelongAttr} from '../../models/UserTask';
-import {session} from '../../tools/config';
-import {uploadFile} from '../../tools/upload';
-import * as Dao from '../../tools/dao';
-import * as Common from '../../tools/common';
-import * as UserTaskDao from '../../tools/user_task_dao';
-import Db from '../../tools/db';
+import {Task, UserTask} from '../../tool/model';
+import {TASK_STATE, TASK_TYPE} from '../../model/Task';
+import {addTaskBelongAttr} from '../../model/UserTask';
+import {session} from '../../tool/config';
+import {uploadFile} from '../../tool/upload';
+import * as Dao from '../../tool/dao';
+import * as Common from '../../tool/common';
+import * as UserTaskDao from '../../tool/user_task_dao';
+import Db from '../../tool/db';
 import Tracer from 'tracer';
 
 const console = Tracer.console();

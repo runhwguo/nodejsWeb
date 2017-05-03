@@ -1,6 +1,6 @@
 import crypto from "crypto";
-import * as wxPay from "../../tools/wx_pay";
-import {session} from '../../tools/config';
+import * as wxPay from "../../tool/wx_pay";
+import {session} from '../../tool/config';
 import tracer from 'tracer';
 
 

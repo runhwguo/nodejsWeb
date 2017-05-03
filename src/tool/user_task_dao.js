@@ -1,6 +1,6 @@
 import Db from "./db";
 import * as Dao from "./dao";
-import {TASK_STATE, TASK_TYPE} from "../models/Task";
+import {TASK_STATE, TASK_TYPE} from "../model/Task";
 import {Task} from "./model";
 import Tracer from "tracer";
 

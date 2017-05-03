@@ -1,4 +1,4 @@
-import Db from '../tools/db';
+import Db from '../tool/db';
 /**
  * 企业给用户转钱的账单
  */

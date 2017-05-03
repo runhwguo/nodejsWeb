@@ -1,13 +1,13 @@
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import logger from "koa-logger";
-import controller from "./tools/controller";
-import templating from "./tools/templating";
-import schedule from "./tools/schedule";
-import {cookie2user} from "./tools/cookie";
-import staticFiles from "./tools/static_files";
-import {restify} from "./tools/rest";
-import {project, session} from "./tools/config";
+import controller from "./tool/controller";
+import templating from "./tool/templating";
+import schedule from "./tool/schedule";
+import {cookie2user} from "./tool/cookie";
+import staticFiles from "./tool/static_files";
+import {restify} from "./tool/rest";
+import {project, session} from "./tool/config";
 import appRootDir from "app-root-dir";
 
 const app = new Koa();

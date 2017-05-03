@@ -1,10 +1,10 @@
-import {User} from '../../tools/model';
-import config from '../../tools/config';
+import {User} from '../../tool/model';
+import config from '../../tool/config';
 import superagent from 'superagent';
 import charset from 'superagent-charset';
 import cheerio from 'cheerio';
 import sha1 from 'sha1';
-import * as cookie from '../../tools/cookie';
+import * as cookie from '../../tool/cookie';
 
 charset(superagent);
 

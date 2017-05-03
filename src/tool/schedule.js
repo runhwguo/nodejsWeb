@@ -1,9 +1,9 @@
 import schedule from "node-schedule";
 
 import * as Dao from "./dao";
-import {getToday} from "../tools/common";
-import {Task} from "../tools/model";
-import {TASK_STATE} from "../models/Task";
+import {getToday} from "../tool/common";
+import {Task} from "../tool/model";
+import {TASK_STATE} from "../model/Task";
 import {refund} from "./wx_pay";
 import tracer from "tracer";
 import Fs from "mz/fs";

@@ -1,5 +1,5 @@
-import Db from '../tools/db';
-import {UserTask} from '../tools/model';
+import Db from '../tool/db';
+import {UserTask} from '../tool/model';
 
 const addTaskBelongAttr = async (stateUserId, taskUserId, taskId) => {
   let isSelfPublishedTask = stateUserId === taskUserId;

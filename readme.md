@@ -51,7 +51,7 @@
 - controllers  控制层逻辑，URL处理
   - mvc  mvc层的控制器
   - rest  rest格式的接口交互
-- models/  模型层逻辑，对应数据库中的表
+- model/  模型层逻辑，对应数据库中的表
 - static/  静态资源
 - test/  待测试js文件,mocha测试框架，mocha默认会测试test下的所有文件，在package.json中的scripts中指定
   - await-test.js  异步测试
