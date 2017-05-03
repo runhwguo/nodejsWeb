@@ -1,6 +1,6 @@
 import Tracer from "tracer";
 
-const console = Tracer.console;
+const console = Tracer.console();
 
 // 错误码定义
 // code:大类型错误,小类型错误,采用string，清晰明确
