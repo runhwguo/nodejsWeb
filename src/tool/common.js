@@ -30,7 +30,7 @@ const randomString = (len = 32) => {
   const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
   let maxPos = chars.length;
   let pwd = '';
-  for (i = 0; i < len; i++) {
+  for (let i = 0; i < len; i++) {
     pwd += chars[Math.floor(Math.random() * maxPos)];
   }
   return pwd;

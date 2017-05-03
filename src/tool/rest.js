@@ -1,3 +1,7 @@
+import Tracer from "tracer";
+
+const console = Tracer.console;
+
 // 错误码定义
 // code:大类型错误,小类型错误,采用string，清晰明确
 // message:错误的具体描述

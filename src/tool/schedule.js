@@ -6,18 +6,18 @@ import {Task, Bill} from "../tool/model";
 import {session} from "../tool/config";
 import {TASK_STATE} from "../model/Task";
 import {refund, enterprisePayToUser} from "./wx_pay";
-import tracer from "tracer";
+import Tracer from "tracer";
 import Fs from "mz/fs";
 import AppRootDir from "app-root-dir";
 import Path from "path";
 
-const console = tracer.console();
+const console = Tracer.console();
 
 const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
   scanRule.hour = 0;
-  scanRule.minute = 5;
+  scanRule.minute = 6;
 
   let job = schedule.scheduleJob(scanRule, async () => {
     console.log('run schedule start...');
@@ -93,7 +93,7 @@ const _deleteUsedVerificationCode = async dir => {
   let dirList = await Fs.readdir(dir);
   let result = false;
 
-  dirList.forEach(async item => {
+  for (let item of dirList) {
     let file = Path.join(dir, item);
     let stat = await Fs.stat(file);
     if (stat.isDirectory()) {
