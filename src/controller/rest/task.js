@@ -217,13 +217,20 @@ const stateUpdate = async ctx => {
         },
         attributes: ['userId']
       });
+
+      let task = await Task.findByPrimary(id);
+
+      let reward = task.dataValues.reward;
+
+
       let userId = userTask.dataValues.userId;
       let user = await User.findByPrimary(userId);
       let userOpenId = user.dataValues.openId;
 
       let isCreateBill = await Dao.create(Bill, {
         taskId: id,
-        userOpenId: userOpenId
+        userOpenId: userOpenId,
+        amount: reward
       });
 
       if(!isCreateBill){
