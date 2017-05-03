@@ -17,7 +17,7 @@ const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
   scanRule.hour = 1;
-  scanRule.minute = 2;
+  scanRule.minute = 10;
 
   let job = schedule.scheduleJob(scanRule, async () => {
     console.log('run schedule start...');
@@ -71,14 +71,12 @@ const _offExpiredTaskAndRefund = async () => {
   }
   console.log('下架过期任务 count -> '+result);
 
-  if (expiredTasks.length > 0) {
-    for(let item of expiredTasks){
-      // 发布任务者预付报酬
-      if (item.reward > 0) {
-        console.log('refund ' + JSON.stringify(item));
-        let result = await refund(item);
-        console.log(result);
-      }
+  for(let item of expiredTasks){
+    // 发布任务者预付报酬
+    if (item.reward > 0) {
+      console.log('refund ' + JSON.stringify(item));
+      let result = await refund(item);
+      console.log(result);
     }
   }
 };
@@ -119,7 +117,7 @@ const _enterprisePayToUser = async () => {
   });
 
   console.log('要给用户钱的订单 -> '+ JSON.stringify(bills));
-  let result = false;
+  let result;
   // 处理每个bill
   for(let bill of bills){
     result = await enterprisePayToUser({
@@ -136,15 +134,18 @@ const _enterprisePayToUser = async () => {
 
   let billIds = bills.map(item=>item.id);
   // 更新每个 被处理的bill
-  result = await Dao.update(Bill,{
-    idDone:true
-  },{
-    where:{// $in
-      id:{
-        $in:billIds
+
+  if(billIds.length > 0){
+    result = await Dao.update(Bill,{
+      isDone:true
+    },{
+      where:{
+        id:{
+          $in:billIds
+        }
       }
-    }
-  });
+    });
+  }
   console.log('更新要处理的bill单 -> '+result);
 };
 
