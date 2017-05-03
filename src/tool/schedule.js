@@ -17,7 +17,7 @@ const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
   scanRule.hour = 0;
-  scanRule.minute = 6;
+  scanRule.minute = 21;
 
   let job = schedule.scheduleJob(scanRule, async () => {
     console.log('run schedule start...');
@@ -105,7 +105,7 @@ const _deleteUsedVerificationCode = async dir => {
         console.log('删除用过的验证码 -> '+file);
       }
     }
-  });
+  }
 
   return result;
 };
