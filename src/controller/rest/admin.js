@@ -2,6 +2,9 @@ import {admin, session} from "../../tool/config";
 import * as Cookie from "../../tool/cookie";
 import * as Dao from "../../tool/dao";
 import {Task} from "../../tool/model";
+import Tracer from "tracer";
+
+const console = Tracer.console();
 
 const login = async ctx => {
   let username = ctx.request.body.username,
@@ -19,13 +22,40 @@ const login = async ctx => {
   });
 };
 
+const _processKeywordWhere = ctx=>{
+  let keyword = ctx.query.keyword;
+  let where = {};
+  // 对任务搜索做处理
+  if (keyword) {
+    where.$or = [
+      {
+        detail: {
+          $like: `%${keyword}%`
+        }
+      },
+      {
+        type: {
+          $like: `%${keyword}%`
+        }
+      },
+      {
+        title: {
+          $like: `%${keyword}%`
+        }
+      }
+    ];
+  }
+
+  return where;
+};
+
 const get = async ctx => {
   const LIMIT = 8;
   let page = Number.parseInt(ctx.query.page);
   let tasks = await Dao.findAll(Task, {
     attributes: ['type', 'title', 'detail', 'id', 'state'],
-    where: {},
-    offset: (page - 1) * LIMIT,
+    where: _processKeywordWhere(ctx),
+    offset: page * LIMIT,
     limit: LIMIT,
     order: [
       ['state', 'ASC'],
@@ -39,7 +69,9 @@ const get = async ctx => {
 };
 
 const count = async ctx => {
-  let result = await Dao.count(Task);
+  let result = await Dao.count(Task,{
+    where:_processKeywordWhere(ctx)
+  });
   ctx.rest({
     result: result
   });

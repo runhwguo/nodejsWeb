@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "修改目录名 去掉s"
+git commit -m "管理界面的功能完善"
 git push
 git status

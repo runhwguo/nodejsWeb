@@ -44,6 +44,11 @@ const _judgeTaskType = ctx => {
           type: {
             $like: `%${keyword}%`
           }
+        },
+        {
+          title: {
+            $like: `%${keyword}%`
+          }
         }
       ];
     }

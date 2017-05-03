@@ -7,37 +7,33 @@ let vm = new Vue({
   data: {
     items: [],
     loading: true,
-    page: 1,
-    count: -1
+    page: 0,
+    count: -1,
+    keyword: '',
+    LIMIT: 8
   },
   created: function () { // VM初始化成功后的回调函数
-    Vue.http
-      .get('/api/admin/task/count')
-      .then(resp => {
-        console.log(resp);
-        this.get();
-      }, resp => {
-        console.log(resp);
-      });
-
+    this.init();
   },
   methods: {
     _showError: resp => {
       resp.json().then(result => console.log('Error: ' + result.message));
     },
-    get: isSearch => {
+    get: keyword => {
       vm.loading = true;
+      let params = {
+        page: vm.page
+      };
+      if (keyword) {
+        params.keyword = keyword;
+      }
       Vue.http.get('/api/admin/task/get', {
-        params: {
-          page: vm.page
-        }
+        params: params
       }).then(resp => {
         vm.loading = false;
-        if (isSearch) {
-
-        }
         resp.json().then(data => {
-          vm.items = data.result
+          vm.items = vm.items.concat(data.result);
+          vm.page++;
         });
       }, resp => {
         vm.loading = false;
@@ -66,6 +62,28 @@ let vm = new Vue({
           }
         });
       }, vm._showError);
+    },
+    init: params => {
+      Vue.http
+        .get('/api/admin/task/count', {
+          params: params
+        })
+        .then(resp => {
+          console.log(resp);
+          resp.json().then((data) => {
+            vm.page = 0;
+            vm.items = [];
+            vm.count = data.result;
+
+            if (params && params.keyword) {
+              vm.get(params.keyword);
+            } else {
+              vm.get();
+            }
+          });
+        }, resp => {
+          console.log(resp);
+        });
     }
   }
 });
@@ -79,10 +97,20 @@ $(() => {
     let scrollTop = vmDiv[0].scrollTop;
     if (scrollTop + divHeight >= scrollHeight) {
       console.log("滚动条到底部了");
+      if (vm.page * vm.LIMIT < vm.count) {
+        vm.get($('#searchContent').val());
+      }
     }
-  });
+  }).css('max-height', $(window).height() - $('#searchDiv').height());
+
 
   $('.glyphicon-search').click(() => {
     console.log('search click');
+    vm.init({
+      keyword: $('#searchContent').val()
+    });
+  });
+  $('.glyphicon-remove-circle').click(() => {
+    $('#searchContent').val('');
   });
 });

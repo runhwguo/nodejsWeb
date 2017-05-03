@@ -5,28 +5,24 @@
 {% endblock %}
 
 {% block main %}
-    <div class="input-group">
+    <div class="input-group" id="searchDiv">
         <span class="input-group-addon glyphicon glyphicon-search"></span>
         <input type="text" id="searchContent" class="form-control" placeholder="请输入关键字(默认显示所有)">
         <span class="glyphicon glyphicon-remove-circle form-control-feedback"></span>
     </div>
 
-    <div class="panel panel-primary">
-        <div class="panel-body">
-            <div id="vm">
-                <p v-if="loading">加载中...</p>
-                <ul class="list-group">
-                    <li v-for="item in items" class="list-group-item">
-                        <dl>
-                            <dt>[${ item.type }] ${ item.type }</dt>
-                            <dd>${ item.detail }</dd>
-                            <dd>${ item.state }</dd>
-                            <dd><a v-on:click="remove(item)">删除</a></dd>
-                        </dl>
-                    </li>
-                </ul>
-            </div>
-        </div>
+    <div id="vm" class="pre-scrollable">
+        <ul class="list-group">
+            <li v-for="item in items" class="list-group-item">
+                <dl>
+                    <dt>[${ item.type }] ${ item.title }</dt>
+                    <dd>${ item.detail }</dd>
+                    <dd>${ item.state }</dd>
+                    <dd><a v-on:click="remove(item)">删除</a></dd>
+                </dl>
+            </li>
+            <i v-if="loading" class="fa fa-spinner fa-spin" style="font-size:24px; text-align: center"></i>
+        </ul>
     </div>
 {% endblock %}
 {% block script %}
