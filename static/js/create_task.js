@@ -133,7 +133,7 @@ $(() => {
     let reward = $('#reward').val();
     if (rewardType === '赏' && reward > 0) {
       let outTradeNo = Date.now() + '';
-      startPay({fee: reward, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
+      startPay({fee: reward * 100, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
         doSubmit(outTradeNo);
       }, () => {
       });
