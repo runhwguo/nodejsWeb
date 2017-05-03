@@ -1,1 +1,0 @@
-"use strict";function submitAjax(t,e,a,s){a.normal=t.text();var u=Ladda.create(t[0]);u.start(),$.ajax({type:e.type||"",url:e.url||"",data:e.data||"",success:function(e){e.result&&(t.text(a.success),setTimeout(function(){u.stop(),t.attr("disabled",!0),s&&s()},500))},error:function(e){t.text(a.fail),setTimeout(function(){t.text(a.normal),u.stop()},500)}})}
