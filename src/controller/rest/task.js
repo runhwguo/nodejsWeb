@@ -1,4 +1,4 @@
-import {Task, UserTask} from '../../tool/model';
+import {Task, UserTask, Bill, User} from '../../tool/model';
 import {TASK_STATE, TASK_TYPE} from '../../model/Task';
 import {addTaskBelongAttr} from '../../model/UserTask';
 import {session} from '../../tool/config';
@@ -185,7 +185,7 @@ const stateUpdate = async ctx => {
   if (state) {
     value.state = state;
   }
-
+  // 更新状态
   let result = await Dao.update(Task, value, {
     where: {
       id: id
@@ -193,6 +193,7 @@ const stateUpdate = async ctx => {
   });
 
   if (!!result) {
+    // 状态更新 引起的操作
     if (operate === 'order'){
       // 插入UserTask
       let isCreateObjOk = await Dao.create(UserTask, {
@@ -209,6 +210,25 @@ const stateUpdate = async ctx => {
         }
       });
       result = !!isCreateObjOk
+    } else if (operate === 'paid') {// 确认支付，生成单据
+      let userTask = await UserTask.findOne({
+        where: {
+          taskId: id
+        },
+        attributes: ['userId']
+      });
+      let userId = userTask.dataValues.userId;
+      let user = await User.findByPrimary(userId);
+      let userOpenId = user.dataValues.openId;
+
+      let isCreateBill = await Dao.create(Bill, {
+        taskId: id,
+        userOpenId: userOpenId
+      });
+
+      if(!isCreateBill){
+        console.error('生成支付订单错误');
+      }
     }
   }
 

@@ -2,9 +2,10 @@ import schedule from "node-schedule";
 
 import * as Dao from "./dao";
 import {getToday} from "../tool/common";
-import {Task} from "../tool/model";
+import {Task, Bill} from "../tool/model";
+import {session} from "../tool/config";
 import {TASK_STATE} from "../model/Task";
-import {refund} from "./wx_pay";
+import {refund, enterprisePayToUser} from "./wx_pay";
 import tracer from "tracer";
 import Fs from "mz/fs";
 import AppRootDir from "app-root-dir";
@@ -17,8 +18,6 @@ const setSchedule = () => {
 
   scanRule.minute = 4;
   scanRule.hour = 0;
-
-  let result = null;
 
   let job = schedule.scheduleJob(scanRule, async () => {
     logger.log('run schedule ...');
@@ -71,7 +70,7 @@ const _offExpiredTaskAndRefund = async () => {
 
 /**
  * 删除用过的验证码图片
- * @returns {Promise.<void>}
+ * @returns {boolean}
  * @private
  */
 
@@ -85,13 +84,48 @@ const _deleteUsedVerificationCode = async dir => {
     if (stat.isDirectory()) {
       await _deleteUsedVerificationCode(file);
     } else if(stat.isFile()) {
-      result = await Fs.unlink(file);
+
+      if (stat.birthtime.getTime() < Date.now() - session.maxAge * 1000){
+        result = await Fs.unlink(file);
+      }
     }
   });
 
   return result;
 };
 
+const _enterprisePayToUser = async () => {
+  let bills = await Dao.findAll(Bill, {
+    attributes: ['userOpenId', 'isDone', 'id', 'taskId', 'amount'],
+    where: {
+      isDone:false
+    },
+  });
+  // 处理每个bill
+  for(let i = 0;i<bills.length;i++){
+    let bill = bills[i];
+    let result = await enterprisePayToUser({
+      openid: bill.userOpenId,
+      amount: bill.amount,
+      ip: '115.159.81.222'
+    });
+    if(!result){
+      console.log('_enterprisePayToUser fail = ' + bill);
+    }
+  }
+
+  let billIds = bills.map(item=>item.id);
+  // 更新每个 被处理的bill
+  await Dao.update(Bill,{
+    idDone:true
+  },{
+    where:{// $in
+      id:{
+        $in:billIds
+      }
+    }
+  });
+};
 
 export default setSchedule;
 

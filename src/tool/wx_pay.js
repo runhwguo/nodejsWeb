@@ -31,6 +31,9 @@ const URL_WX_OPEN_ID_ACCESS_TOKEN = `https://api.weixin.qq.com/sns/oauth2/access
 
 const PFX = fs.readFileSync(path.join(AppRootDir.get(), 'static/third-party/apiclient_cert.p12')); //微信商户平台证书
 
+
+const SUCCESS = 'SUCCESS';
+
 const _paySign = data => {
   let string = `${ _sortAndGenerateParam(data) }&key=${MCH_KEY}`;
   return MD5(string).toUpperCase();
@@ -148,11 +151,9 @@ const getOnBridgeReadyRequest = async prepay_id => {
 
   let paySign = _paySign(data);
 
-  let request = Object.assign(data, {
+  return Object.assign(data, {
     paySign: paySign //微信签名
   });
-
-  return request;
 };
 
 const enterprisePayToUser = async param => {
@@ -179,7 +180,11 @@ const enterprisePayToUser = async param => {
       passphrase: MCH_ID
     }
   });
-  logger.log(_xml2JsonObj(response));
+  let result = _xml2JsonObj(response);
+  console.log(result);
+  let isOk = result.return_code && result.return_code === SUCCESS && result.result_code && result.result_code === SUCCESS;
+
+  return isOk;
 };
 
 export {

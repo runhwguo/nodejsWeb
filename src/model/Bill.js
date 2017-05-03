@@ -7,5 +7,6 @@ module.exports = Db.defineModel('bills', {
   isDone: {
     type: Db.BOOLEAN,
     defaultValue: false
-  }
+  },
+  amount: Db.INTEGER
 });
