@@ -65,7 +65,7 @@ const _addSignAndConvertToXml = data => {
 };
 
 const _xml2JsonObj = xmlStr => {
-  return JSON.parse(Xml2json.toJson(xmlStr));
+  return JSON.parse(Xml2json.toJson(xmlStr)).xml;
 };
 
 const unifiedOrder = async ctx => {

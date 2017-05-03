@@ -127,26 +127,17 @@ const _enterprisePayToUser = async () => {
     });
     if (result) {
       console.log('_enterprisePayToUser success = ' + JSON.stringify(bill));
+      await Dao.update(Bill,{
+        isDone:true
+      },{
+        where:{
+          id:bill.id
+        }
+      });
     } else {
       console.log('_enterprisePayToUser fail = ' + JSON.stringify(bill));
     }
   }
-
-  let billIds = bills.map(item=>item.id);
-  // 更新每个 被处理的bill
-
-  if(billIds.length > 0){
-    result = await Dao.update(Bill,{
-      isDone:true
-    },{
-      where:{
-        id:{
-          $in:billIds
-        }
-      }
-    });
-  }
-  console.log('更新要处理的bill单 -> '+result);
 };
 
 export default setSchedule;
