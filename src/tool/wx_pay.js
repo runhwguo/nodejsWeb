@@ -76,7 +76,9 @@ const unifiedOrder = async ctx => {
   let totalFee = Math.abs(Number.parseInt(ctx.query.fee));
   let nonceStr = Math.random().toString();
   let openid = ctx.cookies.get(config.session.wxOpenId);
-  let outTradeNo = ctx.query.outTradeNo || Date.now() + '';
+  let outTradeNo = ctx.query.outTradeNo || randomString(28);
+  // attach taskId
+  let attach = ctx.query.attach || '';
 
   let data = {
     appid: APP_ID,// appid
@@ -89,6 +91,7 @@ const unifiedOrder = async ctx => {
     spbill_create_ip: spbillCreateIp,//终端IP
     total_fee: totalFee,//金额
     trade_type: TRADE_TYPE,//NATIVE会返回code_url ，JSAPI不会返回
+    attach: attach
   };
 
   let formData = _addSignAndConvertToXml(data);

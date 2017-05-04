@@ -48,7 +48,7 @@ let exportModule = Db.defineModel('tasks', {
     type: Db.INTEGER,
     defaultValue: 0
   },
-  outTradeNo: {// 商户侧传给微信的订单号
+  outTradeNo: {// 商户侧传给微信的订单号 reward > 0 有效
     type: Db.STRING,
     defaultValue: ''
   }

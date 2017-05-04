@@ -121,7 +121,7 @@ let vm = new Vue({
         !($('input:hidden')[0].value.endsWith('ed')) &&
         !item.isSelfOrderedTask &&
         !item.isSelfPublishedTask) {
-        startPay({fee: item.reward * 100, body: '购买会员共享费用'}, viewDetailSuccess, () => {
+        startPay({fee: item.reward * 100, body: '购买会员共享费用', attach: item.id}, viewDetailSuccess, () => {
 
         });
       } else {

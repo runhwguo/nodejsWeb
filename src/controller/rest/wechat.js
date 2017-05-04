@@ -1,6 +1,8 @@
 import crypto from "crypto";
 import * as wxPay from "../../tool/wx_pay";
 import {session} from "../../tool/config";
+import {Bill} from "../../tool/model";
+import * as Dao from "../../tool/dao";
 import tracer from "tracer";
 
 
@@ -31,13 +33,37 @@ const _isFromWechatServer = async (signature, timestamp, nonce) => {
 const orderNotify = async ctx => {
   let data = ctx.request.body.xml;
   let [isSuccessful, result] = wxPay.processNotifyCall(data);
+  //{ appid: 'wx90eb6b04dcbf5fb2',
+  // bank_type: 'CFT',
+  //   cash_fee: '100',
+  //   fee_type: 'CNY',
+  //   is_subscribe: 'Y',
+  //   mch_id: '1462750902',
+  //   nonce_str: '0.16139921218732156',
+  //   openid: 'o6wcgw5MG8zW5ChT_KogzpKbOgbk',
+  //   out_trade_no: '1493888860431',
+  //   result_code: 'SUCCESS',
+  //   return_code: 'SUCCESS',
+  //   sign: 'D54902686145C965667BEF53DA2415F4',
+  //   time_end: '20170504170749',
+  //   total_fee: '100',
+  //   trade_type: 'JSAPI',
+  //   transaction_id: '4010162001201705049538003990' }
+  //   attach:  taskId
   if (isSuccessful) {
     // 付款成功，这里可以添加会员共享的打钱逻辑
+    // await Dao.create(Bill, {
+    //   taskId: id,
+    //   userOpenId: userOpenId,
+    //   amount: reward
+    // });
   }
+
+  result = result.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
   console.log(data);
   console.log(result);
 
-  ctx.rest(result.replace(/&lt;/g, '<').replace(/&gt;/g, '>'));
+  ctx.rest(result);
 };
 
 const startPay = async ctx => {
