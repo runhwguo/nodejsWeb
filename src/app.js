@@ -1,6 +1,6 @@
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
-import KoaXml from "koa-xml";
+import KoaXml from "koa-xml-body";
 import logger from "koa-logger";
 import controller from "./tool/controller";
 import templating from "./tool/templating";
@@ -58,15 +58,10 @@ app.use(async (ctx, next) => {
 });
 
 app.use(staticFiles('/static/', `${appRootDir.get()}/static`));
+// 解析body xml
+app.use(KoaXml.default());
 // 解析原始request请求，nodejs的request和koa的request都不解析request
 app.use(bodyParser());
-// 解析body xml
-app.use(KoaXml({
-  normalize: true,
-  firstCharLowerCase: true,
-  explicitArray: false,
-  ignoreAttrs: true
-}));
 // 给ctx加上render()来使用Nunjucks middleware
 app.use(templating('view-min', {
   noCache: !isProduction,
