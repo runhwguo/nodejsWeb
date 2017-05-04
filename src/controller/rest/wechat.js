@@ -51,7 +51,7 @@ const orderNotify = async ctx => {
   //   attach:  taskId
   console.log('isSuccessful -> '+isSuccessful);
   console.log('result.attach -> '+result.attach);
-  if (isSuccessful && result.attach) {
+  if (isSuccessful && data.attach) {
     // 付款成功，这里可以添加会员共享的打钱逻辑
     let taskId = result.attach;
     let task = await Task.findByPrimary(taskId);
