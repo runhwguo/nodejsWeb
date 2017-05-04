@@ -29,7 +29,7 @@ const _isFromWechatServer = async (signature, timestamp, nonce) => {
 };
 
 const orderNotify = async ctx => {
-  let data = ctx.request.body;
+  let data = ctx.request.body.xml;
   let [isSuccessful, result] = wxPay.processNotifyCall(data);
   if (isSuccessful) {
     // 付款成功，这里可以添加会员共享的打钱逻辑
