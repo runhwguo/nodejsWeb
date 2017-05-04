@@ -59,7 +59,11 @@ app.use(async (ctx, next) => {
 
 app.use(staticFiles('/static/', `${appRootDir.get()}/static`));
 // 解析body xml
-app.use(KoaXml());
+app.use(KoaXml({
+  xmlOptions: {
+    explicitArray: false
+  }
+}));
 // 解析原始request请求，nodejs的request和koa的request都不解析request
 app.use(bodyParser());
 // 给ctx加上render()来使用Nunjucks middleware
