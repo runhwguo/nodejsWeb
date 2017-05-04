@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "增加启动脚本的pre npm install"
+git commit -m "调回微信回调接口"
 git push
 git status
