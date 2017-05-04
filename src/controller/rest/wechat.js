@@ -1,7 +1,6 @@
 import crypto from "crypto";
 import * as wxPay from "../../tool/wx_pay";
 import {session} from "../../tool/config";
-import {Bill} from "../../tool/model";
 import * as Dao from "../../tool/dao";
 import tracer from "tracer";
 
@@ -50,13 +49,20 @@ const orderNotify = async ctx => {
   //   trade_type: 'JSAPI',
   //   transaction_id: '4010162001201705049538003990' }
   //   attach:  taskId
-  if (isSuccessful) {
+  if (isSuccessful && result.attach) {
     // 付款成功，这里可以添加会员共享的打钱逻辑
-    // await Dao.create(Bill, {
-    //   taskId: id,
-    //   userOpenId: userOpenId,
-    //   amount: reward
-    // });
+    let taskId = result.attach;
+    let task = await Task.findByPrimary(taskId);
+    let userId = task.dataValues.userId;
+    let reward = task.dataValues.reward;
+    let user = await User.findByPrimary(userId);
+    let openId = user.dataValues.openId;
+    let isOk = await Dao.create(Bill, {
+      taskId: result.attach,
+      userOpenId: openId,
+      amount: -reward
+    });
+    console.log('会员共享查看费用账单生成 -> ' + isOk);
   }
 
   result = result.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
