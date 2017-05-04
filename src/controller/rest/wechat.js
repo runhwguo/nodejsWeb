@@ -54,14 +54,14 @@ const orderNotify = async ctx => {
   console.log('result.attach -> '+result.attach);
   if (isSuccessful && data.attach) {
     // 付款成功，这里可以添加会员共享的打钱逻辑
-    let taskId = result.attach;
+    let taskId = data.attach;
     let task = await Task.findByPrimary(taskId);
     let userId = task.dataValues.userId;
     let reward = task.dataValues.reward;
     let user = await User.findByPrimary(userId);
     let openId = user.dataValues.openId;
     let isOk = await Dao.create(Bill, {
-      taskId: result.attach,
+      taskId: data.attach,
       userOpenId: openId,
       amount: reward
     });
