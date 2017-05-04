@@ -49,6 +49,8 @@ const orderNotify = async ctx => {
   //   trade_type: 'JSAPI',
   //   transaction_id: '4010162001201705049538003990' }
   //   attach:  taskId
+  console.log('isSuccessful -> '+isSuccessful);
+  console.log('result.attach -> '+result.attach);
   if (isSuccessful && result.attach) {
     // 付款成功，这里可以添加会员共享的打钱逻辑
     let taskId = result.attach;
@@ -60,7 +62,7 @@ const orderNotify = async ctx => {
     let isOk = await Dao.create(Bill, {
       taskId: result.attach,
       userOpenId: openId,
-      amount: -reward
+      amount: reward
     });
     console.log('会员共享查看费用账单生成 -> ' + isOk);
   }
