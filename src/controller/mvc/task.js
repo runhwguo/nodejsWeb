@@ -61,7 +61,7 @@ const detail = async ctx => {
   });
   publishTaskUser = publishTaskUser.dataValues;
 
-  let taskBelongAttr = addTaskBelongAttr(ctx.state.user.id, task.userId, id);
+  let taskBelongAttr = await addTaskBelongAttr(ctx.state.user.id, task.userId, id);
 
   let data = Object.assign(task, publishTaskUser, taskBelongAttr);
 
