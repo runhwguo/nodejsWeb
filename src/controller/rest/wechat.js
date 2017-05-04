@@ -82,7 +82,7 @@ const startPay = async ctx => {
   if (openId) {
     let prepay_id = await wxPay.unifiedOrder(ctx);
     if (!prepay_id) {
-      console.log('获取prepay_id失败');
+      console.error('获取prepay_id失败');
     }
     request = await wxPay.getOnBridgeReadyRequest(prepay_id);
   }

@@ -95,6 +95,7 @@ const unifiedOrder = async ctx => {
   };
 
   let formData = _addSignAndConvertToXml(data);
+  console.log(formData);
   let response = await Superagent
     .post(URL_UNIFIED_ORDER)
     .send(formData)
