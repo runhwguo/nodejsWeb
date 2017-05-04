@@ -1,7 +1,12 @@
 import Db from '../tool/db';
 import {UserTask} from '../tool/model';
+import Tracer from 'tracer';
+
+const console = Tracer.console();
 
 const addTaskBelongAttr = async (stateUserId, taskUserId, taskId) => {
+  console.log(stateUserId, taskUserId, taskId);
+
   let isSelfPublishedTask = stateUserId === taskUserId;
 
   let userTask = await UserTask.findOne({
