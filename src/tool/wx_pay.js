@@ -105,6 +105,8 @@ const unifiedOrder = async ctx => {
 
   let result = _xml2JsonObj(response.text);
 
+  console.log(result);
+
   if (_requestSuccessful(result)) {
     return result.prepay_id;
   }
