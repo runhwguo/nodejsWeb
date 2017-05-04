@@ -19,7 +19,7 @@ const _judgeTaskType = ctx => {
       $gt: 0
     }
   };
-  let attributes = ['id', 'type', 'title'];
+  let attributes = ['id', 'type', 'title', 'userId'];
   if (fromWhere.endsWith('ed')) {
     if (fromWhere === 'published') {
       where.userId = ctx.state.user.id;
