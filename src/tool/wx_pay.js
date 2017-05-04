@@ -77,8 +77,6 @@ const unifiedOrder = async ctx => {
   let nonceStr = Math.random().toString();
   let openid = ctx.cookies.get(config.session.wxOpenId);
   let outTradeNo = ctx.query.outTradeNo || randomString(28);
-  // attach taskId
-  let attach = ctx.query.attach || '';
 
   let data = {
     appid: APP_ID,// appid
@@ -93,6 +91,10 @@ const unifiedOrder = async ctx => {
     trade_type: TRADE_TYPE,//NATIVE会返回code_url ，JSAPI不会返回
     attach: attach
   };
+  // attach taskId
+  if(ctx.query.attach){
+    data.attach = ctx.query.attach;
+  }
 
   let formData = _addSignAndConvertToXml(data);
   console.log(formData);
