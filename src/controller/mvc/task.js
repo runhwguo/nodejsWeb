@@ -32,22 +32,34 @@ const detail = async ctx => {
   });
   task = task.dataValues;
   // 查看会员共享 付完款 就相当于    完成所有任务
+  console.log(task);
   if (task.type === TASK_TYPE.member_sharing && !where.endsWith('ed')) {
     let userTaskOption = {
       taskId: id,
       userId: ctx.state.user.id
     };
-    let thisUserTask = await Dao.findAll(UserTask, userTaskOption);
-    if (!thisUserTask || thisUserTask.length === 0) {
-      await Dao.create(UserTask, userTaskOption);
-
-      await Dao.update(Task, {
-        shareCount: Db.sequelize.literal('shareCount-1')
-      }, {
-        where: {
-          id: id
+    let thisUserTask =await UserTask.findOne({
+      where:userTaskOption
+    });
+    thisUserTask = thisUserTask.dataValues;
+    console.log(thisUserTask);
+    if (!thisUserTask) {
+      console.log('没有查看过');
+      if(await Dao.create(UserTask, userTaskOption)){
+        if(await Dao.update(Task, {
+          shareCount: Db.sequelize.literal('shareCount-1')
+        }, {
+          where: {
+            id: id
+          }
+        })){
+          console.log('新建查看会员记录 success');
+        }else{
+          console.log('新建查看会员记录 fail');
         }
-      });
+      }
+    } else {
+      console.log('查看过');
     }
   }
   let publishTaskUser = await User.findOne({
