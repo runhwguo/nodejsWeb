@@ -2,6 +2,7 @@ import crypto from "crypto";
 import * as wxPay from "../../tool/wx_pay";
 import {session} from "../../tool/config";
 import * as Dao from "../../tool/dao";
+import {Task, User, Bill} from "../../tool/model";
 import tracer from "tracer";
 
 
