@@ -2,7 +2,6 @@ let _param = [];
 let _successCallback = null;
 let _failCallback = null;
 
-
 function _isSupportWxPay() {
   let wxInfo = window.navigator.userAgent.match(/MicroMessenger\/([\d.]+)/i);
   return wxInfo && wxInfo.length >= 2 && wxInfo[1] >= '5.0';

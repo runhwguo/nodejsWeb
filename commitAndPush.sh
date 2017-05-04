@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "格式化代码，增加两张新的广告图"
+git commit -m "尝试增加微信支付回调接口的body xml支持"
 git push
 git status
