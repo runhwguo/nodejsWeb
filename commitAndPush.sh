@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "添加会员共享的打钱逻辑"
+git commit -m "koa body xml set explicitArray false"
 git push
 git status
