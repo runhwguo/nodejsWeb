@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "自己发布的或者自己领取的任务的状态判断"
+git commit -m "WebApp之Meta标签 （关闭自动识别数字为电话号码或邮箱之类）"
 git push
 git status
