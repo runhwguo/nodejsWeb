@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import * as wxPay from "../../tool/wx_pay";
-import {session} from '../../tool/config';
-import tracer from 'tracer';
+import {session} from "../../tool/config";
+import tracer from "tracer";
 
 
 let console = tracer.console();
@@ -29,9 +29,15 @@ const _isFromWechatServer = async (signature, timestamp, nonce) => {
 };
 
 const orderNotify = async ctx => {
-  console.log('微信支付回调 -> '+JSON.stringify(ctx.request.body));
+  let data = ctx.request.body;
+  let [isSuccessful, result] = wxPay.processNotifyCall(data);
+  if (isSuccessful) {
+    // 付款成功，这里可以添加会员共享的打钱逻辑
+  }
+  console.log(data);
+  console.log(result);
 
-  ctx.rest('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>');
+  ctx.rest(result);
 };
 
 const startPay = async ctx => {
@@ -39,8 +45,10 @@ const startPay = async ctx => {
   let request = '';
 
   if (openId) {
-    let result = await wxPay.unifiedOrder(ctx);
-    let prepay_id = result.prepay_id;
+    let prepay_id = await wxPay.unifiedOrder(ctx);
+    if (!prepay_id) {
+      console.log('获取prepay_id失败');
+    }
     request = await wxPay.getOnBridgeReadyRequest(prepay_id);
   }
   ctx.rest(request);

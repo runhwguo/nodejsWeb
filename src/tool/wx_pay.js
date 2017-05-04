@@ -4,8 +4,8 @@ import charset from "superagent-charset";
 import config from "./config";
 import {randomString} from "./common";
 
-import Json2xml from "json2xml";
-import Xml2json from "xml2json";
+import Xml2Json from "xml2json";
+import Json2Xml from "json2xml";
 import Tracer from "tracer";
 import fs from "mz/fs";
 import AppRootDir from "app-root-dir";
@@ -33,6 +33,7 @@ const PFX = fs.readFileSync(path.join(AppRootDir.get(), 'static/third-party/apic
 
 
 const SUCCESS = 'SUCCESS';
+const OK = 'OK';
 
 const _paySign = data => {
   let string = `${ _sortAndGenerateParam(data) }&key=${MCH_KEY}`;
@@ -60,12 +61,12 @@ const _addSignAndConvertToXml = data => {
     xml: Object.assign(data, {sign: sign})
   };
 
-  formData = Json2xml(formData);
+  formData = Json2Xml(formData);
   return formData;
 };
 
 const _xml2JsonObj = xmlStr => {
-  return JSON.parse(Xml2json.toJson(xmlStr)).xml;
+  return JSON.parse(Xml2Json.toJson(xmlStr)).xml;
 };
 
 const unifiedOrder = async ctx => {
@@ -96,7 +97,11 @@ const unifiedOrder = async ctx => {
     .send(formData)
     .charset(config.common.char_set_utf8);
 
-  return _xml2JsonObj(response.text);
+  let result = _xml2JsonObj(response.text);
+
+  if (_requestSuccessful(result)) {
+    return result.prepay_id;
+  }
 };
 
 const refund = async param => {
@@ -164,7 +169,7 @@ const enterprisePayToUser = async param => {
     partner_trade_no: randomString(26),
     openid: param.openid,
     check_name: 'NO_CHECK',
-    amount: param.amount*100,
+    amount: param.amount * 100,
     desc: '资源共享 做任务报酬',
     spbill_create_ip: param.ip,
   };
@@ -182,11 +187,33 @@ const enterprisePayToUser = async param => {
   });
   let result = _xml2JsonObj(response);
   console.log(result);
-  let isOk = result.return_code && result.return_code === SUCCESS && result.result_code && result.result_code === SUCCESS;
+  return _requestSuccessful(result);
+};
 
-  return isOk;
+const _requestSuccessful = result => {
+  return result && result.return_code && result.return_code === SUCCESS && result.result_code && result.result_code === SUCCESS;
+};
+
+const _toCDATA = data => {
+  return `<![CDATA[${ data }]]>`
+};
+
+const processNotifyCall = data => {
+  let isSuccessful = _requestSuccessful(data);
+  let result = null;
+  if (isSuccessful) {
+    result = Json2Xml({
+      xml: {
+        return_code: _toCDATA(SUCCESS),
+        return_msg: _toCDATA(OK)
+      }
+    });
+
+  }
+
+  return [isSuccessful, result];
 };
 
 export {
-  unifiedOrder, getAccessTokenOpenId, getOnBridgeReadyRequest, refund, enterprisePayToUser
+  unifiedOrder, getAccessTokenOpenId, getOnBridgeReadyRequest, refund, enterprisePayToUser, processNotifyCall
 };
