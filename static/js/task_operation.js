@@ -152,10 +152,8 @@ let vm = new Vue({
 });
 window.vm = vm;
 $(() => {
-  let vmDiv = $(vm.$el),
-    loading = $('.fa-spinner');
+  let vmDiv = $(vm.$el);
 
-  loading.hide();
   if ($('input:hidden')[0].value === 'index') {
     vmDiv.css('margin-bottom', '40px');
   } else {
@@ -169,10 +167,8 @@ $(() => {
     if (scrollTop + divHeight >= scrollHeight) {
       console.log("滚动条到底部了");
       if (vm.currentPage * vm.limit < vm.count) {
-        loading.show();
         vm.get();
       } else {
-        loading.hide();
       }
     }
   });

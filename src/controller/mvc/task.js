@@ -38,28 +38,21 @@ const detail = async ctx => {
       taskId: id,
       userId: ctx.state.user.id
     };
-    let thisUserTask =await UserTask.findOne({
-      where:userTaskOption
+    let thisUserTask = await UserTask.findOne({
+      where: userTaskOption
     });
-    thisUserTask = thisUserTask.dataValues;
     console.log(thisUserTask);
-    if (!thisUserTask) {
+    if (thisUserTask && thisUserTask.dataValues) {
+      console.log('查看过');
+    } else {
       console.log('没有查看过');
-      if(await Dao.create(UserTask, userTaskOption)){
-        if(await Dao.update(Task, {
-          shareCount: Db.sequelize.literal('shareCount-1')
-        }, {
-          where: {
-            id: id
-          }
-        })){
+      if (await Dao.create(UserTask, userTaskOption)) {
+        if (await Dao.update(Task, {shareCount: Db.sequelize.literal('shareCount-1')}, {where: {id: id}})) {
           console.log('新建查看会员记录 success');
-        }else{
+        } else {
           console.log('新建查看会员记录 fail');
         }
       }
-    } else {
-      console.log('查看过');
     }
   }
   let publishTaskUser = await User.findOne({
@@ -68,9 +61,11 @@ const detail = async ctx => {
   });
   publishTaskUser = publishTaskUser.dataValues;
 
-  let taskBelongAttr =addTaskBelongAttr(ctx.state.user.id, task.userId, id);
+  let taskBelongAttr = addTaskBelongAttr(ctx.state.user.id, task.userId, id);
 
   let data = Object.assign(task, publishTaskUser, taskBelongAttr);
+
+  console.log(data);
 
   data.reward = Math.abs(data.reward);
   ctx.render(`task/task_detail`, {
