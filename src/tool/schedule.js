@@ -33,7 +33,7 @@ const setSchedule = () => {
     console.log('run _deleteUsedVerificationCode end...');
 
     console.log('run _enterprisePayToUser start...');
-    result = await _enterprisePayToUser();
+    let result = await _enterprisePayToUser();
     console.log(result);
     console.log('run _enterprisePayToUser end...');
 
