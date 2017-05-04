@@ -21,7 +21,13 @@ $(() => {
   });
   $('div.main').css('margin-bottom', (15 + $('.navbar-fixed-bottom').height()));
 
-  $('#contactModal').on('show.bs.modal', () => {
+  let contactModal = $('#contactModal');
+
+  contactModal.on('show.bs.modal', () => {
     $('.modal .modal-dialog').css('overflow-y', 'auto').css('max-height', $(window).height() * 0.5);
+  });
+
+  $('#contentTr').click(() => {
+    contactModal.modal();
   });
 });
