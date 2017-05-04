@@ -37,7 +37,7 @@ const orderNotify = async ctx => {
   console.log(data);
   console.log(result);
 
-  ctx.rest(result);
+  ctx.rest(result..replace(/&lt;/g, '<').replace(/&gt;/g, '>'));
 };
 
 const startPay = async ctx => {
