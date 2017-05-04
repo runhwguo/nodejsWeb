@@ -1,36 +1,35 @@
 {% extends "./template/base.html" %}
 
 {% block style%}
-<link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
-<link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
 {% endblock%}
 
 {% block main %}
-
-<form class="main" action="/api/login" method="post">
-    <div class="form-group">
-        <input type="number" class="form-control" id="id" name="id"
-               placeholder="学号"/>
-    </div>
-    <div class="form-group">
-        <input type="password" class="form-control" id="password" name="password"
-               placeholder="密码"/>
-    </div>
-    <div class="form-group">
-        <input type="text" id="verificationCode" class="form-control"
-               style="display: inline-block;width: 70%;"
-               name="verificationCode" placeholder="验证码"/>
-        <img src="{{ verificationCodePictureUrl }}" style="width: 20%;">
-    </div>
-    <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
-            class="ladda-label">登录</span></button>
-</form>
+    <form class="main" action="/api/login" method="post">
+        <div class="form-group">
+            <input type="number" class="form-control" id="id" name="id"
+                   placeholder="学号"/>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="password" name="password"
+                   placeholder="密码"/>
+        </div>
+        <div class="form-group">
+            <input type="text" id="verificationCode" class="form-control"
+                   style="display: inline-block;width: 70%;"
+                   name="verificationCode" placeholder="验证码"/>
+            <img src="{{ verificationCodePictureUrl }}" style="width: 20%;">
+        </div>
+        <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
+                class="ladda-label">登录</span></button>
+    </form>
 {% endblock%}
 
 {% block script%}
-<script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
-<script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
-<script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js" defer></script>
-<script src="/static/js-min/login.js"></script>
-<script src="/static/js-min/ajax_loading.js" defer></script>
+    <script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
+    <script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
+    <script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js" defer></script>
+    <script src="/static/js-min/login.js"></script>
+    <script src="/static/js-min/ajax_loading.js" defer></script>
 {% endblock %}

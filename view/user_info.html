@@ -1,36 +1,36 @@
 {% extends './template/base.html' %}
 
 {% block style%}
-<link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
-<link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
 {% endblock%}
 
 {% block main %}
-<form class="main" action='/api/save' method='post'>
-    <div class='form-group'>
-        <input type='text' class='form-control' id='name' name='name' placeholder='姓名' value="{{user.name}}"/>
-    </div>
-    <div class='form-group'>
-        <input type='tel' class='form-control' onkeypress="return event.charCode >= 48 && event.charCode <= 57" id='tel'
-               name='tel' placeholder='电话' value="{{user.tel}}"/>
-    </div>
-    <div class='form-group'>
-        <input type='tel' class='form-control' onkeypress="return event.charCode >= 48 && event.charCode <= 57" id='qq'
-               name='qq' placeholder='QQ号' value="{{user.qq}}"/>
-    </div>
-    <div class='form-group'>
-        <input type='text' class='form-control' id='wx' name='wx' value="{{user.wx}}" placeholder='微信号'/>
-    </div>
-    <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
-            class="ladda-label">提交</span></button>
-</form>
-<input type="hidden" value="{{ where }}">
+    <form class="main" action='/api/save' method='post'>
+        <div class='form-group'>
+            <input type='text' class='form-control' id='name' name='name' placeholder='姓名' value="{{user.name}}"/>
+        </div>
+        <div class='form-group'>
+            <input type='tel' class='form-control' onkeypress="return event.charCode >= 48 && event.charCode <= 57" id='tel'
+                   name='tel' placeholder='电话' value="{{user.tel}}"/>
+        </div>
+        <div class='form-group'>
+            <input type='tel' class='form-control' onkeypress="return event.charCode >= 48 && event.charCode <= 57" id='qq'
+                   name='qq' placeholder='QQ号' value="{{user.qq}}"/>
+        </div>
+        <div class='form-group'>
+            <input type='text' class='form-control' id='wx' name='wx' value="{{user.wx}}" placeholder='微信号'/>
+        </div>
+        <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
+                class="ladda-label">提交</span></button>
+    </form>
+    <input type="hidden" value="{{ where }}">
 {% endblock %}
 
 {% block script%}
-<script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
-<script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
-<script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js" defer></script>
-<script src="/static/js-min/user_info.js"></script>
-<script src="/static/js-min/ajax_loading.js" defer></script>
+    <script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
+    <script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
+    <script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js" defer></script>
+    <script src="/static/js-min/user_info.js"></script>
+    <script src="/static/js-min/ajax_loading.js" defer></script>
 {% endblock%}

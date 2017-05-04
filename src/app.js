@@ -11,7 +11,7 @@ import {project, session} from "./tool/config";
 import appRootDir from "app-root-dir";
 
 const app = new Koa();
-
+// ngnix remote ip代理
 app.proxy = true;
 
 const isProduction = process.env.NODE_ENV === 'production';

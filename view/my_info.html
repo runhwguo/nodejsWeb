@@ -1,40 +1,39 @@
 {% extends "./template/base.html" %}
 
 {% block style%}
-<link rel="stylesheet" href="/static/css-min/my-info.css">
+    <link rel="stylesheet" href="/static/css-min/my-info.css">
 {% endblock%}
 
 {% block main %}
-<div class="user-head">
-    {% if gender === '女' %}
-    <img src="/static/image-min/girl.jpeg" class="img-circle" alt="girl">
-    {% elif gender === '男' %}
-    <img src="/static/image-min/boy.jpeg" class="img-circle" alt="boy">
-    {% endif %}
-    <p>{{ username }}</p>
-</div>
+    <div class="user-head">
+        {% if gender === '女' %}
+        <img src="/static/image-min/girl.jpeg" class="img-circle" alt="girl">
+        {% elif gender === '男' %}
+        <img src="/static/image-min/boy.jpeg" class="img-circle" alt="boy">
+        {% endif %}
+        <p>{{ username }}</p>
+    </div>
 
-<div class="list-group main">
-    <a id="unfinishedTasks" class="list-group-item" href="/task/mine/unfinished">
-        <span class="pull-left glyphicon glyphicon-asterisk"></span>
-        <span class="task">已接单未完成<span class="badge">{{ unfinishedBadge }}</span></span>
-        <i class="pull-right fa fa-angle-right" aria-hidden="true"></i>
-    </a>
-    <a id="completedTasks" class="list-group-item" href="/task/mine/completed">
-        <span class="pull-left glyphicon glyphicon-ok"></span>
-        <span class="task">已接单并完成</span>
-        <i class="pull-right fa fa-angle-right" aria-hidden="true"></i>
-    </a>
-    <a id="publishedTasks" class="list-group-item" href="/task/mine/published">
-        <i class="pull-left fa fa-paper-plane-o" aria-hidden="true"></i>
-        <span class="task">我发布的订单<span class="badge">{{ unPaidBadge }}</span></span>
-        <i class="pull-right fa fa-angle-right" aria-hidden="true"></i>
-    </a>
-    <a id="myInfo" class="list-group-item" href="/userInfo?where=me">
-        <i class="pull-left fa fa-user-o" aria-hidden="true"></i>
-        <span class="task">我的信息</span>
-        <i class="pull-right fa fa-angle-right" aria-hidden="true"></i>
-    </a>
-</div>
-
+    <div class="list-group main">
+        <a id="unfinishedTasks" class="list-group-item" href="/task/mine/unfinished">
+            <span class="pull-left glyphicon glyphicon-asterisk"></span>
+            <span class="task">已接单未完成<span class="badge">{{ unfinishedBadge }}</span></span>
+            <i class="pull-right fa fa-angle-right" aria-hidden="true"></i>
+        </a>
+        <a id="completedTasks" class="list-group-item" href="/task/mine/completed">
+            <span class="pull-left glyphicon glyphicon-ok"></span>
+            <span class="task">已接单并完成</span>
+            <i class="pull-right fa fa-angle-right" aria-hidden="true"></i>
+        </a>
+        <a id="publishedTasks" class="list-group-item" href="/task/mine/published">
+            <i class="pull-left fa fa-paper-plane-o" aria-hidden="true"></i>
+            <span class="task">我发布的订单<span class="badge">{{ unPaidBadge }}</span></span>
+            <i class="pull-right fa fa-angle-right" aria-hidden="true"></i>
+        </a>
+        <a id="myInfo" class="list-group-item" href="/userInfo?where=me">
+            <i class="pull-left fa fa-user-o" aria-hidden="true"></i>
+            <span class="task">我的信息</span>
+            <i class="pull-right fa fa-angle-right" aria-hidden="true"></i>
+        </a>
+    </div>
 {% endblock %}
