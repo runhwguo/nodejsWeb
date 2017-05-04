@@ -85,12 +85,13 @@ const get = async ctx => {
     });
   }
 
-  // 加载判断 是否是自己的任务，自己是否接了
+  // 加载判断 是否是自己的任务和自己是否接了
   for (let i = 0; i < tasks.length; i++) {
     if (ctx.state.user) {
       let task = tasks[i];
       let taskBelongAttr = await addTaskBelongAttr(ctx.state.user.id, task.userId, task.id);
       tasks[i] = Object.assign(task, taskBelongAttr);
+      console.log(tasks[i]);
     }
   }
 
