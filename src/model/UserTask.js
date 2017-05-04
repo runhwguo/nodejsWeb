@@ -5,7 +5,7 @@ import Tracer from 'tracer';
 const console = Tracer.console();
 
 const addTaskBelongAttr = async (stateUserId, taskUserId, taskId) => {
-  console.log(stateUserId, taskUserId, taskId);
+  console.log('debug add attr ->' + stateUserId, taskUserId, taskId);
 
   let isSelfPublishedTask = stateUserId === taskUserId;
 
