@@ -88,8 +88,7 @@ const unifiedOrder = async ctx => {
     out_trade_no: outTradeNo,//订单号
     spbill_create_ip: spbillCreateIp,//终端IP
     total_fee: totalFee,//金额
-    trade_type: TRADE_TYPE,//NATIVE会返回code_url ，JSAPI不会返回
-    attach: attach
+    trade_type: TRADE_TYPE//NATIVE会返回code_url ，JSAPI不会返回
   };
   // attach taskId
   if(ctx.query.attach){
