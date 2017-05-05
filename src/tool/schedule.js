@@ -2,10 +2,9 @@ import schedule from "node-schedule";
 
 import * as Dao from "./dao";
 import {getToday} from "../tool/common";
-import {Task, Bill} from "../tool/model";
 import {session} from "../tool/config";
 import {TASK_STATE} from "../model/Task";
-import {refund, enterprisePayToUser} from "./wx_pay";
+import {enterprisePayToUser, refund} from "./wx_pay";
 import Tracer from "tracer";
 import Fs from "mz/fs";
 import AppRootDir from "app-root-dir";
@@ -16,8 +15,9 @@ const console = Tracer.console();
 const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
-  scanRule.hour = 21;
-  scanRule.minute = 9;
+  // scanRule.hour = 21;
+  // scanRule.minute = 9;
+  scanRule.second = [0, 30];
 
   let job = schedule.scheduleJob(scanRule, async () => {
     console.log('run schedule start...');
@@ -62,16 +62,16 @@ const _offExpiredTaskAndRefund = async () => {
   });
   console.log('过期的任务 -> ' + expiredTasks);
   let result = 0;
-  if(expiredTasks.length > 0) {
+  if (expiredTasks.length > 0) {
     result = await Dao.update(Task, {
       state: TASK_STATE.expired
     }, {
       where: expiredTaskWhere
     });
   }
-  console.log('下架过期任务 count -> '+result);
+  console.log('下架过期任务 count -> ' + result);
 
-  for(let item of expiredTasks){
+  for (let item of expiredTasks) {
     // 发布任务者预付报酬
     if (item.reward > 0) {
       console.log('refund ' + JSON.stringify(item));
@@ -96,11 +96,11 @@ const _deleteUsedVerificationCode = async dir => {
     let stat = await Fs.stat(file);
     if (stat.isDirectory()) {
       await _deleteUsedVerificationCode(file);
-    } else if(stat.isFile()) {
+    } else if (stat.isFile()) {
 
-      if (stat.birthtime.getTime() < Date.now() - session.maxAge * 1000){
+      if (stat.birthtime.getTime() < Date.now() - session.maxAge * 1000) {
         result = await Fs.unlink(file);
-        console.log('删除用过的验证码 -> '+file);
+        console.log('删除用过的验证码 -> ' + file);
       }
     }
   }
@@ -112,14 +112,14 @@ const _enterprisePayToUser = async () => {
   let bills = await Dao.findAll(Bill, {
     attributes: ['userOpenId', 'isDone', 'id', 'taskId', 'amount'],
     where: {
-      isDone:false
+      isDone: false
     },
   });
 
-  console.log('要给用户钱的订单 -> '+ JSON.stringify(bills));
+  console.log('要给用户钱的订单 -> ' + JSON.stringify(bills));
   let result;
   // 处理每个bill
-  for(let bill of bills){
+  for (let bill of bills) {
     result = await enterprisePayToUser({
       openid: bill.userOpenId,
       amount: bill.amount,
@@ -127,11 +127,11 @@ const _enterprisePayToUser = async () => {
     });
     if (result) {
       console.log('_enterprisePayToUser success = ' + JSON.stringify(bill));
-      await Dao.update(Bill,{
-        isDone:true
-      },{
-        where:{
-          id:bill.id
+      await Dao.update(Bill, {
+        isDone: true
+      }, {
+        where: {
+          id: bill.id
         }
       });
     } else {
