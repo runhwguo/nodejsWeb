@@ -55,15 +55,30 @@ const detail = async ctx => {
       }
     }
   }
-  let publishTaskUser = await User.findOne({
-    where: {id: task.userId},
+  let userId = task.userId;
+  // 带上发任务或者接任务的人的联系方式
+  if (where.endsWith('published')) {// 查看自己发布的任务时
+    // 如果任务被接单，被完成，支付了，就带上接单人信息
+    if ([TASK_STATE.completing, TASK_STATE.completed, TASK_STATE.paid].includes(task.state)) {
+      let userTask = await UserTask.findOne({
+        where: {
+          taskId: task.id
+        },
+        attributes: ['userId']
+      });
+      userId = userTask.dataValues.userId;
+    }
+  }
+
+  let user = await User.findByPrimary(userId, {
     attributes: ['name', 'tel', 'qq', 'wx']
   });
-  publishTaskUser = publishTaskUser.dataValues;
+
+  user = user.dataValues;
 
   let taskBelongAttr = await addTaskBelongAttr(ctx.state.user.id, task.userId, id);
 
-  let data = Object.assign(task, publishTaskUser, taskBelongAttr);
+  let data = Object.assign(task, user, taskBelongAttr);
 
   console.log(data);
 

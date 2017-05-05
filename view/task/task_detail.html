@@ -14,7 +14,11 @@
                 <td class="col-md-9">{{data.type}}</td>
             </tr>
             <tr>
-                <td>发布者</td>
+                {% if data.isSelfPublishedTask and (data.state === '完成中' or data.state === '确认支付' or data.state === '已支付')  %}
+                    <td>接单者</td>
+                {% else %}
+                    <td>发布者</td>
+                {% endif %}
                 <td>{{data.name}}</td>
             </tr>
             <tr>
