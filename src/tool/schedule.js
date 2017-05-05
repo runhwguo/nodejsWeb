@@ -3,6 +3,7 @@ import schedule from "node-schedule";
 import * as Dao from "./dao";
 import {getToday} from "../tool/common";
 import {session} from "../tool/config";
+import {Task, Bill} from "../tool/model";
 import {TASK_STATE} from "../model/Task";
 import {enterprisePayToUser, refund} from "./wx_pay";
 import Tracer from "tracer";
