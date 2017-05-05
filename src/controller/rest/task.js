@@ -110,19 +110,19 @@ const publish = async ctx => {
     path: serverFilePath
   });
   result.data.userId = ctx.state.user.id;
-  if(result.data.shareCount) {
+  if (result.data.shareCount) {
     result.data.shareCount = Number.parseInt(result.data.shareCount);
-  }else {
+  } else {
     result.data.shareCount = 1;
   }
 
-  if (!result.data.reward){
+  if (!result.data.reward) {
     result.data.reward = 0;
   }
 
   let isOK = await Dao.create(Task, result.data);
   ctx.rest({
-    result: !!isOK
+    result: isOK
   });
 };
 
@@ -133,7 +133,7 @@ const count = async ctx => {
     count = await UserTaskDao.count(ctx.state.user.id, [TASK_STATE.completing]);
   } else if (fromWhere === 'completed') {
     count = await UserTaskDao.count(ctx.state.user.id, [TASK_STATE.completed, TASK_STATE.paid]);
-  } else{
+  } else {
     let where = _judgeTaskType(ctx)[0];
 
     count = await Dao.count(Task, {
@@ -195,7 +195,7 @@ const stateUpdate = async ctx => {
 
   if (!!result) {
     // 状态更新 引起的操作
-    if (operate === 'order'){
+    if (operate === 'order') {
       // 插入UserTask
       let isCreateObjOk = await Dao.create(UserTask, {
         taskId: id,
@@ -234,7 +234,7 @@ const stateUpdate = async ctx => {
         amount: reward
       });
 
-      if(!isCreateBill){
+      if (!isCreateBill) {
         console.error('生成支付订单错误');
       }
     }
