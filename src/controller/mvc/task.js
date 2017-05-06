@@ -1,4 +1,4 @@
-import {MINE_TASK_TYPE, TASK_TYPE, isSelfPublishedTask} from '../../model/Task';
+import {MINE_TASK_TYPE, TASK_TYPE, TASK_STATE} from '../../model/Task';
 import {addTaskBelongAttr} from '../../model/UserTask';
 import {Task, User, UserTask} from '../../tool/model';
 import * as Dao from '../../tool/dao';
