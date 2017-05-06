@@ -89,7 +89,7 @@ const defineModel = (name, attributes) => {
   });
 };
 
-const TYPES = ['STRING', 'INTEGER', 'BIGINT', 'TEXT', 'DOUBLE', 'DATEONLY', 'BOOLEAN', 'BLOB', 'TEXT'];
+const TYPES = ['STRING', 'INTEGER', 'BIGINT', 'TEXT', 'DOUBLE', 'DATEONLY', 'BOOLEAN', 'BLOB', 'REAL'];
 
 let exp = {
   defineModel: defineModel,

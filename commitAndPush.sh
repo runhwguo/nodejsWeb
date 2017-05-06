@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "定时任务 时间修改"
+git commit -m "发布任务报酬 带1-2位小数的正数 报酬最少￥1.5"
 git push
 git status

@@ -34,7 +34,7 @@ let exportModule = Db.defineModel('tasks', {
     type: Db.STRING,
     defaultValue: ''
   },
-  reward: Db.INTEGER, // 正:发布任务者赏   负：发布任务者收
+  reward: Db.REAL, // 正:发布任务者赏   负：发布任务者收
   state: {// 0:刚发布未被认领，1:认领了在完成中，2:我完成的，3:完成交易成功，4:发布者取消，5:过期没有认领
     type: Db.STRING,
     defaultValue: STATE.released_not_claimed

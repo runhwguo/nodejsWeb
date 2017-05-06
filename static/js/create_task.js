@@ -2,7 +2,10 @@ $(() => {
   let form = $('form'),
     submitBtnWord = $('.ladda-label'),
     deadline = $('#deadline'),
+    reward = $('#reward'),
     createTask = $('#createTaskTab');
+
+  const rewardReg = /^\d+(.\d{1,2})?$/;
   deadline.datepicker({
     minDate: 0,
     maxDate: 31,
@@ -19,7 +22,7 @@ $(() => {
     monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
   });
 
-  deadline.click((event) => {
+  deadline.click(() => {
     let uiDatepickerDiv = $('#ui-datepicker-div');
     let viewportWidth = $(window).width();
     let viewportHeight = $(window).height();
@@ -32,6 +35,14 @@ $(() => {
       top: topPos,
       position: 'absolute'
     }).css('z-index', 999);
+  });
+
+  reward.keypress((event) => {
+    let which = event.which;
+    if ((which >= '0'.charCodeAt(0) && which <= '9'.charCodeAt(0)) || which === '.'.charCodeAt(0)) {
+    } else {
+      event.preventDefault();
+    }
   });
 
   /**
@@ -85,8 +96,11 @@ $(() => {
         message: 'The reward is not valid',
         validators: {
           regexp: {
-            regexp: /^[0-9]\d*$/,
-            message: "请输入正整数的钱数"
+            regexp: rewardReg,
+            message: "请输入带1-2位小数的正数"
+          },
+          greaterThan: {
+            message: '报酬最少￥1.5'
           }
         }
       },

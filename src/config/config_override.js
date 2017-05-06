@@ -7,7 +7,7 @@ const config = {
     ujsCookieName: 'JSESSIONID',
     wxOpenId: 'openid',
     cookieKey: 'fuckQ',
-    maxAge: 86400//一天
+    maxAge: 86400 * 7//一天
   },
   admin: {
     username: 'admin',
