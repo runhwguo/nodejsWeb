@@ -99,8 +99,19 @@ $(() => {
             regexp: rewardReg,
             message: "请输入带1-2位小数的正数"
           },
-          greaterThan: {
-            message: '报酬最少￥1.5'
+          callback: {
+            message: 'The reward is not valid',
+            callback: (value, validator, $field) => {
+              let reward = Number.parseFloat(value);
+              if (reward > 0 && reward < 1.5) {
+                return {
+                  valid: false,
+                  message: '最少悬赏￥1.5'
+                };
+              }
+
+              return true;
+            }
           }
         }
       },

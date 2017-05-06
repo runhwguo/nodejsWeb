@@ -208,15 +208,14 @@ const stateUpdate = async ctx => {
     }
   });
 
-  if (!!result) {
+  if (result) {
     // 状态更新 引起的操作
     if (operate === 'order') {
       // 插入UserTask
-      let isCreateObjOk = await Dao.create(UserTask, {
+      result = await Dao.create(UserTask, {
         taskId: id,
         userId: ctx.state.user.id
-      });
-      result = !!isCreateObjOk
+      })
     } else if (operate === 'abandon') {
       // 删除UserTask
       let isCreateObjOk = await Dao.remove(UserTask, {
@@ -251,6 +250,26 @@ const stateUpdate = async ctx => {
 
       if (!isCreateBill) {
         console.error('生成支付订单错误');
+      }
+    } else if (operate === 'off') {
+      let task = await Task.findByPrimary(id, {
+        attributes: ['reward', 'state']
+      });
+
+      task = task.dataValues;
+
+      if (task.state === TASK_STATE.released_not_claimed) {
+        let reward = task.reward;
+
+        let isCreateBill = await Dao.create(Bill, {
+          taskId: id,
+          userOpenId: ctx.state.user.openId,
+          amount: reward
+        });
+
+        if (!isCreateBill) {
+          console.error('生成支付订单错误');
+        }
       }
     }
   }

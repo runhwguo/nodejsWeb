@@ -177,7 +177,7 @@ const enterprisePayToUser = async param => {
     openid: param.openid,
     check_name: 'NO_CHECK',
     amount: Math.abs(param.amount) * 100,
-    desc: '资源共享 做任务报酬',
+    desc: '资源共享平台 做<' + param.taskTitle + '>任务的报酬, 平台收取报酬的10%',
     spbill_create_ip: param.ip,
   };
 

@@ -24,11 +24,10 @@ const list = async ctx => {
 const detail = async ctx => {
   let id = ctx.params.id;
   let where = ctx.query.where;
-  let task = await Task.findOne({
-    where: {
-      id: id
-    },
-    attributes: {exclude: ['version', 'updatedAt', 'createdAt', 'deletedAt']}
+  let task = await Task.findByPrimary(id,{
+    attributes: {
+      exclude: ['version', 'updatedAt', 'createdAt', 'deletedAt']
+    }
   });
   task = task.dataValues;
   // 查看会员共享 付完款 就相当于    完成所有任务

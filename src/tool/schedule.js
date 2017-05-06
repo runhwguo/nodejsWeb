@@ -114,17 +114,22 @@ const _enterprisePayToUser = async () => {
     attributes: ['userOpenId', 'isDone', 'id', 'taskId', 'amount'],
     where: {
       isDone: false
-    },
+    }
   });
 
   console.log('要给用户钱的订单 -> ' + JSON.stringify(bills));
   let result;
   // 处理每个bill
   for (let bill of bills) {
+    let billTask = Task.findByPrimary(bill.taskId, {
+      attributes:['title']
+    });
+    let taskTitle = billTask.dataValues.title;
     result = await enterprisePayToUser({
       openid: bill.userOpenId,
-      amount: bill.amount,
-      ip: '115.159.81.222'
+      amount: bill.amount * 0.9,
+      ip: '115.159.81.222',
+      taskTitle: taskTitle
     });
     if (result) {
       console.log('_enterprisePayToUser success = ' + JSON.stringify(bill));
