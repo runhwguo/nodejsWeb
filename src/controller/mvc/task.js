@@ -55,8 +55,8 @@ const detail = async ctx => {
       }
     }
   }
-  let userId = task.userId;
   // 带上发任务或者接任务的人的联系方式
+  let userId = task.userId;
   if (where.endsWith('published')) {// 查看自己发布的任务时
     // 如果任务被接单，被完成，支付了，就带上接单人信息
     if ([TASK_STATE.completing, TASK_STATE.completed, TASK_STATE.paid].includes(task.state)) {

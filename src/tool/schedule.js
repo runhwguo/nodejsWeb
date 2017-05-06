@@ -16,9 +16,9 @@ const console = Tracer.console();
 const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
-  // scanRule.hour = 21;
-  // scanRule.minute = 9;
-  scanRule.second = [0, 30];
+  scanRule.hour = [10, 15, 17];
+  scanRule.minute = 9;
+  scanRule.second = 0;
 
   let job = schedule.scheduleJob(scanRule, async () => {
     console.log('run schedule start...');
@@ -142,4 +142,3 @@ const _enterprisePayToUser = async () => {
 };
 
 export default setSchedule;
-
