@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "6个模块，该小字号"
+git commit -m "报酬类型 做校验"
 git push
 git status

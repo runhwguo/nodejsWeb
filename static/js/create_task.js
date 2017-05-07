@@ -125,6 +125,14 @@ $(() => {
             message: '请选择结束日期'
           }
         }
+      },
+      rewardType: {
+        message: 'The deadline is not valid',
+        validators: {
+          notEmpty: {
+            message: '请选择报酬类型'
+          }
+        }
       }
     }
   }).on('success.form.bv', e => {
