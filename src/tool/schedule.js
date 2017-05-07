@@ -65,16 +65,7 @@ const _offExpiredTaskAndRefund = async () => {
     attributes: ['reward', 'outTradeNo', 'id'],
     where: expiredTaskWhere
   });
-  console.log('过期的任务 -> ' + expiredTasks);
-  let result = 0;
-  if (expiredTasks.length) {
-    result = await Dao.update(Task, {
-      state: TASK_STATE.expired
-    }, {
-      where: expiredTaskWhere
-    });
-  }
-  console.log('下架过期任务 count -> ' + result);
+  console.log('下架过期任务 count -> ' + expiredTasks.length);
 
   expiredTasks.map(async item => {
     if (item.reward > 0) {
