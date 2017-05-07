@@ -8,5 +8,5 @@ module.exports = Db.defineModel('bills', {
     type: Db.BOOLEAN,
     defaultValue: false
   },
-  amount: Db.INTEGER
+  amount: Db.REAL
 });
