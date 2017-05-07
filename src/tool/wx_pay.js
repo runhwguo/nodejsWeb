@@ -128,7 +128,6 @@ const refund = async param => {
   };
 
   let formData = _addSignAndConvertToXml(data);
-  console.log('start to refund');
   let result = await request({
     url: URL_REFUND,
     method: 'POST',
@@ -138,9 +137,9 @@ const refund = async param => {
       passphrase: MCH_ID
     }
   });
-  console.log(_xml2JsonObj(result));
+  result = _xml2JsonObj(result);
 
-  console.log('end to refund');
+  return _requestSuccessful(result);
 };
 
 const getAccessTokenOpenId = async code => {

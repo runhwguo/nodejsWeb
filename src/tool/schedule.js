@@ -16,9 +16,13 @@ const console = Tracer.console();
 const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
-  scanRule.hour = [10, 15, 17];
-  scanRule.minute = 9;
-  scanRule.second = 0;
+  // scanRule.hour = [10, 15, 17];
+  let minutes = [];
+  for (let i=0;i<60;i+=2){
+    minutes.push(i);
+  }
+  scanRule.minute = minutes;
+  // scanRule.second = 0;
 
   let job = schedule.scheduleJob(scanRule, async () => {
     console.log('run schedule start...');
@@ -58,12 +62,12 @@ const _offExpiredTaskAndRefund = async () => {
   };
 
   let expiredTasks = await Dao.findAll(Task, {
-    attributes: ['reward', 'outTradeNo'],
+    attributes: ['reward', 'outTradeNo', 'id'],
     where: expiredTaskWhere
   });
   console.log('过期的任务 -> ' + expiredTasks);
   let result = 0;
-  if (expiredTasks.length > 0) {
+  if (expiredTasks.length) {
     result = await Dao.update(Task, {
       state: TASK_STATE.expired
     }, {
@@ -72,14 +76,25 @@ const _offExpiredTaskAndRefund = async () => {
   }
   console.log('下架过期任务 count -> ' + result);
 
-  for (let item of expiredTasks) {
-    // 发布任务者预付报酬
+  expiredTasks.map(async item => {
     if (item.reward > 0) {
       console.log('refund ' + JSON.stringify(item));
       let result = await refund(item);
       console.log(result);
+      if (result) {
+        await Dao.update(Task, {
+          state: TASK_STATE.expired
+        }, {
+          where: {
+            id: item.id
+          }
+        });
+      }
     }
-  }
+  });
+  // for (let item of expiredTasks) {
+  // 发布任务者预付报酬
+  // }
 };
 
 /**
@@ -122,7 +137,7 @@ const _enterprisePayToUser = async () => {
   // 处理每个bill
   for (let bill of bills) {
     let billTask = Task.findByPrimary(bill.taskId, {
-      attributes:['title']
+      attributes: ['title']
     });
     let taskTitle = billTask.dataValues.title;
     result = await enterprisePayToUser({
