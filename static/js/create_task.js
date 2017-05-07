@@ -95,6 +95,9 @@ $(() => {
       reward: {
         message: 'The reward is not valid',
         validators: {
+          notEmpty: {
+            message: '请填写报酬'
+          },
           regexp: {
             regexp: rewardReg,
             message: "请输入带1-2位小数的正数"
