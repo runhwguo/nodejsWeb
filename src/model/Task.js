@@ -54,10 +54,8 @@ exports = Db.defineModel('tasks', {
   }
 });
 
-exports = Object.assign(exports, {
+module.exports = Object.assign(exports, {
   TASK_STATE: STATE,
   TASK_TYPE: TYPE,
   MINE_TASK_TYPE: MINE_TYPE
 });
-
-module.exports = exports;
