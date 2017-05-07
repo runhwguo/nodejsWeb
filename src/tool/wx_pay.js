@@ -139,6 +139,8 @@ const refund = async param => {
   });
   result = _xml2JsonObj(result);
 
+  console.log(result);
+
   return _requestSuccessful(result);
 };
 
