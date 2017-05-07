@@ -18,7 +18,7 @@ const setSchedule = () => {
 
   // scanRule.hour = [10, 15, 17];
   let minutes = [];
-  for (let i = 0; i < 60; i += 3) {
+  for (let i = 0; i < 60; i += 2) {
     minutes.push(i);
   }
   scanRule.minute = minutes;
@@ -82,9 +82,6 @@ const _offExpiredTaskAndRefund = async () => {
       }
     }
   });
-  // for (let item of expiredTasks) {
-  // 发布任务者预付报酬
-  // }
 };
 
 /**
@@ -126,7 +123,7 @@ const _enterprisePayToUser = async () => {
   let result;
   // 处理每个bill
   for (let bill of bills) {
-    let billTask = Task.findByPrimary(bill.taskId, {
+    let billTask = await Task.findByPrimary(bill.taskId, {
       attributes: ['title']
     });
     let taskTitle = billTask.dataValues.title;
