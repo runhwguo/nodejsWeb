@@ -180,7 +180,7 @@ $(() => {
       });
     };
 
-    let rewardType = $('#rewardType').text();
+    let rewardType = $('#rewardType').val();
     let reward = $('#reward').val();
     if (rewardType === '赏' && reward > 0) {
       let outTradeNo = randomString(28);
@@ -203,7 +203,7 @@ $(() => {
     }
   );
   $('li[name="rewardValue"]').click(function () {
-    $('#rewardType').text($(this).text());
+    $('#rewardType').val($(this).text());
   });
 
   $.uploadPreview({
