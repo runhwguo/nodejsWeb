@@ -151,7 +151,7 @@ $(() => {
       } else {// 收
         data.reward = -data.reward;
       }
-      const interval = 1000,
+      const INTERVAL = 1 * 1000,
         normalSubmitBtnWord = submitBtnWord.text();
       $.ajaxFileUpload({
         type: form.attr('method'),
@@ -165,17 +165,21 @@ $(() => {
           submitBtnWord.text('成功');
           setTimeout(() => {
             submitBtnWord.text(normalSubmitBtnWord);
+            $('.modal-body').text('任务发布成功');
+            $('#publishModal').modal('show');
             loading.stop();
             // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
             submit.attr('disabled', true);
-          }, interval);
+          }, INTERVAL);
         },
         error: (xhr, status, e) => {
           submitBtnWord.text('失败');
           setTimeout(() => {
             submitBtnWord.text(normalSubmitBtnWord);
+            $('.modal-body').text('任务发布失败');
+            $('#publishModal').modal('show');
             loading.stop();
-          }, interval);
+          }, INTERVAL);
         }
       });
     };
