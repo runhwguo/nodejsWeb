@@ -202,29 +202,46 @@ const stateUpdate = async ctx => {
     value.state = state;
   }
   // 更新状态
-  let result = await Dao.update(Task, value, {
+  let ret = await Dao.update(Task, value, {
     where: {
       id: id
     }
   });
 
-  if (result) {
+  let result = {
+    result:true,
+    message:''
+  };
+
+  if (ret) {
     // 状态更新 引起的操作
     if (operate === 'order') {
       // 插入UserTask
-      result = await Dao.create(UserTask, {
+      ret = await Dao.create(UserTask, {
         taskId: id,
         userId: ctx.state.user.id
-      })
+      });
+      if(!ret){
+        result = {
+          result:false,
+          message:'接单失败，请重试'
+        }
+      }
     } else if (operate === 'abandon') {
       // 删除UserTask
-      let isCreateObjOk = await Dao.remove(UserTask, {
+      ret = await Dao.remove(UserTask, {
         where: {
           taskId: id,
           userId: ctx.state.user.id
         }
       });
-      result = !!isCreateObjOk
+
+      if(!ret){
+        result = {
+          result:false,
+          message:'放弃失败，请重试'
+        }
+      }
     } else if (operate === 'paid') {// 确认支付，生成单据
       let userTask = await UserTask.findOne({
         where: {
@@ -242,14 +259,18 @@ const stateUpdate = async ctx => {
       let user = await User.findByPrimary(userId);
       let userOpenId = user.dataValues.openId;
 
-      let isCreateBill = await Dao.create(Bill, {
+      let ret = await Dao.create(Bill, {
         taskId: id,
         userOpenId: userOpenId,
         amount: reward
       });
 
-      if (!isCreateBill) {
+      if (!ret) {
         console.error('生成支付订单错误');
+        result = {
+          result:false,
+          message:'支付失败，请重试'
+        }
       }
     } else if (operate === 'off') {
       let task = await Task.findByPrimary(id, {
@@ -261,14 +282,23 @@ const stateUpdate = async ctx => {
       if (task.state === TASK_STATE.released_not_claimed) {
         let reward = task.reward;
 
-        let isCreateBill = await Dao.create(Bill, {
+        let ret = await Dao.create(Bill, {
           taskId: id,
           userOpenId: ctx.state.user.openId,
           amount: reward
         });
 
-        if (!isCreateBill) {
+        if (!ret) {
           console.error('生成支付订单错误');
+          result = {
+            result:false,
+            message:'下架失败，请重试'
+          }
+        }
+      } else {
+        result = {
+          result:false,
+          message:'任务已被领取'
         }
       }
     }

@@ -91,8 +91,8 @@ let vm = new Vue({
         vm.$resource(`/api/task/state/stick/${ item.id }`).update()
           .then(resp => {
             vm.loading = false;
-            resp.json().then(result => {
-              stickButton.text(result.result ? '成功' : '失败');
+            resp.json().then(data => {
+              stickButton.text(data.result.result ? '成功' : data.result.message);
               setTimeout(() => {
                 stickButton.text(normalStickButtonWord);
                 loading.stop();

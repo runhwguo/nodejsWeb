@@ -8,17 +8,15 @@ function submitAjax(submit, ajaxOption, submitBtnWordOption, successCallback) {
     url: ajaxOption.url || '',
     data: ajaxOption.data || '',
     success: data => {
-      if (data.result) {
-        submit.text(submitBtnWordOption.success);
-        setTimeout(() => {
-          loading.stop();
-          // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
-          submit.attr('disabled', true);
-          if (successCallback) {
-            successCallback()
-          }
-        }, 500);
-      }
+      submit.text(data.result.result ? submitBtnWordOption.success : data.result.message);
+      setTimeout(() => {
+        loading.stop();
+        // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
+        submit.attr('disabled', true);
+        if (successCallback) {
+          successCallback()
+        }
+      }, 500);
     },
     error: xhr => {
       submit.text(submitBtnWordOption.fail);
