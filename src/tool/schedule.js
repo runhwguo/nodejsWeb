@@ -18,7 +18,7 @@ const setSchedule = () => {
 
   // scanRule.hour = [10, 15, 17];
   let minutes = [];
-  for (let i = 0; i < 1; i += 2) {
+  for (let i = 0; i < 60; i += 3) {
     minutes.push(i);
   }
   scanRule.minute = minutes;
