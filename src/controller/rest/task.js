@@ -1,13 +1,13 @@
+import {TASK_STATE, TASK_TYPE} from "../../model/Task";
+import {addTaskBelongAttr} from "../../model/UserTask";
+import {session} from "../../tool/config";
+import {uploadFile} from "../../tool/upload";
+import * as Dao from "../../tool/dao";
+import * as Common from "../../tool/common";
+import * as UserTaskDao from "../../tool/user_task_dao";
+import Db from "../../tool/db";
+import Tracer from "tracer";
 import {Task, UserTask, Bill, User} from '../../tool/model';
-import {TASK_STATE, TASK_TYPE} from '../../model/Task';
-import {addTaskBelongAttr} from '../../model/UserTask';
-import {session} from '../../tool/config';
-import {uploadFile} from '../../tool/upload';
-import * as Dao from '../../tool/dao';
-import * as Common from '../../tool/common';
-import * as UserTaskDao from '../../tool/user_task_dao';
-import Db from '../../tool/db';
-import Tracer from 'tracer';
 
 const console = Tracer.console();
 
@@ -162,57 +162,20 @@ const count = async ctx => {
 
 // postman中x-www-form-urlencoded下才能获取数据
 const stateUpdate = async ctx => {
-  let id = ctx.params.id;
-  let operate = ctx.params.operate;
+  let id = ctx.params.id,
+    operate = ctx.params.operate;
 
-  let value = {};
-  let state = null;
+  let value = {},
+    state = null,
+    result = {
+      result: true,
+      message: ''
+    };
+
+  let ret = false;
+
   switch (operate) {
     case 'order': {
-      state = TASK_STATE.completing;
-      break;
-    }
-    case 'stick': {
-      value.priority = Db.sequelize.literal('priority+1');
-      break;
-    }
-    case 'abandon': {
-      state = TASK_STATE.released_not_claimed;
-      break;
-    }
-    case 'done': {
-      state = TASK_STATE.completed;
-      break;
-    }
-    case 'off': {
-      state = TASK_STATE.cancelled;
-      break;
-    }
-    case 'paid': {
-      state = TASK_STATE.paid;
-      break;
-    }
-  }
-  if (state) {
-    value.state = state;
-  }
-  // 更新状态
-  let ret = await Dao.update(Task, value, {
-    where: {
-      id: id
-    }
-  });
-
-  let result = {
-    result: true,
-    message: ''
-  };
-
-
-
-  if (ret) {
-    // 状态更新 引起的操作
-    if (operate === 'order') {
       // 插入UserTask
       ret = await Dao.create(UserTask, {
         taskId: id,
@@ -224,7 +187,17 @@ const stateUpdate = async ctx => {
           message: '接单失败，请重试'
         }
       }
-    } else if (operate === 'abandon') {
+
+      state = TASK_STATE.completing;
+      break;
+    }
+    case 'stick': {
+      ret = true;
+
+      value.priority = Db.sequelize.literal('priority+1');
+      break;
+    }
+    case 'abandon': {
       // 删除UserTask
       ret = await Dao.remove(UserTask, {
         where: {
@@ -239,49 +212,27 @@ const stateUpdate = async ctx => {
           message: '放弃失败，请重试'
         }
       }
-    } else if (operate === 'paid') {// 确认支付，生成单据
-      let userTask = await UserTask.findOne({
-        where: {
-          taskId: id
-        },
-        attributes: ['userId']
-      });
 
-      let task = await Task.findByPrimary(id);
+      state = TASK_STATE.released_not_claimed;
+      break;
+    }
+    case 'done': {
+      ret = true;
 
-      let reward = task.dataValues.reward;
-
-
-      let userId = userTask.dataValues.userId;
-      let user = await User.findByPrimary(userId);
-      let userOpenId = user.dataValues.openId;
-
-      let ret = await Dao.create(Bill, {
-        taskId: id,
-        userOpenId: userOpenId,
-        amount: reward
-      });
-
-      if (!ret) {
-        console.error('生成支付订单错误');
-        result = {
-          result: false,
-          message: '支付失败，请重试'
-        }
-      }
-    } else if (operate === 'off') {
+      state = TASK_STATE.completed;
+      break;
+    }
+    case 'off': {
       let task = await Task.findByPrimary(id, {
         attributes: ['reward', 'state']
       });
 
       task = task.dataValues;
 
-      console.log(task);
-
       if (task.state === TASK_STATE.released_not_claimed) {
         let reward = task.reward;
 
-        let ret = await Dao.remove(Task, {
+        ret = await Dao.remove(Task, {
           where: {
             id: id
           }
@@ -308,8 +259,54 @@ const stateUpdate = async ctx => {
           message: '任务已被领取'
         }
       }
+
+      state = TASK_STATE.cancelled;
+      break;
+    }
+    case 'paid': {
+      let userTask = await UserTask.findOne({
+        where: {
+          taskId: id
+        },
+        attributes: ['userId']
+      });
+
+      let task = await Task.findByPrimary(id);
+
+      let reward = task.dataValues.reward;
+
+
+      let userId = userTask.dataValues.userId;
+      let user = await User.findByPrimary(userId);
+      let userOpenId = user.dataValues.openId;
+
+      ret = await Dao.create(Bill, {
+        taskId: id,
+        userOpenId: userOpenId,
+        amount: reward
+      });
+
+      if (!ret) {
+        console.error('生成支付订单错误');
+        result = {
+          result: false,
+          message: '支付失败，请重试'
+        }
+      }
+
+      state = TASK_STATE.paid;
+      break;
     }
   }
+  if (state) {
+    value.state = state;
+  }
+  // 更新状态
+  await Dao.update(Task, value, {
+    where: {
+      id: id
+    }
+  });
 
   ctx.rest({
     result: result
