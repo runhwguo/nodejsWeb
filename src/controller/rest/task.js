@@ -276,6 +276,8 @@ const stateUpdate = async ctx => {
 
       task = task.dataValues;
 
+      console.log(task);
+
       if (task.state === TASK_STATE.released_not_claimed) {
         let reward = task.reward;
 
