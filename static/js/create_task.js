@@ -109,7 +109,7 @@ $(() => {
               if (reward > 0 && reward < 1.5) {
                 return {
                   valid: false,
-                  message: '最少悬赏￥1.5'
+                  message: '报酬最少￥1.5'
                 };
               }
 
@@ -204,6 +204,10 @@ $(() => {
   );
   $('li[name="rewardValue"]').click(function () {
     $('#rewardType').val($(this).text());
+
+    form.data('bootstrapValidator')
+      .updateStatus('rewardType', 'NOT_VALIDATED', null)
+      .validateField('rewardType');
   });
 
   $.uploadPreview({
