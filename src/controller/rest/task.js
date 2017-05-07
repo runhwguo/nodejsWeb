@@ -257,7 +257,7 @@ const stateUpdate = async ctx => {
         result = {
           result: false,
           message: '任务已被领取'
-        }
+        };
       }
 
       state = TASK_STATE.cancelled;
@@ -302,11 +302,13 @@ const stateUpdate = async ctx => {
     value.state = state;
   }
   // 更新状态
-  await Dao.update(Task, value, {
-    where: {
-      id: id
-    }
-  });
+  if (ret) {
+    await Dao.update(Task, value, {
+      where: {
+        id: id
+      }
+    });
+  }
 
   ctx.rest({
     result: result
