@@ -23,10 +23,10 @@ const addTaskBelongAttr = async (stateUserId, taskUserId, taskId) => {
   };
 };
 
-let exportModule = Db.defineModel('userTasks', {});
+exports = Db.defineModel('userTasks', {});
 
-exportModule = Object.assign(exportModule, {
+exports = Object.assign(exports, {
   addTaskBelongAttr: addTaskBelongAttr
 });
 
-module.exports = exportModule;
+module.exports = exports;
