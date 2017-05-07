@@ -186,11 +186,6 @@ const stateUpdate = async ctx => {
     }
     case 'off': {
       state = TASK_STATE.cancelled;
-      await Dao.remove(Task, {
-        where: {
-          id: id
-        }
-      });
       break;
     }
     case 'paid': {
@@ -209,8 +204,8 @@ const stateUpdate = async ctx => {
   });
 
   let result = {
-    result:true,
-    message:''
+    result: true,
+    message: ''
   };
 
   if (ret) {
@@ -221,10 +216,10 @@ const stateUpdate = async ctx => {
         taskId: id,
         userId: ctx.state.user.id
       });
-      if(!ret){
+      if (!ret) {
         result = {
-          result:false,
-          message:'接单失败，请重试'
+          result: false,
+          message: '接单失败，请重试'
         }
       }
     } else if (operate === 'abandon') {
@@ -236,10 +231,10 @@ const stateUpdate = async ctx => {
         }
       });
 
-      if(!ret){
+      if (!ret) {
         result = {
-          result:false,
-          message:'放弃失败，请重试'
+          result: false,
+          message: '放弃失败，请重试'
         }
       }
     } else if (operate === 'paid') {// 确认支付，生成单据
@@ -268,8 +263,8 @@ const stateUpdate = async ctx => {
       if (!ret) {
         console.error('生成支付订单错误');
         result = {
-          result:false,
-          message:'支付失败，请重试'
+          result: false,
+          message: '支付失败，请重试'
         }
       }
     } else if (operate === 'off') {
@@ -282,23 +277,31 @@ const stateUpdate = async ctx => {
       if (task.state === TASK_STATE.released_not_claimed) {
         let reward = task.reward;
 
-        let ret = await Dao.create(Bill, {
-          taskId: id,
-          userOpenId: ctx.state.user.openId,
-          amount: reward
+        let ret = await Dao.remove(Task, {
+          where: {
+            id: id
+          }
         });
+
+        if (ret) {
+          ret = await Dao.create(Bill, {
+            taskId: id,
+            userOpenId: ctx.state.user.openId,
+            amount: reward
+          });
+        }
 
         if (!ret) {
           console.error('生成支付订单错误');
           result = {
-            result:false,
-            message:'下架失败，请重试'
+            result: false,
+            message: '下架失败，请重试'
           }
         }
       } else {
         result = {
-          result:false,
-          message:'任务已被领取'
+          result: false,
+          message: '任务已被领取'
         }
       }
     }

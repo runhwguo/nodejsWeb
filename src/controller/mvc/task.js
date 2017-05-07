@@ -79,7 +79,7 @@ const detail = async ctx => {
 
   let data = Object.assign(task, user, taskBelongAttr);
 
-  console.log(data);
+  // console.log(data);
 
   data.reward = Math.abs(data.reward);
   ctx.render(`task/task_detail`, {
