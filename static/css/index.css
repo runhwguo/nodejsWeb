@@ -2,3 +2,7 @@
     height: 170px;
     width: 100%;
 }
+
+div.main li a span {
+    font-size: 0.8em;
+}
