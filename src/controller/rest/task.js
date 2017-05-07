@@ -7,7 +7,7 @@ import * as Common from "../../tool/common";
 import * as UserTaskDao from "../../tool/user_task_dao";
 import Db from "../../tool/db";
 import Tracer from "tracer";
-import {Task, UserTask, Bill, User} from '../../tool/model';
+import {Task, UserTask, Bill, User} from "../../tool/model";
 
 const console = Tracer.console();
 
