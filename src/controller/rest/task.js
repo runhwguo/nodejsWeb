@@ -106,7 +106,7 @@ const get = async ctx => {
       // 加载判断 是否是自己的任务和自己是否接了  -> 查看接任务时
       let taskBelongAttr = await addTaskBelongAttr(ctx.state.user.id, task.userId, task.id);
       task = Object.assign(task, taskBelongAttr);
-      console.log(tasks[i]);
+      console.log(task);
     }
   });
 
