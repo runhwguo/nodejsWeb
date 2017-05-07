@@ -87,4 +87,4 @@ if (process.env.NODE_ENV !== 'production') {
 console.log(`node is running in ${process.env.NODE_ENV}`);
 
 // 运行定时服务
-schedule();
+// schedule();

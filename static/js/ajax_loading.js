@@ -3,6 +3,8 @@ function submitAjax(submit, ajaxOption, submitBtnWordOption, successCallback) {
   submitBtnWordOption.normal = submit.text();
   let loading = Ladda.create(submit[0]);
   loading.start();
+
+  const INTERVAL = 1 * 1000;
   $.ajax({
     type: ajaxOption.type || '',
     url: ajaxOption.url || '',
@@ -16,14 +18,14 @@ function submitAjax(submit, ajaxOption, submitBtnWordOption, successCallback) {
         if (successCallback) {
           successCallback()
         }
-      }, 500);
+      }, INTERVAL);
     },
     error: xhr => {
       submit.text(submitBtnWordOption.fail);
       setTimeout(() => {
         submit.text(submitBtnWordOption.normal);
         loading.stop();
-      }, 500);
+      }, INTERVAL);
     }
   });
 }

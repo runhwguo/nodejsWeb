@@ -31,7 +31,7 @@ const detail = async ctx => {
   });
   task = task.dataValues;
   // 查看会员共享 付完款 就相当于    完成所有任务
-  console.log(task);
+  // console.log(task);
   if (task.type === TASK_TYPE.member_sharing && !where.endsWith('ed')) {
     let userTaskOption = {
       taskId: id,
