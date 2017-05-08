@@ -1,5 +1,5 @@
 // 应用正式环境的配置
-const config = {
+module.exports = {
 
   session: {
     userCookieName: 'schoolResourceShare',
@@ -17,5 +17,3 @@ const config = {
     char_set_utf8: 'utf-8'
   }
 };
-
-module.exports = config;

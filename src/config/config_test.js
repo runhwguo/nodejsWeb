@@ -1,5 +1,5 @@
 // 应用测试环境的配置
-const config = {
+module.exports = {
   db: {
     dialect: 'mysql',
     database: 'test',
@@ -12,5 +12,3 @@ const config = {
     port: 8080
   }
 };
-
-module.exports = config;
