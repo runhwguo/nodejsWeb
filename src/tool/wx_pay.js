@@ -146,6 +146,7 @@ const refund = async param => {
 };
 
 const getAccessTokenOpenId = async code => {
+  console.log('get access token');
   let url = URL_WX_OPEN_ID_ACCESS_TOKEN.replace('CODE', code);
 
   let response = await Superagent.get(url);
