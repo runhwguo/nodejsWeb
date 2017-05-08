@@ -158,8 +158,11 @@ const getUserInfo = async (accessToken, openId)=>{
     .replace('ACCESS_TOKEN',accessToken)
     .replace('OPENID',openId);
 
+  console.log(url);
+
   let response = await Superagent.get(url);
   let resObj = JSON.parse(response.text);
+  console.log(resObj);
   return resObj.headimgurl;
 };
 

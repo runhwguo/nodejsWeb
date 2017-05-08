@@ -30,6 +30,7 @@ const index = async ctx => {
     if (!ctx.state.user.headImgUrl || !ctx.cookies.get(session.wxOpenId)) {
       let [accessToken, openId] = await wxPay.getAccessTokenOpenId(code);
       let headImgUrl = await wxPay.getUserInfo(accessToken, openId);
+      ctx.state.user.headImgUrl = headImgUrl;
       console.log('拿到头像 url -> ' + headImgUrl);
       await Dao.update(User, {
         headImgUrl: headImgUrl
@@ -38,7 +39,9 @@ const index = async ctx => {
           id: ctx.state.user.id
         }
       });
-      ctx.cookies.set(session.wxOpenId, openId);
+      ctx.cookies.set(session.wxOpenId, openId, {
+        maxAge: session.maxAge * 1000
+      });
     }
   }
   // console.log('openId = ' + openId);

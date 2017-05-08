@@ -14,7 +14,9 @@ const login = async ctx => {
   if (result) {
     const adminCookieName = session.adminCookieName;
     const adminCookie = Cookie.user2cookie(username, password, adminCookieName);
-    ctx.cookies.set(adminCookieName, adminCookie);
+    ctx.cookies.set(adminCookieName, adminCookie, {
+      maxAge: session.maxAge * 7 * 1000
+    });
   }
 
   ctx.rest({

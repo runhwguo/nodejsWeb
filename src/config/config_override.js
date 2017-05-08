@@ -7,7 +7,7 @@ module.exports = {
     ujsCookieName: 'JSESSIONID',
     wxOpenId: 'openid',
     cookieKey: 'fuckQ',
-    maxAge: 86400 * 7//7天
+    maxAge: 86400//1天
   },
   admin: {
     username: 'admin',
