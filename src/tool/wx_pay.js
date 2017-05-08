@@ -2,7 +2,7 @@ import MD5 from "md5";
 import Superagent from "superagent";
 import charset from "superagent-charset";
 import config from "./config";
-import {randomString} from "./common";
+import {randomString, toCDATA} from "./common";
 
 import Xml2Json from "xml2json";
 import Json2Xml from "json2xml";
@@ -202,24 +202,20 @@ const _requestSuccessful = result => {
   return result && result.return_code && result.return_code === SUCCESS && result.result_code && result.result_code === SUCCESS;
 };
 
-const _toCDATA = data => {
-  return `<![CDATA[${ data }]]>`
-};
-
 const processNotifyCall = data => {
   let isSuccessful = _requestSuccessful(data);
   let result = null;
   if (isSuccessful) {
     result = Json2Xml({
       xml: {
-        return_code: _toCDATA(SUCCESS),
-        return_msg: _toCDATA(OK)
+        return_code: toCDATA(SUCCESS),
+        return_msg: toCDATA(OK)
       }
     });
 
   }
 
-  return [isSuccessful, result];
+  return [isSuccessful, result.replace(/&lt;/g, '<').replace(/&gt;/g, '>')];
 };
 
 export {

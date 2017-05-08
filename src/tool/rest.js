@@ -9,13 +9,19 @@ const APIError = function (code = 'internal:unknown_error', message = '') {
   this.code = code;
   this.message = message;
 };
+
+const API_RETURN_TYPE = {
+  JSON: 'application/json',
+  XML: 'application/xml'
+};
+
 //rest 风格的接口都是以api开头的
 const restify = (pathPrefix = '/api/') => {
-  return async(ctx, next) => {
+  return async (ctx, next) => {
     if (ctx.request.path.startsWith(pathPrefix)) {
       console.log(`Process API ${ctx.request.method} ${ctx.request.url}`);
-      ctx.rest = data => {
-        ctx.response.type = 'application/json';
+      ctx.rest = (data, type = API_RETURN_TYPE.JSON) => {
+        ctx.response.type = type;
         ctx.response.body = data;
       };
       // 集中处理异常，调用者只需在错误的时候，抛出异常即可
@@ -37,5 +43,5 @@ const restify = (pathPrefix = '/api/') => {
 };
 
 export {
-  APIError, restify
+  APIError, restify, API_RETURN_TYPE
 };

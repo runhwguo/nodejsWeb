@@ -36,6 +36,15 @@ const randomString = (len = 32) => {
   return pwd;
 };
 
+/**
+ * value to cdata value
+ * @param data
+ * @returns {string}
+ */
+const toCDATA = data => {
+  return `<![CDATA[${ data }]]>`
+};
+
 export {
-  getRandomInt, getToday, randomString
+  getRandomInt, getToday, randomString, toCDATA
 };

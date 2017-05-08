@@ -2,8 +2,11 @@ import crypto from "crypto";
 import * as wxPay from "../../tool/wx_pay";
 import {session} from "../../tool/config";
 import * as Dao from "../../tool/dao";
+import {API_RETURN_TYPE} from "../../tool/rest";
+import {toCDATA} from "../../tool/common";
 import {Task, User, Bill} from "../../tool/model";
 import tracer from "tracer";
+import Json2Xml from "json2xml";
 
 
 let console = tracer.console();
@@ -19,12 +22,50 @@ const checkIsFromWeChatServer = async ctx => {
   let result = _isFromWechatServer(signature, timestamp, nonce);
   if (result) {
     let msg = ctx.request.body.xml;
-    console.log(msg);
 
-    ctx.rest(echostr);
+    if (msg){
+      let msgType = msg.MsgType;
+      if (msgType === 'event') {
+        let event = msg.Event;
+        if (event === 'subscribe') {
+          result = _replyToWechat('感谢您关注本公众号，祝您使用愉快！', msg);
+
+          ctx.rest(result, API_RETURN_TYPE.XML);
+        } else {
+
+        }
+      } else if (msgType === 'text') {
+        result = _replyToWechat('你好呀~', msg);
+
+        ctx.rest(result, API_RETURN_TYPE.XML);
+      } else {
+        result = _replyToWechat('公众号目前不支持此消息类型', msg);
+
+        ctx.rest(result, API_RETURN_TYPE.XML);
+      }
+    } else {
+      ctx.rest(echostr);
+    }
+
   } else {
     ctx.rest('error');
   }
+};
+
+const _replyToWechat = (text, msg)=>{
+  let result = Json2Xml({
+    xml: {
+      ToUserName:toCDATA(msg.FromUserName),
+      FromUserName:toCDATA(msg.ToUserName),
+      CreateTime:toCDATA(Math.round(Date.now() / 1000)),
+      MsgType:toCDATA('text'),
+      Content:toCDATA(text)
+    }
+  });
+
+  result = result.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+
+  return result;
 };
 
 const _isFromWechatServer = async (signature, timestamp, nonce) => {
@@ -54,7 +95,6 @@ const orderNotify = async ctx => {
     console.log('会员共享查看费用账单生成 -> ' + isOk);
   }
 
-  result = result.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
   console.log(data);
   console.log(result);
 
