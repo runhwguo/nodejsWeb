@@ -1,4 +1,4 @@
-import MD5 from "MD5";
+import MD5 from "md5";
 import Superagent from "superagent";
 import charset from "superagent-charset";
 import config from "./config";
