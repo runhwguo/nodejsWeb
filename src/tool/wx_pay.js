@@ -24,11 +24,13 @@ const NOTIFY_URL = 'http://i-sharing.xyz/api/wechat/order/notify';
 const MCH_KEY = 'guohaoweilovechengxihuiforeveruu';//key为在微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
 
 const URL_MCH_MAIN = 'https://api.mch.weixin.qq.com/';
+const URL_USER_MAIN = 'https://api.weixin.qq.com/sns/';
 const URL_UNIFIED_ORDER = `${ URL_MCH_MAIN }pay/unifiedorder`;
 const URL_REFUND = `${ URL_MCH_MAIN }secapi/pay/refund`;
 const URL_ENTERPRISE_PAY_TO_USER = `${ URL_MCH_MAIN }mmpaymkttransfers/promotion/transfers`;
-const URL_WX_OPEN_ID_ACCESS_TOKEN = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${ APP_ID }&secret=${ APP_SECRET }&code=CODE&grant_type=authorization_code`;
-const URL_WX_GET_USER_INFO = 'https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN';
+
+const URL_WX_OPEN_ID_ACCESS_TOKEN = `${ URL_USER_MAIN }oauth2/access_token?appid=${ APP_ID }&secret=${ APP_SECRET }&code=CODE&grant_type=authorization_code`;
+const URL_WX_GET_USER_INFO = '${ URL_USER_MAIN }userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN';
 
 const PFX = fs.readFileSync(path.join(AppRootDir.get(), 'static/third-party/apiclient_cert.p12')); //微信商户平台证书
 
