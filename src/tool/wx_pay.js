@@ -91,7 +91,7 @@ const unifiedOrder = async ctx => {
     trade_type: TRADE_TYPE//NATIVE会返回code_url ，JSAPI不会返回
   };
   // attach taskId
-  if(ctx.query.attach){
+  if (ctx.query.attach) {
     data.attach = ctx.query.attach;
   }
 
@@ -212,7 +212,6 @@ const processNotifyCall = data => {
         return_msg: toCDATA(OK)
       }
     });
-
   }
 
   return [isSuccessful, result.replace(/&lt;/g, '<').replace(/&gt;/g, '>')];
