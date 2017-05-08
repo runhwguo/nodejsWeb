@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'truck';
+    src: url('/static/font/truck.ttf');
+}
+
+@font-face {
+    font-family: 'share';
+    src: url('/static/font/share.ttf');
+}
+
 .carousel-inner > .item > img {
     height: 170px;
     width: 100%;
@@ -5,4 +15,21 @@
 
 div.main li a span {
     font-size: 0.8em;
+}
+
+.custom-truck-o {
+    font: 2em truck;
+}
+
+
+.custom-share-o {
+    font: 2em share;
+}
+
+.custom-truck-o:before {
+    content: '\e801';
+}
+
+.custom-share-o:before {
+    content: '\e800';
 }
