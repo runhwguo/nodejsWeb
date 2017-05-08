@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "更新图标  用字体制作 css content"
+git commit -m "接收 微信发来的消息"
 git push
 git status
