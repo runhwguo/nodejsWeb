@@ -28,6 +28,7 @@ const URL_UNIFIED_ORDER = `${ URL_MCH_MAIN }pay/unifiedorder`;
 const URL_REFUND = `${ URL_MCH_MAIN }secapi/pay/refund`;
 const URL_ENTERPRISE_PAY_TO_USER = `${ URL_MCH_MAIN }mmpaymkttransfers/promotion/transfers`;
 const URL_WX_OPEN_ID_ACCESS_TOKEN = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${ APP_ID }&secret=${ APP_SECRET }&code=CODE&grant_type=authorization_code`;
+const URL_WX_GET_USER_INFO = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN';
 
 const PFX = fs.readFileSync(path.join(AppRootDir.get(), 'static/third-party/apiclient_cert.p12')); //微信商户平台证书
 
@@ -149,7 +150,17 @@ const getAccessTokenOpenId = async code => {
 
   let response = await Superagent.get(url);
   let resObj = JSON.parse(response.text);
-  return resObj.openid;
+  return [resObj.access_token, resObj.openid];
+};
+
+const getUserInfo = async (accessToken, openId)=>{
+  let url = URL_WX_GET_USER_INFO
+    .replace('ACCESS_TOKEN',accessToken)
+    .replace('OPENID',openId);
+
+  let response = await Superagent.get(url);
+  let resObj = JSON.parse(response.text);
+  return resObj.headimgurl;
 };
 
 const getOnBridgeReadyRequest = async prepay_id => {
@@ -218,5 +229,5 @@ const processNotifyCall = data => {
 };
 
 export {
-  unifiedOrder, getAccessTokenOpenId, getOnBridgeReadyRequest, refund, enterprisePayToUser, processNotifyCall
+  unifiedOrder, getAccessTokenOpenId, getUserInfo, getOnBridgeReadyRequest, refund, enterprisePayToUser, processNotifyCall
 };

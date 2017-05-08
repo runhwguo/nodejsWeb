@@ -6,10 +6,12 @@
 
 {% block main %}
     <div class="user-head">
-        {% if gender === '女' %}
-        <img src="/static/image-min/girl.jpeg" class="img-circle" alt="girl">
+        {% if headImgUrl !== '' %}
+        <img src="{{ headImgUrl }}" class="img-circle" alt="girl">
+        {% elif gender === '女' %}
+            <img src="/static/image-min/girl.jpeg" class="img-circle" alt="girl">
         {% elif gender === '男' %}
-        <img src="/static/image-min/boy.jpeg" class="img-circle" alt="boy">
+            <img src="/static/image-min/boy.jpeg" class="img-circle" alt="boy">
         {% endif %}
         <p>{{ username }}</p>
     </div>

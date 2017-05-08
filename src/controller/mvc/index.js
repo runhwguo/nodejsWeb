@@ -12,7 +12,7 @@ import * as Common from '../../tool/common';
 import {count} from '../../tool/user_task_dao';
 import {mkDirsSync} from '../../tool/upload';
 import * as Dao from '../../tool/dao';
-import {Task} from '../../tool/model';
+import {Task, User} from '../../tool/model';
 import {TASK_STATE} from '../../model/Task';
 import * as wxPay from "../../tool/wx_pay";
 
@@ -23,11 +23,22 @@ charset(Superagent);
 const index = async ctx => {
   let code = ctx.query.code;
   let state = ctx.query.state;
-  let openId = ctx.cookies.get(session.wxOpenId);
   // console.log('state = ' + state+ ', code = ' + code);
 
-  if (code && !openId) {
-    openId = await wxPay.getAccessTokenOpenId(code);
+  if (code && !ctx.cookies.get(session.wxOpenId)) {
+    let [accessToken, openId] = await wxPay.getAccessTokenOpenId(code);
+
+    if (!ctx.state.user.headImgUrl) {
+      let headImgUrl = await wxPay.getUserInfo(accessToken, openId);
+      console.log('拿到头像 url -> ' + headImgUrl);
+      await Dao.update(User, {
+        headImgUrl: headImgUrl
+      }, {
+        where: {
+          id: ctx.state.user.id
+        }
+      });
+    }
     ctx.cookies.set(session.wxOpenId, openId);
   }
   // console.log('openId = ' + openId);
@@ -43,7 +54,8 @@ const me = async ctx => {
   let data = {
     title: '我的信息',
     username: user.name,
-    gender: user.gender
+    gender: user.gender,
+    headImgUrl: user.headImgUrl
   };
   if (unfinishedBadge) {
     data.unfinishedBadge = unfinishedBadge;

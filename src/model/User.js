@@ -17,5 +17,9 @@ module.exports = Db.defineModel('users', {
   openId: {// 用户的openid
     type: Db.STRING,
     allowNull: true
+  },
+  headImgUrl: {
+    type: Db.STRING,
+    defaultValue: ''
   }
 });
