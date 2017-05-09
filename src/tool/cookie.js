@@ -11,7 +11,7 @@ const cookie2user = async (cookie, cookieName) => {
       if (expires > Math.round(Date.now() / 1000)) {
         if (cookieName === session.userCookieName) {
           let user = await User.findByPrimary(id, {
-            attributes: ['id', 'password', 'headImgUrl']
+            attributes: ['id', 'password', 'headImgUrl', 'name', 'openId']
           });
 
           user = user.dataValues;
