@@ -93,7 +93,7 @@ const get = async ctx => {
       let task = tasks[i];
       let taskBelongAttr = await addTaskBelongAttr(ctx.state.user.id, task.userId, task.id);
       tasks[i] = Object.assign(task, taskBelongAttr);
-      console.log(tasks[i]);
+      // console.log(tasks[i]);
     }
 
     if (fromWhere.endsWith('published')) {// 查看自己发布的任务时
@@ -106,7 +106,7 @@ const get = async ctx => {
       // 加载判断 是否是自己的任务和自己是否接了  -> 查看接任务时
       let taskBelongAttr = await addTaskBelongAttr(ctx.state.user.id, task.userId, task.id);
       task = Object.assign(task, taskBelongAttr);
-      console.log(task);
+      // console.log(task);
     }
   });
 
