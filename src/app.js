@@ -46,7 +46,7 @@ app.use(async (ctx, next) => {
   } else {
     if (reqPath.startsWith('/static') || reqPath === '/login') {
       await next();
-    } else if (reqPath === '/' || reqPath.startsWith('/api')) {
+    } else {
       let userLoginCookie = ctx.cookies.get(session.userCookieName);
       let user = await cookie2user(userLoginCookie, session.userCookieName);
       if (user) {
@@ -55,8 +55,6 @@ app.use(async (ctx, next) => {
       } else {
         ctx.response.redirect('/login');
       }
-    } else {
-      await next();
     }
   }
 });
