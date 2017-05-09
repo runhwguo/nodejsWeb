@@ -32,11 +32,6 @@ app.use(async (ctx, next) => {
 
 // auth
 app.use(async (ctx, next) => {
-  let userLoginCookie = ctx.cookies.get(session.userCookieName);
-  let user = await cookie2user(userLoginCookie, session.userCookieName);
-  if (user) {
-    ctx.state.user = user;
-  }
   let reqPath = ctx.request.path;
   if (reqPath.startsWith('/admin')) {
     let adminLoginCookie = ctx.cookies.get(session.adminCookieName);
@@ -49,8 +44,17 @@ app.use(async (ctx, next) => {
       await next();
     }
   } else {
-    if (user || reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login' || reqPath.startsWith('/api')) {
+    if (reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login') {
       await next();
+    } else if (reqPath.startsWith('/api')) {
+      let userLoginCookie = ctx.cookies.get(session.userCookieName);
+      let user = await cookie2user(userLoginCookie, session.userCookieName);
+      if (user) {
+        ctx.state.user = user;
+        await next();
+      } else {
+        ctx.response.redirect('/login');
+      }
     } else {
       ctx.response.redirect('/login');
     }
