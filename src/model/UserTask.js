@@ -13,6 +13,9 @@ const addTaskBelongAttr = async (stateUserId, taskUserId, taskId) => {
     where: {
       userId: stateUserId,
       taskId: taskId
+    },
+    attributes: {
+      exclude: ['version', 'updatedAt', 'createdAt', 'deletedAt']
     }
   });
   let isSelfOrderedTask = !!(userTask && userTask.dataValues);
