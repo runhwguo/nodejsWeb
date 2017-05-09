@@ -3,7 +3,6 @@
 {% block style%}
     <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
     <link href="/static/css-min/task-detail.css" rel="stylesheet">
-
 {% endblock %}
 
 {% block main %}
@@ -117,7 +116,7 @@
             </button>
         {% endif %}
     </div>
-    <input type="hidden" value="{{ where }}">
+    <input type="hidden" id="where" value="{{ where }}">
     <div class="modal fade" id="enlargeImageModal" tabindex="-1" role="dialog" aria-labelledby="enlargeImageModal"
          aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">

@@ -4,7 +4,7 @@ $(() => {
     $('#enlargeImageModal').modal('show');
   });
   $('.ladda-button').click(function () {
-    let where = $('input:hidden')[0].value;
+    let where = $('#where').val();
     let successCallback = null;
     if (where === 'unfinished') {
       successCallback = () => {

@@ -61,7 +61,7 @@ $(() => {
     });
   });
 
-  if ($('input:hidden')[0].value === 'me') {
+  if ($('#where').val() === 'me') {
     $('.submit').attr('disabled', true);
   }
 });

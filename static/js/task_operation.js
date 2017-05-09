@@ -26,7 +26,7 @@ let vm = new Vue({
     isSearch: false
   },
   created: function () { // VM初始化成功后的回调函数
-    this.$resource('/api/task/get/count?where=' + $('input:hidden')[0].value)
+    this.$resource('/api/task/get/count?where=' + $('#where').val())
       .get()
       .then(resp => {
         resp
@@ -36,7 +36,11 @@ let vm = new Vue({
             if (vm.count) {
               vm.get();
             } else {
-              $('#vm').html('<h4>任务正在路上...</h4>');
+              let vmHtml = '任务已被领完';
+              if ($('#where').val().endsWith('ed')) {
+                vmHtml = '这里空空如也'
+              }
+              $('#vm').html(`<h4>${ vmHtml }</h4>`);
             }
           });
       });
@@ -47,7 +51,7 @@ let vm = new Vue({
     },
     get: () => {
       vm.loading = true;
-      let where = $('input:hidden')[0].value;
+      let where = $('#where').val();
       let url = `/api/task/get/page/${vm.currentPage + 1}?where=${ where }`;
       if (vm.isSearch) {
         url += '&keyword=' + $('#searchContent').val();
@@ -113,12 +117,12 @@ let vm = new Vue({
     },
     detail: item => {
       const viewDetailSuccess = () => {
-        window.location.href = `/task/detail/${item.id}?where=` + $('input:hidden')[0].value;
+        window.location.href = `/task/detail/${item.id}?where=` + $('#where').val();
       };
 
       if (item.type === '会员共享' &&
         item.reward !== 0 &&
-        !($('input:hidden')[0].value.endsWith('ed')) &&
+        !($('#where').val().endsWith('ed')) &&
         !item.isSelfOrderedTask &&
         !item.isSelfPublishedTask) {
         startPay({fee: item.reward * 100, body: '购买会员共享费用', attach: item.id}, viewDetailSuccess, () => {
@@ -133,7 +137,7 @@ let vm = new Vue({
       vm.currentPage = 0;
       vm.loading = false;
       vm.isSearch = isSearch;
-      let url = '/api/task/get/count?where=' + $('input:hidden')[0].value;
+      let url = '/api/task/get/count?where=' + $('#where').val();
       if (vm.isSearch) {
         url += '&keyword=' + $('#searchContent').val();
       }
@@ -154,7 +158,7 @@ window.vm = vm;
 $(() => {
   let vmDiv = $(vm.$el);
 
-  if ($('input:hidden')[0].value === 'index') {
+  if ($('#where').val() === 'index') {
     vmDiv.css('margin-bottom', '40px');
   } else {
     vmDiv.css('max-height', '500px');
