@@ -13,8 +13,8 @@ const console = Tracer.console();
 
 const _judgeTaskType = ctx => {
   // 判断来源  take-task    mine-task ~ed
-  let fromWhere = ctx.query.where;
-  let where = {
+  let fromWhere = ctx.query.where,
+    where = {
     shareCount: {
       $gt: 0
     }
@@ -103,10 +103,8 @@ const get = async ctx => {
 const publish = async ctx => {
   const serverFilePath = 'static/tmp';
   // 上传文件事件
-  let firstDir = Common.getRandomInt();
-  let secondDir = Common.getRandomInt();
   let result = await uploadFile(ctx, {
-    fileType: `taskImage/${firstDir}/${secondDir}`,
+    fileType: `taskImage/${Common.getRandomInt()}/${Common.getRandomInt()}`,
     path: serverFilePath
   });
   result.data.userId = ctx.state.user.id;
@@ -127,8 +125,8 @@ const publish = async ctx => {
 };
 
 const count = async ctx => {
-  let fromWhere = ctx.query.where;
-  let count = 0;
+  let fromWhere = ctx.query.where,
+    count = 0;
   if (fromWhere === 'unfinished') {
     count = await UserTaskDao.count(ctx.state.user.id, [TASK_STATE.completing]);
   } else if (fromWhere === 'completed') {
@@ -148,16 +146,15 @@ const count = async ctx => {
 // postman中x-www-form-urlencoded下才能获取数据
 const stateUpdate = async ctx => {
   let id = ctx.params.id,
-    operate = ctx.params.operate;
-
-  let value = {},
+    operate = ctx.params.operate,
+    value = {},
     state = null,
+    ret = false,
     result = {
       result: true,
       message: ''
     };
 
-  let ret = false;
 
   switch (operate) {
     case 'order': {
@@ -303,8 +300,8 @@ const stateUpdate = async ctx => {
 };
 
 const unread = async ctx => {
-  let user = ctx.state.user;
-  let result = 0;
+  let user = ctx.state.user,
+    result = 0;
   if (user) {
     result = await UserTaskDao.count(user.id, [TASK_STATE.completing]);
 

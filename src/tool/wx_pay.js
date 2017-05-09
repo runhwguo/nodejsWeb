@@ -44,9 +44,9 @@ const _paySign = data => {
 };
 
 const _sortAndGenerateParam = args => {
-  let keys = Object.keys(args);
+  let keys = Object.keys(args),
+    newArgs = {};
   keys = keys.sort();
-  let newArgs = {};
   keys.forEach(key => newArgs[key] = args[key]);
 
   let string = '';
@@ -58,11 +58,10 @@ const _sortAndGenerateParam = args => {
 };
 
 const _addSignAndConvertToXml = data => {
-  let sign = _paySign(data);
-
-  let formData = {
-    xml: Object.assign(data, {sign: sign})
-  };
+  let sign = _paySign(data),
+    formData = {
+      xml: Object.assign(data, {sign: sign})
+    };
 
   formData = Json2Xml(formData);
   return formData;
@@ -73,13 +72,12 @@ const _xml2JsonObj = xmlStr => {
 };
 
 const unifiedOrder = async ctx => {
-  let body = ctx.query.body;
-  let spbillCreateIp = ctx.ip;
-  // math.abs()  考虑到reward的正负性
-  let totalFee = Math.abs(Number.parseInt(ctx.query.fee));
-  let nonceStr = Math.random().toString();
-  let openid = ctx.cookies.get(config.session.wxOpenId);
-  let outTradeNo = ctx.query.outTradeNo || randomString(28);
+  let body = ctx.query.body,
+    spbillCreateIp = ctx.ip,
+    totalFee = Math.abs(Number.parseInt(ctx.query.fee)),
+    nonceStr = Math.random().toString(),
+    openid = ctx.cookies.get(config.session.wxOpenId),
+    outTradeNo = ctx.query.outTradeNo || randomString(28);
 
   let data = {
     appid: APP_ID,// appid
@@ -115,20 +113,19 @@ const unifiedOrder = async ctx => {
 };
 
 const refund = async param => {
-  console.log('refund');
-  let nonceStr = Math.random().toString();
-  let outTradeNo = param.outTradeNo;
-  let totalFee = param.reward;
-  let data = {
-    appid: APP_ID,// appid
-    mch_id: MCH_ID,// 商户号
-    nonce_str: nonceStr,// 随机字符串，不长于32位
-    op_user_id: MCH_ID,
-    out_refund_no: outTradeNo,
-    out_trade_no: outTradeNo,//订单号
-    refund_fee: totalFee,
-    total_fee: totalFee//金额
-  };
+  let nonceStr = Math.random().toString(),
+    outTradeNo = param.outTradeNo,
+    totalFee = param.reward,
+    data = {
+      appid: APP_ID,// appid
+      mch_id: MCH_ID,// 商户号
+      nonce_str: nonceStr,// 随机字符串，不长于32位
+      op_user_id: MCH_ID,
+      out_refund_no: outTradeNo,
+      out_trade_no: outTradeNo,//订单号
+      refund_fee: totalFee,
+      total_fee: totalFee//金额
+    };
 
   let formData = _addSignAndConvertToXml(data);
   let result = await request({
@@ -156,7 +153,7 @@ const getAccessTokenOpenId = async code => {
   return [resObj.access_token, resObj.openid];
 };
 
-const getUserInfo = async (accessToken, openId)=>{
+const getUserInfo = async (accessToken, openId) => {
   let url = URL_WX_GET_USER_INFO
     .replace('ACCESS_TOKEN', accessToken)
     .replace('OPENID', openId);
@@ -220,8 +217,8 @@ const _requestSuccessful = result => {
 };
 
 const processNotifyCall = data => {
-  let isSuccessful = _requestSuccessful(data);
-  let result = null;
+  let isSuccessful = _requestSuccessful(data),
+    result = null;
   if (isSuccessful) {
     result = Json2Xml({
       xml: {
@@ -235,5 +232,11 @@ const processNotifyCall = data => {
 };
 
 export {
-  unifiedOrder, getAccessTokenOpenId, getUserInfo, getOnBridgeReadyRequest, refund, enterprisePayToUser, processNotifyCall
+  unifiedOrder,
+  getAccessTokenOpenId,
+  getUserInfo,
+  getOnBridgeReadyRequest,
+  refund,
+  enterprisePayToUser,
+  processNotifyCall
 };

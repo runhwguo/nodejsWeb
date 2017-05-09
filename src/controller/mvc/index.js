@@ -6,7 +6,6 @@ import AppRootDir from 'app-root-dir';
 import charset from 'superagent-charset';
 import Tracer from 'tracer';
 
-import {cookie2user} from '../../tool/cookie';
 import {session} from '../../tool/config';
 import * as Common from '../../tool/common';
 import {count} from '../../tool/user_task_dao';
@@ -22,8 +21,8 @@ charset(Superagent);
 
 // 公众号的Click按钮  引导用户同意授权
 const index = async ctx => {
-  let code = ctx.query.code;
-  let state = ctx.query.state;
+  let code = ctx.query.code,
+    state = ctx.query.state;
   console.log('state = ' + state+ ', code = ' + code);
 
   if (code) {
@@ -77,20 +76,18 @@ const me = async ctx => {
 };
 
 const createTask = async ctx => {
-  let schoolResourceShareCookie = ctx.cookies.get(session.userCookieName);
-  let user = await cookie2user(schoolResourceShareCookie, session.userCookieName);
   ctx.render(`task/create_task`, {
     title: '发布任务',
-    user: user
+    user: ctx.state.user
   });
 };
 
 const login = async ctx => {
-  const UJS_MAIN_URL = 'http://my.ujs.edu.cn/';
-  const captchaGenerateUrl = `${UJS_MAIN_URL}captchaGenerate.portal`;
-  const idPng = uuid.v4() + '.png';
-  const codeDir = `static/tmp/verificationCode/${ Common.getRandomInt() }/${ Common.getRandomInt() }`;
-  const codeRealDir = path.join(AppRootDir.get(), codeDir);
+  const UJS_MAIN_URL = 'http://my.ujs.edu.cn/',
+    captchaGenerateUrl = `${UJS_MAIN_URL}captchaGenerate.portal`,
+    idPng = `${ uuid.v4() }.png`,
+    codeDir = `static/tmp/verificationCode/${ Common.getRandomInt() }/${ Common.getRandomInt() }`,
+    codeRealDir = path.join(AppRootDir.get(), codeDir);
   if (!mkDirsSync(codeRealDir)) {
     console.error('create ' + codeRealDir + ' dir fail!');
   }
