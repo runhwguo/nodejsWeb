@@ -85,7 +85,9 @@ const orderNotify = async ctx => {
     let task = await Task.findByPrimary(taskId);
     let userId = task.dataValues.userId;
     let reward = task.dataValues.reward;
-    let user = await User.findByPrimary(userId);
+    let user = await User.findByPrimary(userId, {
+      attributes: ['openId']
+    });
     let openId = user.dataValues.openId;
     let isOk = await Dao.create(Bill, {
       taskId: data.attach,

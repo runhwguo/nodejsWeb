@@ -277,7 +277,9 @@ const stateUpdate = async ctx => {
 
 
       let userId = userTask.dataValues.userId;
-      let user = await User.findByPrimary(userId);
+      let user = await User.findByPrimary(userId, {
+        attributes: ['openId']
+      });
       let userOpenId = user.dataValues.openId;
 
       ret = await Dao.create(Bill, {

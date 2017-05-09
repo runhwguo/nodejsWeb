@@ -66,7 +66,10 @@ const login = async ctx => {
           gender: gender,
           openId: openId
         });
-        user = await User.findByPrimary(username);
+        user = await User.findByPrimary(username, {
+          attributes: ['id']
+        });
+        user = user.dataValues;
         return true;
       }
     };
