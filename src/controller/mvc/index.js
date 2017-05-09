@@ -117,7 +117,7 @@ const login = async ctx => {
 const userInfo = async ctx => {
   ctx.render(`user_info`, {
     title: '完善用户信息',
-    user: ctx.user.state,
+    user: ctx.state.user,
     where: ctx.query.where
   });
 };
