@@ -106,7 +106,7 @@ const login = async ctx => {
         maxAge: session.maxAge * 1000
       }
     );
-    fs.writeFileSync(verificationCodePicture, response.body, 'binary');
+    await fs.writeFile(verificationCodePicture, response.body, 'binary');
     ctx.render('login', {
       title: '教务处身份验证',
       verificationCodePictureUrl: verificationCodePictureUrl
