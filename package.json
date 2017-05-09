@@ -4,7 +4,7 @@
   "description": "江苏大学资源共享平台，利用了koa框架，es6/es7，mysql，sequelize等",
   "main": "start.js",
   "scripts": {
-    "pretest": "cd build && gulp && cd .. && npm install",
+    "pretest": "npm install && cd build && gulp && cd ..",
     "test": "NODE_ENV=test supervisor node --use_strict start.js",
     "start": "NODE_ENV=production node --use_strict start.js"
   },
@@ -59,8 +59,10 @@
     "babel-preset-es2015": "^6.24.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-cache": "^0.4.6",
     "gulp-clean-css": "^3.0.4",
     "gulp-htmlmin": "^3.0.0",
+    "gulp-imagemin": "^2.0.0",
     "gulp-uglify": "^2.1.2",
     "gulp-util": "^3.0.8"
   }
