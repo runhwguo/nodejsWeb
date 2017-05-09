@@ -11,16 +11,14 @@ node_modules
 log
 logs
 *.log
+
 # some test/produce files
 static/tmp
-
-# test files
 test.*
 temp.*
 
 # minify
 static/css-min
 static/js-min
+static/image-test/
 view-min
-
-
