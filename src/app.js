@@ -44,9 +44,9 @@ app.use(async (ctx, next) => {
       await next();
     }
   } else {
-    if (reqPath.startsWith('/static') || reqPath === '/login') {
+    if (reqPath === '/' || reqPath.startsWith('/static') || reqPath === '/login') {
       await next();
-    } else if (reqPath === '/' || reqPath.startsWith('/api')) {
+    } else if (reqPath.startsWith('/api')) {
       let userLoginCookie = ctx.cookies.get(session.userCookieName);
       let user = await cookie2user(userLoginCookie, session.userCookieName);
       if (user) {
