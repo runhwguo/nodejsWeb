@@ -56,7 +56,6 @@ app.use(async (ctx, next) => {
         ctx.response.redirect('/login');
       }
     } else {
-      // ctx.response.redirect('/login');
       await next();
     }
   }
