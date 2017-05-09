@@ -30,7 +30,7 @@ const URL_REFUND = `${ URL_MCH_MAIN }secapi/pay/refund`;
 const URL_ENTERPRISE_PAY_TO_USER = `${ URL_MCH_MAIN }mmpaymkttransfers/promotion/transfers`;
 
 const URL_WX_OPEN_ID_ACCESS_TOKEN = `${ URL_USER_MAIN }oauth2/access_token?appid=${ APP_ID }&secret=${ APP_SECRET }&code=CODE&grant_type=authorization_code`;
-const URL_WX_GET_USER_INFO = '${ URL_USER_MAIN }userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN';
+const URL_WX_GET_USER_INFO = `${ URL_USER_MAIN }userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN`;
 
 const PFX = fs.readFileSync(path.join(AppRootDir.get(), 'static/third-party/apiclient_cert.p12')); //微信商户平台证书
 
@@ -158,8 +158,8 @@ const getAccessTokenOpenId = async code => {
 
 const getUserInfo = async (accessToken, openId)=>{
   let url = URL_WX_GET_USER_INFO
-    .replace('ACCESS_TOKEN',accessToken)
-    .replace('OPENID',openId);
+    .replace('ACCESS_TOKEN', accessToken)
+    .replace('OPENID', openId);
 
   console.log(url);
 
