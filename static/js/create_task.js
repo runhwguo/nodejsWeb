@@ -6,6 +6,13 @@ $(() => {
     createTask = $('#createTaskTab');
 
   const rewardReg = /^\d+(.\d{1,2})?$/;
+
+  const formBootstrapValidator = name=>{
+    form.data('bootstrapValidator')
+      .updateStatus(name, 'NOT_VALIDATED', null)
+      .validateField(name);
+  };
+
   deadline.datepicker({
     minDate: 0,
     maxDate: 31,
@@ -13,9 +20,7 @@ $(() => {
     yearSuffix: '年',
     dateFormat: 'yy-mm-dd',
     onSelect: () => {
-      form.data('bootstrapValidator')
-        .updateStatus('deadline', 'NOT_VALIDATED', null)
-        .validateField('deadline');
+      formBootstrapValidator('deadline');
     },
     showMonthAfterYear: true,
     dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
@@ -151,7 +156,7 @@ $(() => {
       } else {// 收
         data.reward = -data.reward;
       }
-      const INTERVAL = 1 * 1000,
+      const INTERVAL = 1000,
         normalSubmitBtnWord = submitBtnWord.text();
       $.ajaxFileUpload({
         type: form.attr('method'),
@@ -209,9 +214,7 @@ $(() => {
   $('li[name="rewardValue"]').click(function () {
     $('#rewardType').val($(this).text());
 
-    form.data('bootstrapValidator')
-      .updateStatus('rewardType', 'NOT_VALIDATED', null)
-      .validateField('rewardType');
+    formBootstrapValidator('rewardType');
   });
 
   $.uploadPreview({
