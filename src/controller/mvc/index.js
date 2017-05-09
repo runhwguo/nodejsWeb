@@ -20,7 +20,7 @@ const console = Tracer.console();
 
 charset(Superagent);
 
-// 公众号的Click南牛  引导用户同意授权
+// 公众号的Click按钮  引导用户同意授权
 const index = async ctx => {
   let code = ctx.query.code;
   let state = ctx.query.state;
