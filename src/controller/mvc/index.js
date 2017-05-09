@@ -115,13 +115,10 @@ const login = async ctx => {
 };
 
 const userInfo = async ctx => {
-  let schoolResourceShareCookie = ctx.cookies.get(session.userCookieName);
-  let user = await cookie2user(schoolResourceShareCookie, session.userCookieName);
-  let where = ctx.query.where;
   ctx.render(`user_info`, {
     title: '完善用户信息',
-    user: user,
-    where: where
+    user: ctx.user.state,
+    where: ctx.query.where
   });
 };
 
