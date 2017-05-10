@@ -92,7 +92,7 @@ let vm = new Vue({
       let stickButton = $(`#${item.id}`),
         loading = Ladda.create(stickButton[0]);
 
-      // startPay({fee: 100, body: '任务置顶费用'}, () => {
+      startPay({fee: 100, body: '任务置顶费用'}, () => {
         loading.start();
 
         const normalStickButtonWord = stickButton.text(),
@@ -123,10 +123,9 @@ let vm = new Vue({
             }, interval);
             vm._showError(resp);
           });
-      // }, () => {
-        // alert('支付失败，请重试');
-      // });
-
+      }, () => {
+        alert('支付失败，请重试');
+      });
     },
     detail: item => {
       const viewDetailSuccess = () => {
