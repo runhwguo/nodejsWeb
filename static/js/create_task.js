@@ -144,7 +144,7 @@ $(() => {
     e.preventDefault();
 
     $('#publishOkBtn').click(() => {
-      if ($('.modal-body').text() === '任务发布成功') {
+      if ($('.modal-body').text().includes('成功')) {
         window.location.href = '/';
       } else {
         $('#publishModal').modal('hide');
@@ -178,7 +178,7 @@ $(() => {
           submitBtnWord.text('成功');
           setTimeout(() => {
             submitBtnWord.text(normalSubmitBtnWord);
-            $('.modal-body').text('任务发布成功');
+            $('.modal-body').text('任务发布成功，跳回主页？');
             $('#publishModal').modal('show');
             loading.stop();
             // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
