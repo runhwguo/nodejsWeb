@@ -57,6 +57,7 @@ app.use(async (ctx, next) => {
     // 不user鉴权
     if (reqPath.startsWith('/static') || // 静态资源
       reqPath.startsWith('/login') || // 登录
+      reqPath.startsWith('/MP_verify_LXFIuaHyNWtcqG7k.txt') || // wechat web page auth
       reqPath === '/') {
       await next();
     } else {

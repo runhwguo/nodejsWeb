@@ -129,5 +129,5 @@ module.exports = {
   'POST /api/wechat': checkIsFromWeChatServer,
   'POST /api/wechat/order/notify': orderNotify,
   'GET /api/wechat/pay/start': startPay,
-  'GET /api/wechat/webPageVerify/MP_verify_LXFIuaHyNWtcqG7k.txt': auth
+  'GET /MP_verify_LXFIuaHyNWtcqG7k.txt': auth
 };
