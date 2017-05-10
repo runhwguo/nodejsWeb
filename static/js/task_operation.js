@@ -103,7 +103,6 @@ let vm = new Vue({
             vm.loading = false;
             resp.json().then(data => {
               stickButton.text(data.result.result ? '成功' : data.result.message);
-              alert(JSON.stringify(vm.items))
               // 在本地增加任务的优先级，以便排序
               if (data.result.result) {
                 item.priority++;
@@ -113,7 +112,6 @@ let vm = new Vue({
                 stickButton.text(normalStickButtonWord);
                 loading.stop();
               }, interval);
-              alert(JSON.stringify(vm.items))
             });
           }, resp => {
             stickButton.text('失败');
