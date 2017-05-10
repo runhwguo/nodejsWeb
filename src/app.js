@@ -33,6 +33,9 @@ const _userAuth = async (ctx, next) => {
 // bind .rest() for ctx:
 app.use(restify());
 
+// 处理URL路由
+app.use(controller());
+
 // auth
 app.use(async (ctx, next) => {
   let reqPath = ctx.request.path;
@@ -60,7 +63,7 @@ app.use(async (ctx, next) => {
     // 不user鉴权
     if (reqPath.startsWith('/static') || // 静态资源
       reqPath.startsWith('/login') || // 登录
-      reqPath.startsWith('/MP_verify_LXFIuaHyNWtcqG7k.txt') || // wechat web page auth
+      reqPath.startsWith('/MP_verify_LXFIuaHyNWtcqG7k.txt') || // 登录
       reqPath === '/') {
       await next();
     } else {
@@ -83,9 +86,6 @@ app.use(templating('view-min', {
   noCache: !isProduction,
   watch: !isProduction
 }));
-
-// 处理URL路由
-app.use(controller());
 
 app.listen(project.port);
 const uri = `http://localhost:${project.port}`;
