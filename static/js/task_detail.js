@@ -22,7 +22,7 @@ $(() => {
       }, successCallback);
     };
 
-    let reward = Number.parseFloat($('#reward').text());
+    let reward = Number.parseFloat($('#reward').text().substr(1));
     if ($('.ladda-button span').text() === '接单' &&
       $('#rewardType').text() === '收取' &&
       reward > 0
