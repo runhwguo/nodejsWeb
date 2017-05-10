@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "微信请求误拦截"
+git commit -m "add sign out"
 git push
 git status

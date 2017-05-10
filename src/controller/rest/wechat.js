@@ -13,6 +13,8 @@ let console = tracer.console();
 
 const TOKEN = 'FuckQ';
 
+const REPLY_WORD = '亲爱的小伙伴，感谢关注校园资源共享“的”平台，代取快递，代写作业，代刷游戏，代视听说，代课代活动，找顺风车…一切不想做的事都可以扔到平台找人代做。闲置的书，自行车，衣服，电器，还有视频网站的会员都可以放到平台上有偿共享。闲来无事的小伙伴可以接单领任务，在校内做兼职。详情请点击下面的“进入主页”👇';
+
 const checkIsFromWeChatServer = async ctx => {
   let signature = ctx.query.signature;
   let timestamp = ctx.query.timestamp;
@@ -28,14 +30,14 @@ const checkIsFromWeChatServer = async ctx => {
       if (msgType === 'event') {
         let event = msg.Event;
         if (event === 'subscribe') {
-          result = _replyToWechat('感谢您关注本公众号，祝您使用愉快！', msg);
+          result = _replyToWechat(REPLY_WORD, msg);
 
           ctx.rest(result, API_RETURN_TYPE.XML);
         } else {
 
         }
       } else if (msgType === 'text') {
-        result = _replyToWechat('你好呀~', msg);
+        result = _replyToWechat(REPLY_WORD, msg);
 
         ctx.rest(result, API_RETURN_TYPE.XML);
       } else {

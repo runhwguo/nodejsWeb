@@ -57,7 +57,7 @@ $(() => {
       success: '成功',
       fail: '失败'
     }, () => {
-      window.location.href = '/';
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx90eb6b04dcbf5fb2redirect_uri=http%3A%2F%2Fi-sharing.xyzresponse_type=codescope=snsapi_userinfostate=STATE#wechat_redirect';
     });
   });
 

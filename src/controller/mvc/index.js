@@ -23,7 +23,7 @@ charset(Superagent);
 const index = async ctx => {
   let code = ctx.query.code,
     state = ctx.query.state;
-  console.log('state = ' + state+ ', code = ' + code);
+  console.log('statyue = ' + state+ ', code = ' + code);
 
   if (code) {
     let [accessToken, openId] = await wxPay.getAccessTokenOpenId(code);
@@ -119,10 +119,22 @@ const userInfo = async ctx => {
   });
 };
 
+const signOut = async ctx => {
+  ctx.cookies.set(session.wxOpenId, '');
+  ctx.cookies.set(session.userCookieName, '');
+  ctx.cookies.set(session.ujsCookieName, '');
+
+  ctx.render(`index`, {
+    title: '校园资源共享',
+    where: 'index'
+  });
+};
+
 module.exports = {
   'GET /': index,
   'GET /me': me,
   'GET /createTask': createTask,
   'GET /login': login,
-  'GET /userInfo': userInfo
+  'GET /userInfo': userInfo,
+  'GET /userInfo/signOut': signOut
 };
