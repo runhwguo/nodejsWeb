@@ -7,7 +7,7 @@ $(() => {
 
   const rewardReg = /^\d+(.\d{1,2})?$/;
 
-  const formBootstrapValidator = name=>{
+  const formBootstrapValidator = name => {
     form.data('bootstrapValidator')
       .updateStatus(name, 'NOT_VALIDATED', null)
       .validateField(name);
@@ -143,7 +143,7 @@ $(() => {
   }).on('success.form.bv', e => {
     e.preventDefault();
 
-    $('$publishOkBtn').click(() => {
+    $('#publishOkBtn').click(() => {
       if ($('.modal-body').text() === '任务发布成功') {
         window.location.href = '/';
       } else {
@@ -198,7 +198,7 @@ $(() => {
     };
 
     let rewardType = $('#rewardType').val();
-    let reward = $('#reward').val();
+    let reward = Number.parseInt($('#reward').val());
     if (rewardType === '赏' && reward > 0) {
       let outTradeNo = randomString(28);
       startPay({fee: reward * 100, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
