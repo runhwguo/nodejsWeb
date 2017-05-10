@@ -42,7 +42,7 @@
                         收取
                     {% endif %}
                 </td>
-                <td>￥{{ Math.abs(data.reward) }}</td>
+                <td>￥{{ data.reward < 0 ? -data.reward : data.reward }}</td>
             </tr>
         </table>
         <!-- 模态框（Modal） -->
