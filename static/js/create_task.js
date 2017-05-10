@@ -50,21 +50,6 @@ $(() => {
     }
   });
 
-  /**
-   * 生成随机字符串，默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
-   * @param len
-   * @returns {string}
-   */
-  const randomString = (len = 32) => {
-    const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
-    let maxPos = chars.length;
-    let pwd = '';
-    for (let i = 0; i < len; i++) {
-      pwd += chars[Math.floor(Math.random() * maxPos)];
-    }
-    return pwd;
-  };
-
   form.bootstrapValidator({
     message: 'The form is not valid',
     feedbackIcons: {
@@ -198,7 +183,7 @@ $(() => {
     };
 
     let rewardType = $('#rewardType').val();
-    let reward = Number.parseInt($('#reward').val());
+    let reward = Number.parseFloat($('#reward').val());
     if (rewardType === '赏' && reward > 0) {
       let outTradeNo = randomString(28);
       startPay({fee: reward * 100, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
