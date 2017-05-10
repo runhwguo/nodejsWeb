@@ -130,11 +130,11 @@ let vm = new Vue({
         window.location.href = `/task/detail/${item.id}?where=` + $('#where').val();
       };
 
-      if (item.type === '会员共享' &&
-        item.reward !== 0 &&
-        !($('#where').val().endsWith('ed')) &&
-        !item.isSelfOrderedTask &&
-        !item.isSelfPublishedTask) {
+      if (item.type === '会员共享' && // 查看的是会员共享
+        item.reward !== 0 && //
+        !($('#where').val().endsWith('ed')) && // 是要接任务，不是自我查看任务
+        !item.isSelfOrderedTask && // 自己接过了
+        !item.isSelfPublishedTask) { // 自己发布的任务
         startPay({fee: item.reward * 100, body: '购买会员共享费用', attach: item.id}, viewDetailSuccess, () => {
 
         });
@@ -142,7 +142,7 @@ let vm = new Vue({
         viewDetailSuccess();
       }
     },
-    init: (isSearch) => {
+    init: isSearch => {
       vm.items = [];
       vm.currentPage = 0;
       vm.loading = false;

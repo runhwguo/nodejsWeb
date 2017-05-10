@@ -109,13 +109,21 @@
                         data-style="expand-right">
                     <span class="ladda-label">下架</span>
                 </button>
-            {% elif data.state === '确认支付' %}
+            <!-- 我发布的任务 & 此任务是收钱的 & 是我付的钱 -->
+            {% elif data.state === '确认支付' and data.reward > 0 %}
                 <button id="paid" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
                         data-style="expand-right">
                     <span class="ladda-label">确认支付</span>
                 </button>
             {% endif %}
-        {% elif data.type === '会员共享' or data.isSelfPublishedTask or where === 'completed' or data.reward === 0 or data.isSelfOrderedTask %}
+        {% elif where === 'completed' %}
+            {% if data.state === '确认支付' and data.reward < 0 %}
+                <button id="paid" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
+                        data-style="expand-right">
+                    <span class="ladda-label">确认支付</span>
+                </button>
+            {% endif %}
+        {% elif data.type === '会员共享' or data.isSelfPublishedTask or data.reward === 0 or data.isSelfOrderedTask %}
         {% elif data.state === '认领中' %}
             <button id="order" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
                     data-style="expand-right">

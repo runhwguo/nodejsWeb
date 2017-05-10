@@ -40,7 +40,6 @@ const index = async ctx => {
   });
 };
 
-
 const _storageHeadImgUrl = async (ctx, headImgUrl) => {
   let user = ctx.state.user;
   if (user) {
