@@ -28,7 +28,7 @@ const index = async ctx => {
   if (code) {
     let [accessToken, openId] = await wxPay.getAccessTokenOpenId(code);
     let headImgUrl = await wxPay.getUserInfo(accessToken, openId);
-    await _storageHeadImgUrl(ctx.state.user, headImgUrl);
+    await _storageHeadImgUrl(ctx, headImgUrl);
     ctx.cookies.set(session.wxOpenId, openId, {
       maxAge: session.maxAge * 1000
     });
@@ -41,7 +41,8 @@ const index = async ctx => {
 };
 
 
-const _storageHeadImgUrl = async (user, headImgUrl) => {
+const _storageHeadImgUrl = async (ctx, headImgUrl) => {
+  let user = ctx.state.user;
   if (user) {
     if (headImgUrl !== user.headImgUrl) {
       user.headImgUrl = headImgUrl;
@@ -66,7 +67,7 @@ const me = async ctx => {
   let user = ctx.state.user,
     headImgUrl = ctx.cookies.get(session.headImgUrl);
 
-  await _storageHeadImgUrl(user, headImgUrl);
+  await _storageHeadImgUrl(ctx, headImgUrl);
 
   let unfinishedBadge = await count(user.id, TASK_STATE.completing);
   let data = {
