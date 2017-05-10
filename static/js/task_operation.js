@@ -92,18 +92,18 @@ let vm = new Vue({
       let stickButton = $(`#${item.id}`),
         loading = Ladda.create(stickButton[0]);
 
-      startPay({fee: 100, body: '任务置顶费用'}, () => {
+      // startPay({fee: 100, body: '任务置顶费用'}, () => {
         loading.start();
 
         const normalStickButtonWord = stickButton.text(),
           interval = 1000;
 
-        vm.$resource(`/api/task/state/stick/${ item.id }`).update()
+        Vue.$resource(`/api/task/state/stick/${ item.id }`).update()
           .then(resp => {
             vm.loading = false;
             resp.json().then(data => {
               stickButton.text(data.result.result ? '成功' : data.result.message);
-
+              alert(JSON.stringify(vm.items))
               // 在本地增加任务的优先级，以便排序
               if (data.result.result) {
                 item.priority++;
@@ -113,6 +113,7 @@ let vm = new Vue({
                 stickButton.text(normalStickButtonWord);
                 loading.stop();
               }, interval);
+              alert(JSON.stringify(vm.items))
             });
           }, resp => {
             stickButton.text('失败');
@@ -122,9 +123,9 @@ let vm = new Vue({
             }, interval);
             vm._showError(resp);
           });
-      }, () => {
+      // }, () => {
         // alert('支付失败，请重试');
-      });
+      // });
 
     },
     detail: item => {
