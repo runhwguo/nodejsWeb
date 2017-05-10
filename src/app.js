@@ -30,6 +30,17 @@ app.use(async (ctx, next) => {
   }
 });
 
+const _userAuth = async (ctx, next) => {
+  let userLoginCookie = ctx.cookies.get(session.userCookieName);
+  let user = await cookie2user(userLoginCookie, session.userCookieName);
+  if (user) {
+    ctx.state.user = user;
+    await next();
+  } else {
+    ctx.response.redirect('/login');
+  }
+};
+
 // auth
 app.use(async (ctx, next) => {
   let reqPath = ctx.request.path;
@@ -47,9 +58,11 @@ app.use(async (ctx, next) => {
     if (reqApiPath.startsWith('wechat') ||
       reqApiPath.startsWith('login') ||
       reqApiPath.startsWith('admin/login') ||
-      reqApiPath.startsWith('task/get')
+      reqApiPath.startsWith('task/get') // 没登录的情况下，也可以看发布的任务
     ) {
       await next();
+    } else {
+      await _userAuth(ctx, next);
     }
   } else {
     // 不user鉴权
@@ -58,14 +71,7 @@ app.use(async (ctx, next) => {
       reqPath === '/') {
       await next();
     } else {
-      let userLoginCookie = ctx.cookies.get(session.userCookieName);
-      let user = await cookie2user(userLoginCookie, session.userCookieName);
-      if (user) {
-        ctx.state.user = user;
-        await next();
-      } else {
-        ctx.response.redirect('/login');
-      }
+      await _userAuth(ctx, next);
     }
   }
 });
