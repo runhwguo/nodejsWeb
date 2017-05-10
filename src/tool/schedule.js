@@ -17,10 +17,11 @@ const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
   scanRule.hour = [0, 10, 12, 15, 17,21];
-  let minutes = [];
-  for (let i = 0; i < 60; i += 50) {
-    minutes.push(i);
-  }
+  let minutes;
+  minutes = [7];
+  // for (let i = 0; i < 60; i += 50) {
+  //   minutes.push(i);
+  // }
   scanRule.minute = minutes;
   scanRule.second = 0;
 
@@ -126,6 +127,9 @@ const _enterprisePayToUser = async () => {
     let billTask = await Task.findByPrimary(bill.taskId, {
       attributes: ['title']
     });
+
+    console.log(billTask);
+    console.log(billTask.dataValues);
     let taskTitle = billTask.dataValues.title;
     result = await enterprisePayToUser({
       openid: bill.userOpenId,

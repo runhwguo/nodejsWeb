@@ -109,7 +109,7 @@
                         data-style="expand-right">
                     <span class="ladda-label">下架</span>
                 </button>
-            <!-- 我发布的任务 & 此任务是收钱的 & 是我付的钱 -->
+            <!-- 我付的钱 -->
             {% elif data.state === '确认支付' and data.reward > 0 %}
                 <button id="paid" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
                         data-style="expand-right">
