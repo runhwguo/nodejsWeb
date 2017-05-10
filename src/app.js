@@ -30,11 +30,18 @@ app.use(async (ctx, next) => {
   }
 });
 
-const _userAuth = async (ctx, next) => {
+const _generateUser = async (ctx) => {
   let userLoginCookie = ctx.cookies.get(session.userCookieName);
   let user = await cookie2user(userLoginCookie, session.userCookieName);
   if (user) {
     ctx.state.user = user;
+  }
+
+  return !!user;
+};
+
+const _userAuth = async (ctx, next) => {
+  if (await _generateUser(ctx)) {
     await next();
   } else {
     ctx.response.redirect('/login');
@@ -60,6 +67,7 @@ app.use(async (ctx, next) => {
       reqApiPath.startsWith('admin/login') ||
       reqApiPath.startsWith('task/get') // 没登录的情况下，也可以看发布的任务
     ) {
+      await _generateUser(ctx);
       await next();
     } else {
       await _userAuth(ctx, next);
