@@ -1,5 +1,5 @@
 .task {
-    margin-left: 40px;
+    margin-left: 10px;
 }
 
 .list-group-item {
@@ -15,4 +15,9 @@
 
 .user-head {
     text-align: center;
+}
+
+i.fa {
+    width: 14px;
+    height: 14px;
 }
