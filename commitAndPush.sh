@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "修复 headImage拿不到alt备注"
+git commit -m "图标都替换成font awesome"
 git push
 git status
