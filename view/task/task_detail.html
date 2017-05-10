@@ -35,14 +35,13 @@
                 <td>{{ data.deadline }}</td>
             </tr>
             <tr>
-                <td>
-                    {% if data.reward >= 0 %}
-                        报酬
-                    {% else %}
-                        收取
-                    {% endif %}
-                </td>
-                <td>￥{{ data.reward < 0 ? -data.reward : data.reward }}</td>
+                {% if data.reward >= 0 %}
+                    <td>报酬</td>
+                    <td>￥{{ data.reward }}</td>
+                {% else %}
+                    <td>收取</td>
+                    <td>￥{{ -data.reward }}</td>
+                {% endif %}
             </tr>
         </table>
         <!-- 模态框（Modal） -->
