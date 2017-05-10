@@ -36,15 +36,25 @@ app.use(async (ctx, next) => {
   if (reqPath.startsWith('/admin')) {
     let adminLoginCookie = ctx.cookies.get(session.adminCookieName);
     let admin = await cookie2user(adminLoginCookie, session.adminCookieName);
-    if (admin) {
+    if (admin || reqPath.startsWith('/admin/login')) {
       await next();
-    } else if (!reqPath.startsWith('/admin/login')) {
-      ctx.response.redirect('/admin/login');
     } else {
+      ctx.response.redirect('/admin/login');
+    }
+  } else if (reqPath.startsWith('/api/')) {
+    let reqApiPath = reqPath.substr('/api/'.length);
+    // 不user鉴权
+    if (reqApiPath.startsWith('wechat') ||
+      reqApiPath.startsWith('login') ||
+      reqApiPath.startsWith('admin/login')
+    ) {
       await next();
     }
   } else {
-    if (reqPath.startsWith('/static') || reqPath === '/login') {
+    // 不user鉴权
+    if (reqPath.startsWith('/static') || // 静态资源
+      reqPath.startsWith('/login') || // 登录
+      reqPath === '/') {
       await next();
     } else {
       let userLoginCookie = ctx.cookies.get(session.userCookieName);

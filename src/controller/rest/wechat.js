@@ -118,8 +118,8 @@ const startPay = async ctx => {
 };
 
 module.exports = {
-  'GET /api/wechat/': checkIsFromWeChatServer,
-  'POST /api/wechat/': checkIsFromWeChatServer,
+  'GET /api/wechat': checkIsFromWeChatServer,
+  'POST /api/wechat': checkIsFromWeChatServer,
   'POST /api/wechat/order/notify': orderNotify,
   'GET /api/wechat/pay/start': startPay
 };
