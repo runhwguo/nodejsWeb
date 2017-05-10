@@ -19,10 +19,10 @@ const isProduction = process.env.NODE_ENV === 'production';
 // 打印url和请求时间 middleware
 app.use(logger());
 
-//wechat pay
+//wechat 网页授权
 app.use(async (ctx, next) => {
   let reqPath = ctx.request.path;
-  if (reqPath === '/MP_verify_LXFIuaHyNWtcqG7k.txt') {
+  if (reqPath === '/userInfo/MP_verify_LXFIuaHyNWtcqG7k.txt') {
     ctx.response.type = 200;
     ctx.response.body = 'LXFIuaHyNWtcqG7k';
   } else {
