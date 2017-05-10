@@ -98,7 +98,7 @@ let vm = new Vue({
         const normalStickButtonWord = stickButton.text(),
           interval = 1000;
 
-        Vue.$resource(`/api/task/state/stick/${ item.id }`).update()
+        vm.$resource(`/api/task/state/stick/${ item.id }`).update()
           .then(resp => {
             vm.loading = false;
             resp.json().then(data => {
