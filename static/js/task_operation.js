@@ -49,6 +49,11 @@ let vm = new Vue({
     _showError: resp => {
       resp.json().then(data => console.log('Error: ' + data.message));
     },
+    _sortByPriority: () => {
+      vm.items.sort((a, b) => {
+        return b.priority - a.priority;
+      });
+    },
     get: () => {
       vm.loading = true;
       let where = $('#where').val();
@@ -64,7 +69,7 @@ let vm = new Vue({
             data.result.forEach(item => {
               let maxWidthOfInfo = $(window).width() * 0.9 * 0.75;
               let info = item.type + ' ' + item.title;
-              let isNeedProcess = false
+              let isNeedProcess = false;
               while (info.getWidth() > maxWidthOfInfo) {
                 isNeedProcess = true;
                 info = item.type + ' ' + item.title;
@@ -75,6 +80,7 @@ let vm = new Vue({
               }
             });
             vm.items = vm.items.concat(data.result);
+            vm._sortByPriority();
             vm.currentPage++;
           });
         }, resp => {
@@ -97,6 +103,12 @@ let vm = new Vue({
             vm.loading = false;
             resp.json().then(data => {
               stickButton.text(data.result.result ? '成功' : data.result.message);
+
+              // 在本地增加任务的优先级，以便排序
+              if (data.result.result) {
+                item.priority++;
+              }
+              vm._sortByPriority();
               setTimeout(() => {
                 stickButton.text(normalStickButtonWord);
                 loading.stop();
