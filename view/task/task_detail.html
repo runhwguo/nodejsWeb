@@ -117,7 +117,7 @@
                 </button>
             {% endif %}
         {% elif where === 'completed' %}
-            {% if data.state === '确认支付' and data.reward < 0 %}
+            {% if -data.reward > 0 and data.state === '确认支付' %}
                 <button id="paid" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
                         data-style="expand-right">
                     <span class="ladda-label">确认支付</span>
