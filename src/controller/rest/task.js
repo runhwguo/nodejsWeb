@@ -15,10 +15,10 @@ const _judgeTaskType = ctx => {
   // 判断来源  take-task    mine-task ~ed
   let fromWhere = ctx.query.where,
     where = {
-    shareCount: {
-      $gt: 0
-    }
-  };
+      shareCount: {
+        $gt: 0
+      }
+    };
   let attributes = ['id', 'type', 'title', 'userId', 'priority'];
   if (fromWhere.endsWith('ed')) {
     if (fromWhere === 'published') {
@@ -88,10 +88,10 @@ const get = async ctx => {
   // 任务查询出来的一些后续操作
   if (ctx.state.user) { // 考虑用户没有登录的情景
     tasks.map(async task => {
-        // 加载判断 是否是自己的任务和自己是否接了  -> 查看接任务时
-        let taskBelongAttr = await addTaskBelongAttr(ctx.state.user.id, task.userId, task.id);
-        task = Object.assign(task, taskBelongAttr);
-        // console.log(task);
+      // 加载判断 是否是自己的任务和自己是否接了  -> 查看接任务时
+      let taskBelongAttr = await addTaskBelongAttr(ctx.state.user.id, task.userId, task.id);
+      task = Object.assign(task, taskBelongAttr);
+      // console.log(task);
     });
   }
 
@@ -147,6 +147,7 @@ const count = async ctx => {
 const stateUpdate = async ctx => {
   let id = ctx.params.id,
     operate = ctx.params.operate,
+    outTradeNo = ctx.query.outTradeNo,
     value = {},
     state = null,
     ret = false,
@@ -155,7 +156,6 @@ const stateUpdate = async ctx => {
       message: ''
     };
 
-
   switch (operate) {
     case 'order': {
       // 插入UserTask
@@ -163,6 +163,16 @@ const stateUpdate = async ctx => {
         taskId: id,
         userId: ctx.state.user.id
       });
+      // 接单支付，把交易单号，存储起来，以防退款
+      if (outTradeNo) {
+        await Dao.update(Task, {
+          outTradeNo: outTradeNo
+        }, {
+          where: {
+            id: id
+          }
+        });
+      }
       if (!ret) {
         result = {
           result: false,
@@ -187,6 +197,8 @@ const stateUpdate = async ctx => {
           userId: ctx.state.user.id
         }
       });
+
+      // 放弃任务，如果接单&付钱，则安排退款
 
       if (!ret) {
         result = {
