@@ -143,6 +143,14 @@ $(() => {
   }).on('success.form.bv', e => {
     e.preventDefault();
 
+    $('$publishOkBtn').click(() => {
+      if ($('.modal-body').text() === '任务发布成功') {
+        window.location.href = '/';
+      } else {
+        $('#publishModal').modal('hide');
+      }
+    });
+
     const doSubmit = (outTradeNo) => {
       let submit = $('.submit'),
         loading = Ladda.create(submit.get(0));
