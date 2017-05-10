@@ -30,6 +30,9 @@ const _userAuth = async (ctx, next) => {
   }
 };
 
+// bind .rest() for ctx:
+app.use(restify());
+
 // auth
 app.use(async (ctx, next) => {
   let reqPath = ctx.request.path;
@@ -80,9 +83,6 @@ app.use(templating('view-min', {
   noCache: !isProduction,
   watch: !isProduction
 }));
-
-// bind .rest() for ctx:
-app.use(restify());
 
 // 处理URL路由
 app.use(controller());
