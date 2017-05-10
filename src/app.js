@@ -46,7 +46,8 @@ app.use(async (ctx, next) => {
     // 不user鉴权
     if (reqApiPath.startsWith('wechat') ||
       reqApiPath.startsWith('login') ||
-      reqApiPath.startsWith('admin/login')
+      reqApiPath.startsWith('admin/login') ||
+      reqApiPath.startsWith('task/get')
     ) {
       await next();
     }
