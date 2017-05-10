@@ -12,7 +12,8 @@ const APIError = function (code = 'internal:unknown_error', message = '') {
 
 const API_RETURN_TYPE = {
   JSON: 'application/json',
-  XML: 'application/xml'
+  XML: 'application/xml',
+  PLAIN: 'text/plain'
 };
 
 //rest 风格的接口都是以api开头的
