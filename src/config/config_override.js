@@ -6,6 +6,7 @@ module.exports = {
     adminCookieName: 'adminCookie',
     ujsCookieName: 'JSESSIONID',
     wxOpenId: 'openid',
+    headImgUrl: 'headImgUrl',
     cookieKey: 'fuckQ',
     maxAge: 86400//1天
   },

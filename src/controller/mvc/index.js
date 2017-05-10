@@ -23,22 +23,12 @@ charset(Superagent);
 const index = async ctx => {
   let code = ctx.query.code,
     state = ctx.query.state;
-  console.log('statyue = ' + state+ ', code = ' + code);
+  console.log('state = ' + state+ ', code = ' + code);
 
   if (code) {
     let [accessToken, openId] = await wxPay.getAccessTokenOpenId(code);
     let headImgUrl = await wxPay.getUserInfo(accessToken, openId);
-    if(headImgUrl !== ctx.state.user.headImgUrl){
-      ctx.state.user.headImgUrl = headImgUrl;
-      console.log('拿到头像 url -> ' + headImgUrl);
-      await Dao.update(User, {
-        headImgUrl: headImgUrl
-      }, {
-        where: {
-          id: ctx.state.user.id
-        }
-      });
-    }
+    await _storageHeadImgUrl(ctx.state.user, headImgUrl);
     ctx.cookies.set(session.wxOpenId, openId, {
       maxAge: session.maxAge * 1000
     });
@@ -50,8 +40,34 @@ const index = async ctx => {
   });
 };
 
+
+const _storageHeadImgUrl = async (user, headImgUrl) => {
+  if (user) {
+    if (headImgUrl !== user.headImgUrl) {
+      user.headImgUrl = headImgUrl;
+      console.log('拿到头像 url -> ' + headImgUrl);
+      await Dao.update(User, {
+        headImgUrl: headImgUrl
+      }, {
+        where: {
+          id: user.id
+        }
+      });
+    }
+  } else {
+    // 用户没登录，先把头像存在cookie中，等用户登录时，再写入user
+    ctx.cookies.set(session.headImgUrl, headImgUrl, {
+      maxAge: session.maxAge * 1000
+    });
+  }
+};
+
 const me = async ctx => {
-  let user = ctx.state.user;
+  let user = ctx.state.user,
+    headImgUrl = ctx.cookies.get(session.headImgUrl);
+
+  await _storageHeadImgUrl(user, headImgUrl);
+
   let unfinishedBadge = await count(user.id, TASK_STATE.completing);
   let data = {
     title: '我的信息',

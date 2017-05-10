@@ -41,7 +41,7 @@ const _userAuth = async (ctx, next) => {
   }
 };
 
-// auth
+// user & admin auth
 app.use(async (ctx, next) => {
   let reqPath = ctx.request.path;
   if (reqPath.startsWith('/admin')) {
