@@ -19,6 +19,17 @@ const isProduction = process.env.NODE_ENV === 'production';
 // 打印url和请求时间 middleware
 app.use(logger());
 
+//wechat web page auth
+app.use(async (ctx, next) => {
+  let reqPath = ctx.request.path;
+  if (reqPath === '/MP_verify_LXFIuaHyNWtcqG7k.txt') {
+    ctx.response.type = 200;
+    ctx.response.body = 'LXFIuaHyNWtcqG7k';
+  } else {
+    await next();
+  }
+});
+
 const _userAuth = async (ctx, next) => {
   let userLoginCookie = ctx.cookies.get(session.userCookieName);
   let user = await cookie2user(userLoginCookie, session.userCookieName);
@@ -29,12 +40,6 @@ const _userAuth = async (ctx, next) => {
     ctx.response.redirect('/login');
   }
 };
-
-// bind .rest() for ctx:
-app.use(restify());
-
-// 处理URL路由
-app.use(controller());
 
 // auth
 app.use(async (ctx, next) => {
@@ -63,7 +68,6 @@ app.use(async (ctx, next) => {
     // 不user鉴权
     if (reqPath.startsWith('/static') || // 静态资源
       reqPath.startsWith('/login') || // 登录
-      reqPath.startsWith('/MP_verify_LXFIuaHyNWtcqG7k.txt') || // 登录
       reqPath === '/') {
       await next();
     } else {
@@ -86,6 +90,12 @@ app.use(templating('view-min', {
   noCache: !isProduction,
   watch: !isProduction
 }));
+
+// bind .rest() for ctx:
+app.use(restify());
+
+// 处理URL路由
+app.use(controller());
 
 app.listen(project.port);
 const uri = `http://localhost:${project.port}`;

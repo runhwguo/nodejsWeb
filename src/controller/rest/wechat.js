@@ -119,15 +119,9 @@ const startPay = async ctx => {
   ctx.rest(request);
 };
 
-//wechat 网页授权
-const auth = async ctx =>{
-  ctx.rest('LXFIuaHyNWtcqG7k', API_RETURN_TYPE.PLAIN);
-};
-
 module.exports = {
   'GET /api/wechat': checkIsFromWeChatServer,
   'POST /api/wechat': checkIsFromWeChatServer,
   'POST /api/wechat/order/notify': orderNotify,
-  'GET /api/wechat/pay/start': startPay,
-  'GET /MP_verify_LXFIuaHyNWtcqG7k.txt': auth
+  'GET /api/wechat/pay/start': startPay
 };
