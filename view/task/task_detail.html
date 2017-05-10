@@ -13,11 +13,13 @@
                 <td class="col-md-9">{{data.type}}</td>
             </tr>
             <tr>
-                {% if data.isSelfPublishedTask and (data.state === '完成中' or data.state === '确认支付' or data.state === '已支付')  %}
-                    <td>接单者</td>
-                {% else %}
-                    <td>发布者</td>
-                {% endif %}
+                <td>
+                    {% if data.isSelfPublishedTask and (data.state === '完成中' or data.state === '确认支付' or data.state === '已支付')  %}
+                        接单者
+                    {% else %}
+                        发布者
+                    {% endif %}
+                </td>
                 <td>{{data.name}}</td>
             </tr>
             <tr>
@@ -33,8 +35,14 @@
                 <td>{{ data.deadline }}</td>
             </tr>
             <tr>
-                <td>任务报酬</td>
-                <td>￥{{ data.reward }}</td>
+                <td>
+                    {% if data.reward >= 0 %}
+                        报酬
+                    {% else %}
+                        收取
+                    {% endif %}
+                </td>
+                <td>￥{{ Math.abs(data.reward) }}</td>
             </tr>
         </table>
         <!-- 模态框（Modal） -->
