@@ -17,8 +17,7 @@ const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
   scanRule.hour = [0, 10, 12, 15, 17,21];
-  let minutes;
-  minutes = [7];
+  let minutes = [42];
   // for (let i = 0; i < 60; i += 50) {
   //   minutes.push(i);
   // }
