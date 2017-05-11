@@ -226,19 +226,11 @@ const stateUpdate = async ctx => {
       if (task.state === TASK_STATE.released_not_claimed) {
         let reward = task.reward;
 
-        ret = await Dao.remove(Task, {
-          where: {
-            id: id
-          }
+        ret = await Dao.create(Bill, {
+          taskId: id,
+          userOpenId: ctx.state.user.openId,
+          amount: reward
         });
-
-        if (ret) {
-          ret = await Dao.create(Bill, {
-            taskId: id,
-            userOpenId: ctx.state.user.openId,
-            amount: reward
-          });
-        }
 
         if (!ret) {
           console.error('生成支付订单错误');
