@@ -44,17 +44,14 @@ const _paySign = data => {
 };
 
 const _sortAndGenerateParam = args => {
-  let keys = Object.keys(args),
-    newArgs = {};
-  keys = keys.sort();
-  keys.forEach(key => newArgs[key] = args[key]);
+  let newArgs = {};
+  Object.keys(args).sort().forEach(key => newArgs[key] = args[key]);
 
   let string = '';
   for (let k in newArgs) {
     string += `&${k}=${newArgs[k]}`;
   }
-  string = string.substr(1);
-  return string;
+  return string.substr(1);
 };
 
 const _addSignAndConvertToXml = data => {
@@ -63,8 +60,7 @@ const _addSignAndConvertToXml = data => {
       xml: Object.assign(data, {sign: sign})
     };
 
-  formData = Json2Xml(formData);
-  return formData;
+  return Json2Xml(formData);
 };
 
 const _xml2JsonObj = xmlStr => {
@@ -74,22 +70,22 @@ const _xml2JsonObj = xmlStr => {
 const unifiedOrder = async ctx => {
   let body = ctx.query.body,
     spbillCreateIp = ctx.ip,
-    totalFee = Math.abs(Number.parseInt(ctx.query.fee)),
+    totalFee = Math.abs(Number.parseInt(ctx.query.fee)) * 100,
     nonceStr = Math.random().toString(),
     openid = ctx.cookies.get(config.session.wxOpenId),
     outTradeNo = ctx.query.outTradeNo || randomString(28);
 
   let data = {
-    appid: APP_ID,// appid
-    body: body,// 商品或支付单简要描述
-    mch_id: MCH_ID,// 商户号
-    nonce_str: nonceStr,// 随机字符串，不长于32位
-    notify_url: NOTIFY_URL,// 支付成功后微信服务器通过POST请求通知这个地址
-    openid: openid,// 为微信用户在商户对应appid下的唯一标识
-    out_trade_no: outTradeNo,//订单号
-    spbill_create_ip: spbillCreateIp,//终端IP
-    total_fee: totalFee,//金额
-    trade_type: TRADE_TYPE//NATIVE会返回code_url ，JSAPI不会返回
+    appid: APP_ID, // appid
+    body: body, // 商品或支付单简要描述
+    mch_id: MCH_ID, // 商户号
+    nonce_str: nonceStr, // 随机字符串，不长于32位
+    notify_url: NOTIFY_URL, // 支付成功后微信服务器通过POST请求通知这个地址
+    openid: openid, // 为微信用户在商户对应appid下的唯一标识
+    out_trade_no: outTradeNo,// 订单号
+    spbill_create_ip: spbillCreateIp, // 终端IP
+    total_fee: totalFee, // 金额
+    trade_type: TRADE_TYPE // NATIVE会返回code_url ，JSAPI不会返回
   };
   // attach taskId
   if (ctx.query.attach) {
@@ -115,7 +111,7 @@ const unifiedOrder = async ctx => {
 const refund = async param => {
   let nonceStr = Math.random().toString(),
     outTradeNo = param.outTradeNo,
-    totalFee = param.reward,
+    totalFee = param.reward * 100,
     data = {
       appid: APP_ID,// appid
       mch_id: MCH_ID,// 商户号
@@ -139,7 +135,7 @@ const refund = async param => {
   });
   result = _xml2JsonObj(result);
 
-  console.log(result);
+  // console.log(result);
 
   return _requestSuccessful(result);
 };
@@ -170,7 +166,7 @@ const getOnBridgeReadyRequest = async prepay_id => {
 
   let data = {
     appId: APP_ID,     //公众号名称，由商户传入
-    timeStamp: '' + Math.round(Date.now() / 1000),         //时间戳，自1970年以来的秒数
+    timeStamp: (Date.now() / 1000).toFixed(),         //时间戳，自1970年以来的秒数
     nonceStr: Math.random().toString(), //随机串
     package: `prepay_id=${ prepay_id }`,
     signType: 'MD5' //微信签名方式：

@@ -186,7 +186,7 @@ $(() => {
     let reward = Number.parseFloat($('#reward').val());
     if (rewardType === '赏' && reward > 0) {
       let outTradeNo = randomString(28);
-      startPay({fee: reward * 100, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
+      startPay({fee: reward, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
         doSubmit(outTradeNo);
       }, () => {
       });

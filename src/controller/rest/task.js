@@ -6,6 +6,7 @@ import * as Dao from "../../tool/dao";
 import * as Common from "../../tool/common";
 import * as UserTaskDao from "../../tool/user_task_dao";
 import Db from "../../tool/db";
+import {refund} from "../../tool/wx_pay";
 import Tracer from "tracer";
 import {Task, UserTask, Bill, User} from "../../tool/model";
 
@@ -218,7 +219,7 @@ const stateUpdate = async ctx => {
     }
     case 'off': {
       let task = await Task.findByPrimary(id, {
-        attributes: ['reward', 'state']
+        attributes: ['reward', 'state', 'outTradeNo']
       });
 
       task = task.dataValues;
@@ -226,11 +227,11 @@ const stateUpdate = async ctx => {
       if (task.state === TASK_STATE.released_not_claimed) {
         let reward = task.reward;
 
-        ret = await Dao.create(Bill, {
-          taskId: id,
-          userOpenId: ctx.state.user.openId,
-          amount: reward
-        });
+        if (task.reward > 0 && task.outTradeNo) {
+          await refund({
+            reward: task.reward
+          });
+        }
 
         if (!ret) {
           console.error('生成支付订单错误');

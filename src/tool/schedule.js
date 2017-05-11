@@ -127,8 +127,6 @@ const _enterprisePayToUser = async () => {
       attributes: ['title']
     });
 
-    console.log(billTask);
-    console.log(billTask.dataValues);
     let taskTitle = billTask.dataValues.title;
     result = await enterprisePayToUser({
       openid: bill.userOpenId,

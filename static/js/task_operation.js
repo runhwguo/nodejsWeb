@@ -135,7 +135,7 @@ let vm = new Vue({
         !($('#where').val().endsWith('ed')) && // 是要接任务，不是自我查看任务
         !item.isSelfOrderedTask && // 自己接过了
         !item.isSelfPublishedTask) { // 自己发布的任务
-        startPay({fee: item.reward * 100, body: '购买会员共享费用', attach: item.id}, viewDetailSuccess, () => {
+        startPay({fee: item.reward, body: '购买会员共享费用', attach: item.id}, viewDetailSuccess, () => {
 
         });
       } else {

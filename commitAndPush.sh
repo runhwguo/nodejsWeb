@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "fix bug: 下架任务不需要删除，只需要改变状态"
+git commit -m "优化代码，修复逻辑"
 git push
 git status
