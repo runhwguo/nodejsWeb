@@ -61,4 +61,4 @@ gulp.task('min-image', () => {
     });
 });
 
-gulp.task('default', ['min-html', 'clean-css', 'babel-minify-js'/*, 'min-image'*/]);
+gulp.task('default', ['min-html', 'clean-css', 'babel-minify-js', 'min-image']);
