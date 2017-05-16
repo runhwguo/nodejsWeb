@@ -62,7 +62,7 @@
     "gulp-cache": "^0.4.6",
     "gulp-clean-css": "^3.0.4",
     "gulp-htmlmin": "^3.0.0",
-    "gulp-imagemin": "^2.0.0",
+    "gulp-imagemin": "^3.2.0",
     "gulp-uglify": "^2.1.2",
     "gulp-util": "^3.0.8"
   }
