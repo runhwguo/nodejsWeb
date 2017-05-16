@@ -75,6 +75,7 @@ app.use(async (ctx, next) => {
   } else {
     // 不user鉴权
     if (reqPath.startsWith('/static') || // 静态资源
+      reqPath.startsWith('/dist') || // 静态资源
       reqPath.startsWith('/login') || // 登录
       reqPath === '/') {
       await next();
