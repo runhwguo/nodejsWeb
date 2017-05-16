@@ -85,6 +85,8 @@ app.use(async (ctx, next) => {
 });
 
 app.use(staticFiles('/static/', `${appRootDir.get()}/static`));
+app.use(staticFiles('/dist/', `${appRootDir.get()}/dist`));
+
 // 解析body xml
 app.use(KoaXml({
   xmlOptions: {
@@ -94,7 +96,7 @@ app.use(KoaXml({
 // 解析原始request请求，nodejs的request和koa的request都不解析request
 app.use(bodyParser());
 // 给ctx加上render()来使用Nunjucks middleware
-app.use(templating('view', {
+app.use(templating('dist/view', {
   noCache: !isProduction,
   watch: !isProduction
 }));

@@ -18,13 +18,13 @@ gulp.task('min-html', () => {
     .on('error', err => {
       gutil.log(gutil.colors.red('[Error]'), err.toString());
     })
-    .pipe(gulp.dest('../view-min'));
+    .pipe(gulp.dest('../dist/view'));
 });
 
 gulp.task('clean-css', () => {
   gulp.src('../static/css/**/*.css')
     .pipe(cache(cleanCss()))
-    .pipe(gulp.dest('../static/css-min'))
+    .pipe(gulp.dest('../dist/css'))
     .on('error', err => {
       gutil.log(gutil.colors.red('[Error]'), err.toString());
     });
@@ -39,7 +39,7 @@ gulp.task('babel-minify-js', () => {
     .on('error', err => {
       gutil.log(gutil.colors.red('[Error]'), err.toString());
     })
-    .pipe(gulp.dest('../static/js-min'));
+    .pipe(gulp.dest('../dist/js'));
 });
 
 gulp.task('min-image', () => {
@@ -55,10 +55,10 @@ gulp.task('min-image', () => {
     .on('error', err => {
       gutil.log(gutil.colors.red('[Error]'), err.toString());
     })
-    .pipe(gulp.dest('../static/image-test'))
+    .pipe(gulp.dest('../dist/image'))
     .on('error', function (err) {
       gutil.log(gutil.colors.red('[Error]'), err.toString());
     });
 });
 
-gulp.task('default', ['min-html', 'clean-css', 'babel-minify-js'/*, 'min-image'*/]);
+gulp.task('default', ['min-html', 'clean-css', 'babel-minify-js', 'min-image']);
