@@ -1,4 +1,4 @@
-import {Environment, FileSystemLoader} from 'nunjucks';
+import {Environment, FileSystemLoader} from "nunjucks";
 
 const createEnv = (path = 'views', opts) => {
   let autoescape = opts.autoescape && true,
@@ -12,7 +12,15 @@ const createEnv = (path = 'views', opts) => {
         watch: watch,
       }), {
         autoescape: autoescape,
-        throwOnUndefined: throwOnUndefined
+        throwOnUndefined: throwOnUndefined,
+        tags: {
+          blockStart: '',
+          blockEnd: '',
+          variableStart: '',
+          variableEnd: '',
+          commentStart: '',
+          commentEnd: ''
+        }
       });
   if (opts.filters) {
     for (let f in opts.filters) {
