@@ -136,7 +136,7 @@ $(() => {
       }
     });
 
-    const doSubmit = (outTradeNo) => {
+    const doSubmit = outTradeNo => {
       let submit  = $('.submit'),
           loading = Ladda.create(submit.get(0));
       loading.start();
@@ -197,6 +197,7 @@ $(() => {
   createTask.attr('href', 'javascript:void(0)');
   let selectpicker = $('.selectpicker');
   selectpicker.change(() => {
+      // TODO 可以优化
       if (selectpicker.val() === '会员共享') {
         $('#shareCountDiv').show('fast');
       } else {

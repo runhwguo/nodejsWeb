@@ -1,15 +1,15 @@
-import Koa from "koa";
-import bodyParser from "koa-bodyparser";
-import KoaXml from "koa-xml-body";
-import logger from "koa-logger";
-import controller from "./tool/controller";
-import templating from "./tool/templating";
-import schedule from "./tool/schedule";
-import {cookie2user} from "./tool/cookie";
-import staticFiles from "./tool/static_files";
-import {restify} from "./tool/rest";
-import {project, session} from "./tool/config";
-import appRootDir from "app-root-dir";
+import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
+import KoaXml from 'koa-xml-body';
+import logger from 'koa-logger';
+import controller from './tool/controller';
+import templating from './tool/templating';
+import schedule from './tool/schedule';
+import {cookie2user} from './tool/cookie';
+import staticFiles from './tool/static_files';
+import {restify} from './tool/rest';
+import {project, session} from './tool/config';
+import appRootDir from 'app-root-dir';
 
 const app = new Koa();
 // ngnix remote ip代理
@@ -32,7 +32,7 @@ app.use(async (ctx, next) => {
 
 const _generateUser = async (ctx) => {
   let userLoginCookie = ctx.cookies.get(session.userCookieName);
-  let user = await cookie2user(userLoginCookie, session.userCookieName);
+  let user            = await cookie2user(userLoginCookie, session.userCookieName);
   if (user) {
     ctx.state.user = user;
   }
@@ -44,17 +44,7 @@ const _userAuth = async (ctx, next) => {
   if (await _generateUser(ctx)) {
     await next();
   } else {
-    let headers = ctx.req.headers,
-        host = headers.host,
-        referer = headers.referer;
-    // http://i-sharing.xyz/login -> /login
-    let refererShort = referer.split(host);
-    // 如果在当前是在login界面，且再操作是，鉴权还是没有通过，就不刷新界面!
-    if (!(refererShort &&
-      refererShort.length >= 2 &&
-      refererShort[1] === '/login')) {
-      ctx.response.redirect('/login');
-    }
+    ctx.response.redirect('/login');
   }
 };
 
@@ -63,7 +53,7 @@ app.use(async (ctx, next) => {
   let reqPath = ctx.request.path;
   if (reqPath.startsWith('/admin')) {
     let adminLoginCookie = ctx.cookies.get(session.adminCookieName);
-    let admin = await cookie2user(adminLoginCookie, session.adminCookieName);
+    let admin            = await cookie2user(adminLoginCookie, session.adminCookieName);
     if (admin || reqPath.startsWith('/admin/login')) {
       await next();
     } else {
