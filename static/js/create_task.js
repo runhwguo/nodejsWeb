@@ -1,9 +1,9 @@
 $(() => {
-  let form = $('form'),
-    submitBtnWord = $('.ladda-label'),
-    deadline = $('#deadline'),
-    reward = $('#reward'),
-    createTask = $('#createTaskTab');
+  let form          = $('form'),
+      submitBtnWord = $('.ladda-label'),
+      deadline      = $('#deadline'),
+      reward        = $('#reward'),
+      createTask    = $('#createTaskTab');
 
   const rewardReg = /^\d+(.\d{1,2})?$/;
 
@@ -28,13 +28,13 @@ $(() => {
   });
 
   deadline.click(() => {
-    let uiDatepickerDiv = $('#ui-datepicker-div');
-    let viewportWidth = $(window).width();
-    let viewportHeight = $(window).height();
-    let datepickerWidth = uiDatepickerDiv.width();
+    let uiDatepickerDiv  = $('#ui-datepicker-div');
+    let viewportWidth    = $(window).width();
+    let viewportHeight   = $(window).height();
+    let datepickerWidth  = uiDatepickerDiv.width();
     let datepickerHeight = uiDatepickerDiv.height();
-    let leftPos = (viewportWidth - datepickerWidth) / 2; //Standard centering method
-    let topPos = (viewportHeight - datepickerHeight) / 2; //Standard centering method
+    let leftPos          = (viewportWidth - datepickerWidth) / 2; //Standard centering method
+    let topPos           = (viewportHeight - datepickerHeight) / 2; //Standard centering method
     uiDatepickerDiv.css({
       left: leftPos,
       top: topPos,
@@ -90,7 +90,7 @@ $(() => {
           },
           regexp: {
             regexp: rewardReg,
-            message: "请输入带1-2位小数的正数"
+            message: '请输入带1-2位小数的正数'
           },
           callback: {
             message: 'The reward is not valid',
@@ -137,11 +137,11 @@ $(() => {
     });
 
     const doSubmit = (outTradeNo) => {
-      let submit = $('.submit'),
-        loading = Ladda.create(submit.get(0));
+      let submit  = $('.submit'),
+          loading = Ladda.create(submit.get(0));
       loading.start();
       let serializeArray = form.serializeArray(),
-        data = {};
+          data           = {};
 
       $.map(serializeArray, (n, i) => data[n['name']] = n['value'].replace(/"/g, '\\"'));
       if (outTradeNo) {
@@ -149,8 +149,8 @@ $(() => {
       } else {// 收
         data.reward = -data.reward;
       }
-      const INTERVAL = 1000,
-        normalSubmitBtnWord = submitBtnWord.text();
+      const INTERVAL            = 1000,
+            normalSubmitBtnWord = submitBtnWord.text();
       $.ajaxFileUpload({
         type: form.attr('method'),
         url: form.attr('action'),
@@ -183,7 +183,7 @@ $(() => {
     };
 
     let rewardType = $('#rewardType').val();
-    let reward = Number.parseFloat($('#reward').val());
+    let reward     = Number.parseFloat($('#reward').val());
     if (rewardType === '赏' && reward > 0) {
       let outTradeNo = randomString(28);
       startPay({fee: reward, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
@@ -211,11 +211,11 @@ $(() => {
   });
 
   $.uploadPreview({
-    input_field: "#file",   // Default: .file
-    preview_box: "#image-preview",  // Default: .image-preview
-    label_field: "#image-label",    // Default: .image-label
-    label_default: "图片补充",   // Default: Choose File
-    label_selected: "更换图片",  // Default: Change File
+    input_field: '#file',   // Default: .file
+    preview_box: '#image-preview',  // Default: .image-preview
+    label_field: '#image-label',    // Default: .image-label
+    label_default: '图片补充',   // Default: Choose File
+    label_selected: '更换图片',  // Default: Change File
     no_label: false                 // Default: false
   });
   form.css('margin-bottom', 15 + $('.navbar-fixed-bottom').height());

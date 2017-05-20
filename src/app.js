@@ -44,7 +44,17 @@ const _userAuth = async (ctx, next) => {
   if (await _generateUser(ctx)) {
     await next();
   } else {
-    ctx.response.redirect('/login');
+    let headers = ctx.req.headers,
+        host = headers.host,
+        referer = headers.referer;
+    // http://i-sharing.xyz/login -> /login
+    let refererShort = referer.split(host);
+    // 如果在当前是在login界面，且再操作是，鉴权还是没有通过，就不刷新界面!
+    if (!(refererShort &&
+      refererShort.length >= 2 &&
+      refererShort[1] === '/login')) {
+      ctx.response.redirect('/login');
+    }
   }
 };
 
