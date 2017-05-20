@@ -1,25 +1,25 @@
-import {TASK_STATE, TASK_TYPE} from "../../model/Task";
-import {addTaskBelongAttr} from "../../model/UserTask";
-import {session} from "../../tool/config";
-import {uploadFile} from "../../tool/upload";
-import * as Dao from "../../tool/dao";
-import * as Common from "../../tool/common";
-import * as UserTaskDao from "../../tool/user_task_dao";
-import Db from "../../tool/db";
-import {refund} from "../../tool/wx_pay";
-import Tracer from "tracer";
-import {Task, UserTask, Bill, User} from "../../tool/model";
+import {TASK_STATE, TASK_TYPE} from '../../model/Task';
+import {addTaskBelongAttr} from '../../model/UserTask';
+import {session} from '../../tool/config';
+import {uploadFile} from '../../tool/upload';
+import * as Dao from '../../tool/dao';
+import * as Common from '../../tool/common';
+import * as UserTaskDao from '../../tool/user_task_dao';
+import Db from '../../tool/db';
+import {refund} from '../../tool/wx_pay';
+import Tracer from 'tracer';
+import {Task, UserTask, Bill, User} from '../../tool/model';
 
 const console = Tracer.console();
 
 const _judgeTaskType = ctx => {
   // 判断来源  take-task    mine-task ~ed
-  let fromWhere = ctx.query.where,
-    where = {
-      shareCount: {
-        $gt: 0
-      }
-    };
+  let fromWhere  = ctx.query.where,
+      where      = {
+        shareCount: {
+          $gt: 0
+        }
+      };
   let attributes = ['id', 'type', 'title', 'userId', 'priority'];
   if (fromWhere.endsWith('ed')) {
     if (fromWhere === 'published') {
@@ -60,9 +60,9 @@ const _judgeTaskType = ctx => {
 
 
 const get = async ctx => {
-  let page = Number.parseInt(ctx.params.page),
-    fromWhere = ctx.query.where,
-    tasks = null;
+  let page      = Number.parseInt(ctx.params.page),
+      fromWhere = ctx.query.where,
+      tasks     = null;
   if (fromWhere === 'unfinished') {
     tasks = await UserTaskDao.get(ctx.state.user.id, [TASK_STATE.completing], page);
   } else if (fromWhere === 'completed') {
@@ -73,7 +73,7 @@ const get = async ctx => {
       limit = 8;
     }
     let [where, attributes] = _judgeTaskType(ctx);
-    tasks = await Dao.findAll(Task, {
+    tasks                   = await Dao.findAll(Task, {
       attributes: attributes,
       where: where,
       offset: (page - 1) * limit,
@@ -91,7 +91,7 @@ const get = async ctx => {
     tasks.map(async task => {
       // 加载判断 是否是自己的任务和自己是否接了  -> 查看接任务时
       let taskBelongAttr = await addTaskBelongAttr(ctx.state.user.id, task.userId, task.id);
-      task = Object.assign(task, taskBelongAttr);
+      task               = Object.assign(task, taskBelongAttr);
       // console.log(task);
     });
   }
@@ -104,11 +104,11 @@ const get = async ctx => {
 const publish = async ctx => {
   const serverFilePath = 'static/tmp';
   // 上传文件事件
-  let result = await uploadFile(ctx, {
+  let result           = await uploadFile(ctx, {
     fileType: `taskImage/${Common.getRandomInt()}/${Common.getRandomInt()}`,
     path: serverFilePath
   });
-  result.data.userId = ctx.state.user.id;
+  result.data.userId   = ctx.state.user.id;
   if (result.data.shareCount) {
     result.data.shareCount = Number.parseInt(result.data.shareCount);
   } else {
@@ -127,7 +127,7 @@ const publish = async ctx => {
 
 const count = async ctx => {
   let fromWhere = ctx.query.where,
-    count = 0;
+      count     = 0;
   if (fromWhere === 'unfinished') {
     count = await UserTaskDao.count(ctx.state.user.id, [TASK_STATE.completing]);
   } else if (fromWhere === 'completed') {
@@ -146,16 +146,16 @@ const count = async ctx => {
 
 // postman中x-www-form-urlencoded下才能获取数据
 const stateUpdate = async ctx => {
-  let id = ctx.params.id,
-    operate = ctx.params.operate,
-    outTradeNo = ctx.query.outTradeNo,
-    value = {},
-    state = null,
-    ret = false,
-    result = {
-      result: true,
-      message: ''
-    };
+  let id         = ctx.params.id,
+      operate    = ctx.params.operate,
+      outTradeNo = ctx.query.outTradeNo,
+      value      = {},
+      state      = null,
+      ret        = false,
+      result     = {
+        result: true,
+        message: ''
+      };
 
   switch (operate) {
     case 'order': {
@@ -263,8 +263,8 @@ const stateUpdate = async ctx => {
       let reward = task.dataValues.reward;
 
 
-      let userId = userTask.dataValues.userId;
-      let user = await User.findByPrimary(userId, {
+      let userId     = userTask.dataValues.userId;
+      let user       = await User.findByPrimary(userId, {
         attributes: ['openId']
       });
       let userOpenId = user.dataValues.openId;
@@ -305,8 +305,8 @@ const stateUpdate = async ctx => {
 };
 
 const unread = async ctx => {
-  let user = ctx.state.user,
-    result = 0;
+  let user   = ctx.state.user,
+      result = 0;
   if (user) {
     result = await UserTaskDao.count(user.id, [TASK_STATE.completing]);
 

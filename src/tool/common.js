@@ -3,10 +3,10 @@ const getRandomInt = (min = 0, max = 9) => {
 };
 
 const getToday = (isFormatTwoNum = true, connector = '-') => {
-  let today = new Date();
-  let dd = today.getDate();
-  let mm = today.getMonth() + 1; //January is 0!
-  let yyyy = today.getFullYear();
+  let today = new Date(),
+      dd    = today.getDate(),
+      mm    = today.getMonth() + 1,//January is 0!
+      yyyy  = today.getFullYear();
   if (isFormatTwoNum) {
     if (dd < 10) {
       dd = '0' + dd
@@ -28,8 +28,8 @@ const getToday = (isFormatTwoNum = true, connector = '-') => {
  */
 const randomString = (len = 32) => {
   const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
-  let maxPos = chars.length;
-  let pwd = '';
+  let maxPos  = chars.length;
+  let pwd     = '';
   for (let i = 0; i < len; i++) {
     pwd += chars[Math.floor(Math.random() * maxPos)];
   }

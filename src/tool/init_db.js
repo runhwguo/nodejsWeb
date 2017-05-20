@@ -1,6 +1,6 @@
-require('./hook.js');
+require('./hook');
 
-const Model = require('./model.js');
+const Model = require('./model');
 
 Model.sync().then(() => {
   console.log('Init database OK!');

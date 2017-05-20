@@ -58,7 +58,6 @@ $(() => {
       fail: '失败'
     }, () => {
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx90eb6b04dcbf5fb2&redirect_uri=http%3A%2F%2Fi-sharing.xyz&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
-                             'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx90eb6b04dcbf5fb2&redirect_uri=http%3A%2F%2Fi-sharing.xyz&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
     });
   });
 

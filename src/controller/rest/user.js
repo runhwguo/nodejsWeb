@@ -3,14 +3,14 @@ import {cookie2user} from '../../tool/cookie';
 import {session} from '../../tool/config';
 
 const save = async ctx => {
-  let name = ctx.request.body.name;
-  let wx = ctx.request.body.wx;
-  let tel = ctx.request.body.tel;
-  let qq = ctx.request.body.qq;
+  let name = ctx.request.body.name,
+      wx   = ctx.request.body.wx,
+      tel  = ctx.request.body.tel,
+      qq   = ctx.request.body.qq;
 
-  let schoolResourceShareCookie = ctx.cookies.get(session.userCookieName);
-  let user = await cookie2user(schoolResourceShareCookie, session.userCookieName);
-  let result = await User.update({
+  let schoolResourceShareCookie = ctx.cookies.get(session.userCookieName),
+      user                      = await cookie2user(schoolResourceShareCookie, session.userCookieName),
+      result                    = await User.update({
     wx: wx,
     name: name,
     tel: tel,

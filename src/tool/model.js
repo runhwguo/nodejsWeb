@@ -10,15 +10,15 @@ let jsFiles = files.filter(f => f.endsWith(jsExt), files);
 
 for (let f of jsFiles) {
   // console.log(`import model from file ${f}...`);
-  let name = f.substr(0, f.length - jsExt.length);
+  let name      = f.substr(0, f.length - jsExt.length);
   exports[name] = require(`${__dirname}/../model/${f}`);
 }
 
 // 定义外键关系  start
-let Task = exports.Task,
-  User = exports.User,
-  UserTask = exports.UserTask,
-  Bill = exports.Bill;
+let Task     = exports.Task,
+    User     = exports.User,
+    UserTask = exports.UserTask,
+    Bill     = exports.Bill;
 
 
 console.log('----- foreign key -----');

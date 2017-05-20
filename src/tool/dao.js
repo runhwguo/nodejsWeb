@@ -1,6 +1,6 @@
 const findAll = async (model, option = {}) => {
-  let result = await model.findAll(option);
-  let data = [];
+  let result = await model.findAll(option),
+      data   = [];
   result.forEach(item => {
     data.push(item.dataValues);
   });

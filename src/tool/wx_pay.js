@@ -11,6 +11,7 @@ import fs from 'mz/fs';
 import AppRootDir from 'app-root-dir';
 import path from 'path';
 import request from 'request-promise';
+import DNS from 'dns-then';
 
 let console = Tracer.console();
 
@@ -189,7 +190,7 @@ const enterprisePayToUser = async param => {
     check_name: 'NO_CHECK',
     amount: Math.abs(param.amount) * 100,
     desc: '资源共享平台 做<' + param.taskTitle + '>任务的报酬, 平台收取报酬的10%',
-    spbill_create_ip: param.ip,
+    spbill_create_ip: await DNS.lookup('i-sharing.xyz'),
   };
 
   let formData = _addSignAndConvertToXml(data);

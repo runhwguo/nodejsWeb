@@ -1,20 +1,20 @@
 String.prototype.getWidth = function () {
   let o = $('<span>' + this + '</span>')
-      .css({
-        'position': 'absolute',
-        'float': 'left',
-        'white-space': 'nowrap',
-        'visibility': 'hidden',
-        'font': $('.task-info').css('font')
-      })
-      .appendTo($('body')),
-    w = o.width();
+        .css({
+          'position': 'absolute',
+          'float': 'left',
+          'white-space': 'nowrap',
+          'visibility': 'hidden',
+          'font': $('.task-info').css('font')
+        })
+        .appendTo($('body')),
+      w = o.width();
 
   o.remove();
   return w;
 };
 
-let vm = new Vue({
+let vm    = new Vue({
   delimiters: ['${', '}'],
   el: '#vm',
   data: {
@@ -56,8 +56,8 @@ let vm = new Vue({
     },
     get: () => {
       vm.loading = true;
-      let where = $('#where').val();
-      let url = `/api/task/get/page/${vm.currentPage + 1}?where=${ where }`;
+      let where  = $('#where').val();
+      let url    = `/api/task/get/page/${vm.currentPage + 1}?where=${ where }`;
       if (vm.isSearch) {
         url += '&keyword=' + $('#searchContent').val();
       }
@@ -68,12 +68,12 @@ let vm = new Vue({
           resp.json().then(data => {
             data.result.forEach(item => {
               let maxWidthOfInfo = $(window).width() * 0.9 * 0.75;
-              let info = item.type + ' ' + item.title;
-              let isNeedProcess = false;
+              let info           = item.type + ' ' + item.title;
+              let isNeedProcess  = false;
               while (info.getWidth() > maxWidthOfInfo) {
                 isNeedProcess = true;
-                info = item.type + ' ' + item.title;
-                item.title = item.title.substr(0, item.title.length - 1);
+                info          = item.type + ' ' + item.title;
+                item.title    = item.title.substr(0, item.title.length - 1);
               }
               if (isNeedProcess) {
                 item.title += '...';
@@ -90,13 +90,13 @@ let vm = new Vue({
     },
     stick: item => {
       let stickButton = $(`#${item.id}`),
-        loading = Ladda.create(stickButton[0]);
+          loading     = Ladda.create(stickButton[0]);
 
       startPay({fee: 100, body: '任务置顶费用'}, () => {
         loading.start();
 
         const normalStickButtonWord = stickButton.text(),
-          interval = 1000;
+              interval              = 1000;
 
         vm.$resource(`/api/task/state/stick/${ item.id }`).update()
           .then(resp => {
@@ -143,19 +143,18 @@ let vm = new Vue({
       }
     },
     init: isSearch => {
-      vm.items = [];
+      vm.items       = [];
       vm.currentPage = 0;
-      vm.loading = false;
-      vm.isSearch = isSearch;
-      let url = '/api/task/get/count?where=' + $('#where').val();
+      vm.loading     = false;
+      vm.isSearch    = isSearch;
+      let url        = '/api/task/get/count?where=' + $('#where').val();
       if (vm.isSearch) {
         url += '&keyword=' + $('#searchContent').val();
       }
       vm.$resource(url)
         .get()
         .then(resp => {
-          resp
-            .json()
+          resp.json()
             .then(data => {
               vm.count = data.result;
               vm.get();
@@ -175,11 +174,11 @@ $(() => {
     vm.limit = 8;
   }
   vmDiv.scroll(() => {
-    let divHeight = vmDiv.height();
+    let divHeight    = vmDiv.height();
     let scrollHeight = vmDiv[0].scrollHeight;
-    let scrollTop = vmDiv[0].scrollTop;
+    let scrollTop    = vmDiv[0].scrollTop;
     if (scrollTop + divHeight >= scrollHeight) {
-      console.log("滚动条到底部了");
+      console.log('滚动条到底部了');
       if (vm.currentPage * vm.limit < vm.count) {
         vm.get();
       } else {

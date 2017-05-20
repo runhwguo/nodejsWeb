@@ -1,6 +1,6 @@
-let _param = [];
-let _successCallback = null;
-let _failCallback = null;
+let _param           = [],
+    _successCallback = null,
+    _failCallback    = null;
 
 function _isSupportWxPay() {
   let wxInfo = window.navigator.userAgent.match(/MicroMessenger\/([\d.]+)/i);
@@ -31,9 +31,9 @@ function onBridgeReady() {
 }
 
 function startPay(param, successCallback, failCallback) {
-  _param = param;
+  _param           = param;
   _successCallback = successCallback;
-  _failCallback = failCallback;
+  _failCallback    = failCallback;
   if (_isSupportWxPay) {
     if (typeof WeixinJSBridge === 'undefined') {
       if (document.addEventListener) {

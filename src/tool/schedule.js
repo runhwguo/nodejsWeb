@@ -16,11 +16,11 @@ const console = Tracer.console();
 const setSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
-  scanRule.hour = [0, 10, 12, 15, 17,21];
-  let minutes = [49];
-  // for (let i = 0; i < 60; i += 50) {
-  //   minutes.push(i);
-  // }
+  scanRule.hour = [0, 10, 12, 15, 17, 21, 22];
+  let minutes   = [];
+  for (let i = 0; i < 60; i++) {
+    minutes.push(i);
+  }
   scanRule.minute = minutes;
   scanRule.second = 0;
 
@@ -29,12 +29,10 @@ const setSchedule = () => {
 
     console.log('run _offExpiredTaskAndRefund start...');
     await _offExpiredTaskAndRefund();
-    // console.log(result);
     console.log('run _offExpiredTaskAndRefund end...');
 
     console.log('run _deleteUsedVerificationCode start...');
     await _deleteUsedVerificationCode(Path.join(AppRootDir.get(), 'static/tmp/verificationCode'));
-    // console.log(result);
     console.log('run _deleteUsedVerificationCode end...');
 
     console.log('run _enterprisePayToUser start...');
@@ -92,7 +90,7 @@ const _offExpiredTaskAndRefund = async () => {
 
 const _deleteUsedVerificationCode = async dir => {
   let dirList = await Fs.readdir(dir);
-  let result = false;
+  let result  = false;
 
   for (let item of dirList) {
     let file = Path.join(dir, item);
@@ -128,10 +126,9 @@ const _enterprisePayToUser = async () => {
     });
 
     let taskTitle = billTask.dataValues.title;
-    result = await enterprisePayToUser({
+    result        = await enterprisePayToUser({
       openid: bill.userOpenId,
       amount: bill.amount * 0.9,
-      ip: '115.159.81.222',
       taskTitle: taskTitle
     });
     if (result) {

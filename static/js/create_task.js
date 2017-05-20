@@ -2,8 +2,7 @@ $(() => {
   let form          = $('form'),
       submitBtnWord = $('.ladda-label'),
       deadline      = $('#deadline'),
-      reward        = $('#reward'),
-      createTask    = $('#createTaskTab');
+      reward        = $('#reward');
 
   const rewardReg = /^\d+(.\d{1,2})?$/;
 
@@ -194,7 +193,7 @@ $(() => {
       doSubmit();
     }
   });
-  createTask.attr('href', 'javascript:void(0)');
+  $('#createTaskTab').attr('href', 'javascript:void(0)');
   let selectpicker = $('.selectpicker');
   selectpicker.change(() => $('#shareCountDiv')[selectpicker.val() === '会员共享' ? 'show' : 'hide']('fast'));
   $('li[name="rewardValue"]').click(function () {
