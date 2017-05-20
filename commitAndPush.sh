@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 git add *
-git commit -m "meTab, createTaskTab下如果没有登陆，则再点击这两个tab时，不刷新"
+git commit -m "js方法不仅可以用.调用，还可以用[]调用，if-else可以做代码优化  --> shareCountDiv"
 git push
 git status

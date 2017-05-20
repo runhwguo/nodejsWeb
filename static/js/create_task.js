@@ -196,15 +196,7 @@ $(() => {
   });
   createTask.attr('href', 'javascript:void(0)');
   let selectpicker = $('.selectpicker');
-  selectpicker.change(() => {
-      // TODO 可以优化
-      if (selectpicker.val() === '会员共享') {
-        $('#shareCountDiv').show('fast');
-      } else {
-        $('#shareCountDiv').hide('fast');
-      }
-    }
-  );
+  selectpicker.change(() => $('#shareCountDiv')[selectpicker.val() === '会员共享' ? 'show' : 'hide']('fast'));
   $('li[name="rewardValue"]').click(function () {
     $('#rewardType').val($(this).text());
 
