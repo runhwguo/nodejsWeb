@@ -1,6 +1,6 @@
 import {Environment, FileSystemLoader} from "nunjucks";
 
-const createEnv = (path = 'views', opts) => {
+const createEnv = (opts, path = 'dist/view') => {
   let autoescape = opts.autoescape && true,
     noCache = opts.noCache || false,
     watch = opts.watch || false,
@@ -30,9 +30,9 @@ const createEnv = (path = 'views', opts) => {
   return env;
 };
 
-const templating = (path, opts) => {
+const templating = (opts, path) => {
   // 创建Nunjucks的env对象:
-  let env = createEnv(path, opts);
+  let env = createEnv(opts, path);
   return async (ctx, next) => {
     // 给ctx绑定render函数:
     ctx.render = (view, model) => {

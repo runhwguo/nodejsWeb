@@ -1,4 +1,4 @@
-import Db from "../tool/db";
+import Db from '../tool/db';
 
 const STATE = {
   none: '未知',

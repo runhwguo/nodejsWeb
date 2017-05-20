@@ -97,7 +97,7 @@ app.use(KoaXml({
 // 解析原始request请求，nodejs的request和koa的request都不解析request
 app.use(bodyParser());
 // 给ctx加上render()来使用Nunjucks middleware
-app.use(templating('dist/view', {
+app.use(templating({
   noCache: !isProduction,
   watch: !isProduction
 }));

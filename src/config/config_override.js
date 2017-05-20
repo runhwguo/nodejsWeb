@@ -1,6 +1,5 @@
 // 应用正式环境的配置
 module.exports = {
-
   session: {
     userCookieName: 'schoolResourceShare',
     adminCookieName: 'adminCookie',

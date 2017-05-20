@@ -1,6 +1,6 @@
-import sha1 from "sha1";
-import {admin, session} from "./config";
-import {User} from "./model";
+import sha1 from 'sha1';
+import {admin, session} from './config';
+import {User} from './model';
 
 const cookie2user = async (cookie, cookieName) => {
   if (cookie) {

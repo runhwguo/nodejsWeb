@@ -3,7 +3,6 @@ import appRootDir from 'app-root-dir';
 import fs from 'fs';
 import Busboy from 'busboy';
 import uuid from 'uuid';
-import {inspect} from 'util';
 
 /**
  * 同步创建文件目录
@@ -36,7 +35,7 @@ const _getSuffixName = fileName => {
  * @return {Promise}
  */
 const uploadFile = async (ctx, options) => {
-  let req = ctx.req;
+  let req    = ctx.req;
   let busboy = new Busboy({headers: req.headers});
 
   // 获取类型
@@ -58,9 +57,9 @@ const uploadFile = async (ctx, options) => {
     // 解析请求文件事件
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
         console.log('file...');
-        let fileName = uuid.v4() + '.' + _getSuffixName(filename);
+        let fileName        = uuid.v4() + '.' + _getSuffixName(filename);
         let _uploadFilePath = path.join(filePath, fileName);
-        let saveTo = path.join(appRootDir.get(), _uploadFilePath);
+        let saveTo          = path.join(appRootDir.get(), _uploadFilePath);
         // 文件保存到制定路径
         file.pipe(fs.createWriteStream(saveTo));
 

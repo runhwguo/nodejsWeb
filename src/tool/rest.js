@@ -1,4 +1,4 @@
-import Tracer from "tracer";
+import Tracer from 'tracer';
 
 const console = Tracer.console();
 
@@ -6,7 +6,7 @@ const console = Tracer.console();
 // code:大类型错误,小类型错误,采用string，清晰明确
 // message:错误的具体描述
 const APIError = function (code = 'internal:unknown_error', message = '') {
-  this.code = code;
+  this.code    = code;
   this.message = message;
 };
 
@@ -31,8 +31,8 @@ const restify = (pathPrefix = '/api/') => {
       } catch (e) {
         console.trace(e);
         ctx.response.status = 400;// 400 error, 200 ok
-        ctx.response.type = 'application/json';
-        ctx.response.body = {
+        ctx.response.type   = 'application/json';
+        ctx.response.body   = {
           code: e.code || 'internal:unknown_error',
           message: e.message || ''
         };

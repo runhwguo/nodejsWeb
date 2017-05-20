@@ -9,6 +9,6 @@ module.exports = {
     port: 3306
   },
   project: {
-    port: 8080
+    port: 8081
   }
 };

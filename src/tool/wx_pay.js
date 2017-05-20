@@ -1,42 +1,42 @@
-import MD5 from "md5";
-import Superagent from "superagent";
-import charset from "superagent-charset";
-import config from "./config";
-import {randomString, toCDATA} from "./common";
+import MD5 from 'md5';
+import Superagent from 'superagent';
+import charset from 'superagent-charset';
+import config from './config';
+import {randomString, toCDATA} from './common';
 
-import Xml2Json from "xml2json";
-import Json2Xml from "json2xml";
-import Tracer from "tracer";
-import fs from "mz/fs";
-import AppRootDir from "app-root-dir";
-import path from "path";
-import request from "request-promise";
+import Xml2Json from 'xml2json';
+import Json2Xml from 'json2xml';
+import Tracer from 'tracer';
+import fs from 'mz/fs';
+import AppRootDir from 'app-root-dir';
+import path from 'path';
+import request from 'request-promise';
 
 let console = Tracer.console();
 
 charset(Superagent);
 
-const APP_ID = 'wx90eb6b04dcbf5fb2';
+const APP_ID     = 'wx90eb6b04dcbf5fb2';
 const APP_SECRET = '7e87a72a56080c466d9256387016c886';
-const MCH_ID = '1462750902';
+const MCH_ID     = '1462750902';
 const TRADE_TYPE = 'JSAPI';
 const NOTIFY_URL = 'http://i-sharing.xyz/api/wechat/order/notify';
-const MCH_KEY = 'guohaoweilovechengxihuiforeveruu';//key为在微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
+const MCH_KEY    = 'guohaoweilovechengxihuiforeveruu';//key为在微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
 
-const URL_MCH_MAIN = 'https://api.mch.weixin.qq.com/';
-const URL_USER_MAIN = 'https://api.weixin.qq.com/sns/';
-const URL_UNIFIED_ORDER = `${ URL_MCH_MAIN }pay/unifiedorder`;
-const URL_REFUND = `${ URL_MCH_MAIN }secapi/pay/refund`;
+const URL_MCH_MAIN               = 'https://api.mch.weixin.qq.com/';
+const URL_USER_MAIN              = 'https://api.weixin.qq.com/sns/';
+const URL_UNIFIED_ORDER          = `${ URL_MCH_MAIN }pay/unifiedorder`;
+const URL_REFUND                 = `${ URL_MCH_MAIN }secapi/pay/refund`;
 const URL_ENTERPRISE_PAY_TO_USER = `${ URL_MCH_MAIN }mmpaymkttransfers/promotion/transfers`;
 
 const URL_WX_OPEN_ID_ACCESS_TOKEN = `${ URL_USER_MAIN }oauth2/access_token?appid=${ APP_ID }&secret=${ APP_SECRET }&code=CODE&grant_type=authorization_code`;
-const URL_WX_GET_USER_INFO = `${ URL_USER_MAIN }userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN`;
+const URL_WX_GET_USER_INFO        = `${ URL_USER_MAIN }userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN`;
 
 const PFX = fs.readFileSync(path.join(AppRootDir.get(), 'static/third-party/apiclient_cert.p12')); //微信商户平台证书
 
 
 const SUCCESS = 'SUCCESS';
-const OK = 'OK';
+const OK      = 'OK';
 
 const _paySign = data => {
   let string = `${ _sortAndGenerateParam(data) }&key=${MCH_KEY}`;
@@ -55,10 +55,10 @@ const _sortAndGenerateParam = args => {
 };
 
 const _addSignAndConvertToXml = data => {
-  let sign = _paySign(data),
-    formData = {
-      xml: Object.assign(data, {sign: sign})
-    };
+  let sign     = _paySign(data),
+      formData = {
+        xml: Object.assign(data, {sign: sign})
+      };
 
   return Json2Xml(formData);
 };
@@ -68,12 +68,12 @@ const _xml2JsonObj = xmlStr => {
 };
 
 const unifiedOrder = async ctx => {
-  let body = ctx.query.body,
-    spbillCreateIp = ctx.ip,
-    totalFee = Math.abs(Number.parseInt(ctx.query.fee)) * 100,
-    nonceStr = Math.random().toString(),
-    openid = ctx.cookies.get(config.session.wxOpenId),
-    outTradeNo = ctx.query.outTradeNo || randomString(28);
+  let body           = ctx.query.body,
+      spbillCreateIp = ctx.ip,
+      totalFee       = Math.abs(Number.parseInt(ctx.query.fee)) * 100,
+      nonceStr       = Math.random().toString(),
+      openid         = ctx.cookies.get(config.session.wxOpenId),
+      outTradeNo     = ctx.query.outTradeNo || randomString(28);
 
   let data = {
     appid: APP_ID, // appid
@@ -109,22 +109,22 @@ const unifiedOrder = async ctx => {
 };
 
 const refund = async param => {
-  let nonceStr = Math.random().toString(),
-    outTradeNo = param.outTradeNo,
-    totalFee = param.reward * 100,
-    data = {
-      appid: APP_ID,// appid
-      mch_id: MCH_ID,// 商户号
-      nonce_str: nonceStr,// 随机字符串，不长于32位
-      op_user_id: MCH_ID,
-      out_refund_no: outTradeNo,
-      out_trade_no: outTradeNo,//订单号
-      refund_fee: totalFee,
-      total_fee: totalFee//金额
-    };
+  let nonceStr   = Math.random().toString(),
+      outTradeNo = param.outTradeNo,
+      totalFee   = param.reward * 100,
+      data       = {
+        appid: APP_ID,// appid
+        mch_id: MCH_ID,// 商户号
+        nonce_str: nonceStr,// 随机字符串，不长于32位
+        op_user_id: MCH_ID,
+        out_refund_no: outTradeNo,
+        out_trade_no: outTradeNo,//订单号
+        refund_fee: totalFee,
+        total_fee: totalFee//金额
+      };
 
   let formData = _addSignAndConvertToXml(data);
-  let result = await request({
+  let result   = await request({
     url: URL_REFUND,
     method: 'POST',
     body: formData,
@@ -133,7 +133,7 @@ const refund = async param => {
       passphrase: MCH_ID
     }
   });
-  result = _xml2JsonObj(result);
+  result       = _xml2JsonObj(result);
 
   // console.log(result);
 
@@ -145,7 +145,7 @@ const getAccessTokenOpenId = async code => {
   let url = URL_WX_OPEN_ID_ACCESS_TOKEN.replace('CODE', code);
 
   let response = await Superagent.get(url);
-  let resObj = JSON.parse(response.text);
+  let resObj   = JSON.parse(response.text);
   return [resObj.access_token, resObj.openid];
 };
 
@@ -157,7 +157,7 @@ const getUserInfo = async (accessToken, openId) => {
   console.log(url);
 
   let response = await Superagent.get(url);
-  let resObj = JSON.parse(response.text);
+  let resObj   = JSON.parse(response.text);
   console.log(resObj);
   return resObj.headimgurl;
 };
@@ -203,7 +203,7 @@ const enterprisePayToUser = async param => {
       passphrase: MCH_ID
     }
   });
-  let result = _xml2JsonObj(response);
+  let result   = _xml2JsonObj(response);
   console.log(result);
   return _requestSuccessful(result);
 };
@@ -214,7 +214,7 @@ const _requestSuccessful = result => {
 
 const processNotifyCall = data => {
   let isSuccessful = _requestSuccessful(data),
-    result = null;
+      result       = null;
   if (isSuccessful) {
     result = Json2Xml({
       xml: {

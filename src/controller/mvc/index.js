@@ -11,9 +11,9 @@ import * as Common from '../../tool/common';
 import {count} from '../../tool/user_task_dao';
 import {mkDirsSync} from '../../tool/upload';
 import * as Dao from '../../tool/dao';
-import {Task, User} from '../../tool/model';
 import {TASK_STATE} from '../../model/Task';
-import * as wxPay from "../../tool/wx_pay";
+import * as wxPay from '../../tool/wx_pay';
+import {Task, User} from '../../tool/model';
 
 const console = Tracer.console();
 
@@ -21,13 +21,13 @@ charset(Superagent);
 
 // 公众号的Click按钮  引导用户同意授权
 const index = async ctx => {
-  let code = ctx.query.code,
-    state = ctx.query.state;
-  console.log('state = ' + state+ ', code = ' + code);
+  let code  = ctx.query.code,
+      state = ctx.query.state;
+  console.log('state = ' + state + ', code = ' + code);
 
   if (code) {
     let [accessToken, openId] = await wxPay.getAccessTokenOpenId(code);
-    let headImgUrl = await wxPay.getUserInfo(accessToken, openId);
+    let headImgUrl            = await wxPay.getUserInfo(accessToken, openId);
     await _storageHeadImgUrl(ctx, headImgUrl);
     ctx.cookies.set(session.wxOpenId, openId, {
       maxAge: session.maxAge * 1000
@@ -63,13 +63,13 @@ const _storageHeadImgUrl = async (ctx, headImgUrl) => {
 };
 
 const me = async ctx => {
-  let user = ctx.state.user,
-    headImgUrl = ctx.cookies.get(session.headImgUrl);
+  let user       = ctx.state.user,
+      headImgUrl = ctx.cookies.get(session.headImgUrl);
 
   await _storageHeadImgUrl(ctx, headImgUrl);
 
   let unfinishedBadge = await count(user.id, TASK_STATE.completing);
-  let data = {
+  let data            = {
     title: '我的信息',
     username: user.name,
     gender: user.gender,
@@ -99,16 +99,16 @@ const createTask = async ctx => {
 };
 
 const login = async ctx => {
-  const UJS_MAIN_URL = 'http://my.ujs.edu.cn/',
-    captchaGenerateUrl = `${UJS_MAIN_URL}captchaGenerate.portal`,
-    idPng = `${ uuid.v4() }.png`,
-    codeDir = `static/tmp/verificationCode/${ Common.getRandomInt() }/${ Common.getRandomInt() }`,
-    codeRealDir = path.join(AppRootDir.get(), codeDir);
+  const UJS_MAIN_URL       = 'http://my.ujs.edu.cn/',
+        captchaGenerateUrl = `${UJS_MAIN_URL}captchaGenerate.portal`,
+        idPng              = `${ uuid.v4() }.png`,
+        codeDir            = `static/tmp/verificationCode/${ Common.getRandomInt() }/${ Common.getRandomInt() }`,
+        codeRealDir        = path.join(AppRootDir.get(), codeDir);
   if (!mkDirsSync(codeRealDir)) {
     console.error('create ' + codeRealDir + ' dir fail!');
   }
-  const verificationCodePicture = path.join(codeRealDir, idPng),
-    verificationCodePictureUrl = path.join(codeDir, idPng);
+  const verificationCodePicture    = path.join(codeRealDir, idPng),
+        verificationCodePictureUrl = path.join(codeDir, idPng);
 
   let response = await Superagent.get(captchaGenerateUrl);
   if (response.ok) {

@@ -1,8 +1,6 @@
-import Db from "./db";
-import * as Dao from "./dao";
-import {TASK_STATE, TASK_TYPE} from "../model/Task";
-import {Task} from "./model";
-import Tracer from "tracer";
+import Db from './db';
+import {TASK_STATE, TASK_TYPE} from '../model/Task';
+import Tracer from 'tracer';
 
 const console = Tracer.console();
 
@@ -27,15 +25,15 @@ const _convert2sqlGrammar = data => {
 
 const get = async (userId, taskState = [], page) => {
   taskState = _convert2sqlGrammar(taskState);
-  userId = _convert2sqlGrammar(userId);
+  userId    = _convert2sqlGrammar(userId);
 
   const LIMIT = 8;
 
   const baseSql = `select tasks.id, type, state, title, deadline from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${userId} and userTasks.taskId=tasks.id and`;
-  let sql = `${ baseSql } state in (${taskState}) and type!=${ _convert2sqlGrammar(TASK_TYPE.member_sharing) } limit ${(page - 1) * LIMIT}, ${LIMIT}`;
-  let result = await _rawQuery(sql);
+  let sql       = `${ baseSql } state in (${taskState}) and type!=${ _convert2sqlGrammar(TASK_TYPE.member_sharing) } limit ${(page - 1) * LIMIT}, ${LIMIT}`;
+  let result    = await _rawQuery(sql);
   if (_needQueryMemberSharing(taskState) && result.length < LIMIT) {
-    sql = `${ baseSql } type=${ _convert2sqlGrammar(TASK_TYPE.member_sharing) } limit ${(page - 1) * LIMIT}, ${ LIMIT - result.length }`;
+    sql                       = `${ baseSql } type=${ _convert2sqlGrammar(TASK_TYPE.member_sharing) } limit ${(page - 1) * LIMIT}, ${ LIMIT - result.length }`;
     let resultOfMemberSharing = await _rawQuery(sql);
 
     resultOfMemberSharing.forEach((item, index) => {
@@ -50,16 +48,16 @@ const get = async (userId, taskState = [], page) => {
 };
 
 const count = async (userId, taskState = []) => {
-  taskState = _convert2sqlGrammar(taskState);
-  userId = _convert2sqlGrammar(userId);
+  taskState     = _convert2sqlGrammar(taskState);
+  userId        = _convert2sqlGrammar(userId);
   const baseSql = `select count(*) as count from tasks,userTasks where userTasks.deletedAt is null and userTasks.userId=${userId} and userTasks.taskId=tasks.id and`;
-  let sql = `${ baseSql } state in (${ taskState })`;
-  let result = await _rawQuery(sql);
-  let count = result[0].count;
+  let sql       = `${ baseSql } state in (${ taskState })`;
+  let result    = await _rawQuery(sql);
+  let count     = result[0].count;
 
   // 共享会员，查看成功，即为一个任务完成支付成功
   if (_needQueryMemberSharing(taskState)) {
-    sql = `${ baseSql } type=${ _convert2sqlGrammar(TASK_TYPE.member_sharing) }`;
+    sql    = `${ baseSql } type=${ _convert2sqlGrammar(TASK_TYPE.member_sharing) }`;
     result = await _rawQuery(sql);
     count += result[0].count;
   }

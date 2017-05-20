@@ -1,4 +1,4 @@
-import Db from "../tool/db";
+import Db from '../tool/db';
 
 module.exports = Db.defineModel('users', {
   password: Db.STRING,

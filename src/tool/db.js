@@ -1,7 +1,7 @@
 // 统一Model的定义
-import Sequelize from "sequelize";
-import {v4} from "uuid";
-import {db} from "./config";
+import Sequelize from 'sequelize';
+import {v4} from 'uuid';
+import {db} from './config';
 
 console.log('init sequelize...');
 
@@ -19,7 +19,7 @@ const sequelize = new Sequelize(db.database, db.username, db.password, {
   }
 });
 
-const ID_TYPE = Sequelize.STRING(50);
+const ID_TYPE     = Sequelize.STRING(50);
 // 强制实现规则
 const defineModel = (name, attributes) => {
   let attrs = {};
@@ -27,7 +27,7 @@ const defineModel = (name, attributes) => {
     let value = attributes[key];
     if (typeof value === 'object' && value['type']) {
       value.allowNull = value.allowNull || false;
-      attrs[key] = value;
+      attrs[key]      = value;
     } else {
       attrs[key] = {
         type: value,
@@ -35,7 +35,7 @@ const defineModel = (name, attributes) => {
       };
     }
   }
-  attrs.id = {
+  attrs.id      = {
     type: ID_TYPE,
     primaryKey: true
   };
