@@ -44,27 +44,27 @@ const defineModel = (name, attributes) => {
     allowNull: false
   };
   console.log('model defined for table: ' + name + '\n' + JSON.stringify(attrs, (k, v) => {
-      if (k === 'type') {
-        for (let key in Sequelize) {
-          if (key === 'ABSTRACT' || key === 'NUMBER') {
-            continue;
+    if (k === 'type') {
+      for (let key in Sequelize) {
+        if (key === 'ABSTRACT' || key === 'NUMBER') {
+          continue;
+        }
+        let dbType = Sequelize[key];
+        if (typeof dbType === 'function') {
+          if (v instanceof dbType) {
+            if (v._length) {
+              return `${dbType.key}(${v._length})`;
+            }
+            return dbType.key;
           }
-          let dbType = Sequelize[key];
-          if (typeof dbType === 'function') {
-            if (v instanceof dbType) {
-              if (v._length) {
-                return `${dbType.key}(${v._length})`;
-              }
-              return dbType.key;
-            }
-            if (v === dbType) {
-              return dbType.key;
-            }
+          if (v === dbType) {
+            return dbType.key;
           }
         }
       }
-      return v;
-    }, '  '));
+    }
+    return v;
+  }, '  '));
   return sequelize.define(name, attrs, {
     tableName: name,
     charset: 'utf8',

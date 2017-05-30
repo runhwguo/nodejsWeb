@@ -1,9 +1,9 @@
 // config files:
 const CONFIG_PREFIX = './../config/config_';
 
-const DEFAULT_CONFIG = `${ CONFIG_PREFIX }default.js`,
+const DEFAULT_CONFIG  = `${ CONFIG_PREFIX }default.js`,
       OVERRIDE_CONFIG = `${ CONFIG_PREFIX }override.js`,
-      TEST_CONFIG = `${ CONFIG_PREFIX }test.js`;
+      TEST_CONFIG     = `${ CONFIG_PREFIX }test.js`;
 
 let config = null;
 

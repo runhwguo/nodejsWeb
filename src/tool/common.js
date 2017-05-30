@@ -9,11 +9,11 @@ const getToday = (isFormatTwoNum = true, connector = '-') => {
       yyyy  = today.getFullYear();
   if (isFormatTwoNum) {
     if (dd < 10) {
-      dd = '0' + dd
+      dd = `0${dd}`;
     }
 
     if (mm < 10) {
-      mm = '0' + mm
+      mm = `0${mm}`;
     }
   }
 
@@ -42,7 +42,7 @@ const randomString = (len = 32) => {
  * @returns {string}
  */
 const toCDATA = data => {
-  return `<![CDATA[${ data }]]>`
+  return `<![CDATA[${ data }]]>`;
 };
 
 export {

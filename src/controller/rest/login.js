@@ -23,10 +23,10 @@ const login = async ctx => {
     const verificationCodeReg = /^[0-9a-zA-Z]{4}$/;
 
     const URL_USER_PASSWORD_VALIDATE = `${URL_UJS_MAIN}userPasswordValidate.portal`,
-          URL_LOGIN_SUCCESS         = `${URL_UJS_MAIN}loginSuccess.portal`,
-          URL_LOGIN_FAILURE         = `${URL_UJS_MAIN}loginFailure.portal`,
-          STU_INFO_LOGIN = 'http://stu.ujs.edu.cn/mobile/login.aspx',
-          STU_INFO       = 'http://stu.ujs.edu.cn/mobile/rsbulid/r_3_3_st_jbxg.aspx';
+          URL_LOGIN_SUCCESS          = `${URL_UJS_MAIN}loginSuccess.portal`,
+          URL_LOGIN_FAILURE          = `${URL_UJS_MAIN}loginFailure.portal`,
+          STU_INFO_LOGIN             = 'http://stu.ujs.edu.cn/mobile/login.aspx',
+          STU_INFO                   = 'http://stu.ujs.edu.cn/mobile/rsbulid/r_3_3_st_jbxg.aspx';
 
     const _getUserInfo = async iPlanetDirectoryProCookie => {
       if (iPlanetDirectoryProCookie) {
@@ -95,7 +95,10 @@ const login = async ctx => {
     }
 
     if (user && isSuccessful) {
-      ctx.cookies.set(config.session.userCookieName, cookie.user2cookie(username, sha1(password), config.session.userCookieName), {
+      ctx.cookies.set(config.session.userCookieName,
+        cookie.user2cookie(username, sha1(password),
+          config.session.userCookieName),
+        {
           maxAge: config.session.maxAge * 7 * 1000
         }
       );

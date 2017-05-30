@@ -10,7 +10,7 @@ $.extend({
   createUploadIframe: (id, uri) => {
     //create frame
     let frameId = 'jUploadFrame' + id,
-      io;
+        io;
     if (window.ActiveXObject) {
       io = document.createElement('<iframe id="' + frameId + '" name="' + frameId + '" />');
       if (typeof uri === 'boolean') {
@@ -19,25 +19,25 @@ $.extend({
         io.src = uri;
       }
     } else {
-      io = document.createElement('iframe');
-      io.id = frameId;
+      io      = document.createElement('iframe');
+      io.id   = frameId;
       io.name = frameId;
     }
     io.style.position = 'absolute';
-    io.style.top = '-1000px';
-    io.style.left = '-1000px';
+    io.style.top      = '-1000px';
+    io.style.left     = '-1000px';
 
     document.body.appendChild(io);
 
-    return io
+    return io;
   },
   createUploadForm: (id, fileElementId, data) => {
     //create form
-    let formId = 'jUploadForm' + id,
-      fileId = 'jUploadFile' + id,
-      form = $('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data"></form>'),
-      oldElement = $('#' + fileElementId),
-      newElement = $(oldElement).clone();
+    let formId     = 'jUploadForm' + id,
+        fileId     = 'jUploadFile' + id,
+        form       = $('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data"></form>'),
+        oldElement = $('#' + fileElementId),
+        newElement = $(oldElement).clone();
     $(oldElement).attr('id', fileId);
     $(oldElement).before(newElement);
     $(oldElement).appendTo(form);
@@ -61,14 +61,14 @@ $.extend({
 
   ajaxFileUpload: s => {
     // introduce global settings, allowing the client to modify them for all requests, not only timeout
-    s = $.extend({}, $.ajaxSettings, s);
-    let id = Date.now(),
-      form = $.createUploadForm(id, s.fileElementId, s.data);
+    s        = $.extend({}, $.ajaxSettings, s);
+    let id   = Date.now(),
+        form = $.createUploadForm(id, s.fileElementId, s.data);
     $.createUploadIframe(id, s.secureuri);
-    let frameId = 'jUploadFrame' + id,
-      formId = 'jUploadForm' + id,
-      requestDone = false,
-      xml = {};
+    let frameId     = 'jUploadFrame' + id,
+        formId      = 'jUploadForm' + id,
+        requestDone = false,
+        xml         = {};
     // Watch for a new set of requests
     if (s.global && !$.active++) {
       $.event.trigger('ajaxStart');
@@ -83,10 +83,10 @@ $.extend({
       try {
         if (io.contentWindow) {
           xml.responseText = io.contentWindow.document.body ? io.contentWindow.document.body.innerHTML : null;
-          xml.responseXML = io.contentWindow.document.XMLDocument ? io.contentWindow.document.XMLDocument : io.contentWindow.document;
+          xml.responseXML  = io.contentWindow.document.XMLDocument ? io.contentWindow.document.XMLDocument : io.contentWindow.document;
         } else if (io.contentDocument) {
           xml.responseText = io.contentDocument.document.body ? io.contentDocument.document.body.innerHTML : null;
-          xml.responseXML = io.contentDocument.document.XMLDocument ? io.contentDocument.document.XMLDocument : io.contentDocument.document;
+          xml.responseXML  = io.contentDocument.document.XMLDocument ? io.contentDocument.document.XMLDocument : io.contentDocument.document;
         }
       } catch (e) {
         $.handleError(s, xml, null, e);
@@ -142,10 +142,10 @@ $.extend({
             $.handleError(s, xml, null, e);
           }
         }, 100);
-        xml = null
+        xml = null;
       } else if (isTimeout === 'timeout') {
         requestDone = true;
-        let status = 'error';
+        let status  = 'error';
         try {
           status = isTimeout === 'timeout' ? 'error' : 'success';
           // Make sure that the request was successful or notmodified
@@ -192,7 +192,7 @@ $.extend({
             $.handleError(s, xml, null, e);
           }
         }, 100);
-        xml = null
+        xml = null;
       }
     };
     // Timeout checker
@@ -232,14 +232,14 @@ $.extend({
 
   uploadHttpData: (r, type) => {
     let data = !type;
-    data = type === 'xml' || data ? r.responseXML : r.responseText;
+    data     = type === 'xml' || data ? r.responseXML : r.responseText;
     // If the type is 'script', eval it in global context
     if (type === 'script') {
       $.globalEval(data);
     }
     // Get the JavaScript object, if JSON is used.
     if (type === 'json') {
-      data = r.responseText;
+      data      = r.responseText;
       let start = data.indexOf('>');
       if (start !== -1) {
         let end = data.indexOf('<', start + 1);

@@ -71,7 +71,7 @@ let vm = new Vue({
         .then(resp => {
           console.log(resp);
           resp.json().then((data) => {
-            vm.page = 0;
+            vm.page  = 0;
             vm.items = [];
             vm.count = data.result;
 
@@ -92,11 +92,11 @@ $(() => {
   let vmDiv = $(vm.$el);
 
   vmDiv.scroll(() => {
-    let divHeight = vmDiv.height();
+    let divHeight    = vmDiv.height();
     let scrollHeight = vmDiv[0].scrollHeight;
-    let scrollTop = vmDiv[0].scrollTop;
+    let scrollTop    = vmDiv[0].scrollTop;
     if (scrollTop + divHeight >= scrollHeight) {
-      console.log("滚动条到底部了");
+      console.log('滚动条到底部了');
       if (vm.page * vm.LIMIT < vm.count) {
         vm.get($('#searchContent').val());
       }

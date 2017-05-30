@@ -13,7 +13,7 @@ form.submit(e => {
       } else {
         errMsg.show();
         setTimeout(() => {
-          errMsg.hide()
+          errMsg.hide();
         }, 2000);
       }
     },

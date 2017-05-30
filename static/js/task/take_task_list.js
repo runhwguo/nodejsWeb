@@ -1,7 +1,7 @@
 window.onload = () => {
   let searchContent = $('#searchContent'),
-    searchClear = $('.glyphicon-remove-circle'),
-    searchButton = $('.glyphicon-search');
+      searchClear   = $('.glyphicon-remove-circle'),
+      searchButton  = $('.glyphicon-search');
 
   searchClear.hide();
   searchContent.keyup(() => {

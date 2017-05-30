@@ -16,7 +16,7 @@ function submitAjax(submit, ajaxOption, submitBtnWordOption, successCallback) {
         // bootstrapValidator本身有prevent double click的逻辑，但是和Ladda有互相影响，手动加一下
         submit.attr('disabled', true);
         if (successCallback) {
-          successCallback()
+          successCallback();
         }
       }, INTERVAL);
     },

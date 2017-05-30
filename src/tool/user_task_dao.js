@@ -5,7 +5,8 @@ import Tracer from 'tracer';
 const console = Tracer.console();
 
 const _rawQuery = async sql => {
-  return await Db.sequelize.query(sql, {
+  return await Db.sequelize.query(sql,
+    {
       type: Db.sequelize.QueryTypes.SELECT
     }
   );

@@ -1,6 +1,5 @@
 import {TASK_STATE, TASK_TYPE} from '../../model/Task';
 import {addTaskBelongAttr} from '../../model/UserTask';
-import {session} from '../../tool/config';
 import {uploadFile} from '../../tool/upload';
 import * as Dao from '../../tool/dao';
 import * as Common from '../../tool/common';
@@ -166,19 +165,21 @@ const stateUpdate = async ctx => {
       });
       // 接单支付，把交易单号，存储起来，以防退款
       if (outTradeNo) {
-        await Dao.update(Task, {
-          outTradeNo: outTradeNo
-        }, {
-          where: {
-            id: id
-          }
-        });
+        await Dao.update(Task,
+          {
+            outTradeNo: outTradeNo
+          },
+          {
+            where: {
+              id: id
+            }
+          });
       }
       if (!ret) {
         result = {
           result: false,
           message: '接单失败，请重试'
-        }
+        };
       }
 
       state = TASK_STATE.completing;
@@ -205,7 +206,7 @@ const stateUpdate = async ctx => {
         result = {
           result: false,
           message: '放弃失败，请重试'
-        }
+        };
       }
 
       state = TASK_STATE.released_not_claimed;
@@ -238,7 +239,7 @@ const stateUpdate = async ctx => {
           result = {
             result: false,
             message: '下架失败，请重试'
-          }
+          };
         }
       } else {
         result = {
@@ -280,7 +281,7 @@ const stateUpdate = async ctx => {
         result = {
           result: false,
           message: '支付失败，请重试'
-        }
+        };
       }
 
       state = TASK_STATE.paid;

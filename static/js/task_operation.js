@@ -38,7 +38,7 @@ let vm    = new Vue({
             } else {
               let vmHtml = '任务已被领完';
               if ($('#where').val().endsWith('ed')) {
-                vmHtml = '这里空空如也'
+                vmHtml = '这里空空如也';
               }
               $('#vm').html(`<h4>${ vmHtml }</h4>`);
             }

@@ -34,7 +34,7 @@ const index = async ctx => {
     });
   }
   // console.log('openId = ' + openId);
-  ctx.render(`index`, {
+  ctx.render('index', {
     title: '校园资源共享',
     where: 'index'
   });
@@ -46,19 +46,23 @@ const _storageHeadImgUrl = async (ctx, headImgUrl) => {
     if (headImgUrl !== user.headImgUrl) {
       user.headImgUrl = headImgUrl;
       console.log('拿到头像 url -> ' + headImgUrl);
-      await Dao.update(User, {
-        headImgUrl: headImgUrl
-      }, {
-        where: {
-          id: user.id
-        }
-      });
+      await Dao.update(User,
+        {
+          headImgUrl: headImgUrl
+        },
+        {
+          where: {
+            id: user.id
+          }
+        });
     }
   } else {
     // 用户没登录，先把头像存在cookie中，等用户登录时，再写入user
-    ctx.cookies.set(session.headImgUrl, headImgUrl, {
-      maxAge: session.maxAge * 1000
-    });
+    ctx.cookies.set(session.headImgUrl,
+      headImgUrl,
+      {
+        maxAge: session.maxAge * 1000
+      });
   }
 };
 
@@ -88,11 +92,11 @@ const me = async ctx => {
   if (unPaidBadge) {
     data.unPaidBadge = unPaidBadge;
   }
-  ctx.render(`my_info`, data);
+  ctx.render('my_info', data);
 };
 
 const createTask = async ctx => {
-  ctx.render(`task/create_task`, {
+  ctx.render('task/create_task', {
     title: '发布任务',
     user: ctx.state.user
   });
@@ -115,7 +119,9 @@ const login = async ctx => {
     console.log('验证码图片获取成功');
     let cookie = response.header['set-cookie'][0].split(';')[0];
     console.log('ujs cookie = ' + cookie);
-    ctx.cookies.set(session.ujsCookieName, cookie, {
+    ctx.cookies.set(session.ujsCookieName,
+      cookie,
+      {
         maxAge: session.maxAge * 1000
       }
     );
@@ -128,7 +134,7 @@ const login = async ctx => {
 };
 
 const userInfo = async ctx => {
-  ctx.render(`user_info`, {
+  ctx.render('user_info', {
     title: '完善用户信息',
     user: ctx.state.user,
     where: ctx.query.where
@@ -140,7 +146,7 @@ const signOut = async ctx => {
   ctx.cookies.set(session.userCookieName, '');
   ctx.cookies.set(session.ujsCookieName, '');
 
-  ctx.render(`index`, {
+  ctx.render('index', {
     title: '校园资源共享',
     where: 'index'
   });

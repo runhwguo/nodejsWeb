@@ -55,7 +55,8 @@ const uploadFile = async (ctx, options) => {
     };
 
     // 解析请求文件事件
-    busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+    busboy.on('file',
+      (fieldname, file, filename, encoding, mimetype) => {
         console.log('file...');
         let fileName        = uuid.v4() + '.' + _getSuffixName(filename);
         let _uploadFilePath = path.join(filePath, fileName);
@@ -64,32 +65,36 @@ const uploadFile = async (ctx, options) => {
         file.pipe(fs.createWriteStream(saveTo));
 
         // 文件写入事件结束
-        file.on('end', () => {
-          if (filename) {
-            result.data.filename = `${path.sep}${path.join(filePath, fileName)}`;
-          }
+        file.on('end',
+          () => {
+            if (filename) {
+              result.data.filename = `${path.sep}${path.join(filePath, fileName)}`;
+            }
 
-          console.log('文件上传成功！');
-        });
+            console.log('文件上传成功！');
+          });
       }
     );
 
-    busboy.on('field', (fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) => {
-      result.data[fieldname] = val;
-    });
+    busboy.on('field',
+      (fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) => {
+        result.data[fieldname] = val;
+      });
 
     // 解析结束事件
-    busboy.on('finish', () => {
-      result.success = true;
-      console.log('文件上结束');
-      resolve(result);
-    });
+    busboy.on('finish',
+      () => {
+        result.success = true;
+        console.log('文件上结束');
+        resolve(result);
+      });
 
     // 解析错误事件
-    busboy.on('error', err => {
-      console.log('文件上出错' + err);
-      reject(result);
-    });
+    busboy.on('error',
+      err => {
+        console.log('文件上出错' + err);
+        reject(result);
+      });
     req.pipe(busboy);
   });
 };

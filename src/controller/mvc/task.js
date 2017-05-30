@@ -15,7 +15,7 @@ const list = async ctx => {
   } else {
     title = TASK_TYPE[where];
   }
-  ctx.render(`task/task_show`, {
+  ctx.render('task/task_show', {
     title: title,
     where: where
   });
@@ -79,7 +79,7 @@ const detail = async ctx => {
 
   let data = Object.assign(task, user, taskBelongAttr);
 
-  ctx.render(`task/task_detail`, {
+  ctx.render('task/task_detail', {
     title: '任务详情',
     data: data,
     where: ctx.query.where

@@ -6,7 +6,8 @@
   "scripts": {
     "pretest": "npm i && cd build && gulp && cd ..",
     "test": "NODE_ENV=test supervisor node --use_strict start.js",
-    "start": "NODE_ENV=production node --use_strict start.js"
+    "start": "NODE_ENV=production node --use_strict start.js",
+    "build": "npm i && cd build && gulp && cd .."
   },
   "keywords": [
     "koa, nodejs framework",
@@ -57,11 +58,13 @@
   },
   "homepage": "https://github.com/runhwguo/nodejsWeb#readme",
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
     "babel-preset-es2015": "^6.24.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-cache": "^0.4.6",
     "gulp-clean-css": "^3.0.4",
+    "gulp-eslint": "^3.0.1",
     "gulp-htmlmin": "^3.0.0",
     "gulp-imagemin": "^3.2.0",
     "gulp-uglify": "^2.1.2",
