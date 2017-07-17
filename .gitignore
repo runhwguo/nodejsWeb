@@ -19,3 +19,9 @@ temp.*
 
 # minify
 dist
+static/css-min/
+static/js-min/
+view-min/
+
+gulp-cache/
+package-lock.json

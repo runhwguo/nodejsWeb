@@ -110,5 +110,5 @@ const login = async ctx => {
 };
 
 module.exports = {
-  'POST /api/login': login
+  'POST /': login
 };

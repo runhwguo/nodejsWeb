@@ -17,9 +17,9 @@ const REPLY_WORD = '亲爱的小伙伴，感谢关注校园资源共享“的”
 
 const checkIsFromWeChatServer = async ctx => {
   let signature = ctx.query.signature,
-      timestamp = ctx.query.timestamp,
-      nonce     = ctx.query.nonce,
-      echostr   = ctx.query.echostr;
+    timestamp = ctx.query.timestamp,
+    nonce = ctx.query.nonce,
+    echostr = ctx.query.echostr;
 
   let result = _isFromWechatServer(signature, timestamp, nonce);
   if (result) {
@@ -77,21 +77,21 @@ const _isFromWechatServer = async (signature, timestamp, nonce) => {
 };
 
 const orderNotify = async ctx => {
-  let data                   = ctx.request.body.xml;
+  let data = ctx.request.body.xml;
   let [isSuccessful, result] = wxPay.processNotifyCall(data);
   console.log('isSuccessful -> ' + isSuccessful);
   console.log('result.attach -> ' + result.attach);
   if (isSuccessful && data.attach) {
     // 付款成功，这里可以添加会员共享的打钱逻辑
     let taskId = data.attach,
-        task   = await Task.findByPrimary(taskId),
-        userId = task.dataValues.userId,
-        reward = task.dataValues.reward;
-    let user   = await User.findByPrimary(userId, {
+      task = await Task.findByPrimary(taskId),
+      userId = task.dataValues.userId,
+      reward = task.dataValues.reward;
+    let user = await User.findByPrimary(userId, {
       attributes: ['openId']
     });
     let openId = user.dataValues.openId;
-    let isOk   = await Dao.create(Bill, {
+    let isOk = await Dao.create(Bill, {
       taskId: data.attach,
       userOpenId: openId,
       amount: reward
@@ -106,7 +106,7 @@ const orderNotify = async ctx => {
 };
 
 const startPay = async ctx => {
-  let openId  = ctx.cookies.get(session.wxOpenId);
+  let openId = ctx.cookies.get(session.wxOpenId);
   let request = '';
 
   if (openId) {
@@ -120,8 +120,8 @@ const startPay = async ctx => {
 };
 
 module.exports = {
-  'GET /api/wechat': checkIsFromWeChatServer,
-  'POST /api/wechat': checkIsFromWeChatServer,
-  'POST /api/wechat/order/notify': orderNotify,
-  'GET /api/wechat/pay/start': startPay
+  'GET /': checkIsFromWeChatServer,
+  'POST /': checkIsFromWeChatServer,
+  'POST /order/notify': orderNotify,
+  'GET /pay/start': startPay
 };

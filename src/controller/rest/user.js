@@ -26,5 +26,5 @@ const save = async ctx => {
 
 
 module.exports = {
-  'POST /api/save': save
+  'POST /save': save
 };

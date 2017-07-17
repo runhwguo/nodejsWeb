@@ -324,9 +324,9 @@ const unread = async ctx => {
 };
 
 module.exports = {
-  'POST /api/task/publish': publish,
-  'GET /api/task/get/page/:page': get,
-  'GET /api/task/get/count': count,
-  'GET /api/task/get/unread': unread,
-  'PUT /api/task/state/:operate/:id': stateUpdate,
+  'POST /publish': publish,
+  'GET /get/page/:page': get,
+  'GET /get/count': count,
+  'GET /get/unread': unread,
+  'PUT /state/:operate/:id': stateUpdate,
 };

@@ -1,15 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 
-let fileList = [];
+let _fileList = [];
 
-const REQUEST_METHOD = {
-  GET: 'GET ',
-  POST: 'POST ',
-  PUT: 'PUT ',
-  DELETE: 'DELETE ',
-  ALL: 'ALL '
-};
+const REQUEST_METHOD = ['GET', 'POST', 'PUT', 'DELETE', 'ALL'];
 
 // mvc rest
 const walk = dir => {
@@ -18,7 +12,7 @@ const walk = dir => {
     if (fs.statSync(path.join(dir, item)).isDirectory()) {
       walk(path.join(dir, item));
     } else {
-      fileList.push(path.join(dir, item));
+      _fileList.push(path.join(dir, item));
     }
   });
 };
@@ -27,36 +21,24 @@ const addControllers = (router, dir) => {
 
   walk(path.join(__dirname, dir));
 
-  fileList.filter(f => f.endsWith('.js')).forEach(f => {
-    console.log(`process controller: ${f.replace(path.join(__dirname, dir), '')}`);
-    addMapping(router, require(f));
+  _fileList.filter(f => f.endsWith('.js')).forEach(f => {
+    let relativePath = f.replace(path.join(__dirname, dir), '');
+    console.log(`process controller: ${relativePath}`);
+    addMapping(router, require(f), relativePath.startsWith(path.sep + 'rest'), f.substring(f.lastIndexOf(path.sep), f.lastIndexOf('.js')));
   });
 
-  fileList = [];
+  _fileList = [];
 };
 
-const addMapping = (router, mapping) => {
+const addMapping = (router, mapping, isRestfulApi, restPrefixPath) => {
   for (let url in mapping) {
-    if (url.startsWith(REQUEST_METHOD.GET)) {
-      let path = url.substring(REQUEST_METHOD.GET.length);
-      router.get(path, mapping[url]);
-      console.log(`register URL mapping: GET ${path}`);
-    } else if (url.startsWith(REQUEST_METHOD.POST)) {
-      let path = url.substring(REQUEST_METHOD.POST.length);
-      router.post(path, mapping[url]);
-      console.log(`register URL mapping: POST ${path}`);
-    } else if (url.startsWith(REQUEST_METHOD.PUT)) {
-      let path = url.substring(REQUEST_METHOD.PUT.length);
-      router.put(path, mapping[url]);
-      console.log(`register URL mapping: PUT ${path}`);
-    } else if (url.startsWith(REQUEST_METHOD.DELETE)) {
-      let path = url.substring(REQUEST_METHOD.DELETE.length);
-      router.del(path, mapping[url]);
-      console.log(`register URL mapping: DELETE ${path}`);
-    } else if (url.startsWith(REQUEST_METHOD.ALL)) {
-      let path = url.substring(REQUEST_METHOD.ALL.length);
-      router.all(path, mapping[url]);
-      console.log(`register URL mapping: ALL ${path}`);
+    let [method, path] = url.split(' ');
+    if (method && path && REQUEST_METHOD.includes(method)) {
+      if (isRestfulApi) {
+        path = '/api' + restPrefixPath + path;
+      }
+      router[method.toLowerCase()](path, mapping[url]);
+      console.log(`register URL mapping: ${method} ${path}`);
     } else {
       console.log('invalid URL: ${url}');
     }
