@@ -1,5 +1,5 @@
 // 应用测试环境的配置
-module.exports = {
+export default {
   db: {
     dialect: 'mysql',
     database: 'test',
@@ -9,6 +9,6 @@ module.exports = {
     port: 3306
   },
   project: {
-    port: 8080
+    port: 3000
   }
 };

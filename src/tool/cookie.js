@@ -1,6 +1,9 @@
 import sha1 from 'sha1';
-import {admin, session} from './config';
+import config from './config';
 import {User} from './model';
+
+let session = config.sessoin,
+    admin   = config.ademin;
 
 const cookie2user = async (cookie, cookieName) => {
   if (cookie) {

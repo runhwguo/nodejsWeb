@@ -2,7 +2,7 @@ import schedule from 'node-schedule';
 
 import * as Dao from './dao';
 import {getToday} from '../tool/common';
-import {session} from '../tool/config';
+import config from '../tool/config';
 import {TASK_STATE} from '../model/Task';
 import {Task, Bill} from '../tool/model';
 import {enterprisePayToUser, refund} from './wx_pay';
@@ -13,7 +13,9 @@ import Path from 'path';
 
 const console = Tracer.console();
 
-const setSchedule = () => {
+const job;
+
+const startSchedule = () => {
   let scanRule = new schedule.RecurrenceRule();
 
   scanRule.hour = [0, 10, 12, 15, 17, 21, 22];
@@ -24,7 +26,7 @@ const setSchedule = () => {
   scanRule.minute = minutes;
   scanRule.second = 0;
 
-  let job = schedule.scheduleJob(scanRule, async () => {
+  job = schedule.scheduleJob(scanRule, async () => {
     console.log('run schedule start...');
 
     console.log('run _offExpiredTaskAndRefund start...');
@@ -41,6 +43,10 @@ const setSchedule = () => {
 
     console.log('run schedule end...');
   });
+};
+
+const cancelSchedule = () => {
+  job.cancel();
 };
 
 /**
@@ -98,8 +104,7 @@ const _deleteUsedVerificationCode = async dir => {
     if (stat.isDirectory()) {
       await _deleteUsedVerificationCode(file);
     } else if (stat.isFile()) {
-
-      if (stat.birthtime.getTime() < Date.now() - session.maxAge * 1000) {
+      if (stat.birthtime.getTime() < Date.now() - config.session.maxAge * 1000) {
         result = await Fs.unlink(file);
         console.log('删除用过的验证码 -> ' + file);
       }
@@ -146,4 +151,6 @@ const _enterprisePayToUser = async () => {
   }
 };
 
-export default setSchedule;
+export {
+  startSchedule, cancelSchedule
+};

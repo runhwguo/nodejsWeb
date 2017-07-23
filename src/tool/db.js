@@ -1,9 +1,11 @@
 // 统一Model的定义
 import Sequelize from 'sequelize';
 import {v4} from 'uuid';
-import {db} from './config';
+import config from './config';
 
 console.log('init sequelize...');
+
+const db = config.db;
 
 const sequelize = new Sequelize(db.database, db.username, db.password, {
   host: db.host,
@@ -15,7 +17,7 @@ const sequelize = new Sequelize(db.database, db.username, db.password, {
   },
   port: db.port,
   dialectOptions: {
-    charset: 'utf8'
+    charset: config.common.char_set_utf8
   }
 });
 
@@ -67,7 +69,7 @@ const defineModel = (name, attributes) => {
   }, '  '));
   return sequelize.define(name, attrs, {
     tableName: name,
-    charset: 'utf8',
+    charset: config.common.char_set_utf8,
     collate: 'utf8_general_ci',
     paranoid: true,
     hooks: {

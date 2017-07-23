@@ -1,7 +1,7 @@
 {% extends "./template/base.html" %}
 
 {% block style%}
-    <link rel="stylesheet" href="/dist/css/my-info.css">
+    <link rel="stylesheet" href="/css/my-info.css">
 {% endblock%}
 
 {% block main %}
@@ -9,9 +9,9 @@
         {% if headImgUrl !== '' %}
             <img src="{{ headImgUrl }}" class="img-circle" alt="no image">
         {% elif gender === '女' %}
-            <img src="/static/image-min/girl.jpeg" class="img-circle" alt="girl">
+            <img src="/static/image/girl.jpeg" class="img-circle" alt="girl">
         {% elif gender === '男' %}
-            <img src="/static/image-min/boy.jpeg" class="img-circle" alt="boy">
+            <img src="/static/image/boy.jpeg" class="img-circle" alt="boy">
         {% endif %}
         <p>{{ username }}</p>
     </div>

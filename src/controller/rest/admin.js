@@ -91,7 +91,7 @@ const remove = async ctx => {
   });
 };
 
-module.exports = {
+export default {
   'POST /login': login,
   'GET /task/get': get,
   'GET /task/count': count,

@@ -1,5 +1,5 @@
-// 应用正式环境的配置
-module.exports = {
+// 应用公用环境的配置
+export default {
   session: {
     userCookieName: 'schoolResourceShare',
     adminCookieName: 'adminCookie',
@@ -14,6 +14,6 @@ module.exports = {
     password: 'admin'
   },
   common: {
-    char_set_utf8: 'utf-8'
+    char_set_utf8: 'utf8'
   }
 };

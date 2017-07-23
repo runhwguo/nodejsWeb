@@ -1,5 +1,5 @@
 // 应用正式环境的配置
-module.exports = {
+export default {
   db: {
     dialect: 'mysql',
     database: 'test',

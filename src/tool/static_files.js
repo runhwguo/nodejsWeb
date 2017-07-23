@@ -1,5 +1,5 @@
 import mime from 'mime';
-import fs from 'mz/fs'; // 与nodejs的fs功能相同,封装成Promise
+import fs from 'mz/fs'; // 与Node.js的fs功能相同,封装成Promise
 import path from 'path';
 
 export default (url, dir) => {

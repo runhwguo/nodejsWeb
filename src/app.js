@@ -4,18 +4,20 @@ import KoaXml from 'koa-xml-body';
 import logger from 'koa-logger';
 import controller from './tool/controller';
 import templating from './tool/templating';
-import schedule from './tool/schedule';
+import * as schedule from './tool/schedule';
 import {cookie2user} from './tool/cookie';
 import staticFiles from './tool/static_files';
 import {restify} from './tool/rest';
-import {project, session} from './tool/config';
+import config from './tool/config';
 import appRootDir from 'app-root-dir';
 
-const app = new Koa();
-// ngnix remote ip代理
+const session      = config.session,
+      isProduction = process.env.NODE_ENV === 'production',
+      app          = new Koa();
+
+// Ngnix remote ip代理
 app.proxy = true;
 
-const isProduction = process.env.NODE_ENV === 'production';
 // 打印url和请求时间 middleware
 app.use(logger());
 
@@ -75,7 +77,6 @@ app.use(async (ctx, next) => {
   } else {
     // 不user鉴权
     if (reqPath.startsWith('/static') || // 静态资源
-      reqPath.startsWith('/dist') || // 静态资源
       reqPath.startsWith('/login') || // 登录
       reqPath === '/') {
       await next();
@@ -86,7 +87,6 @@ app.use(async (ctx, next) => {
 });
 
 app.use(staticFiles('/static/', `${appRootDir.get()}/static`));
-app.use(staticFiles('/dist/', `${appRootDir.get()}/dist`));
 
 // 解析body xml
 app.use(KoaXml({
@@ -108,8 +108,8 @@ app.use(restify());
 // 处理URL路由
 app.use(controller());
 
-app.listen(project.port);
-const uri = `http://localhost:${project.port}`;
+app.listen(config.project.port);
+const uri = `http://localhost:${config.project.port}`;
 console.log(`app started at port ${uri}...`);
 if (process.env.NODE_ENV !== 'production') {
   console.log('不是生产环境');
@@ -117,4 +117,4 @@ if (process.env.NODE_ENV !== 'production') {
 console.log(`node is running in ${process.env.NODE_ENV}`);
 
 // 运行定时服务
-schedule();
+schedule.startSchedule();

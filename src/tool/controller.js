@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import router from 'koa-router';
 
 let _fileList = [];
 
@@ -46,7 +47,6 @@ const addMapping = (router, mapping, isRestfulApi, restPrefixPath) => {
 };
 
 export default (dir = '../controller') => {
-  let router = require('koa-router')();
-  addControllers(router, dir);
-  return router.routes();
+  addControllers(router(), dir);
+  return router().routes();
 };
