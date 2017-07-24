@@ -13,6 +13,9 @@ export default {
     username: 'admin',
     password: 'admin'
   },
+  project: {
+    isProduction: process.env.NODE_ENV === 'production'
+  },
   common: {
     char_set_utf8: 'utf8'
   }

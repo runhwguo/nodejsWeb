@@ -1,6 +1,11 @@
 import {Environment, FileSystemLoader} from 'nunjucks';
+import config from './config';
 
-const createEnv = (opts, path = 'dist/view') => {
+const createEnv = (opts, path = 'view') => {
+  if (config.project.isProduction) {
+    path = `dist/${path}`;
+  }
+
   let autoescape       = opts.autoescape && true,
       noCache          = opts.noCache || false,
       watch            = opts.watch || false,

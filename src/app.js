@@ -11,9 +11,9 @@ import {restify} from './tool/rest';
 import config from './tool/config';
 import appRootDir from 'app-root-dir';
 
-const session      = config.session,
-      isProduction = process.env.NODE_ENV === 'production',
-      app          = new Koa();
+const session = config.session,
+      app     = new Koa(),
+      isProduction = config.project.isProduction;
 
 // Ngnix remote ip代理
 app.proxy = true;
@@ -86,7 +86,7 @@ app.use(async (ctx, next) => {
   }
 });
 
-app.use(staticFiles('/static/', `${appRootDir.get()}/static`));
+app.use(staticFiles('/static/', `${appRootDir.get()}/${isProduction ? 'dist' : 'static'}`));
 
 // 解析body xml
 app.use(KoaXml({
@@ -111,10 +111,13 @@ app.use(controller());
 app.listen(config.project.port);
 const uri = `http://localhost:${config.project.port}`;
 console.log(`app started at port ${uri}...`);
-if (process.env.NODE_ENV !== 'production') {
-  console.log('不是生产环境');
-}
 console.log(`node is running in ${process.env.NODE_ENV}`);
 
+process.on('exit', code => {
+  schedule.cancelSchedule();
+
+  console.log('进程退出码是:', code);
+});
+
 // 运行定时服务
-schedule.startSchedule();
+// schedule.startSchedule();

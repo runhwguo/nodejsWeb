@@ -6,7 +6,7 @@ import AppRootDir from 'app-root-dir';
 import charset from 'superagent-charset';
 import Tracer from 'tracer';
 
-import {session} from '../../tool/config';
+import config from '../../tool/config';
 import * as Common from '../../tool/common';
 import {count} from '../../tool/user_task_dao';
 import {mkDirsSync} from '../../tool/upload';
@@ -15,11 +15,12 @@ import {TASK_STATE} from '../../model/Task';
 import * as wxPay from '../../tool/wx_pay';
 import {Task, User} from '../../tool/model';
 
-const console = Tracer.console();
+const console = Tracer.console(),
+      session = config.session;
 
 charset(Superagent);
 
-// 公众号的Click按钮  引导用户同意授权
+// 公众号的Click按钮  引导用户同意授权 or 首页
 const index = async ctx => {
   let code  = ctx.query.code,
       state = ctx.query.state;

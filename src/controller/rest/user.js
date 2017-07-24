@@ -1,14 +1,15 @@
 import {cookie2user} from '../../tool/cookie';
-import {session} from '../../tool/config';
+import config from '../../tool/config';
 
 const save = async ctx => {
-  let name = ctx.request.body.name,
-      wx   = ctx.request.body.wx,
-      tel  = ctx.request.body.tel,
-      qq   = ctx.request.body.qq;
+  let body = ctx.request.body,
+      name = body.name,
+      wx   = body.wx,
+      tel  = body.tel,
+      qq   = body.qq;
 
-  let schoolResourceShareCookie = ctx.cookies.get(session.userCookieName),
-      user                      = await cookie2user(schoolResourceShareCookie, session.userCookieName),
+  let schoolResourceShareCookie = ctx.cookies.get(config.session.userCookieName),
+      user                      = await cookie2user(schoolResourceShareCookie, config.session.userCookieName),
       result                    = await User.update({
         wx: wx,
         name: name,

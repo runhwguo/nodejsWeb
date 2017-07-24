@@ -1,4 +1,4 @@
-import schedule from 'node-schedule';
+import {scheduleJob, RecurrenceRule} from 'node-schedule';
 
 import * as Dao from './dao';
 import {getToday} from '../tool/common';
@@ -13,10 +13,10 @@ import Path from 'path';
 
 const console = Tracer.console();
 
-const job;
+let job = null;
 
 const startSchedule = () => {
-  let scanRule = new schedule.RecurrenceRule();
+  let scanRule = new RecurrenceRule();
 
   scanRule.hour = [0, 10, 12, 15, 17, 21, 22];
   let minutes   = [];
@@ -26,7 +26,7 @@ const startSchedule = () => {
   scanRule.minute = minutes;
   scanRule.second = 0;
 
-  job = schedule.scheduleJob(scanRule, async () => {
+  job = scheduleJob(scanRule, async () => {
     console.log('run schedule start...');
 
     console.log('run _offExpiredTaskAndRefund start...');
@@ -46,7 +46,9 @@ const startSchedule = () => {
 };
 
 const cancelSchedule = () => {
-  job.cancel();
+  if (job) {
+    job.cancel();
+  }
 };
 
 /**

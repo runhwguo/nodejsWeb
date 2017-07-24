@@ -17,5 +17,4 @@ export default (url, dir) => {
       await next();
     }
   };
-
 };
