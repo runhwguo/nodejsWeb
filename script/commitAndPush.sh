@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 echo 'should execute in project root direction,like ./script/**.sh'
 git add *
-git commit -m "优化代码，完整项目结构，test/production 代码无感知"
+git commit -m "增加 1.获取本地ip功能 2.加密文档"
 git push
 git status

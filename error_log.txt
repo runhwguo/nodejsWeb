@@ -1,0 +1,23 @@
+<--- Last few GCs --->
+
+[5527:0x103000000]   165542 ms: Mark-sweep 1400.4 (1468.0) -> 1400.4 (1437.0) MB, 1546.2 / 7.9 ms  (+ 0.0 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 1546 ms) last resort
+[5527:0x103000000]   167078 ms: Mark-sweep 1400.4 (1437.0) -> 1400.4 (1437.0) MB, 1535.8 / 8.0 ms  last resort
+
+
+<--- JS stacktrace --->
+
+==== JS stack trace =========================================
+
+Security context: 0x3a5d2e79bbd9 <JS Object>
+    1: indexOf(this=0x28a2c43b3cc9 <String[227]: /Users/runhwguo/project/nodejsWeb/node_modules/_babel-preset-es2015@6.24.1@babel-preset-es2015/node_modules/babel-plugin-transform-es2015-block-scoping/node_modules/babel-traverse/node_modules/babel-runtime/core-js/math/tanh.js>)
+    2: /* anonymous */ [fs.js:~1476] [pc=0x3fb9ed33ba96](this=0x3de3629fca1 <an Object with map 0xef7fe2bdfb1>,filenam...
+
+FATAL ERROR: CALL_AND_RETRY_LAST Allocation failed - JavaScript heap out of memory
+ 1: node::Abort() [/usr/local/bin/node]
+ 2: node::FatalException(v8::Isolate*, v8::Local<v8::Value>, v8::Local<v8::Message>) [/usr/local/bin/node]
+ 3: v8::internal::V8::FatalProcessOutOfMemory(char const*, bool) [/usr/local/bin/node]
+ 4: v8::internal::Factory::NewRawOneByteString(int, v8::internal::PretenureFlag) [/usr/local/bin/node]
+ 5: v8::internal::String::SlowFlatten(v8::internal::Handle<v8::internal::ConsString>, v8::internal::PretenureFlag) [/usr/local/bin/node]
+ 6: v8::internal::String::IndexOf(v8::internal::Isolate*, v8::internal::Handle<v8::internal::String>, v8::internal::Handle<v8::internal::String>, int) [/usr/local/bin/node]
+ 7: v8::internal::Runtime_StringIndexOfUnchecked(int, v8::internal::Object**, v8::internal::Isolate*) [/usr/local/bin/node]
+ 8: 0x3fb9ed1840bd

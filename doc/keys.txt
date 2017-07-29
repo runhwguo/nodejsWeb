@@ -1,12 +1,1 @@
-微信公众号：
-    username:2469450342@qq.com
-    password:jnzx021527
-域名：
-    i-sharing.xyz
-    腾讯云，用QQ：444347292登录
-IP：
-
-服务器所需软件：
-    Node.js
-    Nginx
-    MariaDB
+14+f1o2Z17Sd1o6v176G3Y6iOBEREhJNQVRDXFNVVwsDBgQBBgQBAQYKckBAHFFXXzsREhIYQlBCQUVXQFULWFxCSgEDAwcKBTvUra3dorzejqgyEhERElsVQVlQQFtWVR9JS0gyEhEREtq9jNmfndaCo96NvtWsmmBg3Y6iBgUFAQYPAAgD1auD14ykOHto3Y2rODjerrzUuJPdq5nXu7LRrrHZj53ciYfejqgyEhEREnxXVlQfWEEyEhEREnxfXFhJOBIYEhF8U0BRU3VzOBIYEhF2W0YyEhEREmJ1ADs717iY15631Zyv1IKk3Y6iOBEREhJUXVJQXg==

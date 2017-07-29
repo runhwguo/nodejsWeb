@@ -10,6 +10,7 @@ import staticFiles from './tool/static_files';
 import {restify} from './tool/rest';
 import config from './tool/config';
 import appRootDir from 'app-root-dir';
+import IP from 'ip';
 
 const session = config.session,
       app     = new Koa(),
@@ -109,7 +110,7 @@ app.use(restify());
 app.use(controller());
 
 app.listen(config.project.port);
-const uri = `http://localhost:${config.project.port}`;
+const uri = `http://${IP.address()}:${config.project.port}`;
 console.log(`app started at port ${uri}...`);
 console.log(`node is running in ${process.env.NODE_ENV}`);
 
