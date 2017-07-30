@@ -16,33 +16,35 @@ const console = Tracer.console();
 let job = null;
 
 const startSchedule = () => {
-  let scanRule = new RecurrenceRule();
+  if (config.project.isProduction) {
+    let scanRule = new RecurrenceRule();
 
-  scanRule.hour = [0, 10, 12, 15, 17, 21, 22];
-  let minutes   = [];
-  for (let i = 0; i < 60; i++) {
-    minutes.push(i);
+    scanRule.hour = [0, 10, 12, 15, 17, 21, 22];
+    let minutes   = [];
+    for (let i = 0; i < 60; i++) {
+      minutes.push(i);
+    }
+    scanRule.minute = minutes;
+    scanRule.second = 0;
+
+    job = scheduleJob(scanRule, async () => {
+      console.log('run schedule start...');
+
+      console.log('run _offExpiredTaskAndRefund start...');
+      await _offExpiredTaskAndRefund();
+      console.log('run _offExpiredTaskAndRefund end...');
+
+      console.log('run _deleteUsedVerificationCode start...');
+      await _deleteUsedVerificationCode(Path.join(AppRootDir.get(), 'static/tmp/verificationCode'));
+      console.log('run _deleteUsedVerificationCode end...');
+
+      console.log('run _enterprisePayToUser start...');
+      await _enterprisePayToUser();
+      console.log('run _enterprisePayToUser end...');
+
+      console.log('run schedule end...');
+    });
   }
-  scanRule.minute = minutes;
-  scanRule.second = 0;
-
-  job = scheduleJob(scanRule, async () => {
-    console.log('run schedule start...');
-
-    console.log('run _offExpiredTaskAndRefund start...');
-    await _offExpiredTaskAndRefund();
-    console.log('run _offExpiredTaskAndRefund end...');
-
-    console.log('run _deleteUsedVerificationCode start...');
-    await _deleteUsedVerificationCode(Path.join(AppRootDir.get(), 'static/tmp/verificationCode'));
-    console.log('run _deleteUsedVerificationCode end...');
-
-    console.log('run _enterprisePayToUser start...');
-    await _enterprisePayToUser();
-    console.log('run _enterprisePayToUser end...');
-
-    console.log('run schedule end...');
-  });
 };
 
 const cancelSchedule = () => {

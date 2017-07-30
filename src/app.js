@@ -121,4 +121,4 @@ process.on('exit', code => {
 });
 
 // 运行定时服务
-// schedule.startSchedule();
+schedule.startSchedule();
