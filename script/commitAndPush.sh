@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 echo 'should execute in project root direction,like ./script/**.sh'
 git add *
-git commit -m "1.增加微信商户公众号的信息 2.test时supervisor会造成内存溢出 3.增加db的脚本 4.完善流程"
+git commit -m "1.服务器申请好，域名绑定IP 2.服务器所需软件装好 3.common.js实现优化 4.unread逻辑优化"
 git push
 git status
