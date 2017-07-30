@@ -5,7 +5,7 @@
   "main": "start.js",
   "scripts": {
     "pretest": "cnpm i && cd build && gulp && cd ..",
-    "test": "NODE_ENV=test supervisor start.js",
+    "test": "NODE_ENV=test node --use_strict start.js",
     "start": "NODE_ENV=production node --use_strict start.js",
     "build": "cnpm i && cd build && gulp && cd .."
   },

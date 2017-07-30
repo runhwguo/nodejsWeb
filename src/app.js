@@ -111,7 +111,7 @@ app.use(controller());
 
 app.listen(config.project.port);
 const uri = `http://${IP.address()}:${config.project.port}`;
-console.log(`app started at port ${uri}...`);
+console.log(`app started at port ${uri}`);
 console.log(`node is running in ${process.env.NODE_ENV}`);
 
 process.on('exit', code => {

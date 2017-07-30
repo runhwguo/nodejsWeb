@@ -1,5 +1,6 @@
 import {cookie2user} from '../../tool/cookie';
 import config from '../../tool/config';
+import {User} from '../../tool/model';
 
 const save = async ctx => {
   let body = ctx.request.body,
