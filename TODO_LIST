@@ -16,4 +16,4 @@ plan to do
 2.优化代码结构验证 done
 
 now:
-    1.进入首页，不需要出发login的逻辑，优化！
+    1.ujs login会很慢

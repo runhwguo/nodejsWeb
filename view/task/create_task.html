@@ -28,11 +28,11 @@
         </div>
 
         <div class="form-group">
-            <input type="text" id="title" name="title" class="form-control" placeholder="任务标题">
+            <input id="title" name="title" class="form-control" placeholder="任务标题">
         </div>
 
         <div class="form-group">
-            <input type="text" id="deadline" name="deadline" class="form-control" placeholder="请选择截止时间(包含)" readonly>
+            <input id="deadline" name="deadline" class="form-control" placeholder="请选择截止时间(包含)" readonly>
         </div>
 
         <div class="form-group">
@@ -56,10 +56,10 @@
                     <li name="rewardValue">收</li>
                 </ul>
             </div>
-            <input type="number" class="form-control" step="0.01" id="reward" name="reward" placeholder="报酬(元)，赏或收"/>
+            <input type="number" class="form-control" step="0.01" id="reward" name="reward" placeholder="报酬(元)，赏或收" maxlength="5"/>
         </div>
 
-        <button type="submit" class="btn btn-primary ladda-button submit" data-style="expand-right"><span
+        <button class="btn btn-primary ladda-button submit" data-style="expand-right"><span
                 class="ladda-label">发布</span></button>
 
         <!-- 模态框（Modal） -->
