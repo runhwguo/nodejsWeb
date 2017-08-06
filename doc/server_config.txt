@@ -1,6 +1,7 @@
 安装软件：
     1.Node.js
     2.Ngnix
+
     3.Git
     4.Npm的pm2模块和cnpm模块
         将npm仓库做一下配置，参考https://npm.taobao.org/
@@ -13,3 +14,4 @@
 
 进程管理工具：
     pm2
+    Hz!47Lwj
