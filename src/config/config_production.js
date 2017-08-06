@@ -1,11 +1,11 @@
-// 应用正式环境的配置
+// 正式环境的配置
 export default {
   db: {
     dialect: 'mysql',
-    database: 'test',
+    database: 'root',
     username: 'root',
-    password: 'root',
-    host: 'localhost',
+    password: 'zZ??12345',
+    host: '118.89.148.59',
     port: 3306
   },
   project: {

@@ -4,7 +4,7 @@
 {% block search%}
 {% endblock %}
 
-<div id="vm" class="pre-scrollable">
+<div id="vm" class="pre-scrollable" v-cloak>
     <ul class="list-group text-center">
         <li v-for="item in items" class="list-group-item" @click="detail(item)">
             <a>

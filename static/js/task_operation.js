@@ -36,7 +36,7 @@ let vm    = new Vue({
             if (vm.count) {
               vm.get();
             } else {
-              let vmHtml = '任务已被领完';
+              let vmHtml = '暂时没有任务';
               if ($('#where').val().endsWith('ed')) {
                 vmHtml = '这里空空如也';
               }

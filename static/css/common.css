@@ -50,3 +50,7 @@ li a {
     top: -40px;
     right: 20px;
 }
+
+[v-cloak] {
+    visibility: hidden;
+}

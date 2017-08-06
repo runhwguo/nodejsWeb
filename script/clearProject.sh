@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo 'should execute in project root direction,like ./script/**.sh'
+echo 'should execute in project script direction'
 
 echo 'clear start'
 rm -rf ../node_modules/

@@ -70,15 +70,16 @@ const _storageHeadImgUrl = async (ctx, headImgUrl) => {
 const me = async ctx => {
   let user       = ctx.state.user,
       headImgUrl = ctx.cookies.get(session.headImgUrl);
-
-  await _storageHeadImgUrl(ctx, headImgUrl);
+  if (headImgUrl) {
+    await _storageHeadImgUrl(ctx, headImgUrl);
+  }
 
   let unfinishedBadge = await count(user.id, TASK_STATE.completing);
   let data            = {
     title: '我的信息',
     username: user.name,
     gender: user.gender,
-    headImgUrl: user.headImgUrl
+    headImgUrl: user.headImgUrl ? user.headImgUrl : ''
   };
   if (unfinishedBadge) {
     data.unfinishedBadge = unfinishedBadge;

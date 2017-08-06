@@ -1,10 +1,16 @@
 安装软件：
     1.Node.js
     2.Ngnix
-
+        (1) 监听80端口，然后转发给业务端口
+        (2) 开启gzip，参考 http://wenzhixin.net.cn/2013/11/10/server_gzip_on
     3.Git
-    4.Npm的pm2模块和cnpm模块
-        将npm仓库做一下配置，参考https://npm.taobao.org/
+    5.MySQL
+        编码改为UTF-8 参考 https://stackoverflow.com/questions/3513773/change-mysql-default-character-set-to-utf-8-in-my-cnf/45530494#45530494
+    5.Npm模块
+        (1) pm2
+            管理Node进程
+        (2) cnpm
+            将npm仓库做一下配置，参考 https://npm.taobao.org/
 
 项目路径：
     /data/project/
@@ -14,4 +20,3 @@
 
 进程管理工具：
     pm2
-    Hz!47Lwj

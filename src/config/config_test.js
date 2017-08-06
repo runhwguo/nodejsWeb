@@ -1,4 +1,4 @@
-// 应用测试环境的配置
+// 测试环境的配置
 export default {
   db: {
     dialect: 'mysql',
@@ -8,7 +8,7 @@ export default {
     host: 'localhost',
     port: 3306
   },
-  project: {
-    port: 3000
+  project:{
+    port:3000
   }
 };

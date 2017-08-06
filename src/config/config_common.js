@@ -1,4 +1,4 @@
-// 应用公用环境的配置
+// 公用环境的配置
 export default {
   session: {
     userCookieName: 'schoolResourceShare',
@@ -14,7 +14,8 @@ export default {
     password: 'admin'
   },
   project: {
-    isProduction: process.env.NODE_ENV === 'production'
+    isProduction: process.env.NODE_ENV === 'production',
+    port: 8080
   },
   common: {
     char_set_utf8: 'utf8'
