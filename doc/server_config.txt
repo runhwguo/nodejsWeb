@@ -1,0 +1,10 @@
+安装软件：
+    1.Node.js
+    2.Ngnix
+    3.Git
+
+项目路径：
+    /data/project/
+
+进程管理工具：
+    pm2
