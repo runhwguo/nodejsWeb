@@ -10,8 +10,6 @@ node_modules
 # Logs
 log
 logs
-*.log
-
 # some test/produce files
 static/tmp
 test.*
@@ -22,6 +20,3 @@ dist
 static/css-min/
 static/js-min/
 view-min/
-
-gulp-cache/
-package-lock.json
