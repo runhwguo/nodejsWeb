@@ -4,7 +4,6 @@ import os
 
 
 def execute_command_with_check(command):
-    print(os.getcwd())
     result = os.system(command)
     if result != 0:
         print(command + " fail, result = ", result)
@@ -41,10 +40,16 @@ def kill_project_port_process():
 
 
 def start_process():
-    clear_project()
-    kill_project_port_process()
-    execute_command_with_check('npm run build')
-    execute_command_with_check('npm run start')
+    prompt = input('代码是否都解密还原？(y/n)\n')
+
+    if prompt == 'y':
+        clear_project()
+        kill_project_port_process()
+        execute_command_with_check('npm run build')
+        execute_command_with_check('npm run start')
+        print('ok')
+    else:
+        print('请解密还原后，载stat')
 
 
 def connect_db():
@@ -53,9 +58,15 @@ def connect_db():
     execute_command_with_check('mysql -u %s -p %s' % (user_name, password))
 
 
+def run_security_operation():
+    os.chdir(cur_path)
+    execute_command_with_check('java -jar GeneratePasswordWithOneKey.jar')
+
+
+cur_path = os.getcwd()
+parent_path = os.path.dirname(cur_path)
+
 if __name__ == '__main__':
-    cur_path = os.getcwd()
-    parent_path = os.path.dirname(cur_path)
     os.chdir(parent_path)
 
     print('操作选项')
@@ -64,7 +75,8 @@ if __name__ == '__main__':
           , '3.update_project'
           , '4.kill_project_port_process'
           , '5.start_process'
-          , '6.connect_db', sep='\n')
+          , '6.connect_db'
+          , '7.run_security_operation', sep='\n')
 
     menuNo = input()
     menuNo = int(menuNo)
@@ -80,5 +92,7 @@ if __name__ == '__main__':
         start_process()
     elif menuNo == 6:
         connect_db()
+    elif menuNo == 7:
+        run_security_operation()
     else:
         print('没有这个选项')
