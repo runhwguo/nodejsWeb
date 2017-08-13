@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-mysql -uroot -pzZ??12345
+mysql -uroot -p
 
 # show databases;
 # use test;
