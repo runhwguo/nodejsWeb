@@ -1,14 +1,1 @@
-// 测试环境的配置
-export default {
-  db: {
-    dialect: 'mysql',
-    database: 'test',
-    username: 'root',
-    password: 'root',
-    host: 'localhost',
-    port: 3306
-  },
-  project:{
-    port:3000
-  }
-};
+TExIhdbji8z9hO3HhsHrhPnsiublhN7GaQYQEwwaF0MMBgUJFg8cQxhiQ0MMAVlIGGlIQ0NIBwoJDwYLF1lIRA4REBIERE9iQ0NIQwcJFwIKAhANWUNPFwYbF0REaUNIQ0MdEAYaDQIFBllIRBEHDBdPT2lIQ0NIEwIbEBQHEQdSQ0QaDAwcRE9iQ0NIQwsHEBdSQ0QEDAAJDwsHEBdPT2lIQ0NIEwwaF1lIUFBYVWlIQx5EaUNIExEHCQYLF1kTaUNIQ0MYDBEcWVBYU1NiQ0MVaR5T

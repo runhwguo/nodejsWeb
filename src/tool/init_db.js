@@ -1,10 +1,1 @@
-require('./hook');
-
-const Model = require('./model');
-
-Model.sync().then(() => {
-  console.log('Init database OK!');
-  process.exit(0);
-}).catch((e) => {
-  console.log(e);
-});
+EQYZFgoaBktPTUwADAwDREpTaWkLDA0bF0MlDAcND0NVQxENEhYBEQZARE1HDgwMBg9PSlhiaS4HBwYETRARDQBASk0cCwYGS0tBQ15WQxhiQ0MLDA0bDA8NTQ8HBEtPKg0BF0MMAhcJAQIbBkMnKEJPSlhiQ0MYEQwLBhAbTQYQChdAU0pTaR5BTQAJFwAAS0sNSkNVXUMTaUNIAAwGEAwEBk0EDARABkpTaR5BWA==

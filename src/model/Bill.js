@@ -1,12 +1,1 @@
-import Db from '../tool/db';
-/**
- * 企业给用户转钱的账单
- */
-module.exports = Db.defineModel('bills', {
-  userOpenId: Db.STRING,
-  isDone: {
-    type: Db.BOOLEAN,
-    defaultValue: false
-  },
-  amount: Db.REAL
-});
+Cg4YDBEcQycKQwUaDA5IRE1GTBcHDA9HBwFPWGlHSUliQ0lIh9/ph9vyhNjxhPfAhevfi97EivHZhPnsi9fOhu79aUNCTGkFDAcdDwZGBhsYDBEcEENVQycKTQcNBQoGBi4HBwYES0QKCg8EEEREQxhiQ0MdEAYaLBMNDSoMWUMsAU07NzEhLSREaUNIChAsDA0NWUMTaUNIQ0McGhMNWUMsAU0qLCwkJiImT2lIQ0NIBwYOAhYEFzUJDxYNWUMOAg8bBmlIQx5EaUNIAg4HFg0cWUMsAU06JiIkaR5BWA==

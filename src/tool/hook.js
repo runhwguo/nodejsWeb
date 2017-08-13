@@ -1,6 +1,1 @@
-require('babel-register')({
-  presets: [
-    'stage-3',
-    'es2015-node6'
-  ]
-});
+EQYZFgoaBktPAQIKBg9FEQYPChAcBhFPSksTaUNIExENEAYcEFlIOGlIQ0NIRBAcAgQNTlBPT2lIQ0NIRAYbUVNZVk4GDAcNVURiQ0M1aR5BWA==

@@ -1,17 +1,1 @@
-const index = async ctx => {
-  ctx.render('admin/index', {
-    title: '任务列表'
-  });
-};
-
-const login = async ctx => {
-  ctx.render('admin/login', {
-    title: '管理员登录'
-  });
-};
-
-module.exports = {
-  'GET /admin/index': index,
-  'GET /admin/login': login,
-  'GET /admin': login
-};
+AAwGEBdICg0MBhtIXkMJEBoGAEMLFxtIXl1IGGlIQwAcG00aBg0MBhFARAIMDgoGTAoGBwYQRE9IGGlIQ0NIFwocDwZSQ0SM2NiN6cKN6/SAwstPaUNIHkpTaR5TaWkLDA0bF0MEDAQBDUNVQwIbGg0LQwAcG0NVXUMTaUNIABcQTRENDQcNEUtPAgcFCg1HDwwPCg1PT0MTaUNIQ0McChcEBllIRITGwoT45Yb5+4Tx2IbV9kRiQ0MVSlhiHlhiaQ4HBxYEBk0NGxMHERcbQ15IGGlIQ0QvJjdITAIMDgoGTAoGBwYQRFlICg0MBhtEaUNIRCQtN0NHAgcFCg1HDwwPCg1PWUMEDAQBDU9iQ0NPJCY8Q0wJBw4BDURSQw8HBAoGaR5T

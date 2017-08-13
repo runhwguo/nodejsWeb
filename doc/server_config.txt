@@ -1,16 +1,22 @@
 安装软件：
     1.Node.js
+        http://www.jianshu.com/p/783906f10d58
     2.Ngnix
+        https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-centos-7
         (1) 监听80端口，然后转发给业务端口
-        (2) 开启gzip，参考 http://wenzhixin.net.cn/2013/11/10/server_gzip_on
+            http://seanlook.com/2015/05/17/nginx-location-rewrite/
+        (2) 开启gzip
+            http://wenzhixin.net.cn/2013/11/10/server_gzip_on
     3.Git
+        https://www.digitalocean.com/community/tutorials/how-to-install-git-on-centos-7
     5.MySQL
+        https://www.cnblogs.com/starof/p/4680083.html
         编码改为UTF-8 参考 https://stackoverflow.com/questions/3513773/change-mysql-default-character-set-to-utf-8-in-my-cnf/45530494#45530494
     5.Npm模块
-        (1) pm2
-            管理Node进程
-        (2) cnpm
+        (1) cnpm
             将npm仓库做一下配置，参考 https://npm.taobao.org/
+        (2) pm2
+            管理Node进程
 
 项目路径：
     /data/project/

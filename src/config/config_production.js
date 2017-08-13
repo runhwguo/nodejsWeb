@@ -1,14 +1,1 @@
-// 正式环境的配置
-export default {
-  db: {
-    dialect: 'mysql',
-    database: 'root',
-    username: 'root',
-    password: 'zZ??12345',
-    host: '118.89.148.59',
-    port: 3306
-  },
-  project: {
-    port: 8080
-  }
-};
+TExIhc7Lht/nhO3HhsHrhPnsiublhN7GaQYQEwwaF0MMBgUJFg8cQxhiQ0MMAVlIGGlIQ0NIBwoJDwYLF1lIRA4REBIERE9iQ0NIQwcJFwIKAhANWUNPEAAADAwEMQYbDBYaAAY7CwIaBkREaUNIQ0MdEAYaDQIFBllIRBEHDBdPT2lIQ0NIEwIbEBQHEQdSQ0QSOVxXUlFbV1ZPT2lIQ0NICwwbF1lIRFJZVk1ZVlpGUE1RVEREaUNIQ0MYDBEcWUNbUFNeaUNIHk9iQ0MYEQwCBgAcWUMTaUNIQ0MYDBEcWUNQU1tYaUNIHmkVWA==

@@ -1,10 +1,1 @@
-// config files:
-import productionConfig from './../config/config_production.js';
-import commonConfig from './../config/config_common.js';
-import testConfig from './../config/config_test.js';
-
-console.log('Load config...');
-let overrideConfig = commonConfig.project.isProduction ? productionConfig : testConfig,
-    config         = Object.assign(commonConfig, overrideConfig);
-
-export default config;
+TExIAAwGBQoPQwUBDwYbWWkBDhMHERdIExEHBxYLFwoHDSAHDQUBBEMOEQwFQ0RGTE1GTAAHDQUBBEwLDA0OCgQ3ExEHBxYLFwoHDU0CEERTaQoFEwwaF0MLDA4FDA0rDA0OCgRIBREHDkNPTUxGTUwLDA0OCgRHAAwGBQoPPAAHDg4HDU0CEERTaQoFEwwaF0McBhAcIAwGBQoPQwUaDA5IRE1HTU1HAAwGBQoPTAAHDQUBBDwcBhAcTQkbRFhiaQAHDRAHDwZGDwwPS0QkDAIMQwAHDQUBBE1GTURBWGkEBhdIDBUNEREBBwYrDA0OCgRIXkMLDA4FDA0rDA0OCgRGExEHCQYLF00BEDMaDAcdABcBDA1IXEMYEQwMFgAcCgwGIAwGBQoPQ1lIFwYbFyAHDQUBBE9iQ0NIQwAHDQUBBENIQ0NIQ0NIQ15ILAECBgAcTQIbEAoPDUsLDA4FDA0rDA0OCgREQwweBhEaCgcNIAwGBQoPSlhiaQYQEwwaF0MMBgUJFg8cQwAHDQUBBFhi
