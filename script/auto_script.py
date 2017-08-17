@@ -99,8 +99,8 @@ def start_process():
 
 
 def connect_db():
-    user_name = input()
-    password = input()
+    user_name = input('username:')
+    password = input('password:')
     execute_command_with_check('mysql -u %s -p %s' % (user_name, password))
 
 
