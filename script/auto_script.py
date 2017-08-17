@@ -2,6 +2,7 @@
 
 import os
 import re
+import warnings
 
 WANT_ENCODE_FILE_EXTENSION = ['js', 'txt']
 
@@ -92,9 +93,9 @@ def start_process():
         kill_project_port_process()
         execute_command_with_check('npm run build')
         execute_command_with_check('npm run start')
-        print('ok')
+        warnings.warn('this only test encode/decode, please use pm2 to start process')
     else:
-        print('请解密还原后，再start')
+        warnings.warn('请解密还原后，再start')
 
 
 def connect_db():
