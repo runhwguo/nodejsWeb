@@ -1,7 +1,7 @@
 $(() => {
   let form          = $('form'),
       submitBtnWord = $('.ladda-label'),
-      deadline      = $('#deadline'),
+      type          = $('#type'),
       reward        = $('#reward');
 
   const rewardReg = /^\d+(.\d{1,2})?$/;
@@ -12,34 +12,19 @@ $(() => {
       .validateField(name);
   };
 
-  deadline.datepicker({
-    minDate: 0,
-    maxDate: 31,
-    autoclose: true,
-    yearSuffix: '年',
-    dateFormat: 'yy-mm-dd',
-    onSelect: () => {
-      formBootstrapValidator('deadline');
-    },
-    showMonthAfterYear: true,
-    dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
-    monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+  mobiscroll.settings = {
+    lang: 'zh',
+    display: 'bottom'
+  };
+
+  $('#deadline').mobiscroll().date({
+    dateFormat: 'yy-mm-dd'
   });
 
-  deadline.click(() => {
-    let uiDatepickerDiv  = $('#ui-datepicker-div');
-    let viewportWidth    = $(window).width();
-    let viewportHeight   = $(window).height();
-    let datepickerWidth  = uiDatepickerDiv.width();
-    let datepickerHeight = uiDatepickerDiv.height();
-    let leftPos          = (viewportWidth - datepickerWidth) / 2; //Standard centering method
-    let topPos           = (viewportHeight - datepickerHeight) / 2; //Standard centering method
-    uiDatepickerDiv.css({
-      left: leftPos,
-      top: topPos,
-      position: 'absolute'
-    }).css('z-index', 999);
-  });
+  type.mobiscroll().select();
+
+  // MobiScroll 采用bootstrap风格
+  $(`#${type.attr('id')}_dummy`).attr('class', 'form-control');
 
   reward.keypress((event) => {
     let which = event.which;
@@ -57,14 +42,6 @@ $(() => {
       validating: 'glyphicon glyphicon-refresh'
     },
     fields: {
-      type: {
-        message: 'The type is not valid',
-        validators: {
-          notEmpty: {
-            message: '请选择任务类型'
-          }
-        }
-      },
       shareCount: {
         message: 'The type is not valid',
         validators: {
@@ -194,8 +171,7 @@ $(() => {
     }
   });
   $('#createTaskTab').attr('href', 'javascript:void(0)');
-  let selectpicker = $('.selectpicker');
-  selectpicker.change(() => $('#shareCountDiv')[selectpicker.val() === '会员共享' ? 'show' : 'hide']('fast'));
+  type.change(() => $('#shareCountDiv')[type.val() === '会员共享' ? 'show' : 'hide']('fast'));
   $('li[name="rewardValue"]').click(function () {
     $('#rewardType').val($(this).text());
 

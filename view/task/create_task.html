@@ -2,16 +2,15 @@
 
 {% block style%}
     <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
-    <link href="//cdn.bootcss.com/bootstrap-select/1.12.2/css/bootstrap-select.min.css" rel="stylesheet">
-    <link href="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
     <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
+    <link href="/static/libs/css/mobiscroll.jquery.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/create-task.css">
 {% endblock%}
 
 {% block main %}
     <form class="main pre-scrollable" action="/api/task/publish" method="post" enctype="multipart/form-data">
-        <div class="form-group text-center">
-            <select class="selectpicker col-form-select form-control" id="type" name="type" title="请选择发布类型">
+        <div class="form-group">
+            <select id="type" name="type" title="请选择发布类型">
                 <option value="代取">代取</option>
                 <option value="代做">代做</option>
                 <option value="代活动">代活动</option>
@@ -82,13 +81,12 @@
 {% endblock %}
 
 {% block script %}
-    <script src="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js" defer></script>
     <script src="/static/js/ajax_file_upload.js" defer></script>
     <script src="/static/js/wx_pay.js" defer></script>
-    <script src="//cdn.bootcss.com/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
     <script src="//cdn.bootcss.com/Ladda/1.0.0/spin.min.js" defer></script>
     <script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
+    <script src="/static/libs/js/mobiscroll.jquery.min.js" defer></script>
     <script src="/static/js/jquery.uploadPreview.js"></script>
     <script src="/static/js/tool/common.js"></script>
     <script src="/static/js/create_task.js"></script>

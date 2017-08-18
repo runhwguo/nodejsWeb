@@ -18,3 +18,4 @@ plan to do
 now:
     1.ujs login会很慢
     2.加上init_db.js的Python脚本
+    3.用Mobiscroll改造CreateTask界面

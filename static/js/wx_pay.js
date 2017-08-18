@@ -2,11 +2,6 @@ let _param           = [],
     _successCallback = null,
     _failCallback    = null;
 
-function _isSupportWxPay() {
-  let wxInfo = window.navigator.userAgent.match(/MicroMessenger\/([\d.]+)/i);
-  return wxInfo && wxInfo.length >= 2 && wxInfo[1] >= '5.0';
-}
-
 function onBridgeReady() {
   $.get(`/api/wechat/pay/start?${$.param(_param)}`,
     data => {
@@ -37,7 +32,7 @@ function startPay(param, successCallback, failCallback) {
   _param           = param;
   _successCallback = successCallback;
   _failCallback    = failCallback;
-  if (_isSupportWxPay) {
+  if (isSupportWxPay) {
     if (typeof WeixinJSBridge === 'undefined') {
       if (document.addEventListener) {
         document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
