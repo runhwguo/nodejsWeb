@@ -1,7 +1,9 @@
 $(() => {
   let form          = $('form'),
       submitBtnWord = $('.ladda-label'),
-      type          = $('#type'),
+      taskType      = $('#taskType'),
+      rewardType    = $('#rewardType'),
+      btnCaret      = $('#btnCaret'),
       reward        = $('#reward');
 
   const rewardReg = /^\d+(.\d{1,2})?$/;
@@ -16,15 +18,49 @@ $(() => {
     lang: 'zh',
     display: 'bottom'
   };
+  let minDay          = new Date(),
+      maxDay          = new Date();
+  maxDay.setDate(minDay.getDay() + 30);
 
   $('#deadline').mobiscroll().date({
-    dateFormat: 'yy-mm-dd'
+    dateFormat: 'yy-mm-dd',
+    min: minDay,
+    max: maxDay,
+    onClose: () => {
+      formBootstrapValidator('deadline');
+    }
   });
 
-  type.mobiscroll().select();
+  taskType.mobiscroll().select({
+    onClose: (event) => {
+      $('#shareCountDiv')[event.valueText !== '会员共享' ? 'show' : 'hide']('fast');
+      formBootstrapValidator('taskTypeDummy');
+    }
+  });
+  rewardType.mobiscroll().select({
+    onClose: () => {
+      $(`#${rewardType.attr('id')}_dummy`).attr('width', '10%');
+      formBootstrapValidator('rewardTypeDummy');
+    }
+  });
+
+  // MobiScroll 处理
+  let taskTypeDummy   = $(`#${taskType.attr('id')}_dummy`),
+      rewardTypeDummy = $(`#${rewardType.attr('id')}_dummy`);
+
+  taskTypeDummy.attr('name', 'taskTypeDummy');
+  rewardTypeDummy.attr('name', 'rewardTypeDummy');
+
+
+  btnCaret.click(() => {
+    rewardType.mobiscroll('show');
+  });
 
   // MobiScroll 采用bootstrap风格
-  $(`#${type.attr('id')}_dummy`).attr('class', 'form-control');
+  $(`#${taskType.attr('id')}_dummy`).attr('class', 'form-control');
+  $(`#${rewardType.attr('id')}_dummy`).css({
+    width: '20%'
+  });
 
   reward.keypress((event) => {
     let which = event.which;
@@ -42,8 +78,23 @@ $(() => {
       validating: 'glyphicon glyphicon-refresh'
     },
     fields: {
+      taskTypeDummy: {
+        validators: {
+          callback: {
+            message: '请选择任务类型',
+            callback: value => {
+              if (value === taskType.attr('title')) {
+                return {
+                  valid: false
+                };
+              }
+
+              return true;
+            }
+          }
+        }
+      },
       shareCount: {
-        message: 'The type is not valid',
         validators: {
           notEmpty: {
             message: '请填写共享次数'
@@ -51,7 +102,6 @@ $(() => {
         }
       },
       title: {
-        message: 'The title is not valid',
         validators: {
           notEmpty: {
             message: '请填入任务标题'
@@ -59,7 +109,6 @@ $(() => {
         }
       },
       reward: {
-        message: 'The reward is not valid',
         validators: {
           notEmpty: {
             message: '请填写报酬'
@@ -69,13 +118,12 @@ $(() => {
             message: '请输入带1-2位小数的正数'
           },
           callback: {
-            message: 'The reward is not valid',
-            callback: (value, validator, $field) => {
+            callback: value => {
               let reward = Number.parseFloat(value);
               if (reward > 0 && reward < 1.5) {
                 return {
                   valid: false,
-                  message: '报酬最少￥1.5'
+                  message: '金额最少￥1.5'
                 };
               }
 
@@ -85,18 +133,25 @@ $(() => {
         }
       },
       deadline: {
-        message: 'The deadline is not valid',
         validators: {
           notEmpty: {
             message: '请选择结束日期'
           }
         }
       },
-      rewardType: {
-        message: 'The deadline is not valid',
+      rewardTypeDummy: {
         validators: {
-          notEmpty: {
-            message: '请选择报酬类型'
+          callback: {
+            message: '请选择付费类型',
+            callback: value => {
+              if (value === rewardType.attr('title')) {
+                return {
+                  valid: false
+                };
+              }
+
+              return true;
+            }
           }
         }
       }
@@ -158,9 +213,8 @@ $(() => {
       });
     };
 
-    let rewardType = $('#rewardType').val();
     let reward     = Number.parseFloat($('#reward').val());
-    if (rewardType === '赏' && reward > 0) {
+    if (rewardTypeDummy.val() === '打赏' && reward > 0) {
       let outTradeNo = randomString(28);
       startPay({fee: reward, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
         doSubmit(outTradeNo);
@@ -171,7 +225,6 @@ $(() => {
     }
   });
   $('#createTaskTab').attr('href', 'javascript:void(0)');
-  type.change(() => $('#shareCountDiv')[type.val() === '会员共享' ? 'show' : 'hide']('fast'));
   $('li[name="rewardValue"]').click(function () {
     $('#rewardType').val($(this).text());
 

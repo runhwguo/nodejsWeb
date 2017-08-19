@@ -17,5 +17,6 @@ plan to do
 
 now:
     1.ujs login会很慢
-    2.加上init_db.js的Python脚本
+    2.加上init_db.js的Python脚本(建表可以自动化，建数据库是否也可以？)
     3.用Mobiscroll改造CreateTask界面
+    4.start test python脚本

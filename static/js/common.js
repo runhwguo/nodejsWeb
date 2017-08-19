@@ -1,9 +1,4 @@
-// 本地是否登录
-function getCookie(name) {
-  let match = document.cookie.match(new RegExp(name + '=([^;]+)'));
-  if (match) return match[1];
-}
-
+// 业务common
 // 红点吸引
 if (getCookie('schoolResourceShare')) {
   $.get('/api/task/get/unread', data => {
@@ -14,8 +9,8 @@ if (getCookie('schoolResourceShare')) {
   });
 }
 
-let pathname    = window.location.pathname;
-let bottomTabId = null;
+let pathname    = window.location.pathname,
+    bottomTabId = null;
 if (pathname === '/') {
   bottomTabId = 'indexTab';
 } else if (pathname === '/me') {

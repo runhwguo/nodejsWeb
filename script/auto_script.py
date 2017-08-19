@@ -5,6 +5,9 @@ import re
 import warnings
 
 WANT_ENCODE_FILE_EXTENSION = ['js', 'txt']
+SRC_DIR = 'src'
+DOC_DIR = 'doc'
+SCRIPT_DIR = 'script'
 
 
 def _dir_encrypted(_dir):
@@ -51,10 +54,10 @@ def git_commit_push():
     prompt = input('私密信息已加密？(y/n)\n')
 
     if prompt == 'y':
-        if not _dir_encrypted(os.getcwd() + os.path.sep + 'src'):
+        if not _dir_encrypted(SRC_DIR):
             print('检测到src目录下存在没有加密的文件')
             return
-        if not _dir_encrypted(os.getcwd() + os.path.sep + 'doc'):
+        if not _dir_encrypted(DOC_DIR):
             print('检测到doc目录下存在没有加密的文件')
             return
 
@@ -70,8 +73,7 @@ def git_commit_push():
 
 
 def clear_project():
-    execute_command_with_check('rm -rf node_modules/')
-    execute_command_with_check('rm -rf dist/')
+    execute_command_with_check('npm run clean')
 
 
 def update_project():
@@ -86,13 +88,20 @@ def start_process():
     prompt = input('代码是否都解密还原？(y/n)\n')
 
     if prompt == 'y':
-        if not _dir_decrypted(os.getcwd() + os.path.sep + 'src'):
+        if not _dir_decrypted(SRC_DIR):
             print('检测到src目录下存在非明文的源代码文件')
+            return
+        prompt = input('test or production (t/p)\n')
+        if prompt == 't':
+            cmd = 'test'
+        elif prompt == 'p':
+            cmd = 'start'
+        else:
+            print('输入错误 return')
             return
         clear_project()
         kill_project_port_process()
-        execute_command_with_check('npm run build')
-        execute_command_with_check('npm run start')
+        execute_command_with_check('npm %s' % cmd)
         warnings.warn('this only test encode/decode, please use pm2 to start process')
     else:
         warnings.warn('请解密还原后，再start')
@@ -109,36 +118,46 @@ def run_security_operation():
     execute_command_with_check('java -jar GeneratePasswordWithOneKey.jar')
 
 
-cur_path = os.getcwd()
-parent_path = os.path.dirname(cur_path)
+def init_db():
+    init_db_file = os.path.join(SRC_DIR, 'tool', 'init_db.js')
+    execute_command_with_check('node %s' % init_db_file)
+
 
 if __name__ == '__main__':
-    os.chdir(parent_path)
+    cur_path = os.getcwd()
+    root_path = os.path.dirname(cur_path)
+    if cur_path.endswith(SCRIPT_DIR):
+        os.chdir(root_path)
 
-    print('操作选项')
-    print('1.git_commit_push'
-          , '2.clear_project'
-          , '3.update_project'
-          , '4.kill_project_port_process'
-          , '5.start_process'
-          , '6.connect_db'
-          , '7.run_security_operation', sep='\n')
+        print('操作选项')
+        print('1.git_commit_push'
+              , '2.clear_project'
+              , '3.update_project'
+              , '4.kill_project_port_process'
+              , '5.start_process'
+              , '6.connect_db'
+              , '7.run_security_operation'
+              , '8.init_db', sep='\n')
 
-    menuNo = input()
-    menuNo = int(menuNo)
-    if menuNo == 1:
-        git_commit_push()
-    elif menuNo == 2:
-        clear_project()
-    elif menuNo == 3:
-        update_project()
-    elif menuNo == 4:
-        kill_project_port_process()
-    elif menuNo == 5:
-        start_process()
-    elif menuNo == 6:
-        connect_db()
-    elif menuNo == 7:
-        run_security_operation()
+        menuNo = input()
+        menuNo = int(menuNo)
+        if menuNo == 1:
+            git_commit_push()
+        elif menuNo == 2:
+            clear_project()
+        elif menuNo == 3:
+            update_project()
+        elif menuNo == 4:
+            kill_project_port_process()
+        elif menuNo == 5:
+            start_process()
+        elif menuNo == 6:
+            connect_db()
+        elif menuNo == 7:
+            run_security_operation()
+        elif menuNo == 8:
+            init_db()
+        else:
+            print('没有这个选项')
     else:
-        print('没有这个选项')
+        print('请在%s下，运行%s' % (SCRIPT_DIR, __file__))
