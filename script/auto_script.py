@@ -120,6 +120,16 @@ def run_security_operation():
 
 def init_db():
     init_db_file = os.path.join(SRC_DIR, 'tool', 'init_db.js')
+    prompt = input('test or production (t/p)\n')
+    if prompt == 't':
+        node_env = 'test'
+    elif prompt == 'p':
+        node_env = 'production'
+    else:
+        print('wrong input')
+        return
+    os.environ['NODE_ENV'] = node_env
+    execute_command_with_check('export')
     execute_command_with_check('node %s' % init_db_file)
 
 
