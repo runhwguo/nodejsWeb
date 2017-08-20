@@ -63,7 +63,7 @@ def git_commit_push():
 
         execute_command_with_check('git status')
         execute_command_with_check('git add *')
-        commit_msg = input('请输入commit log:\n')
+        commit_msg = input('please input commit log:\n')
         execute_command_with_check('git commit -m "%s%s' % (commit_msg, '"'))
         execute_command_with_check('git push')
         execute_command_with_check('git status')
@@ -110,7 +110,7 @@ def start_process():
 def connect_db():
     user_name = input('username:')
     password = input('password:')
-    execute_command_with_check('mysql -u %s -p %s' % (user_name, password))
+    execute_command_with_check('mysql -u %s -p%s' % (user_name, password))
 
 
 def run_security_operation():
@@ -128,36 +128,43 @@ if __name__ == '__main__':
     root_path = os.path.dirname(cur_path)
     if cur_path.endswith(SCRIPT_DIR):
         os.chdir(root_path)
+        while True:
+            print('操作选项')
+            print('1.git_commit_push'
+                  , '2.clear_project'
+                  , '3.update_project'
+                  , '4.kill_project_port_process'
+                  , '5.start_process'
+                  , '6.connect_db'
+                  , '7.run_security_operation'
+                  , '8.init_db'
+                  , '9.other'
+                  , '0.exit', sep='\n')
 
-        print('操作选项')
-        print('1.git_commit_push'
-              , '2.clear_project'
-              , '3.update_project'
-              , '4.kill_project_port_process'
-              , '5.start_process'
-              , '6.connect_db'
-              , '7.run_security_operation'
-              , '8.init_db', sep='\n')
-
-        menuNo = input()
-        menuNo = int(menuNo)
-        if menuNo == 1:
-            git_commit_push()
-        elif menuNo == 2:
-            clear_project()
-        elif menuNo == 3:
-            update_project()
-        elif menuNo == 4:
-            kill_project_port_process()
-        elif menuNo == 5:
-            start_process()
-        elif menuNo == 6:
-            connect_db()
-        elif menuNo == 7:
-            run_security_operation()
-        elif menuNo == 8:
-            init_db()
-        else:
-            print('没有这个选项')
+            menuNo = input()
+            menuNo = int(menuNo)
+            if menuNo == 1:
+                git_commit_push()
+            elif menuNo == 2:
+                clear_project()
+            elif menuNo == 3:
+                update_project()
+            elif menuNo == 4:
+                kill_project_port_process()
+            elif menuNo == 5:
+                start_process()
+            elif menuNo == 6:
+                connect_db()
+            elif menuNo == 7:
+                run_security_operation()
+            elif menuNo == 8:
+                init_db()
+            elif menuNo == 9:
+                pass
+            elif menuNo == 0:
+                print('bye.')
+                exit(0)
+            else:
+                print('没有这个选项')
     else:
         print('请在%s下，运行%s' % (SCRIPT_DIR, __file__))

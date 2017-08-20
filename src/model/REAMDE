@@ -1,0 +1,5 @@
+数据库表命名格则
+
+1.文件名：FileName.js
+2.表名：file_name
+3.导出给外使用：FileName

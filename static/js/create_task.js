@@ -18,13 +18,14 @@ $(() => {
     lang: 'zh',
     display: 'bottom'
   };
-  let minDay          = new Date(),
-      maxDay          = new Date();
-  maxDay.setDate(minDay.getDay() + 30);
+  let nowDay          = new Date,
+      maxDay          = new Date;
+
+  maxDay.setDate(maxDay.getDate() + 30);
 
   $('#deadline').mobiscroll().date({
     dateFormat: 'yy-mm-dd',
-    min: minDay,
+    min: nowDay,
     max: maxDay,
     onClose: () => {
       formBootstrapValidator('deadline');
@@ -33,14 +34,18 @@ $(() => {
 
   taskType.mobiscroll().select({
     onClose: (event) => {
-      $('#shareCountDiv')[event.valueText !== '会员共享' ? 'show' : 'hide']('fast');
-      formBootstrapValidator('taskTypeDummy');
+      if (event.valueText) {
+        $('#shareCountDiv')[event.valueText !== '会员共享' ? 'show' : 'hide']('fast');
+        formBootstrapValidator('taskTypeDummy');
+      }
     }
   });
   rewardType.mobiscroll().select({
     onClose: () => {
-      $(`#${rewardType.attr('id')}_dummy`).attr('width', '10%');
-      formBootstrapValidator('rewardTypeDummy');
+      if (event.valueText) {
+        $(`#${rewardType.attr('id')}_dummy`).attr('width', '10%');
+        formBootstrapValidator('rewardTypeDummy');
+      }
     }
   });
 
@@ -213,7 +218,7 @@ $(() => {
       });
     };
 
-    let reward     = Number.parseFloat($('#reward').val());
+    let reward = Number.parseFloat($('#reward').val());
     if (rewardTypeDummy.val() === '打赏' && reward > 0) {
       let outTradeNo = randomString(28);
       startPay({fee: reward, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {

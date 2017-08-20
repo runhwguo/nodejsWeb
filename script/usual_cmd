@@ -1,0 +1,2 @@
+// 生成两级tree
+tree -L 2 > test.tree

@@ -44,13 +44,6 @@
             <input type="file" accept="image/*" name="file" id="file"/>
         </div>
         <div class="form-group">
-
-            <!--<div class="btn-group">-->
-                <!--<input type="button" class="btn btn-default" id="rewardType" name="rewardType" value="赏">-->
-                <!--<ul class="dropdown-menu">-->
-                    <!--<li name="rewardValue">赏</li>-->
-                    <!--<li name="rewardValue">收</li>-->
-                <!--</ul>-->
             <select id="rewardType" name="rewardType" title="付费类型">
                 <option disabled selected value>付费类型</option>
                 <option value="代取">打赏</option>
@@ -59,7 +52,6 @@
             <button type="button" id="btnCaret" class="btn btn-primary">
                 <span class="caret"></span>
             </button>
-            <!--</div>-->
             <input type="number" class="form-control" step="0.01" id="reward" name="reward" placeholder="报酬(元)，赏或收" maxlength="5"/>
         </div>
 
@@ -93,6 +85,5 @@
     <script src="//cdn.bootcss.com/Ladda/1.0.0/ladda.min.js" defer></script>
     <script src="/static/libs/js/mobiscroll.jquery.min.js" defer></script>
     <script src="/static/js/jquery.uploadPreview.js"></script>
-    <script src="/static/js/tool/common.js"></script>
     <script src="/static/js/create_task.js"></script>
 {% endblock %}
