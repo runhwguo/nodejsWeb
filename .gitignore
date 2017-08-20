@@ -10,6 +10,7 @@ node_modules
 # Logs
 log
 logs
+*.log
 # some test/produce files
 static/tmp
 test.*
