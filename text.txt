@@ -1,0 +1,31 @@
+WARN node unsupported "node@v8.4.0" is incompatible with gulp-imagemin@3.3.0 › imagemin-gifsicle@5.2.0 › gifsicle@3.0.4 › bin-wrapper@3.0.2 › download@4.4.3 › got@^5.0.0, expected node@>=0.10.0 <7
+⠦ [33/42] Installing ajv@^4.7.0platform unsupported nunjucks@3.0.1 › chokidar@1.7.0 › fsevents@^1.0.0 Package require os(darwin) not compatible with your platform(linux)
+[fsevents@^1.0.0] optional install error: Package require os(darwin) not compatible with your platform(linux)
+⠙ [40/42] Installing es6-symbol@~3.1make: Entering directory `/data/project/nodejsWeb/node_modules/_node-expat@2.3.16@node-expat/build'
+⠹ [40/42] Installing es6-symbol@~3.1  CC(target) Release/obj.target/expat/deps/libexpat/lib/xmlparse.o
+⠦ [40/42] Installing es6-symbol@~3.1../deps/libexpat/lib/xmlparse.c: In function ‘gather_time_entropy’:
+../deps/libexpat/lib/xmlparse.c:780:7: warning: variable ‘gettimeofday_res’ set but not used [-Wunused-but-set-variable]
+   int gettimeofday_res;
+       ^
+⠋ [40/42] Installing es6-symbol@~3.1  CC(target) Release/obj.target/expat/deps/libexpat/lib/xmltok.o
+⠇ [40/42] Installing es6-symbol@~3.1  CC(target) Release/obj.target/expat/deps/libexpat/lib/xmlrole.o
+⠙ [40/42] Installing es6-symbol@~3.1  AR(target) Release/obj.target/deps/libexpat/libexpat.a
+  COPY Release/libexpat.a
+⠹ [40/42] Installing es6-symbol@~3.1  CXX(target) Release/obj.target/node_expat/node-expat.o
+⠴ [40/42] Installing es6-symbol@~3.1  SOLINK_MODULE(target) Release/obj.target/node_expat.node
+⠏ [40/42] Installing es6-symbol@~3.1  COPY Release/node_expat.node
+make: Leaving directory `/data/project/nodejsWeb/node_modules/_node-expat@2.3.16@node-expat/build'
+✔ Installed 42 packages
+✔ Linked 686 latest versions
+  ✔ jpegtran pre-build test passed successfully
+  ✔ optipng pre-build test passed successfully
+  ✔ gifsicle pre-build test passed successfully
+✔ Run 3 scripts
+deprecate crypto@0.0.3 This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
+deprecate gulp@3.9.1 › vinyl-fs@0.3.14 › glob-stream@3.1.18 › minimatch@^2.0.1 Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
+deprecate gulp@3.9.1 › vinyl-fs@0.3.14 › glob-watcher@0.0.6 › gaze@0.5.2 › globule@0.1.0 › minimatch@~0.2.11 Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
+deprecate gulp@3.9.1 › vinyl-fs@0.3.14 › glob-watcher@0.0.6 › gaze@0.5.2 › globule@0.1.0 › glob@3.1.21 › graceful-fs@~1.2.0 graceful-fs v3.0.0 and before will fail on node releases >= v7.0. Please update to graceful-fs@^4.0.0 as soon as possible. Use 'npm ls graceful-fs' to find it in the tree.
+Recently updated (since 2017-08-14): 25 packages (detail see file /data/project/nodejsWeb/node_modules/.recently_updates.txt)
+  Today:
+    → superagent@^3.4.1(3.6.0) (01:15:51)
+✔ All packages installed (809 packages installed from npm registry, used 43s, speed 30.82kB/s, json 728(1.18MB), tarball 106.09kB)

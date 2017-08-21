@@ -114,8 +114,7 @@ def connect_db():
 
 
 def run_security_operation():
-    os.chdir(cur_path)
-    execute_command_with_check('java -jar GeneratePasswordWithOneKey.jar')
+    execute_command_with_check('java -jar %s' % os.path.join(cur_path, 'GeneratePasswordWithOneKey.jar'))
 
 
 def init_db():
@@ -131,6 +130,10 @@ def init_db():
     os.environ['NODE_ENV'] = node_env
     execute_command_with_check('export')
     execute_command_with_check('node %s' % init_db_file)
+
+
+def other():
+    print(os.getcwd())
 
 
 if __name__ == '__main__':
@@ -170,7 +173,7 @@ if __name__ == '__main__':
             elif menuNo == 8:
                 init_db()
             elif menuNo == 9:
-                pass
+                other()
             elif menuNo == 0:
                 print('bye.')
                 exit(0)
