@@ -26,6 +26,7 @@
     "busboy": "^0.2.14",
     "cheerio": "^0.22.0",
     "crypto": "0.0.3",
+    "deep-assign": "^2.0.0",
     "dns-then": "^0.1.0",
     "ip": "^1.1.5",
     "json2xml": "^0.1.3",
