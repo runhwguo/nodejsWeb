@@ -77,6 +77,8 @@ def clear_project():
 
 
 def update_project():
+    clear_project()
+    execute_command_with_check('git checkout *')
     execute_command_with_check('git pull')
 
 
