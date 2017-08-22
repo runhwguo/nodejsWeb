@@ -99,6 +99,7 @@ def start_process():
         else:
             print('输入错误 return')
             return
+        clear_project()
         kill_project_port_process()
         execute_command_with_check('npm %s' % cmd)
         warnings.warn('this only test encode/decode, please use pm2 to start process')
