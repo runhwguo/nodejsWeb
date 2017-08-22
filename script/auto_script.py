@@ -73,12 +73,16 @@ def git_commit_push():
 
 
 def clear_project():
-    execute_command_with_check('npm run clean')
+    prompt = input('将删除log文件，确定？(y/n)\n')
+    if prompt == 'y':
+        execute_command_with_check('npm run clean')
+    else:
+        print('再看看咯')
 
 
 def update_project():
     clear_project()
-    execute_command_with_check('git checkout *')
+    execute_command_with_check('git checkout .')
     execute_command_with_check('git pull')
 
 
