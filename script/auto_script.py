@@ -142,7 +142,7 @@ if __name__ == '__main__':
     if cur_path.endswith(SCRIPT_DIR):
         os.chdir(root_path)
         while True:
-            print('操作选项')
+            print('操作选项(相对于项目根目录操作)')
             print('1.git_commit_push'
                   , '2.clear_project'
                   , '3.update_project'
