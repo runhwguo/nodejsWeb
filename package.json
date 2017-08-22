@@ -9,7 +9,7 @@
     "test": "NODE_ENV=test node --use_strict start.js",
     "start": "NODE_ENV=production node --use_strict start.js",
     "build": "cnpm i && cd build && gulp && cd ..",
-    "clean": "rm -rf node_modules dist gulp-cache test.* *.log"
+    "clean": "rm -rf node_modules dist gulp-cache test.* *.log log logs"
   },
   "keywords": [
     "koa, nodejs framework",
