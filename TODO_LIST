@@ -16,7 +16,7 @@ plan to do
 2.优化代码结构验证 done
 
 now:
-    1.ujs login会很慢
+    1.ujs login slow/fail
     2.加上init_db.js的Python脚本(建表可以自动化，建数据库是否也可以？ pending)
     3.用Mobiscroll改造CreateTask界面 ok
     4.start test python脚本 ok
