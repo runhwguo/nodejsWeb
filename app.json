@@ -2,11 +2,21 @@
   "name": "schoolResourceShareApp",
   "script": "start.js",
   "cwd": "./",
-  "instances": "1",
-  "watch": true,
+  "instances": 0,
+  "watch": [
+    "src",
+    "static",
+    "view",
+    "dist"
+  ],
+  "ignoreWatch": [
+    "node_modules",
+    "build",
+    "log"
+  ],
   "max_memory_restart": "400M",
   "log_date_format": "YYYY-MM-DD HH:mm Z",
-  "exec_mode": "fork",
+  "exec_mode": "cluster",
   "watch_options": {
     "followSymlinks": false
   },

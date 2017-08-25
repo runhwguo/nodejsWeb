@@ -8,31 +8,25 @@ WANT_ENCODE_FILE_EXTENSION = ['js', 'txt']
 SRC_DIR = 'src'
 DOC_DIR = 'doc'
 SCRIPT_DIR = 'script'
+ENCRYPTED, DECRYPTED = 'encrypted', 'decrypted'
 
 
-def _dir_encrypted(_dir):
+def _dir_walk(_dir, operator):
+    if operator not in [ENCRYPTED, DECRYPTED]:
+        raise Exception('no this operator')
+
     for root, dirs, files in os.walk(_dir):
         for name in files:
             ext = os.path.splitext(name)[1][1:]
             if len(ext) > 0 and ext in WANT_ENCODE_FILE_EXTENSION:
-                file_name = root + os.path.sep + name
-                with open(file_name, 'r') as file:
+                file_name = os.path.join(root, name)
+                with open(file_name) as file:
                     data = file.read()
-                    if not _is_base64(data):
+                    result = _is_base64(data)
+                    if not result and operator == ENCRYPTED:
                         print(file_name, '是明文源代码')
                         return False
-    return True
-
-
-def _dir_decrypted(_dir):
-    for root, dirs, files in os.walk(_dir):
-        for name in files:
-            ext = os.path.splitext(name)[1][1:]
-            if len(ext) > 0 and ext in WANT_ENCODE_FILE_EXTENSION:
-                file_name = root + os.path.sep + name
-                with open(file_name, 'r') as file:
-                    data = file.read()
-                    if _is_base64(data):
+                    if result and operator == DECRYPTED:
                         print(file_name, '是加密过的')
                         return False
     return True
@@ -54,10 +48,10 @@ def git_commit_push():
     prompt = input('私密信息已加密？(y/n)\n')
 
     if prompt == 'y':
-        if not _dir_encrypted(SRC_DIR):
+        if not _dir_walk(SRC_DIR, ENCRYPTED):
             print('检测到src目录下存在没有加密的文件')
             return
-        if not _dir_encrypted(DOC_DIR):
+        if not _dir_walk(DOC_DIR, ENCRYPTED):
             print('检测到doc目录下存在没有加密的文件')
             return
 
@@ -94,7 +88,7 @@ def start_process():
     prompt = input('代码是否都解密还原？(y/n)\n')
 
     if prompt == 'y':
-        if not _dir_decrypted(SRC_DIR):
+        if not _dir_walk(SRC_DIR, DECRYPTED):
             print('检测到src目录下存在非明文的源代码文件')
             return
         prompt = input('test or production (t/p)\n')
@@ -186,4 +180,4 @@ if __name__ == '__main__':
             else:
                 print('没有这个选项')
     else:
-        print('请在%s下，运行%s' % (SCRIPT_DIR, __file__))
+        warnings.warn('请在%s下，运行%s' % (SCRIPT_DIR, __file__))

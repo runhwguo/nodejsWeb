@@ -1,3 +1,7 @@
-require('./src/tool/hook');
+const SRC_DIR = './src/';
 
-require('./src/app');
+require(`${SRC_DIR}tool/hook`);
+require(`${SRC_DIR}app`);
+
+require(`./src/tool/hook`);
+require(`./src/app`);
