@@ -4,15 +4,7 @@
   "cwd": "./",
   "instances": 0,
   "watch": [
-    "src",
-    "static",
-    "view",
-    "dist"
-  ],
-  "ignoreWatch": [
-    "node_modules",
-    "build",
-    "log"
+    "src"
   ],
   "max_memory_restart": "400M",
   "log_date_format": "YYYY-MM-DD HH:mm Z",
