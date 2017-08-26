@@ -1,14 +1,14 @@
 String.prototype.getWidth = function () {
-  let o = $('<span>' + this + '</span>')
-        .css({
-          'position': 'absolute',
-          'float': 'left',
-          'white-space': 'nowrap',
-          'visibility': 'hidden',
-          'font': $('.task-info').css('font')
-        })
-        .appendTo($('body')),
-      w = o.width();
+  const o = $('<span>' + this + '</span>')
+          .css({
+            'position': 'absolute',
+            'float': 'left',
+            'white-space': 'nowrap',
+            'visibility': 'hidden',
+            'font': $('.task-info').css('font')
+          })
+          .appendTo($('body')),
+        w = o.width();
 
   o.remove();
   return w;
@@ -67,9 +67,10 @@ let vm    = new Vue({
           vm.loading = false;
           resp.json().then(data => {
             data.result.forEach(item => {
-              let maxWidthOfInfo = $(window).width() * 0.9 * 0.75;
-              let info           = item.type + ' ' + item.title;
-              let isNeedProcess  = false;
+              const maxWidthOfInfo = $(window).width() * 0.9 * 0.75;
+
+              let info          = item.type + ' ' + item.title,
+                  isNeedProcess = false;
               while (info.getWidth() > maxWidthOfInfo) {
                 isNeedProcess = true;
                 info          = item.type + ' ' + item.title;
@@ -165,7 +166,7 @@ let vm    = new Vue({
 });
 window.vm = vm;
 $(() => {
-  let vmDiv = $(vm.$el);
+  const vmDiv = $(vm.$el);
 
   if ($('#where').val() === 'index') {
     vmDiv.css('margin-bottom', '40px');
@@ -174,15 +175,12 @@ $(() => {
     vm.limit = 8;
   }
   vmDiv.scroll(() => {
-    let divHeight    = vmDiv.height();
-    let scrollHeight = vmDiv[0].scrollHeight;
-    let scrollTop    = vmDiv[0].scrollTop;
+    const divHeight    = vmDiv.height(),
+          scrollHeight = vmDiv[0].scrollHeight,
+          scrollTop    = vmDiv[0].scrollTop;
     if (scrollTop + divHeight >= scrollHeight) {
       console.log('滚动条到底部了');
-      if (vm.currentPage * vm.limit < vm.count) {
-        vm.get();
-      } else {
-      }
+      (vm.currentPage * vm.limit < vm.count) && vm.get();
     }
   });
 });

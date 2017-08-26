@@ -1,12 +1,12 @@
 $(() => {
-  let form          = $('form'),
-      submitBtnWord = $('.ladda-label'),
-      taskType      = $('#taskType'),
-      rewardType    = $('#rewardType'),
-      btnCaret      = $('#btnCaret'),
-      reward        = $('#reward');
+  const form          = $('form'),
+        submitBtnWord = $('button.ladda-label'),
+        taskType      = $('#taskType'),
+        rewardType    = $('#rewardType'),
+        btnCaret      = $('#btnCaret'),
+        reward        = $('#reward');
 
-  const rewardReg = /^\d+(.\d{1,2})?$/;
+  const REWARD_REG = /^\d+(.\d{1,2})?$/;
 
   const formBootstrapValidator = name => {
     form.data('bootstrapValidator')
@@ -50,8 +50,8 @@ $(() => {
   });
 
   // MobiScroll 处理
-  let taskTypeDummy   = $(`#${taskType.attr('id')}_dummy`),
-      rewardTypeDummy = $(`#${rewardType.attr('id')}_dummy`);
+  const taskTypeDummy   = $(`#${taskType.attr('id')}_dummy`),
+        rewardTypeDummy = $(`#${rewardType.attr('id')}_dummy`);
 
   taskTypeDummy.attr('name', 'taskTypeDummy');
   rewardTypeDummy.attr('name', 'rewardTypeDummy');
@@ -68,7 +68,7 @@ $(() => {
   });
 
   reward.keypress((event) => {
-    let which = event.which;
+    const which = event.which;
     if ((which >= '0'.charCodeAt(0) && which <= '9'.charCodeAt(0)) || which === '.'.charCodeAt(0)) {
     } else {
       event.preventDefault();
@@ -119,7 +119,7 @@ $(() => {
             message: '请填写报酬'
           },
           regexp: {
-            regexp: rewardReg,
+            regexp: REWARD_REG,
             message: '请输入带1-2位小数的正数'
           },
           callback: {
@@ -173,8 +173,8 @@ $(() => {
     });
 
     const doSubmit = outTradeNo => {
-      let submit  = $('.submit'),
-          loading = Ladda.create(submit.get(0));
+      const submit  = $('button.submit'),
+            loading = Ladda.create(submit.get(0));
       loading.start();
       let serializeArray = form.serializeArray(),
           data           = {};
@@ -218,7 +218,7 @@ $(() => {
       });
     };
 
-    let reward = Number.parseFloat($('#reward').val());
+    const reward = Number.parseFloat($('#reward').val());
     if (rewardTypeDummy.val() === '打赏' && reward > 0) {
       let outTradeNo = randomString(28);
       startPay({fee: reward, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
@@ -230,7 +230,7 @@ $(() => {
     }
   });
   $('#createTaskTab').attr('href', 'javascript:void(0)');
-  $('li[name="rewardValue"]').click(function () {
+  $('li[name="rewardValue"]').click(() => {
     $('#rewardType').val($(this).text());
 
     formBootstrapValidator('rewardType');

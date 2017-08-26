@@ -89,28 +89,26 @@ let vm = new Vue({
 });
 
 $(() => {
-  let vmDiv = $(vm.$el);
+  const vmDiv = $(vm.$el);
 
   vmDiv.scroll(() => {
-    let divHeight    = vmDiv.height();
-    let scrollHeight = vmDiv[0].scrollHeight;
-    let scrollTop    = vmDiv[0].scrollTop;
+    const divHeight    = vmDiv.height(),
+          scrollHeight = vmDiv[0].scrollHeight,
+          scrollTop    = vmDiv[0].scrollTop;
     if (scrollTop + divHeight >= scrollHeight) {
       console.log('滚动条到底部了');
-      if (vm.page * vm.LIMIT < vm.count) {
-        vm.get($('#searchContent').val());
-      }
+      (vm.page * vm.LIMIT < vm.count) && vm.get($('#searchContent').val());
     }
   }).css('max-height', $(window).height() - $('#searchDiv').height());
 
 
-  $('.glyphicon-search').click(() => {
+  $('span.glyphicon-search').click(() => {
     console.log('search click');
     vm.init({
       keyword: $('#searchContent').val()
     });
   });
-  $('.glyphicon-remove-circle').click(() => {
+  $('span.glyphicon-remove-circle').click(() => {
     $('#searchContent').val('');
   });
 });

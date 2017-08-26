@@ -1,14 +1,17 @@
 $(() => {
-  $('img').click(() => {
-    $('.enlargeImageModalSource').attr('src', $('img').attr('src'));
+  const $img         = $('img'),
+        $laddaButton = $('button.ladda-button'),
+        $contactModal = $('#contactModal');
+  $img.click(() => {
+    $('.enlargeImageModalSource').attr('src', $img.attr('src'));
     $('#enlargeImageModal').modal('show');
   });
-  $('.ladda-button').click(function () {
-    let where = $('#where').val();
+  $laddaButton.click(function () {
+    const where         = $('#where').val();
     let successCallback = null;
     if (where === 'unfinished') {
       successCallback = () => {
-        $('.ladda-button').attr('disabled', true);
+        $laddaButton.attr('disabled', true);
       };
     }
 
@@ -22,12 +25,12 @@ $(() => {
       }, successCallback);
     };
 
-    let reward = Number.parseFloat($('#reward').text().substr(1));
-    if ($('.ladda-button span').text() === '接单' &&
+    const reward = Number.parseFloat($('#reward').text().substr(1));
+    if ($('button.ladda-button span').text() === '接单' &&
       $('#rewardType').text() === '收取' &&
       reward > 0
     ) {
-      let outTradeNo = randomString(28);
+      const outTradeNo = randomString(28);
       startPay({fee: reward, body: '领取任务预支付费用', outTradeNo: outTradeNo}, () => {
         doSubmit(outTradeNo);
       }, () => {
@@ -36,15 +39,14 @@ $(() => {
       doSubmit();
     }
   });
-  $('div.main').css('margin-bottom', (15 + $('.navbar-fixed-bottom').height()));
+  $('div.main').css('margin-bottom', (15 + $('div.navbar-fixed-bottom').height()));
 
-  let contactModal = $('#contactModal');
 
-  contactModal.on('show.bs.modal', () => {
-    $('.modal .modal-dialog').css('overflow-y', 'auto').css('max-height', $(window).height() * 0.5);
+  $contactModal.on('show.bs.modal', () => {
+    $('div.modal div.modal-dialog').css('overflow-y', 'auto').css('max-height', $(window).height() * 0.5);
   });
 
   $('#contentTr').click(() => {
-    contactModal.modal();
+    $contactModal.modal();
   });
 });

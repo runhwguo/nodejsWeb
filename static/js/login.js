@@ -1,5 +1,5 @@
 $(() => {
-  let form = $('form');
+  const form = $('form');
   form.bootstrapValidator({
     message: 'The form is not valid',
     feedbackIcons: {

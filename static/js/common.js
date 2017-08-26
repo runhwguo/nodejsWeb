@@ -2,10 +2,8 @@
 // 红点吸引
 if (getCookie('schoolResourceShare')) {
   $.get('/api/task/get/unread', data => {
-    let badge = Number.parseInt(data.result);
-    if (badge) {
-      $('#meTab span.badge').text(badge);
-    }
+    const badge = Number.parseInt(data.result);
+    badge && $('#meTab span.badge').text(badge);
   });
 }
 
@@ -16,6 +14,4 @@ if (pathname === '/') {
 } else if (pathname === '/me') {
   bottomTabId = 'meTab';
 }
-if (bottomTabId) {
-  $(`#${ bottomTabId }`).css('color', '#337ab7');
-}
+bottomTabId && $(`#${ bottomTabId }`).css('color', '#337ab7');

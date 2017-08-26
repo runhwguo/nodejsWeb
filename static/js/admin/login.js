@@ -1,5 +1,5 @@
-let form = $('form');
-let errMsg = $('.alert');
+const form   = $('form'),
+      errMsg = $('.alert');
 errMsg.hide();
 form.submit(e => {
   e.preventDefault();

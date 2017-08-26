@@ -20,4 +20,4 @@ now:
     2.加上init_db.js的Python脚本(建表可以自动化，建数据库是否也可以？ pending)
     3.用Mobiscroll改造CreateTask界面 ok
     4.start test python脚本 ok
-    5.pm2 操作
+    5.pm2 操作 ok

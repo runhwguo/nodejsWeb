@@ -1,16 +1,16 @@
 window.onload = () => {
-  let searchContent = $('#searchContent'),
-      searchClear   = $('.glyphicon-remove-circle'),
-      searchButton  = $('.glyphicon-search');
+  const searchContent = $('#searchContent'),
+        searchClear   = $('span.glyphicon-remove-circle'),
+        searchButton  = $('span.glyphicon-search');
 
-  searchClear.hide();
   searchContent.keyup(() => {
     searchClear.show();
   });
-  searchClear.click(() => {
-    searchContent.val('');
-    searchClear.hide();
-  });
+  searchClear.hide()
+    .click(() => {
+      searchContent.val('');
+      searchClear.hide();
+    });
   searchButton.click(() => {
     vm.init(searchContent.val());
   });

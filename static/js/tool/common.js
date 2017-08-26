@@ -14,12 +14,12 @@ const randomString = (len = 32) => {
 };
 
 function isSupportWxPay() {
-  let wxInfo = window.navigator.userAgent.match(/MicroMessenger\/([\d.]+)/i);
+  const wxInfo = window.navigator.userAgent.match(/MicroMessenger\/([\d.]+)/i);
   return wxInfo && wxInfo.length >= 2 && wxInfo[1] >= '5.0';
 }
 
 // 本地是否登录
 function getCookie(name) {
-  let match = document.cookie.match(new RegExp(name + '=([^;]+)'));
-  if (match) return match[1];
+  const match = document.cookie.match(new RegExp(name + '=([^;]+)'));
+  return match && match[1];
 }

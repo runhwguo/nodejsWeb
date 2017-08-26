@@ -1,5 +1,5 @@
 $(() => {
-  let form = $('form');
+  const form = $('form');
 
   form.bootstrapValidator({
     message: 'The form is not valid',
@@ -66,7 +66,5 @@ $(() => {
     });
   });
 
-  if ($('#where').val() === 'me') {
-    $('.submit').attr('disabled', true);
-  }
+  $('#where').val() === 'me' && $('button.submit').attr('disabled', true);
 });
