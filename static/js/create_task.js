@@ -18,8 +18,8 @@ $(() => {
     lang: 'zh',
     display: 'bottom'
   };
-  let nowDay          = new Date,
-      maxDay          = new Date;
+  const nowDay        = new Date,
+        maxDay        = new Date;
 
   maxDay.setDate(maxDay.getDate() + 30);
 
@@ -173,11 +173,11 @@ $(() => {
     });
 
     const doSubmit = outTradeNo => {
-      const submit  = $('button.submit'),
-            loading = Ladda.create(submit.get(0));
+      const submit         = $('button.submit'),
+            loading        = Ladda.create(submit.get(0)),
+            serializeArray = form.serializeArray(),
+            data           = {};
       loading.start();
-      let serializeArray = form.serializeArray(),
-          data           = {};
 
       $.map(serializeArray, (n, i) => data[n['name']] = n['value'].replace(/"/g, '\\"'));
       if (outTradeNo) {
@@ -220,7 +220,7 @@ $(() => {
 
     const reward = Number.parseFloat($('#reward').val());
     if (rewardTypeDummy.val() === '打赏' && reward > 0) {
-      let outTradeNo = randomString(28);
+      const outTradeNo = randomString(28);
       startPay({fee: reward, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
         doSubmit(outTradeNo);
       }, () => {

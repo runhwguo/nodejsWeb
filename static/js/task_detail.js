@@ -1,9 +1,9 @@
 $(() => {
-  const $img         = $('img'),
-        $laddaButton = $('button.ladda-button'),
+  const $img          = $('img'),
+        $laddaButton  = $('button.ladda-button'),
         $contactModal = $('#contactModal');
   $img.click(() => {
-    $('.enlargeImageModalSource').attr('src', $img.attr('src'));
+    $('img.enlargeImageModalSource').attr('src', $img.attr('src'));
     $('#enlargeImageModal').modal('show');
   });
   $laddaButton.click(function () {
@@ -43,7 +43,10 @@ $(() => {
 
 
   $contactModal.on('show.bs.modal', () => {
-    $('div.modal div.modal-dialog').css('overflow-y', 'auto').css('max-height', $(window).height() * 0.5);
+    $('div.modal div.modal-dialog').css({
+      'overflow-y': 'auto',
+      'max-height': $(window).height() / 2
+    });
   });
 
   $('#contentTr').click(() => {

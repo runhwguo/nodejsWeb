@@ -55,7 +55,7 @@ $(() => {
       window.location.href = '/userInfo?where=login';
     });
   });
-  for (let tab of ['meTab', 'createTaskTab'].map(e => $(`#${e}`))) {
+  for (const tab of ['meTab', 'createTaskTab'].map(e => $(`#${e}`))) {
     tab.attr('href', 'javascript:void(0)');
   }
 });

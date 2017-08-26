@@ -20,8 +20,8 @@ let vm = new Vue({
       resp.json().then(result => console.log('Error: ' + result.message));
     },
     get: keyword => {
-      vm.loading = true;
-      let params = {
+      vm.loading   = true;
+      const params = {
         page: vm.page
       };
       if (keyword) {
@@ -89,12 +89,12 @@ let vm = new Vue({
 });
 
 $(() => {
-  const vmDiv = $(vm.$el);
+  const $vmDiv = $(vm.$el);
 
-  vmDiv.scroll(() => {
-    const divHeight    = vmDiv.height(),
-          scrollHeight = vmDiv[0].scrollHeight,
-          scrollTop    = vmDiv[0].scrollTop;
+  $vmDiv.scroll(() => {
+    const divHeight    = $vmDiv.height(),
+          scrollHeight = $vmDiv[0].scrollHeight,
+          scrollTop    = $vmDiv[0].scrollTop;
     if (scrollTop + divHeight >= scrollHeight) {
       console.log('滚动条到底部了');
       (vm.page * vm.LIMIT < vm.count) && vm.get($('#searchContent').val());

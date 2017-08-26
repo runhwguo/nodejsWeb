@@ -14,7 +14,7 @@ String.prototype.getWidth = function () {
   return w;
 };
 
-let vm    = new Vue({
+const vm  = new Vue({
   delimiters: ['${', '}'],
   el: '#vm',
   data: {
@@ -55,9 +55,9 @@ let vm    = new Vue({
       });
     },
     get: () => {
-      vm.loading = true;
-      let where  = $('#where').val();
-      let url    = `/api/task/get/page/${vm.currentPage + 1}?where=${ where }`;
+      vm.loading  = true;
+      const where = $('#where').val();
+      let url     = `/api/task/get/page/${vm.currentPage + 1}?where=${ where }`;
       if (vm.isSearch) {
         url += '&keyword=' + $('#searchContent').val();
       }
@@ -90,8 +90,8 @@ let vm    = new Vue({
         });
     },
     stick: item => {
-      let stickButton = $(`#${item.id}`),
-          loading     = Ladda.create(stickButton[0]);
+      const stickButton = $(`#${item.id}`),
+            loading     = Ladda.create(stickButton[0]);
 
       startPay({fee: 100, body: '任务置顶费用'}, () => {
         loading.start();

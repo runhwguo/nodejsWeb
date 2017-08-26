@@ -1,7 +1,7 @@
 !function (e) {
   e.extend({
     uploadPreview: function (l) {
-      let i = e.extend({
+      const i = e.extend({
         input_field: '.image-input',
         preview_box: '.image-preview',
         label_field: '.image-label',

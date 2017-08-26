@@ -1,19 +1,19 @@
-const form   = $('form'),
-      errMsg = $('.alert');
-errMsg.hide();
-form.submit(e => {
+const $form   = $('form'),
+      $errMsg = $('div.alert');
+$errMsg.hide();
+$form.submit(e => {
   e.preventDefault();
   $.ajax({
-    url: form.attr('action'),
-    data: form.serialize(),
-    type: form.attr('method'),
+    url: $form.attr('action'),
+    data: $form.serialize(),
+    type: $form.attr('method'),
     success: data => {
       if (data.result) {
         window.location.href = window.location.origin + '/admin/index';
       } else {
-        errMsg.show();
+        $errMsg.show();
         setTimeout(() => {
-          errMsg.hide();
+          $errMsg.hide();
         }, 2000);
       }
     },

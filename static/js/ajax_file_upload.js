@@ -44,7 +44,7 @@ $.extend({
 
     //增加文本参数的支持
     if (data) {
-      for (let i in data) {
+      for (const i in data) {
         $('<input type="hidden" name="' + i + '"/>').val(data[i]).appendTo(form);
       }
     }
@@ -204,7 +204,7 @@ $.extend({
     }
     try {
       // var io = $('#' + frameId);
-      let form = $('#' + formId);
+      const form = $('#' + formId);
       $(form).attr({
         'action': s.url,
         'method': 'POST',

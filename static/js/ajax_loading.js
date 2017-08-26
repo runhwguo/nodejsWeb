@@ -1,7 +1,7 @@
 function submitAjax(submit, ajaxOption, submitBtnWordOption, successCallback) {
 
   submitBtnWordOption.normal = submit.text();
-  let loading = Ladda.create(submit[0]);
+  const loading = Ladda.create(submit[0]);
   loading.start();
 
   const INTERVAL = 1000;
