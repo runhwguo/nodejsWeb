@@ -23,7 +23,7 @@ $(() => {
 
   maxDay.setDate(maxDay.getDate() + 30);
 
-  $('#deadline').mobiscroll().date({
+  mobiscroll.date('#deadline', {
     dateFormat: 'yy-mm-dd',
     min: nowDay,
     max: maxDay,
@@ -32,7 +32,7 @@ $(() => {
     }
   });
 
-  taskType.mobiscroll().select({
+  mobiscroll.select('#taskType', {
     onClose: (event) => {
       if (event.valueText) {
         $('#shareCountDiv')[event.valueText !== '会员共享' ? 'show' : 'hide']('fast');
@@ -40,7 +40,7 @@ $(() => {
       }
     }
   });
-  rewardType.mobiscroll().select({
+  const rewardTypeMbscInst = mobiscroll.select('#rewardType', {
     onClose: () => {
       if (event.valueText) {
         $(`#${rewardType.attr('id')}_dummy`).attr('width', '10%');
@@ -50,20 +50,20 @@ $(() => {
   });
 
   // MobiScroll 处理
-  const taskTypeDummy   = $(`#${taskType.attr('id')}_dummy`),
-        rewardTypeDummy = $(`#${rewardType.attr('id')}_dummy`);
+  const $taskTypeDummy   = $(`#${taskType.attr('id')}_dummy`),
+        $rewardTypeDummy = $(`#${rewardType.attr('id')}_dummy`);
 
-  taskTypeDummy.attr('name', 'taskTypeDummy');
-  rewardTypeDummy.attr('name', 'rewardTypeDummy');
+  $taskTypeDummy.attr('name', 'taskTypeDummy');
+  $rewardTypeDummy.attr('name', 'rewardTypeDummy');
 
 
   btnCaret.click(() => {
-    rewardType.mobiscroll('show');
+    rewardTypeMbscInst.show();
   });
 
   // MobiScroll 采用bootstrap风格
-  $(`#${taskType.attr('id')}_dummy`).attr('class', 'form-control');
-  $(`#${rewardType.attr('id')}_dummy`).css({
+  $taskTypeDummy.attr('class', 'form-control');
+  $rewardTypeDummy.css({
     width: '20%'
   });
 
@@ -219,7 +219,7 @@ $(() => {
     };
 
     const reward = Number.parseFloat($('#reward').val());
-    if (rewardTypeDummy.val() === '打赏' && reward > 0) {
+    if ($rewardTypeDummy.val() === '打赏' && reward > 0) {
       const outTradeNo = randomString(28);
       startPay({fee: reward, body: '发布任务预支付费用', outTradeNo: outTradeNo}, () => {
         doSubmit(outTradeNo);
