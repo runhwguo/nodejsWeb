@@ -3,3 +3,6 @@ tree -L 2 > test.tree
 
 # pm2 start 指定运行环境
 pm2 start app.json --env test
+
+# create database
+create database schoolResourceShare;
