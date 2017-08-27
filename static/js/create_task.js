@@ -1,15 +1,17 @@
 $(() => {
-  const form          = $('form'),
-        submitBtnWord = $('button.ladda-label'),
-        taskType      = $('#taskType'),
-        rewardType    = $('#rewardType'),
-        btnCaret      = $('#btnCaret'),
-        reward        = $('#reward');
+  const $form          = $('form'),
+        $submitBtnWord = $('button.ladda-label'),
+        $taskType      = $('#taskType'),
+        $rewardType    = $('#rewardType'),
+        $btnCaret      = $('#btnCaret'),
+        $shareCount    = $('#shareCount'),
+        $shareCountDiv = $('#shareCountDiv'),
+        $reward        = $('#reward');
 
   const REWARD_REG = /^\d+(.\d{1,2})?$/;
 
   const formBootstrapValidator = name => {
-    form.data('bootstrapValidator')
+    $form.data('bootstrapValidator')
       .updateStatus(name, 'NOT_VALIDATED', null)
       .validateField(name);
   };
@@ -33,9 +35,9 @@ $(() => {
   });
 
   mobiscroll.select('#taskType', {
-    onClose: (event) => {
+    onClose: event => {
       if (event.valueText) {
-        $('#shareCountDiv')[event.valueText !== '会员共享' ? 'show' : 'hide']('fast');
+        $shareCountDiv[event.valueText === '会员共享' ? 'show' : 'hide']('fast');
         formBootstrapValidator('taskTypeDummy');
       }
     }
@@ -43,21 +45,22 @@ $(() => {
   const rewardTypeMbscInst = mobiscroll.select('#rewardType', {
     onClose: () => {
       if (event.valueText) {
-        $(`#${rewardType.attr('id')}_dummy`).attr('width', '10%');
+        $(`#${$rewardType.attr('id')}_dummy`).attr('width', '10%');
         formBootstrapValidator('rewardTypeDummy');
       }
     }
   });
 
   // MobiScroll 处理
-  const $taskTypeDummy   = $(`#${taskType.attr('id')}_dummy`),
-        $rewardTypeDummy = $(`#${rewardType.attr('id')}_dummy`);
+  const $taskTypeDummy   = $(`#${$taskType.attr('id')}_dummy`),
+        $rewardTypeDummy = $(`#${$rewardType.attr('id')}_dummy`);
 
   $taskTypeDummy.attr('name', 'taskTypeDummy');
   $rewardTypeDummy.attr('name', 'rewardTypeDummy');
 
+  $shareCountDiv[$taskTypeDummy.val() === '会员共享' ? 'show' : 'hide']('fast');
 
-  btnCaret.click(() => {
+  $btnCaret.click(() => {
     rewardTypeMbscInst.show();
   });
 
@@ -67,15 +70,52 @@ $(() => {
     width: '20%'
   });
 
-  reward.keypress((event) => {
+  const _isDecimalDigit   = number => {
+          return number >= '0'.charCodeAt(0) && number <= '9'.charCodeAt(0);
+        },
+        _isDelOrBackspace = code => {
+          return code === 127 || code === 8;
+        },
+        _isDot            = code => {
+          return code === '.'.charCodeAt(0);
+        };
+
+  $shareCount.keypress(event => {
     const which = event.which;
-    if ((which >= '0'.charCodeAt(0) && which <= '9'.charCodeAt(0)) || which === '.'.charCodeAt(0)) {
+    // 127 in ascii is DEL
+    if (_isDecimalDigit(which) || _isDelOrBackspace(which)) {
+      if (_isDecimalDigit(which)) {
+        const val = $shareCount.val();
+        if (val.length >= 2) {
+          event.preventDefault();
+        }
+      }
     } else {
       event.preventDefault();
     }
   });
 
-  form.bootstrapValidator({
+  $reward.keypress(event => {
+    const which = event.which;
+    // 127 in ascii is DEL
+    if (_isDecimalDigit(which) || _isDelOrBackspace(which) || _isDot(which)) {
+      if (!_isDelOrBackspace(which)) {
+        const val = $reward.val();
+
+        if (val.length >= 5) {
+          event.preventDefault();
+        } else if (val.length === 0 && _isDot(which)) {
+          event.preventDefault();
+        } else if (val.length > 0 && val.include('.')) {
+          event.preventDefault();
+        }
+      }
+    } else {
+      event.preventDefault();
+    }
+  });
+
+  $form.bootstrapValidator({
     message: 'The form is not valid',
     feedbackIcons: {
       valid: 'glyphicon glyphicon-ok',
@@ -88,7 +128,7 @@ $(() => {
           callback: {
             message: '请选择任务类型',
             callback: value => {
-              if (value === taskType.attr('title')) {
+              if (value === $taskType.attr('title')) {
                 return {
                   valid: false
                 };
@@ -149,7 +189,7 @@ $(() => {
           callback: {
             message: '请选择付费类型',
             callback: value => {
-              if (value === rewardType.attr('title')) {
+              if (value === $rewardType.attr('title')) {
                 return {
                   valid: false
                 };
@@ -175,7 +215,7 @@ $(() => {
     const doSubmit = outTradeNo => {
       const submit         = $('button.submit'),
             loading        = Ladda.create(submit.get(0)),
-            serializeArray = form.serializeArray(),
+            serializeArray = $form.serializeArray(),
             data           = {};
       loading.start();
 
@@ -186,19 +226,19 @@ $(() => {
         data.reward = -data.reward;
       }
       const INTERVAL            = 1000,
-            normalSubmitBtnWord = submitBtnWord.text();
+            normalSubmitBtnWord = $submitBtnWord.text();
       $.ajaxFileUpload({
-        type: form.attr('method'),
-        url: form.attr('action'),
+        type: $form.attr('method'),
+        url: $form.attr('action'),
         secureuri: false,
         fileElementId: 'file',
         data: data,
         dataType: 'json',
         success: (data, status) => {
           console.log(data, status);
-          submitBtnWord.text('成功');
+          $submitBtnWord.text('成功');
           setTimeout(() => {
-            submitBtnWord.text(normalSubmitBtnWord);
+            $submitBtnWord.text(normalSubmitBtnWord);
             $('.modal-body').text('任务发布成功，跳回主页？');
             $('#publishModal').modal('show');
             loading.stop();
@@ -207,9 +247,9 @@ $(() => {
           }, INTERVAL);
         },
         error: (xhr, status, e) => {
-          submitBtnWord.text('失败');
+          $submitBtnWord.text('失败');
           setTimeout(() => {
-            submitBtnWord.text(normalSubmitBtnWord);
+            $submitBtnWord.text(normalSubmitBtnWord);
             $('.modal-body').text('任务发布失败');
             $('#publishModal').modal('show');
             loading.stop();
@@ -244,5 +284,5 @@ $(() => {
     label_selected: '更换图片',  // Default: Change File
     no_label: false                 // Default: false
   });
-  form.css('margin-bottom', 15 + $('.navbar-fixed-bottom').height());
+  $form.css('margin-bottom', 15 + $('.navbar-fixed-bottom').height());
 });
