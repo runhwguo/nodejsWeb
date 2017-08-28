@@ -6,3 +6,6 @@ pm2 start app.json --env test
 
 # create database
 create database schoolResourceShare;
+
+# npm install dev版本  npm 5.0.0以上自动save到package.json
+cnpm i * -D
