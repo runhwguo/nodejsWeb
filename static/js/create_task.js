@@ -70,21 +70,11 @@ $(() => {
     width: '20%'
   });
 
-  const _isDecimalDigit   = number => {
-          return number >= '0'.charCodeAt(0) && number <= '9'.charCodeAt(0);
-        },
-        _isDelOrBackspace = code => {
-          return code === 127 || code === 8;
-        },
-        _isDot            = code => {
-          return code === '.'.charCodeAt(0);
-        };
-
   $shareCount.keypress(event => {
     const which = event.which;
     // 127 in ascii is DEL
-    if (_isDecimalDigit(which) || _isDelOrBackspace(which)) {
-      if (_isDecimalDigit(which)) {
+    if (isDecimalDigit(which) || isDelOrBackspace(which)) {
+      if (isDecimalDigit(which)) {
         const val = $shareCount.val();
         if (val.length >= 2) {
           event.preventDefault();
@@ -98,13 +88,13 @@ $(() => {
   $reward.keypress(event => {
     const which = event.which;
     // 127 in ascii is DEL
-    if (_isDecimalDigit(which) || _isDelOrBackspace(which) || _isDot(which)) {
-      if (!_isDelOrBackspace(which)) {
+    if (isDecimalDigit(which) || isDelOrBackspace(which) || isDot(which)) {
+      if (!isDelOrBackspace(which)) {
         const val = $reward.val();
 
         if (val.length >= 5) {
           event.preventDefault();
-        } else if (val.length === 0 && _isDot(which)) {
+        } else if (val.length === 0 && isDot(which)) {
           event.preventDefault();
         } else if (val.length > 0 && val.include('.')) {
           event.preventDefault();

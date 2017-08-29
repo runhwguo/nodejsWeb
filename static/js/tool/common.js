@@ -3,23 +3,29 @@
  * @param len
  * @returns {string}
  */
-const randomString = (len = 32) => {
-  const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
-  const maxPos  = chars.length;
-  let pwd     = '';
-  for (let i = 0; i < len; i++) {
-    pwd += chars[Math.floor(Math.random() * maxPos)];
-  }
-  return pwd;
-};
-
-function isSupportWxPay() {
-  const wxInfo = window.navigator.userAgent.match(/MicroMessenger\/([\d.]+)/i);
-  return wxInfo && wxInfo.length >= 2 && wxInfo[1] >= '5.0';
-}
-
-// 本地是否登录
-function getCookie(name) {
-  const match = document.cookie.match(new RegExp(name + '=([^;]+)'));
-  return match && match[1];
-}
+const randomString     = (len = 32) => {
+        const chars  = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678',
+              maxPos = chars.length;
+        let pwd      = '';
+        for (let i = 0; i < len; i++) {
+          pwd += chars[Math.floor(Math.random() * maxPos)];
+        }
+        return pwd;
+      },
+      isDecimalDigit   = number => {
+        return number >= '0'.charCodeAt(0) && number <= '9'.charCodeAt(0);
+      },
+      isDelOrBackspace = code => {
+        return code === 127 || code === 8;
+      },
+      isDot            = code => {
+        return code === '.'.charCodeAt(0);
+      },
+      isSupportWxPay   = () => {
+        const wxInfo = window.navigator.userAgent.match(/MicroMessenger\/([\d.]+)/i);
+        return wxInfo && wxInfo.length >= 2 && wxInfo[1] >= '5.0';
+      },
+      getCookie        = name => {// 本地是否登录
+        const match = document.cookie.match(new RegExp(name + '=([^;]+)'));
+        return match && match[1];
+      };

@@ -16,8 +16,13 @@ plan to do
 2.优化代码结构验证 done
 
 now:
-    1.ujs login slow/fail
+    1.ujs login slow/fail ok (ujs bug, request retry)
     2.加上init_db.js的Python脚本(建表可以自动化，建数据库是否也可以？ pending)
     3.用Mobiscroll改造CreateTask界面 ok
     4.start test python脚本 ok
     5.pm2 操作 ok
+    6.登录时长 确信是7天，关注在微信里面的存在时长
+
+测试：
+    (1) 功能性
+    (2) 体验
