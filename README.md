@@ -14,7 +14,7 @@
 │   ├── server_config.txt server配置
 ├── package.json
 ├── script 自动化脚本
-│   ├── GeneratePasswordWithOneKey.jar 加解密工具(Java)
+│   ├── GeneratePasswordWithOneKey.jar 加解密工具(Java) https://github.com/runhwguo/GeneratePasswordWithOneKey
 │   ├── auto_script.py 集成脚本(Python)
 │   └── usual_cmd 常用命令记录
 ├── src
