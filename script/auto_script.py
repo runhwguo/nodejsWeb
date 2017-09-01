@@ -58,11 +58,11 @@ def _execute_command_with_check(command):
     :return:
     """
     result = os.system(command)
-    if result != 0:
-        print(command + " fail, result = ", result)
-    else:
+    if result == 0:
         print(command + ' ok')
-    return result
+    else:
+        print(command + " fail, result = ", result)
+    return result == 0
 
 
 def git_commit_push():

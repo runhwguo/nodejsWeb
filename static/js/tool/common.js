@@ -4,14 +4,14 @@
  * @returns {string}
  */
 const randomString     = (len = 32) => {
-  const chars  = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678',
-        maxPos = chars.length;
-  let pwd      = '';
-  for (let i = 0; i < len; i++) {
-    pwd += chars[Math.floor(Math.random() * maxPos)];
-  }
-  return pwd;
-},
+        const chars  = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678',
+              maxPos = chars.length;
+        let pwd      = '';
+        for (let i = 0; i < len; i++) {
+          pwd += chars[Math.floor(Math.random() * maxPos)];
+        }
+        return pwd;
+      },
       isDecimalDigit   = number => {
         return number >= '0'.charCodeAt(0) && number <= '9'.charCodeAt(0);
       },

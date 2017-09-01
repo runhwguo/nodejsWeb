@@ -43,6 +43,6 @@ function startPay(param, successCallback, failCallback) {
   } else {
     const msg = '微信版本过低，不支持WeChatPay！';
     alert(msg);
-    console.warn(msg)
+    console.warn(msg);
   }
 }
