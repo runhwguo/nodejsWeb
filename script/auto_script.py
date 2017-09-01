@@ -2,6 +2,7 @@
 
 import os
 import re
+import time
 import warnings
 
 WANT_ENCODE_FILE_EXTENSION = ['js', 'txt']
@@ -61,6 +62,7 @@ def _execute_command_with_check(command):
         print(command + " fail, result = ", result)
     else:
         print(command + ' ok')
+    return result
 
 
 def git_commit_push():
@@ -78,13 +80,18 @@ def git_commit_push():
             print('检测到doc目录下存在没有加密的文件')
             return
 
-        _execute_command_with_check('git status')
-        _execute_command_with_check('git add *')
+        _execute_command_with_check('git status'
+                                    ) and _execute_command_with_check('git add *')
+
         commit_msg = input('please input commit log:\n')
-        _execute_command_with_check('git commit -m "%s%s' % (commit_msg, '"'))
-        _execute_command_with_check('git push')
+
+        _execute_command_with_check('git commit -m "%s%s' % (commit_msg, '"')
+                                    ) and _execute_command_with_check('git push')
+
         _execute_command_with_check('git status')
         print('ok')
+
+        print('如果是开发环境，在提交代码后，请自行再还原代码')
     else:
         print('请加密之后再提交')
 
@@ -112,8 +119,8 @@ def update_project():
     :return:
     """
     clear_project()
-    _execute_command_with_check('git checkout .')
-    _execute_command_with_check('git pull')
+    _execute_command_with_check('git checkout .'
+                                ) and _execute_command_with_check('git pull')
 
 
 def kill_project_port_process():
@@ -190,8 +197,8 @@ def init_db():
         print('wrong input')
         return
     os.environ['NODE_ENV'] = node_env
-    _execute_command_with_check('export')
-    _execute_command_with_check('node %s' % init_db_file)
+    _execute_command_with_check('export'
+                                ) and _execute_command_with_check('node %s' % init_db_file)
 
 
 def other():
