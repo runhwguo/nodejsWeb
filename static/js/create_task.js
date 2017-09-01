@@ -215,6 +215,15 @@ $(() => {
       } else {// 收
         data.reward = -data.reward;
       }
+      // 适配服务器 服务器区分收取/打赏依靠正负号 dummy是mobiscroll搞出来的
+      data.type                 = data.taskType;
+
+      delete data.rewardType;
+      delete data.rewardTypeDummy;
+      delete data.taskType;
+      delete data.taskTypeDummy;
+
+
       const INTERVAL            = 1000,
             normalSubmitBtnWord = $submitBtnWord.text();
       $.ajaxFileUpload({
