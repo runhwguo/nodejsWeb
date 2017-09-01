@@ -12,6 +12,13 @@ ENCRYPTED, DECRYPTED = 'encrypted', 'decrypted'
 
 
 def _dir_walk(_dir, operator):
+    """
+    内部方法
+        遍历目录
+    :param _dir:
+    :param operator:
+    :return:
+    """
     if operator not in [ENCRYPTED, DECRYPTED]:
         raise Exception('no this operator')
 
@@ -33,10 +40,22 @@ def _dir_walk(_dir, operator):
 
 
 def _is_base64(s):
+    """
+    内部方法
+        检查string是否是base64编码
+    :param s:
+    :return:
+    """
     return (len(s) % 4 == 0) and re.match('^[A-Za-z0-9+/]+[=]{0,2}$', s)
 
 
-def execute_command_with_check(command):
+def _execute_command_with_check(command):
+    """
+    内部方法
+        Python封装的os的命令操作
+    :param command:
+    :return:
+    """
     result = os.system(command)
     if result != 0:
         print(command + " fail, result = ", result)
@@ -45,6 +64,10 @@ def execute_command_with_check(command):
 
 
 def git_commit_push():
+    """
+    git 提交代码到github，做了是否加密检查，如果存在没有加密的文件，就直接return
+    :return:
+    """
     prompt = input('私密信息已加密？(y/n)\n')
 
     if prompt == 'y':
@@ -55,36 +78,61 @@ def git_commit_push():
             print('检测到doc目录下存在没有加密的文件')
             return
 
-        execute_command_with_check('git status')
-        execute_command_with_check('git add *')
+        _execute_command_with_check('git status')
+        _execute_command_with_check('git add *')
         commit_msg = input('please input commit log:\n')
-        execute_command_with_check('git commit -m "%s%s' % (commit_msg, '"'))
-        execute_command_with_check('git push')
-        execute_command_with_check('git status')
+        _execute_command_with_check('git commit -m "%s%s' % (commit_msg, '"'))
+        _execute_command_with_check('git push')
+        _execute_command_with_check('git status')
         print('ok')
     else:
         print('请加密之后再提交')
 
 
 def clear_project():
+    """
+    清理项目
+        执行package.json里定义的脚本clean
+        具体delete [node_modules dist gulp-cache test.* *.log log logs]
+    :return:
+    """
     prompt = input('将删除log文件，确定？(y/n)\n')
     if prompt == 'y':
-        execute_command_with_check('npm run clean')
+        _execute_command_with_check('npm run clean')
     else:
         print('再看看咯')
 
 
 def update_project():
+    """
+    更新项目
+        1.clear project
+        2.执行git checkout . 会撤销所有需改 以防止代码冲突
+        2.从github拉取最新代码
+    :return:
+    """
     clear_project()
-    execute_command_with_check('git checkout .')
-    execute_command_with_check('git pull')
+    _execute_command_with_check('git checkout .')
+    _execute_command_with_check('git pull')
 
 
 def kill_project_port_process():
-    execute_command_with_check('kill -9 $(lsof -t -i:8080)')
+    """
+    kill当前项目的进程
+        防止一些情况下process没有结束
+    :return:
+    """
+    _execute_command_with_check('kill -9 $(lsof -t -i:8080)')
 
 
 def start_process():
+    """
+    start process 仅用于测试时 start项目，正式用pm2管理工具
+        1.clear project
+        2.kill project process
+        3.npm test/start
+    :return:
+    """
     prompt = input('代码是否都解密还原？(y/n)\n')
 
     if prompt == 'y':
@@ -101,23 +149,37 @@ def start_process():
             return
         clear_project()
         kill_project_port_process()
-        execute_command_with_check('npm %s' % cmd)
+        _execute_command_with_check('npm %s' % cmd)
         warnings.warn('this only test encode/decode, please use pm2 to start process')
     else:
         warnings.warn('请解密还原后，再start')
 
 
 def connect_db():
+    """
+    连接数据库
+        参数是username和password
+    :return:
+    """
     user_name = input('username:')
     password = input('password:')
-    execute_command_with_check('mysql -u %s -p%s' % (user_name, password))
+    _execute_command_with_check('mysql -u %s -p%s' % (user_name, password))
 
 
 def run_security_operation():
-    execute_command_with_check('java -jar %s' % os.path.join(cur_path, 'GeneratePasswordWithOneKey.jar'))
+    """
+    执行java的加解密程序
+    :return:
+    """
+    _execute_command_with_check('java -jar %s' % os.path.join(cur_path, 'GeneratePasswordWithOneKey.jar'))
 
 
 def init_db():
+    """
+    初始化数据库表
+        1.数据库需要自己动手建立
+    :return:
+    """
     init_db_file = os.path.join(SRC_DIR, 'tool', 'init_db.js')
     prompt = input('test or production (t/p)\n')
     if prompt == 't':
@@ -128,11 +190,15 @@ def init_db():
         print('wrong input')
         return
     os.environ['NODE_ENV'] = node_env
-    execute_command_with_check('export')
-    execute_command_with_check('node %s' % init_db_file)
+    _execute_command_with_check('export')
+    _execute_command_with_check('node %s' % init_db_file)
 
 
 def other():
+    """
+    一些保留操作
+    :return:
+    """
     print(os.getcwd())
 
 

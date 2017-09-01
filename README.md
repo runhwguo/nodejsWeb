@@ -23,17 +23,17 @@
 │   ├── controller 控制层
 │   ├── model      模型层
 │   └── tool       工具类
-├── start.js
-├── static
+├── start.js       启动文件
+├── static         静态资源
 │   ├── css
 │   ├── font
 │   ├── image
 │   ├── js
 │   ├── libs
 │   └── third-party
-└── view
-    ├── admin
+└── view           view层 html页面
+    ├── admin      
     ├── task
-    ├── template
+    ├── template   nunjucks渲染框架的template
 
 ```

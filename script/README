@@ -1,0 +1,8 @@
+auto_script.py
+    Python脚本，封装一些自动化操作，有git操作，npm操作，加解密操作，在提交代码之前要加密，git push之前也会做代码检查，如果没有加密，会失败
+
+GeneratePasswordWithOneKey.jar
+    Java加解密库
+
+usual_cmd
+    常用的命令记录
