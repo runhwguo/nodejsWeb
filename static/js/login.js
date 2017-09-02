@@ -1,5 +1,9 @@
 $(() => {
-  const form = $('form');
+  const form    = $('form'),
+        captcha = $('#captcha');
+  captcha.on('click', e => {
+    captcha.attr('src','/login/captcha?' + Math.random());
+  });
   form.bootstrapValidator({
     message: 'The form is not valid',
     feedbackIcons: {
@@ -37,6 +41,11 @@ $(() => {
           regexp: {
             regexp: /^[a-zA-Z0-9]{4}$/,
             message: '请填写正确的验证码'
+          },
+          remote: {
+            url: '/login/captchaConfirm',
+            delay: 500,
+            message: '验证码不正确'
           }
         }
       }
