@@ -154,7 +154,7 @@ $(() => {
           },
           callback: {
             callback: value => {
-              let reward = Number.parseFloat(value);
+              const reward = Number.parseFloat(value);
               if (reward > 0 && reward < 1.5) {
                 return {
                   valid: false,
@@ -216,7 +216,7 @@ $(() => {
         data.reward = -data.reward;
       }
       // 适配服务器 服务器区分收取/打赏依靠正负号 dummy是mobiscroll搞出来的
-      data.type                 = data.taskType;
+      data.type = data.taskType;
 
       delete data.rewardType;
       delete data.rewardTypeDummy;

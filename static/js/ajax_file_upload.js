@@ -33,11 +33,11 @@ $.extend({
   },
   createUploadForm: (id, fileElementId, data) => {
     //create form
-    let formId     = 'jUploadForm' + id,
-        fileId     = 'jUploadFile' + id,
-        form       = $('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data"></form>'),
-        oldElement = $('#' + fileElementId),
-        newElement = $(oldElement).clone();
+    const formId     = 'jUploadForm' + id,
+          fileId     = 'jUploadFile' + id,
+          form       = $('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data"></form>'),
+          oldElement = $('#' + fileElementId),
+          newElement = $(oldElement).clone();
     $(oldElement).attr('id', fileId);
     $(oldElement).before(newElement);
     $(oldElement).appendTo(form);
