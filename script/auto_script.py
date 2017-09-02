@@ -18,6 +18,7 @@ root_path = os.path.dirname(cur_path)
 jvm_path = jpype.getDefaultJVMPath()
 ext_classpath = os.path.join(cur_path, 'GeneratePasswordWithOneKey.jar')
 jvm_arg = '-Djava.class.path=' + ext_classpath
+jpype.startJVM(jvm_path, jvm_arg)
 
 
 def _dir_walk(_dir, operator):
@@ -191,8 +192,6 @@ def run_security_operation(menu=None):
     执行java的加解密程序
     :return:
     """
-    jpype.startJVM(jvm_path, jvm_arg)
-
     Main = jpype.JClass('Main')
 
     args = []
@@ -200,8 +199,6 @@ def run_security_operation(menu=None):
         args.append(str(menu))
 
     Main.main(args)
-
-    jpype.shutdownJVM()
 
 
 def init_db():
@@ -265,6 +262,7 @@ if __name__ == '__main__':
                 connect_db()
             elif menuNo == 7:
                 run_security_operation()
+                break
             elif menuNo == 8:
                 init_db()
             elif menuNo == 9:
