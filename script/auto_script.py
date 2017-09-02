@@ -2,7 +2,8 @@
 
 import os
 import re
-import time
+import jpype
+from jpype import *
 import warnings
 
 WANT_ENCODE_FILE_EXTENSION = ['js', 'txt']
@@ -10,6 +11,13 @@ SRC_DIR = 'src'
 DOC_DIR = 'doc'
 SCRIPT_DIR = 'script'
 ENCRYPTED, DECRYPTED = 'encrypted', 'decrypted'
+
+cur_path = os.getcwd()
+root_path = os.path.dirname(cur_path)
+
+jvm_path = jpype.getDefaultJVMPath()
+ext_classpath = os.path.join(cur_path, 'GeneratePasswordWithOneKey.jar')
+jvm_arg = '-Djava.class.path=' + ext_classpath
 
 
 def _dir_walk(_dir, operator):
@@ -92,6 +100,11 @@ def git_commit_push():
         print('ok')
 
         print('如果是开发环境，在提交代码后，请自行再还原代码')
+        prompt = input('是否启动解码程序? (y/n)')
+        if prompt == 'y':
+            run_security_operation(6)
+        else:
+            print('不启动')
     else:
         print('请加密之后再提交')
 
@@ -173,12 +186,21 @@ def connect_db():
     _execute_command_with_check('mysql -u %s -p%s' % (user_name, password))
 
 
-def run_security_operation():
+def run_security_operation(menu=None):
     """
     执行java的加解密程序
     :return:
     """
-    _execute_command_with_check('java -jar %s' % os.path.join(cur_path, 'GeneratePasswordWithOneKey.jar'))
+    if not isJVMStarted():
+        jpype.startJVM(jvm_path, jvm_arg)
+
+    Main = jpype.JClass('Main')
+
+    args = []
+    if menu:
+        args.append(str(menu))
+
+    Main.main(args)
 
 
 def init_db():
@@ -210,8 +232,6 @@ def other():
 
 
 if __name__ == '__main__':
-    cur_path = os.getcwd()
-    root_path = os.path.dirname(cur_path)
     if cur_path.endswith(SCRIPT_DIR):
         os.chdir(root_path)
         while True:
