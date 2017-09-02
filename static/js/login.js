@@ -2,7 +2,7 @@ $(() => {
   const form    = $('form'),
         captcha = $('#captcha');
   captcha.on('click', e => {
-    captcha.attr('src','/login/captcha?' + Math.random());
+    captcha.attr('src','/api/login/captcha?' + Math.random());
   });
   form.bootstrapValidator({
     message: 'The form is not valid',
@@ -43,7 +43,7 @@ $(() => {
             message: '请填写正确的验证码'
           },
           remote: {
-            url: '/login/captchaConfirm',
+            url: '/api/login/captchaConfirm',
             delay: 500,
             message: '验证码不正确'
           }
