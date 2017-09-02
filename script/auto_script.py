@@ -262,7 +262,8 @@ if __name__ == '__main__':
                 connect_db()
             elif menuNo == 7:
                 run_security_operation()
-                break
+                # fuck jPype's bug!
+                exit()
             elif menuNo == 8:
                 init_db()
             elif menuNo == 9:
