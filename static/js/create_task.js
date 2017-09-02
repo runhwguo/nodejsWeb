@@ -43,7 +43,7 @@ $(() => {
     }
   });
   const rewardTypeMbscInst = mobiscroll.select('#rewardType', {
-    onClose: () => {
+    onClose: event => {
       if (event.valueText) {
         $(`#${$rewardType.attr('id')}_dummy`).attr('width', '10%');
         formBootstrapValidator('rewardTypeDummy');
