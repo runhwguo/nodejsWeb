@@ -29,7 +29,7 @@ function startPay(param, successCallback, failCallback) {
   _param           = param;
   _successCallback = successCallback;
   _failCallback    = failCallback;
-  if (isSupportWxPay) {
+  if (isSupportWxPay()) {
     if (typeof WeixinJSBridge === 'undefined') {
       if (document.addEventListener) {
         document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
@@ -41,6 +41,8 @@ function startPay(param, successCallback, failCallback) {
       onBridgeReady();
     }
   } else {
-    alert('请升级微信!');
+    const msg = '微信版本过低，不支持WeChatPay！';
+    alert(msg);
+    console.warn(msg);
   }
 }
