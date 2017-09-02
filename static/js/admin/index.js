@@ -1,4 +1,4 @@
-let vm = new Vue({
+const vm = new Vue({
   delimiters: ['${', '}'],
   el: '#vm',
   http: {

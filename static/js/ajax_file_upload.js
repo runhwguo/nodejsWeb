@@ -61,9 +61,9 @@ $.extend({
 
   ajaxFileUpload: s => {
     // introduce global settings, allowing the client to modify them for all requests, not only timeout
-    s        = $.extend({}, $.ajaxSettings, s);
-    let id   = Date.now(),
-        form = $.createUploadForm(id, s.fileElementId, s.data);
+    s          = $.extend({}, $.ajaxSettings, s);
+    const id   = Date.now(),
+          form = $.createUploadForm(id, s.fileElementId, s.data);
     $.createUploadIframe(id, s.secureuri);
     let frameId     = 'jUploadFrame' + id,
         formId      = 'jUploadForm' + id,
@@ -78,8 +78,8 @@ $.extend({
       $.event.trigger('ajaxSend', [xml, s]);
     }
     // Wait for a response to come back
-    let uploadCallback = isTimeout => {
-      let io = document.getElementById(frameId);
+    const uploadCallback = isTimeout => {
+      const io = document.getElementById(frameId);
       try {
         if (io.contentWindow) {
           xml.responseText = io.contentWindow.document.body ? io.contentWindow.document.body.innerHTML : null;
@@ -99,7 +99,7 @@ $.extend({
           // Make sure that the request was successful or notmodified
           if (status !== 'error') {
             // process the data (runs the xml through httpData regardless of callback)
-            let data = $.uploadHttpData(xml, s.dataType);
+            const data = $.uploadHttpData(xml, s.dataType);
             // If a local callback was specified, fire it and pass it the data
             if (s.success) {
               s.success(data, status);
@@ -153,7 +153,7 @@ $.extend({
             $.handleError(s, xml, status);
           } else {
             // process the data (runs the xml through httpData regardless of callback)
-            let data = $.uploadHttpData(xml, s.dataType);
+            const data = $.uploadHttpData(xml, s.dataType);
             // If a local callback was specified, fire it and pass it the data
             if (s.success) {
               s.success(data, status);
@@ -239,10 +239,10 @@ $.extend({
     }
     // Get the JavaScript object, if JSON is used.
     if (type === 'json') {
-      data      = r.responseText;
-      let start = data.indexOf('>');
+      data        = r.responseText;
+      const start = data.indexOf('>');
       if (start !== -1) {
-        let end = data.indexOf('<', start + 1);
+        const end = data.indexOf('<', start + 1);
         if (end !== -1) {
           data = data.substring(start + 1, end);
         }
