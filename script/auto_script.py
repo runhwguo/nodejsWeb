@@ -154,9 +154,9 @@ def start_process():
     if prompt == 'y':
         if not _dir_walk(SRC_DIR, DECRYPTED):
             print('检测到src目录下存在非明文的源代码文件')
-            prompt = input('要执行加密程序么? (y/n):')
+            prompt = input('要执行解码程序么? (y/n):')
             if prompt == 'y':
-                run_security_operation(5)
+                run_security_operation(6)
             return
         prompt = input('test or production (t/p)\n')
         if prompt == 't':
