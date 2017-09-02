@@ -83,8 +83,6 @@
                       placeholder="请详细说明任务详情，比如地点时间，不然接任务人就一脸懵逼了~" readonly>{{data.detail}}</textarea>
         </div>
         <div class="input-group form-control-static">
-        </div>
-        <div class="input-group form-control-static">
             <div class="input-group-btn">
                 <label class="btn btn-default disabled">补充图片</label>
             </div>
@@ -103,7 +101,7 @@
                     </button>
                 </div>
             </div>
-        {% elif where === 'published' %}
+        {% elif where === 'published' or where === 'index' %}
             {% if data.state === '认领中' or data.state === '完成中' %}
                 <button id="off" name="{{ data.id }}" type="button" class="btn btn-primary ladda-button submit"
                         data-style="expand-right">

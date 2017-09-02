@@ -2,6 +2,9 @@ let _param           = [],
     _successCallback = null,
     _failCallback    = null;
 
+/**
+ * 微信回调支付接口
+ */
 function onBridgeReady() {
   $.get(`/api/wechat/pay/start?${$.param(_param)}`,
     data => {
@@ -25,6 +28,12 @@ function onBridgeReady() {
   );
 }
 
+/**
+ * 调用微信支付
+ * @param param
+ * @param successCallback
+ * @param failCallback
+ */
 function startPay(param, successCallback, failCallback) {
   _param           = param;
   _successCallback = successCallback;

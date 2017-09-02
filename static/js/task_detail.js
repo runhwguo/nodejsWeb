@@ -1,11 +1,14 @@
 $(() => {
-  const $img          = $('img'),
+  const $img          = $('img.thumbnail'),
         $laddaButton  = $('button.ladda-button'),
-        $contactModal = $('#contactModal');
-  $img.click(() => {
-    $('img.enlargeImageModalSource').attr('src', $img.attr('src'));
-    $('#enlargeImageModal').modal('show');
-  });
+        $contactModal = $('#contactModal'),
+        imgSrc        = $img.attr('src');
+  if (imgSrc) {
+    $img.click(() => {
+      $('img.enlargeImageModalSource').attr('src', $img.attr('src'));
+      $('#enlargeImageModal').modal('show');
+    });
+  }
   $laddaButton.click(function () {
     const where         = $('#where').val();
     let successCallback = null;
