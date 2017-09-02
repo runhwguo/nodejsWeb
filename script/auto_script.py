@@ -191,8 +191,7 @@ def run_security_operation(menu=None):
     执行java的加解密程序
     :return:
     """
-    if not isJVMStarted():
-        jpype.startJVM(jvm_path, jvm_arg)
+    jpype.startJVM(jvm_path, jvm_arg)
 
     Main = jpype.JClass('Main')
 
@@ -201,6 +200,8 @@ def run_security_operation(menu=None):
         args.append(str(menu))
 
     Main.main(args)
+
+    jpype.shutdownJVM()
 
 
 def init_db():
@@ -248,6 +249,7 @@ if __name__ == '__main__':
                   , '0.exit', sep='\n')
 
             menuNo = input()
+            print(menuNo)
             menuNo = int(menuNo)
             if menuNo == 1:
                 git_commit_push()
