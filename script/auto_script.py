@@ -2,8 +2,7 @@
 
 import os
 import re
-import jpype
-from jpype import *
+import time
 import warnings
 
 WANT_ENCODE_FILE_EXTENSION = ['js', 'txt']
@@ -11,14 +10,6 @@ SRC_DIR = 'src'
 DOC_DIR = 'doc'
 SCRIPT_DIR = 'script'
 ENCRYPTED, DECRYPTED = 'encrypted', 'decrypted'
-
-cur_path = os.getcwd()
-root_path = os.path.dirname(cur_path)
-
-jvm_path = jpype.getDefaultJVMPath()
-ext_classpath = os.path.join(cur_path, 'GeneratePasswordWithOneKey.jar')
-jvm_arg = '-Djava.class.path=' + ext_classpath
-jpype.startJVM(jvm_path, jvm_arg)
 
 
 def _dir_walk(_dir, operator):
@@ -84,9 +75,15 @@ def git_commit_push():
     if prompt == 'y':
         if not _dir_walk(SRC_DIR, ENCRYPTED):
             print('检测到src目录下存在没有加密的文件')
+            prompt = input('要执行加密程序么? (y/n):')
+            if prompt == 'y':
+                run_security_operation(5)
             return
         if not _dir_walk(DOC_DIR, ENCRYPTED):
             print('检测到doc目录下存在没有加密的文件')
+            prompt = input('要执行加密程序么? (y/n):')
+            if prompt == 'y':
+                run_security_operation(5)
             return
 
         _execute_command_with_check('git status'
@@ -101,11 +98,9 @@ def git_commit_push():
         print('ok')
 
         print('如果是开发环境，在提交代码后，请自行再还原代码')
-        prompt = input('是否启动解码程序? (y/n)')
+        prompt = input('要执行解码程序么? (y/n):')
         if prompt == 'y':
             run_security_operation(6)
-        else:
-            print('不启动')
     else:
         print('请加密之后再提交')
 
@@ -159,6 +154,9 @@ def start_process():
     if prompt == 'y':
         if not _dir_walk(SRC_DIR, DECRYPTED):
             print('检测到src目录下存在非明文的源代码文件')
+            prompt = input('要执行加密程序么? (y/n):')
+            if prompt == 'y':
+                run_security_operation(5)
             return
         prompt = input('test or production (t/p)\n')
         if prompt == 't':
@@ -192,13 +190,11 @@ def run_security_operation(menu=None):
     执行java的加解密程序
     :return:
     """
-    Main = jpype.JClass('Main')
-
-    args = []
+    param = 'java -jar %s' % os.path.join(cur_path, 'GeneratePasswordWithOneKey.jar')
     if menu:
-        args.append(str(menu))
+        param += ' ' + str(menu)
 
-    Main.main(args)
+    _execute_command_with_check(param)
 
 
 def init_db():
@@ -230,6 +226,8 @@ def other():
 
 
 if __name__ == '__main__':
+    cur_path = os.getcwd()
+    root_path = os.path.dirname(cur_path)
     if cur_path.endswith(SCRIPT_DIR):
         os.chdir(root_path)
         while True:
@@ -246,7 +244,6 @@ if __name__ == '__main__':
                   , '0.exit', sep='\n')
 
             menuNo = input()
-            print(menuNo)
             menuNo = int(menuNo)
             if menuNo == 1:
                 git_commit_push()
@@ -262,8 +259,6 @@ if __name__ == '__main__':
                 connect_db()
             elif menuNo == 7:
                 run_security_operation()
-                # fuck jPype's bug!
-                exit()
             elif menuNo == 8:
                 init_db()
             elif menuNo == 9:
