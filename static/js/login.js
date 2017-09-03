@@ -1,14 +1,16 @@
 $(() => {
-  const form         = $('form'),
-        captcha      = $('#captcha'),
-        publishOkBtn = $('#publishOkBtn');
-  captcha.on('click', e => {
-    captcha.attr('src','/api/login/captcha?' + Math.random());
+  const $form         = $('form'),
+        $captcha      = $('#captcha'),
+        $publishOkBtn = $('#publishOkBtn'),
+        $submitBtn    = $('button.ladda-button'),
+        $publishModal    = $('#publishModal');
+  $captcha.on('click', e => {
+    $captcha.attr('src', '/api/login/captcha?' + Math.random());
   });
-  publishOkBtn.on('click', e => {
-    $('#publishModal').modal('hide');
+  $publishOkBtn.on('click', e => {
+    $publishModal.modal('hide');
   });
-  form.bootstrapValidator({
+  $form.bootstrapValidator({
     message: 'The form is not valid',
     feedbackIcons: {
       valid: 'glyphicon glyphicon-ok',
@@ -56,19 +58,20 @@ $(() => {
     }
   }).on('success.form.bv', e => {
     e.preventDefault();
-    submitAjax($('.ladda-button'), {
-      type: form.attr('method'),
-      url: form.attr('action'),
-      data: JSON.parse('{"' + decodeURIComponent(form.serialize()).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}'),
+    submitAjax($submitBtn, {
+      type: $form.attr('method'),
+      url: $form.attr('action'),
+      data: JSON.parse('{"' + decodeURIComponent($form.serialize()).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}'),
     }, {
       success: '成功',
       fail: '失败'
     }, () => {
-      if($('.ladda-button').text()!== '成功'){
+      if ($submitBtn.text() !== '成功') {
         $('.modal-body').text('请检查用户名或密码是否有误');
-        $('#publishModal').modal('show');
+        $publishModal.modal('show');
+      } else {
+        window.location.href = '/userInfo?where=login';
       }
-      else window.location.href = '/userInfo?where=login';
     });
   });
   for (const tab of ['meTab', 'createTaskTab'].map(e => $(`#${e}`))) {
