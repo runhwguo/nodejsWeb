@@ -3,6 +3,7 @@
 {% block style%}
     <link href="//cdn.bootcss.com/Ladda/1.0.0/ladda-themeless.min.css" rel="stylesheet">
     <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet">
+	<link rel="stylesheet" href="/static/css/login.css">
 {% endblock%}
 
 {% block main %}
@@ -21,9 +22,26 @@
                    name="verificationCode" placeholder="验证码"/>
             <img src="{{ verificationCodePictureUrl }}" id="captcha" name="captcha" style="width: 20%;" />
         </div>
-        <button class="btn btn-primary ladda-button submit" data-style="expand-right"><span
+        <button class="btn btn-primary ladda-button submit" type="submit" data-style="expand-right"><span
                 class="ladda-label">登录</span></button>
-    </form>
+    
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="publishModalModalLabel">结果通知</h4>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="publishOkBtn">知道了</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+	</form>
+	
 {% endblock%}
 
 {% block script%}

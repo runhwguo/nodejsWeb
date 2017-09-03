@@ -1,8 +1,12 @@
 $(() => {
-  const form    = $('form'),
-        captcha = $('#captcha');
+  const form         = $('form'),
+        captcha      = $('#captcha'),
+        publishOkBtn = $('#publishOkBtn');
   captcha.on('click', e => {
     captcha.attr('src','/api/login/captcha?' + Math.random());
+  });
+  publishOkBtn.on('click', e => {
+    $('#publishModal').modal('hide');
   });
   form.bootstrapValidator({
     message: 'The form is not valid',
@@ -52,7 +56,6 @@ $(() => {
     }
   }).on('success.form.bv', e => {
     e.preventDefault();
-
     submitAjax($('.ladda-button'), {
       type: form.attr('method'),
       url: form.attr('action'),
@@ -61,7 +64,11 @@ $(() => {
       success: '成功',
       fail: '失败'
     }, () => {
-      window.location.href = '/userInfo?where=login';
+      if($('.ladda-button').text()!== '成功'){
+        $('.modal-body').text('请检查用户名或密码是否有误');
+        $('#publishModal').modal('show');
+      }
+      else window.location.href = '/userInfo?where=login';
     });
   });
   for (const tab of ['meTab', 'createTaskTab'].map(e => $(`#${e}`))) {
