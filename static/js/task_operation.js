@@ -93,7 +93,7 @@ const vm  = new Vue({
       const stickButton = $(`#${item.id}`),
             loading     = Ladda.create(stickButton[0]);
 
-      startPay({fee: 100, body: '任务置顶费用'}, () => {
+      startPay({fee: 1, body: '任务置顶费用'}, () => {
         loading.start();
 
         const normalStickButtonWord = stickButton.text(),
