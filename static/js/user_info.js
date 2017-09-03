@@ -102,6 +102,7 @@ $(() => {
         window.location.href = '/me';
       } else {
         if (isSupportWxPay()) {
+          // 获取用户的微信信息
           window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx90eb6b04dcbf5fb2&redirect_uri=http%3A%2F%2Fi-sharing.xyz&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
         } else {
           window.location.href = '/';
