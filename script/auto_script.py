@@ -74,16 +74,16 @@ def git_commit_push():
 
     if prompt == 'y':
         if not _dir_walk(SRC_DIR, ENCRYPTED):
-            print('检测到src目录下存在没有加密的文件')
+            print('检测到%s目录下存在没有加密的文件' % SRC_DIR)
             prompt = input('要执行加密程序么? (y/n):')
             if prompt == 'y':
-                run_security_operation(5)
+                run_security_operation('5 %s' % SRC_DIR)
             return
         if not _dir_walk(DOC_DIR, ENCRYPTED):
-            print('检测到doc目录下存在没有加密的文件')
+            print('检测到%s目录下存在没有加密的文件' % DOC_DIR)
             prompt = input('要执行加密程序么? (y/n):')
             if prompt == 'y':
-                run_security_operation(5)
+                run_security_operation('5 %s' % DOC_DIR)
             return
 
         _execute_command_with_check('git status'
@@ -153,10 +153,10 @@ def start_process():
 
     if prompt == 'y':
         if not _dir_walk(SRC_DIR, DECRYPTED):
-            print('检测到src目录下存在非明文的源代码文件')
-            prompt = input('要执行解码程序么? (y/n):')
+            print('检测到%s目录下存在非明文的源代码文件' % SRC_DIR)
+            prompt = input('要执行解密程序么? (y/n):')
             if prompt == 'y':
-                run_security_operation(6)
+                run_security_operation('6 %s' % SRC_DIR)
             return
         prompt = input('test or production (t/p)\n')
         if prompt == 't':
@@ -267,6 +267,6 @@ if __name__ == '__main__':
                 print('bye.')
                 exit(0)
             else:
-                print('没有这个选项')
+                print('没有这个选项 %d' % menuNo)
     else:
         warnings.warn('请在%s下，运行%s' % (SCRIPT_DIR, __file__))
