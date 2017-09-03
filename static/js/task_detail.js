@@ -3,12 +3,12 @@ $(() => {
         $laddaButton  = $('button.ladda-button'),
         $contactModal = $('#contactModal'),
         imgSrc        = $img.attr('src');
-  if (imgSrc) {
+  imgSrc && (
     $img.click(() => {
       $('img.enlargeImageModalSource').attr('src', $img.attr('src'));
       $('#enlargeImageModal').modal('show');
-    });
-  }
+    })
+  );
   $laddaButton.click(function () {
     const where         = $('#where').val();
     let successCallback = null;
