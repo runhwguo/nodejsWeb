@@ -42,4 +42,5 @@ now:
     (14) 自己发的任务，下架不成功
     (15) db beforeValidate update被认为是create will create entity...[object SequelizeInstance:task] 但不影响逻辑
     (16) 下架成功，预付金额将原路退回 ok
-    (17) 保存user wx info: headImgUrl/openId
+    (17) 保存user wx info: headImgUrl/openId ok
+    (18) 在save user info时，如果ujs获取为空，就参照我们自己的db(如果之前有保存)
