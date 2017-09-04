@@ -40,18 +40,15 @@ $(() => {
       },
       verificationCode: {
         message: 'The verificationCode is not valid',
+        threshold: 4,
         validators: {
           notEmpty: {
             message: '请填写验证码'
           },
-          regexp: {
-            regexp: /^[a-zA-Z0-9]{4}$/,
-            message: '请填写正确的验证码'
-          },
           remote: {
             url: '/api/login/captchaConfirm',
             delay: 500,
-            message: '验证码不正确'
+            message: '请填写正确的验证码'
           }
         }
       }
