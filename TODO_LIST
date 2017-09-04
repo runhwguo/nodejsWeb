@@ -21,7 +21,7 @@ now:
     3.用Mobiscroll改造CreateTask界面 ok
     4.start test python脚本 ok
     5.pm2 操作 ok
-    6.登录时长 确信是7天，关注在微信里面的存在时长
+    6.登录时长 确信是7天，关注在微信里面的存在时长 ok (要注意微信内置浏览器的策略，是否会保存这么长时间)
 
 测试：
     (1) 加解密在不同平台，会乱码(Windows?)
@@ -38,9 +38,10 @@ now:
     (10) 无图片，不可点击 ok
     (11) 发布任务 支付成功，发布失败 -> 偶先
     (12) 优化create_task.html 触发重校验
-    (13) 登录失败 友好提示
+    (13) 登录失败 友好提示 ok
     (14) 自己发的任务，下架不成功
     (15) db beforeValidate update被认为是create will create entity...[object SequelizeInstance:task] 但不影响逻辑
     (16) 下架成功，预付金额将原路退回 ok
     (17) 保存user wx info: headImgUrl/openId ok
-    (18) 在save user info时，如果ujs获取为空，就参照我们自己的db(如果之前有保存)
+    (18) 在login success 之后展示 user info时，如果ujs获取为空，就参照我们自己的db(如果之前有保存) ok, but need to test
+    (19) 登录ujs，用户在我们自己的数据库里也有一份，当发现ujs shutdown时，去自己的数据库校验 or 如果发现用户是第一次登录，且ujs shutdown了，则前端页面给出提示。
